@@ -1,0 +1,154 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'My Appraisal Form (Employee)';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <form>   
+                 <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Appraisal Period</label>
+                    <input type="text" placeholder="11th Five Year Plan" class="form-control" readonly>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee Name</label>
+                    <input type="text" placeholder="Dorjee  Wangmo Wangda" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee ID No.</label>
+                    <input type="text" placeholder="RUB2345" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Title</label>
+                    <input type="text" placeholder="Finance Officer" class="form-control" readonly>
+                  </div>
+                </div>
+                    <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Level</label>
+                    <input type="text" placeholder="Grade 8" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Working Agency</label>
+                    <input type="text" placeholder="OVC" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Department/Division</label>
+                    <input type="text" placeholder="IT Division" class="form-control" readonly>
+                  </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Objectives</label>
+                    <input type="text" placeholder="Excellence Service " class="form-control" readonly>
+                  </div>
+                      </div>
+                     
+                      </form>
+                  
+          </div>
+              </div>
+        </div>
+              
+     <?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = '';
+ $this->headTitle($title);
+?>     
+              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Sl.No </th>
+                        <th class="column-title">Activities </th>
+                        <th class="column-title">Weightage</th>
+                        <th class="column-title">Approval</th>
+                        <th class="column-title">Remarks</th>
+                        
+                        <th class="bulk-actions" colspan="7">
+                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr class="even pointer">
+                       <td class=" ">1</td>
+                       <td class=" ">A</td>
+                       <td class=" ">40%</td>
+                       <td>
+                           <select class="form-control">
+                               <option>--Select--</option>
+                                <option>Approved</option>
+                                <option>Reject</option>
+                            </select>
+                                </td>
+                                <td><textarea class="form-control"></textarea></td>
+                      </tr>
+                      <tr class="even pointer">
+                       <td class=" ">2</td>
+                       <td class=" ">B</td>
+                       <td class=" ">20%</td>
+                       <td>
+                           <select class="form-control">
+                                 <option>--Select--</option>
+                                <option>Approved</option>
+                                <option>Reject</option>
+                            </select>
+                                </td>
+                                <td><textarea class="form-control"></textarea></td>
+                      </tr>
+                      <tr class="even pointer">
+                       <td class=" ">3</td>
+                       <td class=" ">C</td>
+                       <td class=" ">20%</td>
+                       <td>
+                           <select class="form-control">
+                                 <option>--Select--</option>
+                                <option>Approved</option>
+                                <option>Reject</option>
+                            </select>
+                                </td>
+                                <td><textarea class="form-control"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                
+                  <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <button class="btn btn-default">Save & close </button></div></div>
+                       <button class="btn btn-success">submit </button></div></div>
+                </div>
+            </div>
+            </div>      
+          </div>
+        </div> 
+
+              
+              
+   
+            
+    

@@ -1,0 +1,40 @@
+<?php if($this->type == 1 && $this->pay_head == 1): ?>
+    <label for="pay_scale" class="control-label"> Pay Scale </label>
+    <input type="text" class="form-control" name="pay_scale" id="pay_scale" value="<?php echo $this->pay_scale;?>" readonly >
+    <input type="hidden" class="form-control" name="basic_pay" id="basic_pay" value="<?php echo $this->minimum_pay_scale; ?>" readonly >
+<?php elseif($this->type == 2)://Teaching Allowances === Percentage ?>
+    <label for="percent">Percent ( against <?php echo $this->againstName; ?> : <b><?php echo $this->baseamount;?></b> ) </label>
+    <input type="text" class="form-control" name="percent" id="percent" value="<?php echo $this->payhead_detail['percentage']; ?>" > 
+    <input type="hidden" class="form-control" name="baseamount" id="baseamount" value="<?php echo $this->baseamount;?>">
+<?php elseif($this->type == 3):
+    $rate=0;  $base=0;  $value=0;  $min=0; ?>
+    <label for="basic"><?php echo $this->againstName;?> </label>
+    <input type="text" class="form-control" name="basic" id="basic" value="<?php echo $this->baseamount;?>" readonly > 
+    <?php
+        foreach($this->pay_slab_list as $payslab):
+            if(in_array($this->baseamount,range($payslab['from_range'],$payslab['to_range']))):
+                break;
+            endif;
+        endforeach;
+        if($payslab['formula'] == 1):
+            $rate = $payslab['rate'];
+            $base = $payslab['base'];
+            $min = $payslab['from_range'];
+        else:
+            $value=$payslab['value'];
+        endif;
+    ?>
+    <input type="hidden" class="form-control" name="rate" id="rate" value="<?php echo $rate;?>">
+    <input type="hidden" class="form-control" name="base" id="base" value="<?php echo $base;?>">
+    <input type="hidden" class="form-control" name="min" id="min" value="<?php echo $min;?>">
+    <input type="hidden" class="form-control" name="value" id="value" value="<?php echo $value;?>">
+<?php elseif($this->type == 4):?>
+    <label for="group" class="control-label"> Group </label>
+    <select id='group' name='group'class="form-control" data-placeholder="Select">
+            <option value=''></option>
+            <?php foreach($this->paygrup_list as $paygroup): ?>
+                    <option value='<?php echo $paygroup['value'];?>' ><?php echo $paygroup['group'];?></option>
+            <?php endforeach;?>
+    </select>
+<?php endif; ?>
+    <input type="hidden" class="form-control" name="roundup" id="roundup" value="<?php echo $this->payhead_detail['roundup']; ?>">

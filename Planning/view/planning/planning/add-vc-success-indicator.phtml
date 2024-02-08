@@ -1,0 +1,260 @@
+<?php
+ $title = 'Success Indicator';
+ $this->headTitle($title);
+ $temp_message = NULL;
+ if($this->flashMessenger()->hasMessages()){
+    
+         $temp_message = $this->flashMessenger()->getMessages();
+         $temp_message = $temp_message[0];
+ }
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+$apa_date = array();
+foreach($this->apa_deadline as $date){
+  $apa_date = $date;
+}
+
+if(empty($apa_date))
+$apa_date['end_date'] = '2000-01-01';
+
+?>
+<div class="right_col" role="main">
+      <div class="">
+         <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                
+                    </ul>
+                 <div class="clearfix"></div>
+              
+                </div>
+                   <?php if((strtotime($apa_date['end_date']) >= strtotime(date('Y-m-d'))) && (strtotime(date('Y-m-d')) >= strtotime($apa_date['start_date']))){?>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $awpa = $form->get('awpaactivities');
+                    //get the objectives with their id
+                    $data = $this->selectData;
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($awpa->get('id')); 
+                    $awpa->get('awpa_objectives_activity_id')->setValueOptions($data);
+                    $awpa->get('activity_status')->setValue('Approved');
+                   // $awpa->get('financial_year')->setValue(date('Y'));
+                    $awpa->get('employee_details_id')->setValueOptions($this->supervisorRoles);
+                  ?>
+                    
+                    <?php if($temp_message == 'Error' && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. 'The Total weightage exceeds 100! Please re-enter the values.';
+							}
+							echo '</div>';
+						} else if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                     
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">New Activity For<span class="required">*</span></label>
+                    <div class="col-md-10 col-sm-12 col-xs-12">
+                      <?php  echo $this->formRow($awpa->get('employee_details_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">New Activity<span class="required">*</span></label>
+                    <div class="col-md-10 col-sm-12 col-xs-12">
+                      <?php  echo $this->formRow($awpa->get('awpa_objectives_activity_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Measurement Unit</label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('unit')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Weight</label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('weight')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-6 col-sm-6 col-xs-12"> Target/Criteria Values</label>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-12 col-xs-12">Excellent</label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('excellent_rating')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Very Good</label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('very_good_rating')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Good</label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('good_rating')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Need Improvement</label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('fair_rating')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Other</label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('poor_rating')); ?>
+                    </div>
+                  </div>
+                 
+                 <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                          <?php
+						   echo $this->formHidden($awpa->get('remarks'));
+						   //echo $this->formHidden($awpa->get('financial_year'));
+						   echo $this->formHidden($awpa->get('activity_status'));
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($awpa->get('submit')); 
+						   echo $this->form()->closeTag(); 
+                        ?>
+                    </div>
+                </div>
+                  
+          </div>
+        </div>
+                  </div>     
+                  
+              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml("Success Indicators"); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+
+               
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Sl.No.</th>
+                         <th class="column-title">Success Indicator</th>
+                         <th class="column-title">Unit </th>
+                         <th class="column-title">Weight</th>
+                         <th class="column-title">Excellent</th>
+                         <th class="column-title">Very Good</th>
+                         <th class="column-title">Good</th>
+                         <th class="column-title">Fair</th>
+                         <th class="column-title">Poor</th>
+                         <th class="column-title">Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <?php
+					  $i=1;  foreach($this->kpi as $kpi): ?>
+                      <tr class="even pointer">
+                        <td class=" "><?php echo $i++;?></td>
+                        <td class=" "><?php echo $kpi['activity_name'];?></td>
+                        <td class=" "><?php echo $kpi['unit'];?></td>
+                        <td class=" "><?php echo $kpi['weight'];?></td>
+                        <td class=" "><?php echo $kpi['excellent_rating'];?></td>
+                        <td class=" "><?php echo $kpi['very_good_rating'];?></td>
+                        <td class=" "><?php echo $kpi['good_rating'];?></td>
+                        <td class=" "><?php echo $kpi['fair_rating'];?></td>
+                        <td class=" "><?php echo $kpi['poor_rating'];?></td>
+                        <td><a href="<?php echo $this->url('editsuccessindicator', array('id' => my_encrypt($kpi['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          <?php } else {?>
+            <div class="x_content">
+           <p>You are not allowed to add the VC success indicator since APA deadline is not yet opened or has been closed! or activies were not added. </p>
+           <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+
+               
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Sl.No.</th>
+                         <th class="column-title">Success Indicator</th>
+                         <th class="column-title">Unit </th>
+                         <th class="column-title">Weight</th>
+                         <th class="column-title">Excellent</th>
+                         <th class="column-title">Very Good</th>
+                         <th class="column-title">Good</th>
+                         <th class="column-title">Fair</th>
+                         <th class="column-title">Poor</th>
+                         <th class="column-title">Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <?php
+            $i=1;  foreach($this->kpi as $kpi): ?>
+                      <tr class="even pointer">
+                        <td class=" "><?php echo $i++;?></td>
+                        <td class=" "><?php echo $kpi['activity_name'];?></td>
+                        <td class=" "><?php echo $kpi['unit'];?></td>
+                        <td class=" "><?php echo $kpi['weight'];?></td>
+                        <td class=" "><?php echo $kpi['excellent_rating'];?></td>
+                        <td class=" "><?php echo $kpi['very_good_rating'];?></td>
+                        <td class=" "><?php echo $kpi['good_rating'];?></td>
+                        <td class=" "><?php echo $kpi['fair_rating'];?></td>
+                        <td class=" "><?php echo $kpi['poor_rating'];?></td>
+                        <td>
+                          <p><i>You are not allowed to take any action</i></p>
+                        </td>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+           </div>
+           <?php } ?>
+          </div>
+        </div> 

@@ -1,0 +1,56 @@
+<?php
+ $title = 'Suggestion Suggestions';
+ $this->headTitle($title);
+ $category = array();
+ foreach($this->suggestionCategory as $cat){
+	 $category[$cat['id']] = $cat['suggestion_category'];
+ }
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                    <div class="x_content">
+                    <!-- Displaying Suggestions-->
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <div class="x_panel">
+                        <div class="x_title">
+                          <h2>Student Suggestions</h2>
+                          <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                          </ul>
+                          <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                          <ul class="list-unstyled timeline">
+                            <?php $index = 1; foreach($this->studentSuggestions as $suggestions): ?>
+                            <li>
+                              <div class="block">
+                                <div class="tags"><a href="" class="tag"><span><?php echo $category[$suggestions['suggestion_category_id']]; ?></span></a></div>
+                                  <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
+                                  <div class="panel">
+                                    <a class="panel-heading" role="tab" id="headingOne<?php echo $index; ?>" data-toggle="collapse" data-parent="#accordion<?php echo $index; ?>" href="#collapseOne<?php echo $index; ?>" aria-expanded="true" aria-controls="collapseOne"><div class="block_content"><h2 class="title"><?php echo $suggestions['subject']; ?></h2></a></div>
+                                    <div id="collapseOne<?php echo $index; ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                      <div class="panel-body">
+                                        <?php echo $suggestions['suggestion']; $index++;?>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                             <?php endforeach; ?>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- End of Suggestions Display-->
+                        
+                    </div>
+                
+                </div>
+             
+          </div>
+        </div> 
+     </div>

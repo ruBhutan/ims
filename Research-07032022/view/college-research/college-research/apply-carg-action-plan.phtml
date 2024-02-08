@@ -1,0 +1,152 @@
+<?php
+ $title = 'COLLEGE ANNUAL RESEARCH GRANT APPLICATION FORM';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <?php
+        						// Opening of the form tag
+        						$form->prepare();
+        						echo $this->form()->openTag($form);
+        						$research = $form->get('cargactionplan');
+        						$data = $this->get('dbData');
+        						echo $this->form()->openTag($form);
+        						$research->get('id')->setValue($data->getId());
+        						$research->get('employee_details_id')->setValue($data->getEmployee_Details_Id()); 
+        						echo $this->formHidden($research->get('id'));
+        						echo $this->formHidden($research->get('employee_details_id'));
+        						$research->get('application_step_status')->setValue('Complete');
+        					 ?>
+                   <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+
+                        <!-- Dynamically adding rows for Budget Plan -->  
+                            <div class="clear"></div>
+                            <h2>BUDGET</h2> 
+							             <h4>(Provide detailed breakdown of budget requested in item RESEARCH/PROJECT TOTAL AMOUNT)</h4>
+                            <br />
+                            <div class="clear"></div>
+                            <label class="control-label col-md-2 col-sm-3 col-xs-12">Budget Plan Details </label>
+                               <?php   echo $this->formCollection($research->get('budgetplan')); ?>
+                            <div class="form-horizontal form-label-left">
+                                <div class="col-md-4 col-sm-4 col-xs-12 col-md-offset-8">
+                                  <button class="btn btn-success" type="button"  onclick="return add_category()"> Add Budget Plan</button>
+                                  <button class="btn btn-danger" type="button"  onclick="return remove_addedcategory()"> Remove Action Plan</button>
+                                </div>
+                            </div>
+        
+                     <!-- End of Dynamically added rows -->
+                        <br /><br />
+                        <div class="clear"></div><br/><br/>
+                        <h2>UPLOAD DOCUMENTS (scanned copy)</h2>
+                        <br />
+						            <div class="form-group">
+                          <label class="control-label col-md-4 col-sm-4 col-xs-12">College Research Committee Approval Number:</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->formRow($research->get('crc_approval_no')); ?>
+                          </div>
+                       </div>
+                       <div class="form-group">
+                          <label class="control-label col-md-4 col-sm-4 col-xs-12">Total Amount Granted by CRC<span>*</span>:</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->formRow($research->get('crc_amount_granted')); ?>
+                          </div>
+                       </div>
+                        <div class="form-group">
+            							<label class="control-label col-md-4 col-sm-4 col-xs-12">Certification duly signed by all Researchers</label>
+            							<div class="col-md-4 col-sm-4 col-xs-12">
+            								<?php echo $this->formRow($research->get('signed_certification_researchers')); ?>
+            							</div>
+            						</div>
+                        <div class="form-group">
+            							<label class="control-label col-md-4 col-sm-4 col-xs-12">Certification duly signed by all CRC Members</label>
+            							<div class="col-md-4 col-sm-4 col-xs-12">
+            							  <?php echo $this->formRow($research->get('signed_certification_crc')); ?>
+            							</div>
+                                    </div>
+                                    <div class="form-group">
+            							<label class="control-label col-md-4 col-sm-4 col-xs-12">Research Proposal Document<span>*</span>:</label>
+            							<div class="col-md-4 col-sm-4 col-xs-12">
+            							  <?php echo $this->formRow($research->get('research_proposal')); ?>
+            							</div>
+                        </div>
+
+                        <br /><br />
+                        <div class="clearfix"></div>
+                        <h2 class="StepTitle">DECLARATION: Please Check to Confirm</h2>
+                        <br />
+                        <div class="form-group">
+                        <div class="col-md-1 col-sm-1 col-xs-12">
+                            <input type="checkbox" class="flat" required="required"></div>
+                            <div class="col-md-11 col-sm-11 col-xs-12"><p> 
+                            I certify that the research/project can be accommodated within the general
+                            understanding of the College in relation to workloads,leave availability, and overall research facilities.</p>
+                           </div>
+                        </div>        
+                
+         		         <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+              							echo $this->formHidden($research->get('application_step_status'));
+              							echo $this->formHidden($form->get('csrf'));
+              							echo $this->formHidden($research->get('employee_details_id'));
+                            echo $this->formRow($research->get('submit')); 
+              							echo $this->form()->closeTag($form);
+              						 ?>
+                        </div>
+                      </div>
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+   </div>
+ </div>
+
+<script>
+     function add_category() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+
+        function remove_addedcategory(){
+        $('form > fieldset > fieldset').last().remove();
+        return false;
+     }
+ </script>
+ 
+ 
+

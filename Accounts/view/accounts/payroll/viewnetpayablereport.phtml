@@ -1,0 +1,123 @@
+<?php
+
+/**
+ *
+ * View -- of Asse/PayrollController/viewpayrollemployeeAction
+ *
+ */
+$this->headTitle($this->title);
+?>
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <div class="row">
+                        <h2><?php echo $this->title; ?></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="ln_solid"></div>
+
+                    <?php $flashMessenger = $this->flashMessenger(); ?>
+
+                    <?php if ( $this->message_status == 'Success' && $flashMessenger->hasMessages() ): ?>
+                        <div class="alert alert-success alert-dismissible fade in" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <?php foreach ( $flashMessenger->getMessages() as $msg ): ?>
+                                <strong>Success!</strong> <?php echo $msg ?>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <div class="ln_solid"></div>
+                    <?php endif; ?>
+
+                    <?php if ( $this->message_status == 'Failure' && $flashMessenger->hasMessages() ): ?>
+                        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <?php foreach ( $flashMessenger->getMessages() as $msg ): ?>
+                                <strong>Failure!</strong> <?php echo $msg ?>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <div class="ln_solid"></div>
+                    <?php endif; ?>
+
+
+                    <?php
+
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    ?>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                            <label>Organisation</label>
+                            <?php echo $this->formRow($form->get('organisation_id')
+                                ->setAttribute('options', $this->organisation_lists)); ?>
+                        </div>
+                        <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>Select Year</label>
+                            <?php echo $this->formRow($form->get('year')->setAttribute('options', $this->yearlist)); ?>
+                        </div>
+                        <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label>Select Year</label>
+                            <?php echo $this->formRow($form->get('month')); ?>
+                        </div>
+                        <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">&nbsp;</label>
+                            <?php
+
+                            echo $this->formSubmit($form->get('submit'));
+                            echo $this->form()->closeTag();
+                            ?>
+                        </div>
+
+                        <?php if($this->is_paid == "false"): ?>
+                        <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">&nbsp;</label>
+                            <button typeof="butoon" name="mass_paid" id="massPaid" class="mass-paid btn btn-info"
+                                    value="true">
+                                Click here to pay
+                            </button>
+                        </div>
+                        <?php endif; ?>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable-buttons"
+                               class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                            <th class="column-title">Sl No</th>
+                            <th class="column-title">Employee Name</th>
+                            <th class="column-title">Net Payable Salary</th>
+                            <th class="column-title">Status</th>
+                            </thead>
+                            <tbody>
+                            <?php $i = 1;
+                            foreach ( $this->netPayableDetail as $net_payable ) : ?>
+                                <tr class="even pointer">
+                                    <td class=" "><?php echo $i; ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($net_payable['full_name']); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($net_payable['net_pay']); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($net_payable['status'] == 1 ? "Paid" : "Pending"); ?></td>
+                                </tr>
+                                <?php $i++;
+                            endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

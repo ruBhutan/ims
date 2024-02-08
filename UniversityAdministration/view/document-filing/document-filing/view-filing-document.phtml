@@ -1,0 +1,78 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Upload Department Filing Documents';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+  }
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+            <?php
+         $title = 'Department Filing Documents';
+         $this->headTitle($title);
+      ?>
+      <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2><?php echo $this->escapeHtml($title); ?></h2>
+		<div class="row">
+		<br><br><b>Note:</b> To search for the documents, please search by using the search text box at the right top corner of the table. For example, if the user wants to search cmc documents, the user can just type Filing ABBR in the search text box and the list will display only cmc documents.
+		</div>
+          </div>
+          <div class="x_content">
+            <div class="table-responsive">
+              <table id="datatable" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title">Sl. No</th>
+                    <th class="column-title">Filing Type</th>
+                    <th class="column-title">Filing ABBR</th>
+                    <th class="column-title">Filing Document Details (Number) </th>
+                    <th class="column-title">Filing Date </th>
+                    <th class="column-title">Uploaded By</th>
+                    <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <?php $i=1; foreach ($this->selectData as $selectData) : ?>
+                    <tr class="even pointer">
+                      <td class=" "><?php echo $i++;?></td>
+                      <td class=" "><?php echo $this->escapeHtml($selectData['meeting']);?></td>
+                      <td class=" "><?php echo $this->escapeHtml($selectData['meeting_abbr']);?></td>
+                      <td class=" "><?php echo $this->escapeHtml($selectData['filing_details']);?></td>
+                      <td class=" "><?php echo $this->escapeHtml($selectData['filing_date']);?></td>
+                      <td class=" "><?php echo $selectData['first_name'].' '.$selectData['middle_name'].' '.$selectData['last_name'].' <br>('.$selectData['emp_id'].')';?></td>                    
+                      <td>
+                      <?php if($selectData['evidence_file'] == NULL){ ?><p><i>No Documents Uploaded</i></p>
+                      <?php } else { ?>
+                      <a href="<?php echo $this->url('downloadfilingdocuments', array('id' => my_encrypt($selectData['id'], $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-download"></i> Download</a>
+                      <?php } ?>
+                    </td>
+                      </a>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

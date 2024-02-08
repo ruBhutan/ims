@@ -1,0 +1,128 @@
+<?php
+ $title = 'Promotion Details';
+ $this->headTitle($title);
+ $personal = array();
+ $promotion_details = array();
+ foreach($this->personalDetails as $detail){
+	 $personal = $detail;
+ }
+ 
+ foreach($this->promotionDetails as $details){
+	 $promotion_details = $details;
+ }
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $employee = $form->get('employeepromotion');
+                 ?> 
+                  <div class="clearfix"></div>
+                  <!-- Personal Details Information-->
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['first_name'].' '.$personal['middle_name'].' '.$personal['last_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['emp_id']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['date_of_birth']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['nationality']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">CID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['cid']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Address:</label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">House No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['emp_house_no']; ?></i></h4>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Thram No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['emp_thram_no']; ?></i></h4>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Village:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['emp_village']; ?></i></h4>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Gewog:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['emp_gewog']; ?></i></h4>
+                       </div>
+                    </div>
+                  </div><div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Dzongkhag:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['emp_dzongkhag']; ?></i></h4>
+                       </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Personal Details Information-->
+                  <!-- Present Job Details Information-->
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <h2 class="StepTitle">Promotion Description/Reasons</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Reasons for Denial of Promotion:<span class="required">*</span></label>
+                       <div class="col-md-8 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $promotion_details['promotion_remarks']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div> 
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

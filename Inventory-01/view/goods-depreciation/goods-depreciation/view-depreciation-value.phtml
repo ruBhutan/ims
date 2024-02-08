@@ -1,0 +1,65 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Fixed Asset Depreciation Table';
+ $this->headTitle($title);
+?>     
+<div class="right_col" role="main">
+    <div class="">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                     <h5><i>Following table shows the depreciation value of each fixed assets that has been entered into the system (Item wise).</i></h5>
+                                      <br />
+                    <div class="table-responsive">
+                        <table id="datatable-responsive" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Sl. No</th>
+                                    <th class="column-title">Sub Category </th>
+                                    <th class="column-title">Item</th>
+                                    <th class="column-title">Quantity Type </th>
+                                    <th class="column-title">Depreciation Method</th>
+                                    <th class="column-title">Depreciation Rate (%)</th>
+                                    <th class="column-title">Useful Life (Year)</th>
+                                    <th class="column-title">Scrap Value (%)</th>
+                                    <th class="column-title">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <?php $i=1; ?>
+                            <?php foreach ($this->depreciationValueTable as $depreciationTable) : ?>
+                                <tr class="even pointer">
+                                    <td class=" "><?php echo $i; ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($depreciationTable->getSub_Category_Type()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($depreciationTable->getItem_Name()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($depreciationTable->getItem_Quantity_Type()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($depreciationTable->getDepreciation_Method()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($depreciationTable->getDepreciation_Rate()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($depreciationTable->getGoods_Life()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($depreciationTable->getScrap_Value()); ?></td>
+                                    <td class=" "><a href="<?php echo $this->url('enter-fixed-asset-depr-val', array('id' => $depreciationTable->getId())); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View </a>
+                                    </td>
+                                    
+                                </tr>
+                            <?php $i++; ?>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

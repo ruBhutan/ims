@@ -1,0 +1,163 @@
+<?php
+ $title = 'Edit User Work Flow';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <h5><i>Please change any necessay field (s) to edit user work flow</i></h5>
+                  <br />
+                <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $form->get('id')->setValue($this->editUserWorkFlow->getId());
+                    $form->get('organisation')->setValue($this->organisation_id); 
+                    echo $this->formHidden($form->get('organisation'));
+                    $form->get('type')->setValueOptions($this->workFlowType);
+                    $form->get('type')->setValue($this->editUserWorkFlow->getType());
+                    $form->get('role')->setValue($this->editUserWorkFlow->getRole());
+                    $form->get('role_department')->setValue($this->editUserWorkFlow->getRole_Department());
+                    $form->get('auth')->setValue($this->editUserWorkFlow->getAuth());
+                    $form->get('department')->setValue($this->editUserWorkFlow->getDepartment());
+                    $form->get('details')->setValue($this->editUserWorkFlow->getDetails());
+                    $form->get('submit')->setValue('Update User Work Flow');
+                    echo $this->formHidden($form->get('id'));
+                    ?> 
+
+                    <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+                ?>
+                 
+                <div class="row">  
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Role<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('role')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Department<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('user_department')); ?>
+                    </div>
+                  </div>   
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Unit<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('role_department')); ?>
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Application Type<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('type')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Authorising Role<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('auth')); ?>
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Authorising Department<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('department')); ?>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Details</label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('details')); ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                        <?php
+                           echo $this->formHidden($form->get('csrf'));
+                           echo $this->formSubmit($form->get('submit')); 
+                        ?>
+                      </div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+          <div class="x_title">
+                  <h2><?php echo $this->escapeHtml('List of added user work flow'); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Role</th>
+                            <th class="column-title">Unit</th>
+                            <th class="column-title">Application Type</th>
+                            <th class="column-title">Authorizing Role</th>
+                            <th class="column-title">Authorizing Department</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                          <?php $i = 1; foreach ($this->workflow as $detail) : ?>
+                          <tr class="even pointer">
+                            <td class=" " width="8%"><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['role']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['unit_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['type']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['auth']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['department_name']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>  
+                      </table>
+                     </div>
+                  </div>
+               </div>
+             </div>    
+          </div>
+        </div> 
+     </div>
+
+
+

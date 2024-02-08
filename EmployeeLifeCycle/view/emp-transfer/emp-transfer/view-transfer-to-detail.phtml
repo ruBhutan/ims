@@ -1,0 +1,126 @@
+<?php
+ $title = 'Transfer Application Details';
+ $this->headTitle($title);
+ $transferApplication = array();
+ 
+ foreach($this->transferDetail as $detail){
+	 $transferApplication = $detail;
+ }
+
+ $spouseDetails = array();
+ foreach($this->spouseDetails as $details){
+  $spouseDetails['name'] = $details['name'];
+  $spouseDetails['occupation'] = $details['occupation'];
+ }
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ 
+?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  	<?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $transfer = $form->get('employeetransfer');
+                    $transfer->get('id')->setValue($transferApplication['id']);
+					
+				            ?> 
+                       <h2 class=""> 1: Transfer Place</h2>
+                         <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">College/ Office applied from:</label>
+                        	<div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $this->organisations[$transferApplication['organisation_id']]; ?>" disabled="disabled">
+                        	</div>
+                          </div> 
+                          <br/>
+                                                
+                       <h2 class="">2: Reasons for Transfer Request</h2>
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                         <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php echo $transferApplication['reason_for_transfer']; ?>'></textarea>
+                        </div>
+                      </div>
+                      <br/>
+                       <?php if($transferApplication['spouse_new_organisation'] != NULL) {?>
+                        <h5>If the grounds for the request are to do with: <br />
+                            - Relocation of Spouse, then the following information about the spouse should be provided<br />
+                        </h5><br/>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Spouse Name</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $spouseDetails['name']; ?>" disabled="disabled">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Spouse Occupation</label>
+                       	 <div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $spouseDetails['occupation']; ?>" disabled="disabled">
+                       	 </div>
+                      </div>
+                      <div class="form-group">     
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12">New Employing Organisation & Address</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php echo $transferApplication['spouse_new_organisation']; ?>'></textarea>
+                        </div>
+                      </div>    
+                    <br/>
+                    <?php } else{?>
+                      <h5>If the grounds for the request are to do with: <br />
+                            - Relocation of Spouse, then the following information about the spouse should be provided<br />
+                        </h5>
+                     <h2>Note:</h3> No information related to spouse has been entered.</h3><br/>
+                  <?php } ?>
+                  
+                    <h2 class="">3: UPLOADED DOCUMENTS</h2>
+                      <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Supporting Documents</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <a href="<?php echo $this->url('downloademptransferdocument', array('filename' => 'document_proof_'.$this->id));?>"><span class="btn btn-primary">Download Document</span></a>
+                        </div>
+                      </div>
+                         <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Date of Submission of Application:</label>
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                               <input type="text" class="form-control" placeholder="<?php echo $transferApplication['date_of_request']; ?>" disabled="disabled">
+                            </div>
+                        </div>        
+                            
+                     <?php if($transferApplication['to_org_transfer_status'] == 'pending') {?>
+                       <div class="row">
+                       <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                             <div class="col-md-3 col-sm-3 col-xs-12">
+                             <a href="<?php echo $this->url('transfertoapproval');?>" class="btn btn-success">Back</a>  
+                        	</div>
+                       </div>
+                     </div> 
+                     <?php }?>    
+                 
+                  </div>
+               </div>
+          </div>
+       </div>
+     </div>
+  </div>
+        

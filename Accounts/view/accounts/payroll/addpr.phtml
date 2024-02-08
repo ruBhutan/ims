@@ -1,0 +1,232 @@
+<?php
+/**
+ * 
+ * View -- of Hr/PayrollController/addearningAction
+ * 
+ * 
+ */
+ $title ="Add New Earning/Deduction";
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>  
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>			
+				<div class="x_content">
+                    <form method="post" action="<?php echo $this->url('payroll', array('action' => 'addpr', 'id' => $employee_details)); ?>"  enctype="multipart/form-data" >        
+						<?php 
+						foreach($employeepfs as $emplpfs);
+						$check_positiont = $this->positiontObj->getColumn($emplpfs['position_title_id'],'id');
+						if($check_positiont == '95'):?>
+						<div class ="row">
+							<div class ="col-lg-3"></div>
+							<div class ="col-lg-6">
+								<div class="form-group col-lg-12">
+									<label for="pay_head" class="control-label">Pay Head</label>
+									<select class="form-control" id="pay_head" name="pay_head" data-placeholder="Select" required>
+										<option value=""></option>
+										<?php foreach ($this->payheadObj->getnotSelected(array('employee_details' =>$employee_details),'payr_pay_structure','1') as $pay_head):?>
+											<option value="<?php echo $pay_head['id'];?>" data-type="<?php echo $pay_head['type'];?>">
+											<?php echo $pay_head['pay_head'];?>
+											</option>
+										<?php endforeach;?>
+									</select>
+								</div>
+								<?php elseif($check_positiont == '80'): ?>
+								<div class="form-group col-lg-12">
+									<label for="pay_head" class="control-label">Pay Head</label>
+									<select class="form-control" id="pay_head" name="pay_head" data-placeholder="Select" required>
+										<option value=""></option>
+										<?php foreach ($this->payheadObj->getnotSelected(array('employee_details' =>$employee_details),'payr_pay_structure','0') as $pay_head):?>
+											<option value="<?php echo $pay_head['id'];?>" data-type="<?php echo $pay_head['type'];?>">
+											<?php echo $pay_head['pay_head'];?>
+											</option>
+										<?php endforeach;?>
+									</select>
+								</div>
+								<?php endif; ?>					
+								<div class="form-group" id="percent_div">			
+								</div>				
+								<div class="form-group col-lg-12">
+									<label for="amount" class="control-label">Amount</label>
+									<input type="text" class="form-control" name="amount" id="amount" required /> 
+								</div>	
+								<div class="form-group col-lg-12">
+									<label for="ref_no" class="control-label">Reference No. (Acc no./TPN no.)</label>
+									<input type="text" class="form-control" name="ref_no" id="ref_no" /> 
+								</div>
+								<div class="form-group col-lg-12">
+									<label for="remarks" class="control-label">Remarks</label>
+									<textarea class="form-control" name="remarks" id="remarks"></textarea> 
+								</div>			
+								<div class="form-group col-lg-12">
+									<label>
+										<input class="ace" type="checkbox"  name="dlwp" id="dlwp" value="1" style="min-width: 90px;"></input>
+										<span class="lbl"> Depends on LWP</span>
+									</label>
+								</div>
+							</div>
+							<div class="col-lg-3"></div>
+						</div>
+						<div class="x_title"></div>
+						<div class ="row">
+						    <div class ="col-lg-3"></div>
+							<div class ="col-lg-6">
+								<div class="">
+									<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+									<button type="button" class="btn btn-warning" onclick="javascript:history.back();" ><i class="fa fa-times"></i> Cancel </button>
+								</div>
+							</div>
+							<div class ="col-lg-3"></div>
+						</div>
+					</form> 
+                </div>
+            </div>
+        </div>
+    </div>      
+</div>      
+<script>
+	$("#pay_head").change(function() { 	
+		var type =$("#pay_head option:selected").data('type');
+		var pay_head = $(this).val();
+		if(type ==1 && pay_head == 1){	//type 1 and basic pay
+			$.post("<?php echo $this->url('payroll', array('action' => 'getslabtype'));?>", {organisation_id:<?php echo $organisation_id;?>,employee_details:<?php echo $employee_details;?>,pay_head:pay_head}, function(data){
+				$('#percent_div').html(data);
+				$('#amount').attr('enable', 'enable');
+			    var amt =  $('#basic_pay').val();
+				if($('#roundup').val() == 1){
+					$("#amount").val(parseFloat(amt).toFixed());
+				}else{
+					$("#amount").val(parseFloat(amt).toFixed(2));
+				}					  
+			});
+		}else if(type==2){	
+			$.post("<?php echo $this->url('payroll', array('action' => 'getslabtype'));?>", {employee_details:<?php echo $employee_details;?>,pay_head:pay_head,organisation_id:<?php echo $organisation_id;?>}, function(data){
+				$('#percent_div').html(data);
+				$('#amount').attr('readonly', 'readonly');
+				var amt = 0;
+				if($('#percent').length > 0){
+					$('#percent').bind('change', function(){
+						var baseamount = 0;
+						baseamount = $('#baseamount').val();
+						amt = (parseFloat(baseamount) / 100) * parseFloat($('#percent').val());
+						if($('#roundup').val() == 1){
+							$('#amount').val(amt.toFixed());
+						}else{
+							$('#amount').val(amt.toFixed(2));
+						}						  
+					});
+					var baseamount = 0;
+					baseamount = $('#baseamount').val();
+					amt = (parseFloat(baseamount) / 100) * parseFloat($('#percent').val());
+					if($('#roundup').val() == 1){
+						$('#amount').val(amt.toFixed());
+					}else{
+						$('#amount').val(amt.toFixed(2));
+					}
+				}
+			});
+		}else if(type==3){ //slab
+			$.post("<?php echo $this->url('payroll', array('action' => 'getslabtype'));?>", {employee_details:<?php echo $employee_details;?>,pay_head:pay_head,organisation_id:<?php echo $organisation_id;?>}, function(data){
+				$('#percent_div').html(data);
+				var amt =0;
+				$('#amount').attr('readonly','readonly');
+				if($('#rate').length > 0){
+					var rate = $('#rate').val(); 
+					if(rate != 0){		            
+						if($('#basic').val() > 150200){
+							amt = (parseFloat(parseFloat(($('#basic').val() - 83333) / 100) * rate) + parseFloat($('#base').val()));
+						}else{	            
+							amt = (parseFloat(parseInt(($('#basic').val() - $('#min').val()) / 100) * rate) + parseFloat($('#base').val()));
+						}
+					}
+					else{
+						amt = $('#value').val(); 
+					}	
+					if($('#roundup').val() == 1){
+						$('#amount').val(amt);
+					}else{
+						$('#amount').val(amt.toFixed(2));
+					}
+				}
+			});
+		}else if(type==4){	
+			$.post("<?php echo $this->url('payroll', array('action' => 'getslabtype'));?>", {employee_details:<?php echo $employee_details;?>,pay_head:pay_head,organisation_id:<?php echo $organisation_id;?>}, function(data){
+				$('#percent_div').html(data);
+				$('#amount').attr('readonly', 'readonly');
+				$('#amount').val('');
+				if($('#group').length > 0){
+					$('#group').bind('change', function(){
+						var amt = $(this).val();
+						if($('#roundup').val() == 1){
+							$('#amount').val(amt);
+						}else{
+							$("#amount").val(parseFloat(amt).toFixed(2));
+						}						  
+					});
+				}
+				//$('form select').chosen({allow_single_deselect:true});
+			});
+		}else{
+			$('#amount').val('');
+			$('#percent_div').html('');
+			$('#amount').removeAttr('readonly');
+		}
+	});					    	
+	if($('#percent').length > 0){
+		$('#percent').bind('change', function(){
+			var baseamount = 0;
+			baseamount = $('#baseamount').val();
+			amt = (parseFloat(baseamount) / 100) * parseFloat($('#percent').val());			
+			if($('#roundup').val() == 1){
+				$('#amount').val(amt);
+			}else{
+				$("#amount").val(parseFloat(amt).toFixed(2));
+			}					  
+		});
+	}			    
+	if($('#group').length > 0){
+		$('#group').bind('change', function(){
+			var amt = $(this).val();
+			if($('#roundup').val() == 1){
+				$('#amount').val(amt);
+			}else{
+				$("#amount").val(parseFloat(amt).toFixed(2));
+			}						  
+		});
+	}	    
+    //$('form select').chosen({allow_single_deselect:true});
+    $('document').ready(function(){
+        $('form').formValidation({
+            excluded: ':disabled',
+            message: 'Please enter a value.',
+            fields: {
+                pay_head:{
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select pay head.'
+                        }
+                    }
+                },
+                amount:{
+                    validators: {
+                        notEmpty: {
+                            message: 'Please provide amount.'
+                        },
+                        regexp: {
+	                        regexp: /^\d*\.?\d*$/,
+	                        message: 'Please enter valid amount'
+	                    }
+                    }
+                },
+            }
+        });
+    });    
+</script>

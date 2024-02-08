@@ -1,0 +1,91 @@
+<?php if(!empty($this->check_allocated_tutor)){?>
+<?php
+ $title = 'Timetable (Tutor)';
+ $this->headTitle($title);
+ $days_week = array(
+ 	'Monday' => 'Monday',
+	'Tuesday' => 'Tuesday',
+	'Wednesday' => 'Wednesday',
+	'Thursday' => 'Thursday',
+	'Friday' => 'Friday',
+	'Saturday' => 'Saturday'
+ );
+ 
+ $timetable_data = array();
+ foreach($this->timetable as $table){
+	 $timetable_data[$table['day']][$table['from_time'].'-'.$table['to_time']][] = $table['module_code'].'<br>('.$table['programme_name'].')'
+                                    .'<br>('.$table['section'].')'.'<br>(Room-'.$table['classroom'].')';
+ }
+?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                            <div class="x_content">
+                              <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <thead>
+                                    <th style="width: 15%" class="column-title"></th>
+                                    <?php foreach($this->timetableTimings as $key=>$value): ?>
+                                    <th style="width: 15%" class="column-title"><?php echo substr($value,0,5).'-'.substr($value,9,5); ?></th>
+									<?php endforeach; ?>
+                                </thead>
+                                <tbody>
+                                  <?php 
+								  	foreach($days_week as $day):
+									foreach($timetable_data as $key=>$value): 
+									if($day == $key) { ?>
+                                  	<tr class="even pointer">
+                                    	<td><?php echo $key; ?></td>
+                                  	<?php for($i=0; $i<count($this->timetableTimings); $i++){ ?>
+                                    	<td align="center"><?php if(array_key_exists($this->timetableTimings[$i], $value))
+																{
+																	for($j=0; $j<count($value[$this->timetableTimings[$i]]); $j++){
+																		echo $value[$this->timetableTimings[$i]][$j];
+																		echo "<br>";
+																	}
+																}
+															else
+																echo " ";	
+														?></td>
+                                    <?php } ?>
+                                    </tr>
+                                  <?php 
+								  	} //end if loop
+									endforeach;
+									endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                            
+                           		<!-- End of Achievements-->
+                  </div>
+                </div>
+              <?php } else{?>
+                <div class="right_col" role="main">
+                  <div class="">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                      <div class="x_panel">
+                        <div class="x_content">
+                        <?php 
+                                  
+                           echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                      echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                          echo '<strong>Alert! You are not allow to view timetable or you have not added timetable or you are not a academic staff.</strong>';
+                          echo '</div>';
+                        ?>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <?php }?>
+              

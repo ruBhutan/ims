@@ -1,0 +1,180 @@
+<?php
+ $title = 'Trainings, Workshops, Seminars etc. Lists (RUB / OVC HRO)';
+ $this->headTitle($title);
+
+$longterm_applied_training = array();
+ foreach($this->appliedLongTerm as $longterm){
+  $longterm_applied_training[$longterm['training_details_id']] = $longterm['training_details_id'];
+ } 
+
+ $shortterm_applied_training = array();
+ foreach($this->appliedShortTerm as $shortterm){
+  $shortterm_applied_training[$shortterm['workshop_details_id']] = $shortterm['workshop_details_id'];
+ } 
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                     <div class="x_title">
+                    <h2><?php echo $this->escapeHtml('Long Term Trainings'); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                   <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }?>
+                    <br/>
+                    <div class="table-responsive">
+                      <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                          <tr class="headings">     
+                            <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Field Study</th>
+                            <th class="column-title">Institute Name</th>
+                        	<th class="column-title">Institute Location</th>
+                        	<th class="column-title">Training From</th>
+                            <th class="column-title">Training To</th>
+                            <th class="column-title">Status</th>
+							<th class="column-tittle">Nomination Evidence File</td>
+                            <th class="column-title">Action </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i = 1; foreach ($this->longTermTrainingList as $training) : ?>
+                            <tr>
+                                  <td class=" "><?php echo $i++;?></td>
+                                  <td class=" "><?php echo $this->escapeHtml($training['field_study']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['institute_name']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['institute_location']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['training_start_date']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['training_end_date']);?></td>
+                                   <td>
+                                    <?php if(array_key_exists($training['id'], $longterm_applied_training)){
+                                      echo 'Applied';
+                                    }else{
+                                      echo "Not Yet Applied";
+                                    }
+                                      ?>
+                                   </td>
+								   <td>
+								   <?php if(!empty($training['nomination_evidence_file'])){ ?>
+                                        <a href="<?php echo $this->url('downloadtrainingdocuments', array('filename' => 'nomination_evidence_file_'.$training['id'], 'category' => 'training_nomination'));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                                        <?php } else{
+                                        echo "Documents Not Submitted";
+                                      } ?>
+								   </td>
+                                   <td>
+                                    <?php if(array_key_exists($training['id'], $longterm_applied_training)) {?>
+                                      <a href="<?php echo $this->url('editlongtermapplication', array('id' => my_encrypt($training['id'], $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+                                    <?php } else{?>
+                                    <a href="<?php echo $this->url('longtermtrainingform', array('id' => my_encrypt($training['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Apply</a>
+                                  <?php } ?>
+                                  </td>
+                            </tr>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+
+               </div>
+            </div>
+          </div>
+          
+          <!-- Short Term Training List-->
+          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+              <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                    <div class="table-responsive">
+                      <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                          <tr class="headings">     
+                            <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Field Study</th>
+                            <th class="column-title">Institute Name</th>
+                        	<th class="column-title">Institute Location</th>
+                        	<th class="column-title">Training From</th>
+                            <th class="column-title">Training To</th>
+                            <th class="column-title">Status</th>
+							<td class="column-title">Nomination Evidence File</td>
+                            <th class="column-title">Action </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i = 1; foreach ($this->shortTermTrainingList as $training) : ?>
+                            <tr>
+                                  <td class=" "><?php echo $i++;?></td>
+                                  <td class=" "><?php echo $this->escapeHtml($training['title']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['institute_name']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['institute_location']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['workshop_start_date']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['workshop_end_date']);?></td>
+                                   <td>
+                                    <?php if(array_key_exists($training['id'], $shortterm_applied_training)){
+                                      echo 'Applied';
+                                    }else{
+                                      echo "Not Yet Applied";
+                                    }
+                                      ?>
+                                   </td>
+								   <td>
+								   <?php if(!empty($training['nomination_evidence_file'])){ ?>
+                                        <a href="<?php echo $this->url('downloadtrainingdocuments', array('filename' => 'nomination_evidence_file_'.$training['id'], 'category' => 'workshop_nomination'));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                                        <?php } else{
+                                        echo "Documents Not Submitted";
+                                      } ?>
+								   </td>
+                                   <td>
+                                    <?php if(array_key_exists($training['id'], $shortterm_applied_training)) {?>
+                                      <a href="<?php echo $this->url('editshorttermapplication', array('id' => my_encrypt($training['id'], $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+                                      <?php } else{?>
+                                    <a href="<?php echo $this->url('shorttermtrainingform', array('id' => my_encrypt($training['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Apply</a>
+                                  <?php } ?>
+                                  </td>
+                            </tr>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+          
+                     

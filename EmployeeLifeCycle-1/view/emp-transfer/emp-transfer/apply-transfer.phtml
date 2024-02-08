@@ -1,0 +1,162 @@
+<?php
+ $title = 'Transfer Application Form';
+ $this->headTitle($title);
+
+ $spouseDetails = array();
+ foreach($this->spouseDetails as $details){
+  $spouseDetails['name'] = $details['name'];
+  $spouseDetails['occupation'] = $details['occupation'];
+ }
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                      echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                      echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                      $messages = $this->flashMessenger()->getMessages();
+                      foreach($messages as $message) {
+                        echo '<strong>Success!</strong>'. $message;
+                      }
+                      echo '</div>';
+                              } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                    $messages = $this->flashMessenger()->getMessages();
+                                    foreach($messages as $message) {
+                                        echo '<strong>Warning!</strong>'. $message;
+                                    }
+                                    echo '</div>';
+                     }?>
+                     
+                  	<?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $transfer = $form->get('employeetransfer');
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($transfer->get('id'));
+                    $transfer->get('date_of_request')->setValue(date('Y-m-d'));
+                    $transfer->get('from_org_transfer_remarks')->setValue(NULL);
+                    $transfer->get('to_org_transfer_remarks')->setValue(NULL);
+                    $transfer->get('transfer_request_to')->setValueOptions($this->organisations);
+                    $transfer->get('employee_details_id')->setValue($this->employee_details_id);
+                    echo $this->formHidden($transfer->get('from_org_transfer_status'));
+                    echo $this->formHidden($transfer->get('to_org_transfer_status'));
+                    echo $this->formHidden($transfer->get('from_org_transfer_remarks'));
+                    echo $this->formHidden($transfer->get('to_org_transfer_remarks'));
+                    echo $this->formHidden($transfer->get('employee_details_id'));
+
+                  ?> 
+                       <h2 class=""> 1: Transfer Place</h2>
+                         <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">College/ OVC applied for:</label>
+                        	<div class="col-md-5 col-sm-5 col-xs-12">
+                            <?php  echo $this->formRow($transfer->get('transfer_request_to')); ?>
+                        	</div>
+                          </div> 
+                          <br/>
+                                                
+                       <h2 class="">2: Reasons for Transfer Request</h2>
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                         <?php  echo $this->formRow($transfer->get('reason_for_transfer')); ?>
+                        </div>
+                      </div>
+                      <br/>
+                       
+                        <h5>If the grounds for the request are to do with: <br />
+                            - Relocation of Spouse, then the following information about the spouse should be provided<br />
+                        </h5><br/>
+
+                        <?php if(!empty($spouseDetails)) {?>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Spouse Name:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $spouseDetails['name']; ?>" disabled="disabled">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Spouse Occupation:</label>
+                       	 <div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $spouseDetails['occupation']; ?>" disabled="disabled">
+                       	 </div>
+                      </div>
+                            
+                        <div class="form-group">     
+                             <label class="control-label col-md-3 col-sm-3 col-xs-12">New Employing Organisation & Address</label>
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                              <?php  echo $this->formRow($transfer->get('spouse_new_organisation')); ?>
+                            </div>
+                        </div>    
+                    <br/>
+                  <?php } else if(empty($spouseDetails)){?>
+                   <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Spouse Name:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="No Data entered" disabled="disabled">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Spouse Occupation:</label>
+                         <div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="No Data entered" disabled="disabled">
+                         </div>
+                      </div>
+                      <div class="form-group">     
+                             <label class="control-label col-md-3 col-sm-3 col-xs-12">New Employing Organisation & Address:</label>
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                              <textarea class="form-control" placeholder="There is no spouse details entered." disabled="disabled"></textarea>
+                            </div>
+                        </div> 
+                         
+                    <br/>             
+
+                  <?php } ?>
+  
+                    <h2 class="">3: UPLOAD DOCUMENTS (scanned copy)</h2>
+                    <h5>If the grounds for the request are to do with: <br />
+                            - Medical Health, a medical certificate should be supplied <br />
+                            - Relocation of Spouse, then the office order for the spouse should be supplied <br />
+                        </h5><br/>
+                      <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Supporting Documents: <small>(Mandatory)</small></label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <?php  echo $this->formRow($transfer->get('document_proof')); ?>
+                        </div>
+                      </div>
+                         <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Date of Submission of Application:</label>
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                               <?php  echo $this->formRow($transfer->get('date_of_request')); ?>
+                            </div>
+                        </div>        
+                            
+                     
+                       <div class="row">
+                       <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                             <div class="col-md-3 col-sm-3 col-xs-12">
+                             <?php  
+                                    echo $this->formRow($form->get('csrf'));
+                                    echo $this->formRow($transfer->get('submit')); 
+                             ?>   
+                        	</div>
+                       </div>
+                     </div>     
+                 
+                  </div>
+               </div>
+          </div>
+       </div>
+     </div>
+        

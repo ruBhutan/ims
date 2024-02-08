@@ -1,0 +1,805 @@
+<?php
+ $title = 'HR Configuration Settings';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                <div class="x_content">
+                  <br />
+                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#tab_content1" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="true">Position Title</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content2" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="false">Position Level</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content3" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="false">Teaching Allowance</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content4" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="false">Rent Allowance</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content5" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="false">Professional Allowance</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content6" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Pay Scale</a>
+                      </li>
+                       <li role="presentation" class=""><a href="#tab_content7" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Employment Status</a>
+                      </li>
+                       <li role="presentation" class=""><a href="#tab_content8" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Position Category</a>
+                      </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="profile-tab">
+                       <br/> 
+                       <p> 
+                       <div class="x_panel"> 
+                         <h2>Position Titles</h2>   
+                        <div class="x_content">
+                  <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $pTitleForm->setAttribute('action', $this->url('addpositiontitle', array('action' => 'addPositionTitle')));
+					$pTitleForm->prepare();
+                    echo $this->form()->openTag($pTitleForm);
+				    $title = $pTitleForm->get('positiontitle');
+					$title->get('position_category_id')->setValueOptions($this->positionCategory);
+                    echo $this->formHidden($title->get('id'));   
+                ?>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Postion Category: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($title->get('position_category_id')); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Title: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($title->get('position_title')); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">    
+                 <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">Position Title Description: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($title->get('description')); ?>
+                    </div>
+                 </div>
+                </div>                 
+                <div class="row">    
+                 <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Notes: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($title->get('notes')); ?>
+                    </div>
+                  </div>
+                </div>  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($pTitleForm->get('csrf'));
+						   echo $this->formSubmit($title->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                
+				<div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No </th>
+                            <th class="column-title">Position Titles </th>
+                            <th class="column-title">Position Category</th>
+                            <th class="column-title">Position Descriptions </th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                        <?php $i = 1; foreach ($this->position_title as $positions): ?>
+						  <tr>
+                <td><?php echo $i++;?></td>
+							<td><?php echo $this->escapeHtml($positions->getPosition_Title());?></td>
+							<td><?php echo $this->escapeHtml($positionCategory[$positions->getPosition_Category_Id()]);?></td>
+							<td><?php echo $this->escapeHtml($positions->getDescription());?></td>
+                            <td><a href="<?php echo $this->url('editpositiontitle', array('id' => my_encrypt($positions->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+						  </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+					</div>
+				</div>
+			</div> 
+                    
+            <div role="tabpane2" class="tab-pane fade " id="tab_content2" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Position Level</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $pLevelForm->setAttribute('action', $this->url('addpositionlevel', array('action' => 'addPositionLevel')));
+					$pLevelForm->prepare();
+                    echo $this->form()->openTag($pLevelForm);
+				    $level = $pLevelForm->get('positionlevel');
+					$level->get('major_occupational_group_id')->setValueOptions($this->occupationalGroup);
+                    echo $this->formHidden($level->get('id'));   
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Level: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($level->get('position_level')); ?>
+                    </div>
+                </div>
+                </div> 
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Occupational Group: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($level->get('major_occupational_group_id')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">Position Level Description: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($level->get('description')); ?>
+                    </div>
+                </div>
+                </div>   
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($pLevelForm->get('csrf'));
+						   echo $this->formSubmit($level->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No </th>
+                            <th class="column-title">Position Level </th>
+                            <th class="column-title">Occupational Group </th>
+                            <th class="column-title">Position Level Descriptions </th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php $i=1; foreach ($this->position_level as $level): ?>
+                          <tr>
+                            <td><?php echo $i++;?></td>
+                            <td><?php echo $this->escapeHtml($level->getPosition_Level());?></td>
+                            <td><?php echo $this->escapeHtml($this->occupationalGroup[$level->getMajor_Occupational_Group_Id()]);?></td>
+                            <td><?php echo $this->escapeHtml($level->getDescription());?></td>
+                            <td><a href="<?php echo $this->url('editpositionlevel', array('id' => my_encrypt($level->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				  </div>
+				</div>
+                
+                <div role="tabpane3" class="tab-pane fade " id="tab_content3" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Teaching Allowance</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $teachingForm->setAttribute('action', $this->url('addteachingallowance', array('action' => 'addTeachingAllowance')));
+					$teachingForm->prepare();
+                    echo $this->form()->openTag($teachingForm);
+				    $teaching = $teachingForm->get('teachingallowance');
+					$teaching->get('position_level')->setValueOptions($this->positionLevel);
+                    echo $this->formHidden($teaching->get('id'));   
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Level: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($teaching->get('position_level')); ?>
+                    </div>
+                </div>
+                </div> 
+                  
+                 <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">No. of year in Service: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($teaching->get('years_in_service')); ?>
+                    </div>
+                </div>
+                </div>   
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Allowance:<span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($teaching->get('teaching_allowance')); ?>
+                    </div>
+                </div>
+                </div>
+                       
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($teachingForm->get('csrf'));
+						   echo $this->formSubmit($teaching->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-fixed-header" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No</th>
+                            <th class="column-title">Position Level </th>
+                            <th class="column-title">No.of year in service</th>
+                            <th class="column-title">Allowance</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php $i = 1; foreach ($this->teaching_allowance as $teaching): ?>
+                          <tr>
+                            <td><?php echo $i++;?></td>
+                            <td><?php echo $this->escapeHtml($teaching->getPosition_Level());?></td>
+                            <td><?php echo $this->escapeHtml($teaching->getYears_In_Service());?></td>
+                            <td><?php echo $this->escapeHtml($teaching->getTeaching_Allowance());?></td>
+                            <td><a href="<?php echo $this->url('editteachingallowance', array('id' => my_encrypt($teaching->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                </td>
+                          </tr>
+                         <?php endforeach; ?>
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				</div>
+				</div>
+                
+                <div role="tabpane4" class="tab-pane fade " id="tab_content4" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Rent/Housing Allowance</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $rentForm->setAttribute('action', $this->url('addrentallowance', array('action' => 'addRentAllowance')));
+					$rentForm->prepare();
+                    echo $this->form()->openTag($rentForm);
+				    $rent = $rentForm->get('rentallowance');
+					$rent->get('position_level')->setValueOptions($this->positionLevel);
+                    echo $this->formHidden($rent->get('id'));   
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Level: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($rent->get('position_level')); ?>
+                    </div>
+                </div>
+                </div> 
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">House Rent Allowance: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($rent->get('rent_allowance')); ?>
+                    </div>
+                </div>
+                </div> 
+                       
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($rentForm->get('csrf'));
+						   echo $this->formSubmit($rent->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-keytable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No</th>
+                            <th class="column-title">Position Level </th>
+                            <th class="column-title">House Rent Allowance</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php $i=1; foreach ($this->housing_allowance as $housing): ?>
+                          <tr>
+                            <td><?php echo $i++;?></td>
+                            <td><?php echo $this->escapeHtml($housing->getPosition_Level());?></td>
+                            <td><?php echo $this->escapeHtml($housing->getRent_Allowance());?></td>
+                            <td><a href="<?php echo $this->url('editrentallowance', array('id' => my_encrypt($housing->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				</div>
+				</div>
+
+        <div role="tabpane5" class="tab-pane fade " id="tab_content5" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Professional Allowance</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $universityForm->setAttribute('action', $this->url('adduniversityallowance', array('action' => 'addUniversityAllowance')));
+          $universityForm->prepare();
+                    echo $this->form()->openTag($universityForm);
+            $university = $universityForm->get('universityallowance');
+          $university->get('position_level')->setValueOptions($this->positionLevel);
+                    echo $this->formHidden($university->get('id'));   
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Level: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($university->get('position_level')); ?>
+                    </div>
+                </div>
+                </div> 
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">Professional Allowance: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($university->get('professional_allowance')); ?>
+                    </div>
+                </div>
+                </div> 
+                       
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+               echo $this->formHidden($universityForm->get('csrf'));
+               echo $this->formSubmit($university->get('submit')); 
+            ?>
+                        </div>
+                    </div>
+                </div>
+                    
+        <?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-keytable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No</th>
+                            <th class="column-title">Position Level </th>
+                            <th class="column-title">Professional Allowance</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                        <?php $i=1; foreach ($this->university_allowance as $university): ?>
+                          <tr>
+                            <td><?php echo $i++;?></td>
+                            <td><?php echo $this->escapeHtml($university->getPosition_Level());?></td>
+                            <td><?php echo $this->escapeHtml($university->getProfessional_Allowance());?></td>
+                            <td><a href="<?php echo $this->url('edituniversityallowance', array('id' => my_encrypt($university->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+            </tbody>
+                      </table>
+                     </div>
+          </div>
+        </div>
+        </div>
+
+                
+                <div role="tabpane6" class="tab-pane fade " id="tab_content6" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Pay Scale</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $payForm->setAttribute('action', $this->url('addpayscale', array('action' => 'addPayScale')));
+					$payForm->prepare();
+                    echo $this->form()->openTag($payForm);
+				    $pay = $payForm->get('payscale');
+					$pay->get('position_level')->setValueOptions($this->positionLevel);
+                    echo $this->formHidden($pay->get('id'));   
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Level: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('position_level')); ?>
+                    </div>
+                </div>
+                </div> 
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">Minimum Pay Scale: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('minimum_pay_scale')); ?>
+                    </div>
+                </div>
+                </div>   
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Increment<span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('increment')); ?>
+                    </div>
+                </div>
+                </div>
+                       
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Maximum Pay Scale: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('maximum_pay_scale')); ?>
+                    </div>
+                    </div>
+                    </div>
+                
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Pay Status: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('status')); ?>
+                    </div>
+                    </div>
+                    </div>
+                       
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($payForm->get('csrf'));
+						   echo $this->formSubmit($pay->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-responsive" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No</th>
+                            <th class="column-title">Position Level </th>
+                            <th class="column-title">Minimum Pay Scale</th>
+                            <th class="column-title">Increment</th>
+                            <th class="column-title">Maximum Pay Scale </th>
+                            <th class="column-title">Status </th>
+                            <th class="column-title">Action </th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php $i=1; foreach ($this->pay_scale as $pay): ?>
+                          <tr>
+                            <td><?php echo $i++;?></td>
+                            <td><?php echo $this->escapeHtml($pay->getPosition_Level());?></td>
+                            <td><?php echo $this->escapeHtml($pay->getMinimum_Pay_Scale());?></td>
+                            <td><?php echo $this->escapeHtml($pay->getIncrement());?></td>
+                            <td><?php echo $this->escapeHtml($pay->getMaximum_Pay_Scale());?></td>
+                            <td><?php echo $this->escapeHtml($pay->getStatus());?></td>
+                            <td><a href="<?php echo $this->url('editpayscale', array('id' => my_encrypt($pay->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				  </div>
+				</div>
+                
+                <div role="tabpane7" class="tab-pane fade " id="tab_content7" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Employment Status</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $employmentForm->setAttribute('action', $this->url('addemploymentstatus', array('action' => 'addEmploymentStatus')));
+					$employmentForm->prepare();
+                    echo $this->form()->openTag($employmentForm);
+				    $employment = $employmentForm->get('employmentstatus');
+                    echo $this->formHidden($employment->get('id'));   
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Employment Status: 
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($employment->get('employment_status')); ?>
+                    </div>
+                </div>
+                </div> 
+                       
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($employmentForm->get('csrf'));
+						   echo $this->formSubmit($employment->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="example-datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">                         
+                           <th class="column-title">Employment Status </th>
+                          </tr>
+                        </thead> 
+                        <tbody>
+                      	
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				  </div>
+				</div>
+                
+                <div role="tabpane8" class="tab-pane fade " id="tab_content8" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Position Category</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $pCategoryForm->setAttribute('action', $this->url('addpositioncategory', array('action' => 'addPositionCategory')));
+					$pCategoryForm->prepare();
+                    echo $this->form()->openTag($pCategoryForm);
+				    $position = $pCategoryForm->get('positioncategory');
+					$position->get('major_occupational_group_id')->setValueOptions($this->occupationalGroup);
+                    echo $this->formHidden($position->get('id'));
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Occupational Group<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($position->get('major_occupational_group_id')); ?>
+                    </div>
+                </div>
+                </div> 
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Category: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($position->get('category')); ?>
+                    </div>
+                </div>
+                </div> 
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">Position Category Description: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($position->get('description')); ?>
+                    </div>
+                </div>
+                </div>   
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($pCategoryForm->get('csrf'));
+						   echo $this->formSubmit($position->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="example-datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No</th>
+                            <th class="column-title">Position Category </th>
+                            <th class="column-title">Occupational Group</th>
+                            <th class="column-title">Position Category Descriptions </th>
+                            <th class="column-title">Action </th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php $i=1; foreach ($this->position_category as $category): ?>
+                          <tr>
+                            <td><?php echo $i++;?></td>
+                            <td><?php echo $this->escapeHtml($category->getCategory());?></td>
+                            <td><?php echo $this->escapeHtml($occupationalGroup[$category->getMajor_Occupational_Group_Id()]);?></td>
+                            <td><?php echo $this->escapeHtml($category->getDescription());?></td>
+                            <td><a href="<?php echo $this->url('editpositioncategory', array('id' => my_encrypt($category->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				</div>
+				</div>
+                <!-- End of tabs-->        
+                
+   		 </div>
+ 		</div>
+	</div>
+</div>
+</div>
+            

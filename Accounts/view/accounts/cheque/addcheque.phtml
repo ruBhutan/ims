@@ -1,0 +1,168 @@
+<?php
+/**
+ *
+ * View -- of Accounts/AssetController/addchequeAction
+ *
+ */
+$title ="Add Cheque";
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>
+				<div class="x_content">
+					<form id="form" method="post" action="<?php echo $this->url('cheque', array('action' => 'addcheque')); ?>" enctype="multipart/form-data" >
+						<div class ="row">
+                            <div class="col-lg-2"></div>
+                            <div class ="col-lg-8">
+								<div class="form-group col-lg-6">
+									<label for="cheque_book_no" class="control-label">Cheque Book No. </label>
+									<input type="text" class="form-control" name="cheque_book_no[]" id="cheque_book_no" required>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="bank_account" class="control-label">Bank Account</label>
+									<select class="form-control" id="bank_account" name="bank_account" data-placeholder="Select" required>
+										<option value=""></option>
+										<?php foreach ($this->baObj as $row): ?>
+											<option value="<?php echo $row['id']; ?>">
+												<?php echo $row['bank_account']; ?>
+											</option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="cheque_start_no" class="control-label">Cheque Start No. </label>
+									<input type="text" class="form-control" name="cheque_start_no" id="cheque_start_no" maxlength="06" required>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="cheque_end_no" class="control-label">Cheque End No. </label>
+									<input type="text" class="form-control" name="cheque_end_no" id="cheque_end_no" maxlength="06" required>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="no_of_cheque" class="control-label">No. of Cheque</label>
+									<input type="text" class="form-control" name="no_of_cheque" id="no_of_cheque" maxlength="03" readonly required>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="receive_date" class="control-label">Receive Date</label>
+                                    <input type="text"
+                                           name="receive_date"
+                                           class="form-control fa fa-calender-o"
+                                           id="receive_date"
+                                           value="<?php echo date('Y-m-d'); ?>"
+                                           placeholder="Receive Date"
+                                           readonly
+                                           required
+                                    >
+									<!--<div class="date input-group" id="receive_date" data-date="<?php /*echo date('Y-m-d');*/?>" data-date-format="yyyy-mm-dd">
+										<input class="form-control span2" name="receive_date" id="receive_date" type="text" placeholder="Receive Date" value="<?php /*echo date('Y-m-d'); */?>" readonly required>
+										<span class="input-group-addon add-on"><i class="fa fa-calendar"></i> </span>
+									</div>-->
+								</div>
+						    </div>
+				            <div class="col-lg-2"></div>
+						</div>
+                        <div class ="x_title"></div>
+						<div class ="row">
+						    <div class ="col-lg-2"></div>
+						    <div class ="col-lg-8">
+							    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+								<button type="button" class="btn btn-warning" onclick="javascript:history.back();" ><i class="fa fa-times"></i> Cancel </button>
+							</div>
+						    <div class ="col-lg-2"></div>
+						</div>
+					</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	$('document').ready(function(){
+		//$('#receive_date').datepicker();
+
+        $('#receive_date').daterangepicker({
+            singleDatePicker: true,
+            singleClasses: "picker_2",
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
+        });
+
+		$('#receive_date').on('changeDate',function(){
+			$('form').formValidation('revalidateField','receive_date');
+		});
+		//* On changing the account to cash, get cash account and disable account reference type*//
+		$('#cheque_end_no').on('change',function(){
+			$.post(
+				"<?php echo $this->url('cheque', array('action' => 'getchequeno'));?>",
+				{
+					cheque_end_no: $(this).val(),
+    				cheque_start_no: $('#cheque_start_no').val(),
+				},
+				function(data){
+					console.log(data);
+					$("#no_of_cheque").val(data.chequeno);
+					$('select#no_of_cheque').trigger('chosen:updated');
+				},
+				'json'
+				);
+		});
+		$('form').formValidation({
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				cheque_book_no: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide Cheque Book No.'
+						}
+					}
+				},
+				bank_account: {
+					validators: {
+						notEmpty: {
+							message: 'Please select bank account.'
+						}
+					}
+				},
+				receive_date: {
+					validators: {
+						notEmpty: {
+							message: 'Please select date.'
+						}
+					}
+				},
+				cheque_start_no: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide cheque start no.'
+						}
+					}
+				},
+				cheque_end_no: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide cheque end no.'
+						}
+					}
+				},
+				no_of_cheque: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide no. of cheque.'
+						}
+					}
+				},
+			}
+		});
+	});
+</script>
+

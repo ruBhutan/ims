@@ -1,0 +1,154 @@
+<!-- page content -->
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_content">
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                  <div class="profile_title">
+                    <div class="col-md-6">
+                      <h2>Student Report</h2>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                  </div>
+                  <!-- start of report-graph -->
+                  <div class="x_content">
+                    <canvas id="bar-chart-grouped" style="width:100%; height:280px;"></canvas>
+                  </div>
+                  <!-- end of report-graph -->
+
+                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <!-- start reports -->
+                    <br /><br />
+                    <h2><?php echo "Table";?></h2>
+                    <?php if($this->student_report != NULL) {?>
+                    <table class="table table-striped jambo_table table-bordered">
+                    <thead>                        
+                         <tr>
+                            <td rowspan="3">College</td>
+                            <td colspan="6">Student Number</td>
+                            <td rowspan="3">Grand Total</td>
+                          </tr>
+                          <tr>
+                            <td colspan="2">RGOB Scholarship</td>
+                            <td colspan="2">Self Financed</td>
+                            <td colspan="2">Total</td>
+                          </tr>
+                          <tr>
+                            <td>Male</td>
+                            <td>Female</td>
+                            <td>Male</td>
+                            <td>Female</td>
+                            <td>Male</td>
+                            <td>Female</td>
+                          </tr>
+                    </thead>
+                    <tbody>
+                      <?php 
+					  $i = 0;
+					  if(count($organisation_list) != 1){
+						  $i = 2;
+					  } else{
+						  foreach($organisation_list as $key => $value){
+							  $i = $key;
+						  }
+					  }
+					  foreach($this->student_report as $report) : ?>
+                      <?php
+						//Pre-define some variables in case "0" values
+						$scholarship_male = 0;
+						$scholarship_female = 0;
+						$self_male = 0;
+						$self_female = 0;
+						?>
+                      <tr class="even pointer">
+                        <td class=" "><?php echo $organisation_list[$i];?></td>
+                        <td class=" "><?php 
+                                        if(array_key_exists($i, $this->student_report)){
+                                                $scholarship_male = count($this->student_report[$i]['1']['1']);
+												echo $scholarship_male;
+                                        }
+                                         else
+                                                echo $this->escapeHtml(0);										
+                                        ?></td>
+                        <td class=" "><?php 
+                                        if(array_key_exists($i, $this->student_report)){
+                                                $scholarship_female = count($this->student_report[$i]['2']['1']);
+												echo $scholarship_female;
+                                        }
+                                         else
+                                                echo $this->escapeHtml('0');
+                                        ?></td>
+                        <td class=" "><?php 
+                                        if(array_key_exists($i, $this->student_report)){
+                                               if(array_key_exists('2', $this->student_report[$i][1])){
+												   $self_male = count($this->student_report[$i]['1']['2']);
+												   echo $self_male;
+											   }
+											   else
+											   		echo $this->escapeHtml('0');
+                                        }
+                                         else
+                                                echo $this->escapeHtml('0');
+                                        ?></td>
+                        <td class=" "><?php 
+                                        if(array_key_exists($i, $this->student_report)){
+                                               if(array_key_exists('2', $this->student_report[$i][1])){
+												   $self_female = count($this->student_report[$i]['2']['2']);
+												   echo $self_female;
+											   }
+											   else
+											   		echo $this->escapeHtml('0');
+                                        }
+                                         else
+                                                echo $this->escapeHtml('0');
+                                        ?></td>
+                        <td class=" "><?php 
+                                        if(array_key_exists($i, $this->student_report)){
+                                                echo $scholarship_male + $self_male;
+                                        }
+                                         else
+                                                echo $this->escapeHtml('0');
+                                        ?></td>
+                        <td class=" "><?php 
+                                        if(array_key_exists($i, $this->student_report)){
+                                                echo $scholarship_female + $self_female;
+                                        }
+                                         else
+                                                echo $this->escapeHtml('0');
+                                        ?></td>
+                        <td class=" "><?php 
+                                        if(array_key_exists($i, $this->student_report)){	
+                                                echo $self_male + $self_female + $scholarship_male + $scholarship_female;
+                                        } else
+                                                echo $this->escapeHtml('0');
+                                        $i++;
+                         ?></td>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+                         <?php } ?>
+                        <!-- end of reports -->
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                  <div class="profile_title">
+                    <div class="col-md-6">
+                      <h2>Report</h2>
+                    </div>
+                  </div>
+                  <br />
+
+                  <!-- report generation -->
+                  <h5><i>*Generate Report. Please note that the graphs will be not be displayed in the generated pdf report. To use the graphs, 
+                        save the graphs from the webpage and paste it to relevant document</i></h5><br />
+                 <a href="<?php echo $this->url('generatehrreports', array('reporttype' => $this->report_type));?>" class="btn btn-success">Generate Report</a>
+
+                  <!-- end of report generation -->
+
+                </div>
+              </div>
+            </div>
+          </div>
+    <!-- /page content -->
+                  

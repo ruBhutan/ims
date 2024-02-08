@@ -1,0 +1,125 @@
+
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Supplied Goods Lists (View details of goods supplied by supplier and generate Receipt Voucher)';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>     
+<div class="right_col" role="main">
+    <div class="">             
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                  <h5><i>List of supplier (s) who supplied goods/ items. Click on View & Generate Voucher button to view the details of item supplied and generate Receipt Voucher.</i></h5>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Sl. No</th>
+                                    <th class="column-title">System Bill Id </th>
+                                    <th class="column-title">Supplier Name </th>
+                                    <th class="column-title">Reference Number </th>
+                                    <th class="column-title">Reference Date </th>
+                                    <th class="column-title">Supply Order No </th>
+                                    <th class="column-title">Supplier Contact No </th>
+                                    <th class="column-title">Supplier Address </th>
+                                    <th class="column-title">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <?php $i=1; ?>
+                            <?php foreach ($this->allSuppliedGoods as $suppliedList) : ?>
+                                <tr class="even pointer">
+                                    <td class=" "><?php echo $i; ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedList->getId()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedList->getSupplier_Name()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedList->getReference_No()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedList->getReference_Date()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedList->getSupplier_Order_No()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedList->getSupplier_Contact_No()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedList->getSupplier_Address()); ?></td>
+                                    <td class=" ">
+                                           <a href="<?php echo $this->url('supplier-goods-list-details', array('id' => my_encrypt($suppliedList->getId(), $key))); ?>" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View  </a>
+                                           <a href="<?php echo $this->url('generategoodsreceiptvoucher', array('id' => my_encrypt($suppliedList->getId(), $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Generate Voucher </a>
+                                    </td>
+                                </tr>
+                            <?php $i++; ?>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="x_title">
+                
+                  <div class="clearfix"></div>
+                  <h5><i>List of supplier (s) who supplied goods/ items and Voucher Generated.</i></h5>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Sl. No</th>
+                                    <th class="column-title">System Bill Id </th>
+                                    <th class="column-title">Voucher Number </th>
+                                    <th class="column-title">Supplier Name </th>
+                                    <th class="column-title">Reference Number </th>
+                                    <th class="column-title">Reference Date </th>
+                                    <th class="column-title">Supply Order No </th>
+                                    <th class="column-title">Supplier Contact No </th>
+                                    <th class="column-title">Supplier Address </th>
+                                    <th class="column-title">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <?php $i=1; ?>
+                            <?php foreach ($this->allSuppliedGoodsVG as $suppliedListVG) : ?>
+                                <tr class="even pointer">
+                                    <td class=" "><?php echo $i; ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedListVG->getId()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedListVG->getreceipt_voucher_no()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedListVG->getSupplier_Name()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedListVG->getReference_No()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedListVG->getReference_Date()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedListVG->getSupplier_Order_No()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedListVG->getSupplier_Contact_No()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($suppliedListVG->getSupplier_Address()); ?></td>
+                                    <td class=" ">
+                                           <a href="<?php echo $this->url('supplier-goods-list-details', array('id' => my_encrypt($suppliedListVG->getId(), $key))); ?>" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View  </a>
+                                    </td>
+                                </tr>
+                            <?php $i++; ?>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

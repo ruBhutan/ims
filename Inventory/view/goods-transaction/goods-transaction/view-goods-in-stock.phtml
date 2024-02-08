@@ -1,0 +1,393 @@
+<?php
+// module/Inventory/view/goods-transaction/goods-transaction/view-item-details.phtml:
+ $title = 'Goods Available In Stock';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                </div>
+                    <!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="true">Purchased Goods</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Fixed Asset</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content3" id="home-tab" role="tab" data-toggle="tab" aria-expanded="false">Consumable Goods</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Donated Goods</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Transfered Goods</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="profile-tab">
+                            <br/>
+                                <!-- Display Purchased Goods in stock--> 
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Purchased Goods in Stock"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                    </div>
+
+                                    <div class="col-md-12 col-xs-12">
+                                      <div class="x_panel">
+                                          <div class="x_title">
+                                              <h2><?php echo $this->escapeHtml("Search for List of Goods in stock")?></h2>
+                                              <div class="clearfix"></div>
+                                    
+                                          </div>
+
+                                          <?php 
+                                        if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                            echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                            $messages = $this->flashMessenger()->getMessages();
+                                            foreach($messages as $message) {
+                                                echo '<strong>Success!</strong>'. $message;
+                                            }
+                                            echo '</div>';
+                                        }
+
+                                        else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                            $messages = $this->flashMessenger()->getMessages();
+                                            foreach($messages as $message) {
+                                                echo '<strong>Failure!</strong>'. $message;
+                                            }
+                                            echo '</div>';
+                                        }
+
+                                    ?>
+                                         
+                                          <div class="x_content">
+                                              <h5><i>*(In order to view the goods in stock, you have to select the category, sub category and item from drop down list and click on search button.)<br />
+                                               </i></h5>
+                                                    <br />
+                                              <?php
+                                              // Opening of the form tag
+                                              $form->prepare();
+                                              echo $this->form()->openTag($form);
+                                              ?>
+                                          
+                                              <div class="row">
+                                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                                      <label>Category</label>
+                                                      <?php echo $this->formRow($form->get('category')); ?>
+                                                  </div>
+                                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                                      <label>Sub Category</label>
+                                                      <?php echo $this->formRow($form->get('sub_category')); ?>
+                                                  </div>
+                                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                                      <label>Item Name</label>
+                                                      <?php echo $this->formRow($form->get('item_name')); ?>
+                                                  </div>
+                                              </div>           
+                                           
+                                              <div class="row">
+                                                  <div class="ln_solid"></div>
+                                                  <div class="form-group">
+                                                      <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                                        <?php
+                                                         echo $this->formHidden($form->get('csrf'));
+                                                         echo $this->formSubmit($form->get('submit')); 
+                                                         echo $this->form()->closeTag(); 
+                                                      ?>
+                                                  </div>
+                                              </div>                          
+                                          </div>
+                                      </div>
+                                    </div>
+                    
+                                    <div class="x_content">
+                                        <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr class="headings">
+                                                    <th class="column-title">Sl. No</th>
+                                                    <th class="column-title">Category </th>
+                                                    <th class="column-title">Sub Category </th>
+                                                    <th class="column-title">Item Name </th>
+                                                    <th class="column-title">Purchased Quantity</th>
+                                                    <th class="column-title">Item in Stock </th>
+                                                    <th class="column-title no-link last"><span class="nobr">Aciton</th>
+                                                </tr>
+                                            </thead>
+                                            
+                                            <tbody>
+                                              <?php 
+                                                $i=1; 
+                                                foreach($this->purchasedGoodsInStock as $purchasedGoods): ?>
+                                                <tr class="even pointer">
+                                                  <td class=" "><?php echo $i++; ?></td>
+                                                  <td class=" "><?php echo $purchasedGoods->getCategory_Type(); ?></td>
+                                                  <td class=" "><?php echo $purchasedGoods->getSub_Category_Type(); ?></td>
+                                                  <td class=" "><?php echo $purchasedGoods->getItem_Name(); ?></td>
+                                                  <td class=" "><?php echo $purchasedGoods->getItem_Quantity(); ?></td>
+                                                  <td class=" "><?php echo $purchasedGoods->getItem_In_Stock(); ?></td>
+                                                  <th class=" last"><a href="<?php echo $this->url('view-goods-in-stock-details', array('id' => my_encrypt($purchasedGoods->getId(), $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                  </th>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                          </tbody>                    
+                                        </table>
+                                    </div>
+                                  </div>
+                                </div>                                    
+                            
+                                <!-- End of Item Category-->
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                            <br/>
+                                <!-- Display Purchased Goods in stock-->
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Fixed Asset List"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                    </div>                    
+                                    <div class="x_content">
+                                        <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr class="headings">
+                                                    <th class="column-title">Sl. No</th>
+                                                    <th class="column-title">Category </th>
+                                                    <th class="column-title">Sub Category </th>
+                                                    <th class="column-title">Item Name </th>
+                                                    <th class="column-title">Item Received Date</th>
+                                                    <th class="column-title">Purchased Quantity</th>
+                                                    <th class="column-title">Item in Stock </th>
+                                                    <th class="column-title">Quantity Issued </th>
+                                                    <th class="column-title no-link last"><span class="nobr">Aciton</th>
+                                                </tr>
+                                            </thead>
+                                              <?php 
+                                                $i=1; 
+                                                foreach($this->fixedAssetInStock as $fixedAsset): ?>
+                                                <tr class="even pointer">
+                                                  <td class=" " width="7%"><?php echo $i++; ?></td>
+                                                  <td class=" "><?php echo $fixedAsset->getCategory_Type(); ?></td>
+                                                  <td class=" "><?php echo $fixedAsset->getSub_Category_Type(); ?></td>
+                                                  <td class=" "><?php echo $fixedAsset->getItem_Name(); ?></td>
+                                                  <td class=" "><?php echo $fixedAsset->getItem_Received_Date(); ?></td>
+                                                  <td class=" "><?php echo $fixedAsset->getItem_Quantity(); ?></td>
+                                                  <td class=" "><?php echo $fixedAsset->getItem_In_Stock(); ?></td>
+                                                  <td class=" "><?php echo $fixedAsset->getItem_Quantity()-$fixedAsset->getItem_In_Stock();?>
+                                                  <th class=" last"><a href="<?php echo $this->url('apply-org-goods-transfer', array('id' => my_encrypt($fixedAsset->getId(), $key))); ?>" class="btn btn-success btn-xs"><i class="fa fa-send"></i> Transfer</a>
+                                                    <a href="<?php echo $this->url('dispose-goods', array('id' => my_encrypt($fixedAsset->getId(), $key))); ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Dispose</a>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                            <tbody>
+                                              
+                                          </tbody>                    
+                                        </table>
+                                    </div>
+                                  </div>
+                                </div>                                     
+                            
+                                <!-- End of Item Category-->
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="home-tab">
+                            <br/>
+                                <!-- Display Purchased Goods in stock-->                                     
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Consumable Goods in Stock"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                    </div>
+                    
+                                    <div class="x_content">
+                                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr class="headings">
+                                                    <th class="column-title">Sl. No</th>
+                                                    <th class="column-title">Category </th>
+                                                    <th class="column-title">Sub Category </th>
+                                                    <th class="column-title">Item Name </th>
+                                                    <th class="column-title">Purchased Quantity</th>
+                                                    <th class="column-title">Item in Stock </th>
+                                                    <th class="column-title">Quantity Disposed </th>
+                                                    <th class="column-title no-link last"><span class="nobr">Aciton</th>
+                                                </tr>
+                                            </thead>
+                                            <?php 
+                                                $i=1; 
+                                                foreach($this->consumableGoods as $consumable): ?>
+                                                <tr class="even pointer">
+                                                  <td class=" " width="7%"><?php echo $i++; ?></td>
+                                                  <td class=" "><?php echo $consumable->getCategory_Type(); ?></td>
+                                                  <td class=" "><?php echo $consumable->getSub_Category_Type(); ?></td>
+                                                  <td class=" "><?php echo $consumable->getItem_Name(); ?></td>
+                                                  <td class=" "><?php echo $consumable->getItem_Quantity(); ?></td>
+                                                  <td class=" "><?php echo $consumable->getItem_In_Stock(); ?></td>
+                                                  <td class=" "><?php echo $consumable->getItem_Quantity_Disposed();?>
+                                                  <td class=" last"><a href="<?php echo $this->url('view-goods-in-stock-details', array('id' => my_encrypt($consumable->getId(), $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                  </th>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                            <tbody>
+                                              
+                                          </tbody>                    
+                                        </table>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                                <!-- End of Item Category-->
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                                <br/>
+                                <!-- Display Donation Goods in Stock-->                                      
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Donation Goods in Stock"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                    </div>
+                    
+                                    <div class="x_content">
+                                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr class="headings">
+                                                    <th class="column-title">Sl. No</th>
+                                                    <th class="column-title">Category </th>
+                                                    <th class="column-title">Sub Category </th>
+                                                    <th class="column-title">Item Name </th>
+                                                    <th class="column-title">Donated Quantity</th>
+                                                    <th class="column-title">Item in Stock </th>
+                                                    <th class="column-title no-link last"><span class="nobr">Action </th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                            <?php 
+                                                                  $i=1;
+                                                                  foreach ($this->donationGoodsInStock as $donationGoods) : ?>
+                                            <tr class="even pointer">
+                                              <td class=" "><?php echo $i++;?></td>
+                                              <td class=" "><?php echo $donationGoods->getCategory_Type(); ?></td>
+                                                  <td class=" "><?php echo $donationGoods->getSub_Category_Type(); ?></td>
+                                                  <td class=" "><?php echo $donationGoods->getItem_Name(); ?></td>
+                                                  <td class=" "><?php echo $donationGoods->getItem_Quantity(); ?></td>
+                                                  <td class=" "><?php echo $donationGoods->getItem_In_Stock(); ?></td>
+                                                  <td class=" last"><a href="<?php echo $this->url('view-donated-goods-in-stock-details', array('id' => my_encrypt($donationGoods->getId(), $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                  </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                                <!-- End of Item Sub Category-->
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
+                                <br/>
+                                <!-- Display Donation Goods in Stock-->                                      
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Transfered Goods in Stock"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                    </div>
+                    
+                                    <div class="x_content">
+                                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr class="headings">
+                                                    <th class="column-title">Sl. No</th>
+                                                    <th class="column-title">Transfered From</th>
+                                                    <th class="column-title">Category </th>
+                                                    <th class="column-title">Sub Category </th>
+                                                    <th class="column-title">Item Name </th>
+                                                    <th class="column-title">Transfered Quantity</th>
+                                                    <th class="column-title">Item in Stock </th>
+                                                    <th class="column-title no-link last"><span class="nobr">Action </th>
+                                                </tr>
+                                            </thead>
+                                                <?php 
+                                                $i=1;
+                                                foreach ($this->transferedGoodsInStock as $transferedGoods) : ?>
+                                            <tr>
+                                              <td class=" "><?php echo $i++;?></td>
+                                              <td class=" "><?php echo $transferedGoods['organisation_name']; ?></td>
+                                              <td class=" "><?php echo $transferedGoods['category_type']; ?></td>
+                                                  <td class=" "><?php echo $transferedGoods['sub_category_type']; ?></td>
+                                                  <td class=" "><?php echo $transferedGoods['item_name']; ?></td>
+                                                  <td class=" "><?php echo $transferedGoods['item_quantity']; ?></td>
+                                                  <td class=" "><?php echo $transferedGoods['item_in_stock']; ?></td>
+                                                  <td class=" last"><a href="<?php echo $this->url('viewtransferedgoodsinstockdetails', array('id' => my_encrypt($transferedGoods['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                  </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                            <tbody>
+                                            
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                                <!-- End of Item Sub Category-->
+                        </div>
+
+                        </div>     
+                    </div>
+            </div>
+                    <!-- End of Tabs-->                                        
+        </div>
+    </div>
+</div>
+    

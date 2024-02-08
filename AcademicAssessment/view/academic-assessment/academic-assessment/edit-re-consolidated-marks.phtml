@@ -1,0 +1,221 @@
+<?php
+ $title = 'Edit Repeat and Re-assessment Module Marks';
+ $this->headTitle($title);
+
+ $student = array();
+
+if(!empty($this->studentDatail)){
+  foreach($this->studentDatail as $details)
+  {
+    $student = $details;
+  }
+} else {
+  
+  $student['first_name'] = NULL;
+  $student['middle_name'] = NULL;
+  $student['last_name'] = NULL;
+  $student['student_id'] = NULL;
+  
+}
+ 
+
+$key = $this->keyphrase;
+  function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+<div class="right_col" role="main">
+          <div class="">
+          	<!-- Student List-->
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml("Search for Student")?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <h5><i>*(In order to view the student Marks Detail, first search for the Student and you can only edit marks before declaration of the result.)<br /></i></h5>
+                          <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $form->get('semester')->setValueOptions($this->semesterList);
+                  ?>
+                  <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Student ID</label>
+                        <?php echo $this->formRow($form->get('student_id')); ?>
+                      </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Semester Repeat</label>
+                          <?php echo $this->formRow($form->get('semester')); ?>
+                        </div>
+                   </div>
+                 <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                          <?php
+                           echo $this->formHidden($form->get('csrf'));
+                           echo $this->formSubmit($form->get('submit')); 
+                           echo $this->form()->closeTag(); 
+                        ?>
+                    </div>
+                </div>
+              </div>
+            </div>
+           </div> 
+
+
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <?php 
+                //$addForm->setAttribute('action', $this->url('insertrepeatconsolidatedmark', array('action' => 'insertRepeatConsolidatedMark')));
+                //$form->prepare();
+                //echo $this->form()->openTag($addForm);
+                ?>
+                <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+      							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+      							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+        							$messages = $this->flashMessenger()->getMessages();
+        							foreach($messages as $message) {
+        								echo $message;
+        							}
+        							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                <div class="x_content">
+                <h4>
+                  <b>
+                  <?php if($student){?>
+                  <i class="blue">Student Name: <?php echo $student['first_name'].' '.$student['middle_name'].' '.$student['last_name'];?></i>&nbsp;&nbsp;
+                  &nbsp;&nbsp;<i class="blue">Student ID: <?php echo $student['student_id'];?></i>
+                  <?php  } else {?>
+                    <i class="blue">Student Name: <?php echo 'NA';?></i>&nbsp;&nbsp;
+                  &nbsp;&nbsp;<i class="blue">Student ID: <?php echo 'NA';?></i>
+                  <?php } ?>
+                  </b></h4>
+                  <br />
+
+
+                  <table  class="table table-striped jambo_table table-bordered" width="100%">
+                    <thead>
+                      <tr class="headings">
+                        <th class="column-title">Sl/No</th>
+                        <th class="column-title">Student ID</th>
+                        <th class="column-title">Semester</th>
+                        <th class="column-title">Programme / Module Title / Module Code</th>
+                        <th class="column-title">Credit</th>
+                        <th class="column-title">Weightage</th>
+                        <th class="column-title">Pass Year</th>
+                        <th class="column-title">Academic Year</th>
+                        <th class="column-title">Assessment on</th>
+                        <th class="column-title">Result Status</th>
+                        <th class="column-title">Marks</th>
+                        <th class="column-title">Action</th>
+                      </tr>
+                    </thead>  
+                    <tbody>
+                   <?php $i=1; foreach ($this->repeatModuleDetail as $details) : ?>
+                   <?php 
+                    $addForm->setAttribute('action', $this->url('updatereconsolidatedmark', array('action' => 'updateReConsolidatedMark', 'id' => my_encrypt($details['id'], $key))));
+                        $form->prepare();
+                        echo $this->form()->openTag($addForm);
+                        $addForm->get('student_id')->setValue($details['student_id']);
+                        $addForm->get('programmes_id')->setValue($details['programmes_id']);
+                        $addForm->get('programme_name')->setValue($details['programme_name']);
+                        $addForm->get('backlog_semester')->setValue($details['semester']);
+                        $addForm->get('academic_modules_allocation_id')->setValue($details['academic_modules_allocation_id']);
+                        $addForm->get('module_title')->setValue($details['module_title']);
+                        $addForm->get('module_code')->setValue($details['module_code']);
+                        $addForm->get('module_credit')->setValue($details['credit']);
+                        $addForm->get('weightage')->setValue($details['weightage']);
+                        $addForm->get('backlog_academic_year')->setValue($details['academic_year']);
+                        $addForm->get('assessment')->setValue($details['assessment_type']);
+                        /*$addForm->get('backlog_in')->setValue($repeatModuleDetail['backlog_in']);
+                        $addForm->get('backlog_status')->setValue($repeatModuleDetail['backlog_status']); */
+
+                        echo $this->formHidden($addForm->get('student_id'));
+                        echo $this->formHidden($addForm->get('programmes_id'));
+                        echo $this->formHidden($addForm->get('programme_name'));
+                        echo $this->formHidden($addForm->get('backlog_semester'));
+                        echo $this->formHidden($addForm->get('academic_modules_allocation_id'));
+                        echo $this->formHidden($addForm->get('module_title'));
+                        echo $this->formHidden($addForm->get('module_code'));
+                        echo $this->formHidden($addForm->get('module_credit'));
+                        echo $this->formHidden($addForm->get('weightage'));
+                        echo $this->formHidden($addForm->get('backlog_academic_year'));
+                        echo $this->formHidden($addForm->get('assessment'));
+                        /*echo $this->formHidden($addForm->get('backlog_in'));
+                        echo $this->formHidden($addForm->get('backlog_status'));*/
+                        
+                        
+                    ?>
+                    <tr class="even pointer">
+                      <td class=" "><?php echo $i++;?></td>
+                      <td class=" "><?php echo $details['student_id']; ?></td>
+                      <td class=" "><?php echo $details['semester']; ?></td>
+                      <td class=" "><?php echo $details['programme_name'].'</br>'.$details['module_title'].' ('.$details['module_code'].')'; ?></td>
+                      <td class=" "><?php echo $details['credit'];?></td>
+                      <td class=" "><?php echo $details['weightage'];?></td>
+                      <td class=" "><?php echo date('Y'); ?></td>
+                      <td class=" "><?php echo $details['academic_year'];?></td>
+                      <td class=" "><?php echo $details['assessment_type'];?></td>
+                      <td class=" "><?php echo $details['result_status'];?></td>
+                      <td class=" "><?php
+                        $addForm->get('marks')->setValue($details['marks']);  
+                        echo $this->formRow($addForm->get('marks')); 
+                      ?></td>
+                      <td class=" "><?php
+                      if($details['result_status'] == 'Moderated'){
+                        echo $this->formHidden($addForm->get('csrf'));
+                        echo $this->formSubmit($addForm->get('submit'));
+                      } else if($details['status'] != 'Cancelled' && $details['result_status'] == 'Declared'){ ?>
+                      <p><b><i class="green">New Moderated Mark!</i></b></p>
+                      <?php } else if($details['status'] == 'Cancelled' && $details['result_status'] == 'Declared') {?>
+                        <p><b><i class="red">Previous Cancelled Mark!</i></b></p>
+                      <?php } else if($details['status'] == 'Cancelled' && $details['result_status'] == 'Cancelled') {?>
+                        <p><b><i class="red">Previous Cancelled Mark!</i></b></p>
+                      <?php } ?>
+                      </td>
+                        <?php echo $this->form()->closeTag(); ?>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+             </div>
+          </div>
+        </div> 
+     </div>
+   </div>
+ </div>
+</div>

@@ -1,0 +1,106 @@
+<?php
+ $title = 'Performance Management System - Administrative Appraisal';
+ $this->headTitle($title);
+ $appraisal_details = array();
+ foreach($this->appraisalDetail as $detail){
+	 $appraisal_details = $detail;
+ }
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+              
+         <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                
+                    </ul>
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+					          $data = $this->selectData;
+				            $awpa = $form->get('iwpactivities');
+          					$awpa->get('awpa_objectives_activity_id')->setValueOptions($data);
+          					$awpa->get('awpa_objectives_activity_id')->setValue($appraisal_details['awpa_objectives_activity_id']);
+          				  ?>
+                
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">New Activity<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                     <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $data[$appraisal_details['awpa_objectives_activity_id']]; ?>">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Sub Activity Name<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php  echo $appraisal_details['subactivity_name'];  ?>'></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Brief Description for Success Indicator</label>
+                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Outstanding</label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php  echo $appraisal_details['outstanding_description'];  ?>'></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> </label>
+                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Very Good</label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php  echo $appraisal_details['very_good_description'];  ?>'></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> </label>
+                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Good</label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php  echo $appraisal_details['good_description'];  ?>'></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> </label>
+                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Needs Improvement</label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php  echo $appraisal_details['needs_improvement_description'];  ?>'></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Status<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                     <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $appraisal_details['status']; ?>">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Supervisor Remarks</label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php  echo $appraisal_details['remarks'];  ?>'></textarea>
+                    </div>
+                  </div>
+                 
+                 <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                          <?php
+						   echo $this->form()->closeTag(); 
+                        ?>
+                    </div>
+                </div>
+                  
+          </div>
+        </div>
+         </div>
+        </div>
+       </div> 
+      </div>

@@ -1,0 +1,342 @@
+<?php
+
+/**
+ *
+ * View -- of Hr/PayrollController/addearningAction
+ *
+ */
+$title = "Add New Earning/Deduction";
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <?php if ( empty($this->organisation_id) ) { ?>
+            <div class="col-lg-12">
+                <div class="alert alert-danger">
+                    Please add employee Job Profile
+                </div>
+            </div>
+        <?php } ?>
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="pull-right"></div>
+                <div class="x_content">
+                    <?php
+
+                    if ( $this->message == NULL && $this->flashMessenger()->hasMessages() ) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach ( $messages as $message ) {
+                            echo '<strong>Success!</strong>' . $message;
+                        }
+                        echo '</div>';
+                    } else if ( $this->message == 'Failure' && $this->flashMessenger()->hasMessages() ) {
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach ( $messages as $message ) {
+                            echo '<strong>Failure!</strong>' . $message;
+                        }
+                        echo '</div>';
+                    }
+                    ?>
+                    <?php
+
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    ?>
+                    <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-6">
+                            <div class="form-group col-lg-12">
+                                <label for="pay_head" class="control-label">Pay Head</label>
+                                <?php echo $this->formRow($form->get('payhead')->setAttribute('options', $this->payheads)); ?>
+                            </div>
+                            <div class="form-group col-lg-12" id="percent_div">
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label for="amount" class="control-label">Amount</label>
+                                <?php echo $this->formRow($form->get('amount')); ?>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label for="ref_no" class="control-label">Reference No. (Acc no./TPN no.)</label>
+                                <?php echo $this->formRow($form->get('ref_no')); ?>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label for="remark" class="control-label">Remarks</label>
+                                <?php echo $this->formRow($form->get('remark')); ?>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <?php echo $this->formRow($form->get('is_dlwp')); ?>
+                            </div>
+                        </div>
+                        <div class="col-lg-3"></div>
+                    </div>
+                    <div class="row">
+                        <div class="ln_solid"></div>
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-6">
+                            <div class="form-group" style="padding-left: 10px">
+                                <?php
+
+                                if ( !empty($this->organisation_id) ) {
+                                    echo $this->formHidden($form->get('csrf'));
+                                    echo $this->formSubmit($form->get('submit'));
+                                }
+                                ?>
+                                <button type="button" class="btn btn-warning" onclick="window.history.go(-1); return false;"><i
+                                            class="fa fa-times"></i> Cancel
+                                </button>
+                                <?php echo $this->form()->closeTag(); ?>
+                            </div>
+                        </div>
+                        <div class="col-lg-3"></div>
+                    </div>
+                </div>
+            </div>
+            <?php if ( !empty($this->emp_earn_deduct) ): ?>
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Employee/s Earning & Deduction</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div><!--end of x-title-->
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table id="datatable-buttons"
+                                   class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <thead>
+                                <th class="column-title">Sl No</th>
+                                <th class="column-title">Payhead</th>
+                                <th class="column-title">Amount</th>
+                                <th class="column-title">DLWP</th>
+                                <th class="column-title">Reference No.</th>
+                                <th class="column-title">Action</th>
+                                </thead>
+                                <tbody>
+                                <?php $i = 1;
+                                foreach ( $this->emp_earn_deduct as $emp_earn_deduct ) : ?>
+                                    <tr class="even pointer">
+                                        <td class=" "><?php echo $i; ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($emp_earn_deduct['pay_head']); ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($emp_earn_deduct['amount']); ?></td>
+                                        <td class=" "><?php echo ($emp_earn_deduct['dlwp'] == 1) ? 'Yes' : 'No'; ?></td>
+                                        <td class=" "><?php echo ($emp_earn_deduct['ref_no'] == "") ? '<center>-</center>' : $this->escapeHtml($emp_earn_deduct['ref_no']); ?></td>
+                                        <td class=" ">
+                                            <button data-url="<?php echo $this->url('payroll', array('action' => 'deletepayhead', 'id' => my_encrypt($emp_earn_deduct['id'], $this->keyphrase))); ?>"
+                                                    class="btn btn-danger btn-xs deletepayhead" id="deletepayhead"
+                                                    onclick="deletePayhead(this.getAttribute('data-url'));"
+                                                    name="deletepayhead">
+                                                <i class="fa fa-trash"></i> Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <?php $i++;
+                                endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<script>
+    function isNumber(evt, element) {
+        var regex = /^[0-9]*(?:\.\d{1,2})?$/;
+
+        return regex.test($(element).val());
+    }
+
+    $(document).ready(function () {
+
+        $('#earningAndDeductionAmount').change(function (e) {
+            var isValid = isNumber(e, this);
+
+            if (isValid === false) {
+                $(this).parent().find('.not-valid').remove();
+                $(this).after("<ul class='not-valid'><li>The input must contain only numbers and two decimal digits</li></ul>");
+
+                $('#submitbutton').prop('disabled', true);
+            } else {
+                $(this).parent().find('.not-valid').remove();
+
+                if ($(".not-valid").length === 0) {
+                    $('#submitbutton').prop('disabled', false);
+                }
+            }
+        });
+
+
+        var type_var = JSON.parse('<?php echo json_encode($this->data_type) ?>');
+        $.each(type_var, function (key, value) {
+            $("#selectPayhead > option").each(function () {
+                if (this.value == key) {
+                    $(this).attr('data-type', value);
+                }
+            });
+        });
+
+    });
+
+    function deletePayhead(url) {
+        if (confirm('Are you sure you want to delete this payhead?')) {
+            window.location = url;
+        }
+    }
+
+    function editPayhead(url) {
+        if (confirm('Are you sure you want to edit this payhead?')) {
+            window.location = url;
+        }
+    }
+
+    $("#selectPayhead").change(function () {
+        var type = $("#selectPayhead option:selected").data('type');
+        var pay_head = $(this).val();
+        if (type == 1 && pay_head == 1) { //type 1 and basic pay
+            $.post("<?php echo $this->url('payroll', array('action' => 'getslabtype'));?>",
+                {
+                    organisation_id:<?php echo $this->organisation_id;?>,
+                    employee_details:<?php echo $this->employee_details;?>,
+                    pay_head: pay_head
+                }, function (data) {
+                    $('#percent_div').html(data);
+                    $('#amount').attr('enable', 'enable');
+                    var amt = $('#basic_pay').val();
+                    if ($('#roundup').val() == 1) {
+                        $("#amount").val(parseFloat(amt).toFixed());
+                    } else {
+                        $("#amount").val(parseFloat(amt).toFixed(2));
+                    }
+                });
+        } else if (type == 2) {
+            $.post("<?php echo $this->url('payroll', array('action' => 'getslabtype'));?>",
+                {
+                    employee_details:<?php echo $this->employee_details;?>,
+                    pay_head: pay_head,
+                    organisation_id:<?php echo $this->organisation_id;?>
+                }, function (data) {
+                    $('#percent_div').html(data);
+                    $('#amount').attr('readonly', 'readonly');
+                    var amt = 0;
+                    if ($('#percent').length > 0) {
+                        $('#percent').bind('change', function () {
+                            var baseamount = 0;
+                            baseamount = $('#baseamount').val();
+                            amt = (parseFloat(baseamount) / 100) * parseFloat($('#percent').val());
+                            if ($('#roundup').val() == 1) {
+                                $('#amount').val(amt.toFixed());
+                            } else {
+                                $('#amount').val(amt.toFixed(2));
+                            }
+                        });
+                        var baseamount = 0;
+                        baseamount = $('#baseamount').val();
+                        amt = (parseFloat(baseamount) / 100) * parseFloat($('#percent').val());
+                        if ($('#roundup').val() == 1) {
+                            $('#amount').val(amt.toFixed());
+                        } else {
+                            $('#amount').val(amt.toFixed(2));
+                        }
+                    }
+                });
+        } else if (type == 3) { //slab
+            $.post("<?php echo $this->url('payroll', array('action' => 'getslabtype'));?>",
+                {
+                    employee_details:<?php echo $this->employee_details;?>,
+                    pay_head: pay_head,
+                    organisation_id:<?php echo $this->organisation_id;?>
+                }, function (data) {
+                    $('#percent_div').html(data);
+                    var amt = 0;
+                    $('#amount').attr('readonly', 'readonly');
+                    if ($('#rate').length > 0) {
+                        var rate = $('#rate').val();
+                        if (rate != 0) {
+                            if ($('#basic').val() > 150200) {
+                                amt = (parseFloat(parseFloat(($('#basic').val() - 83333) / 100) * rate) + parseFloat($('#base').val()));
+                            } else {
+                                amt = (parseFloat(parseInt(($('#basic').val() - $('#min').val()) / 100) * rate) + parseFloat($('#base').val()));
+                            }
+                        } else {
+                            amt = $('#value').val();
+                        }
+                        if ($('#roundup').val() == 1) {
+                            $('#amount').val(amt);
+                        } else {
+                            $('#amount').val(amt.toFixed(2));
+                        }
+                    }
+                });
+        } else if (type == 4) {
+            $.post("<?php echo $this->url('payroll', array('action' => 'getslabtype'));?>",
+                {
+                    employee_details:<?php echo $this->employee_details;?>,
+                    pay_head: pay_head,
+                    organisation_id:<?php echo $this->organisation_id;?>
+                }, function (data) {
+                    $('#percent_div').html(data);
+                    $('#amount').attr('readonly', 'readonly');
+                    $('#amount').val('');
+                    if ($('#group').length > 0) {
+                        $('#group').bind('change', function () {
+                            var amt = $(this).val();
+                            if ($('#roundup').val() == 1) {
+                                $('#amount').val(amt);
+                            } else {
+                                $("#amount").val(parseFloat(amt).toFixed(2));
+                            }
+                        });
+                    }
+                });
+        } else {
+            $('#amount').val('');
+            $('#percent_div').html('');
+            $('#amount').removeAttr('readonly');
+        }
+    });
+    if ($('#percent').length > 0) {
+        $('#percent').bind('change', function () {
+            var baseamount = 0;
+            baseamount = $('#baseamount').val();
+            amt = (parseFloat(baseamount) / 100) * parseFloat($('#percent').val());
+            if ($('#roundup').val() == 1) {
+                $('#amount').val(amt);
+            } else {
+                $("#amount").val(parseFloat(amt).toFixed(2));
+            }
+        });
+    }
+    if ($('#group').length > 0) {
+        $('#group').bind('change', function () {
+            var amt = $(this).val();
+            if ($('#roundup').val() == 1) {
+                $('#amount').val(amt);
+            } else {
+                $("#amount").val(parseFloat(amt).toFixed(2));
+            }
+        });
+    }
+</script>

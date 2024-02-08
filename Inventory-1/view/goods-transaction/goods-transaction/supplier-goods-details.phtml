@@ -1,0 +1,133 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Supplier Supplied Goods Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class="">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><?php echo $this->escapeHtml($title); ?></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+                </div>
+                <!-- Supplier supplied goods details -->
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("Supplier Details")?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                 </li>
+                            
+                            </ul>
+                            <div class="clearfix"></div>
+                          
+                        </div>
+                <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $goodsSuppliedDetails = $form->get('goodsreceivedpurchased');
+                    echo $this->form()->openTag($form);
+                    $goodsSuppliedDetails->get('id')->setValue($this->supplierAllGoodsDetails->getId());
+                    $goodsSuppliedDetails->get('supplier_name')->setValue($this->supplierAllGoodsDetails->getSupplier_Name());
+                    $goodsSuppliedDetails->get('reference_no')->setValue($this->supplierAllGoodsDetails->getReference_No());
+                    $goodsSuppliedDetails->get('reference_date')->setValue($this->supplierAllGoodsDetails->getReference_Date());
+                    $goodsSuppliedDetails->get('supplier_order_no')->setValue($this->supplierAllGoodsDetails->getSupplier_Order_No());
+                    $goodsSuppliedDetails->get('supplier_tpn_no')->setValue($this->supplierAllGoodsDetails->getSupplier_Tpn_No());
+                    $goodsSuppliedDetails->get('supplier_address')->setValue($this->supplierAllGoodsDetails->getSupplier_Address());
+                    echo $this->formHidden($goodsSuppliedDetails->get('id'));
+                 ?>               
+                
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="supplier_name">Supplier</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($goodsSuppliedDetails->get('supplier_name')); ?>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="reference_no">Reference No</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($goodsSuppliedDetails->get('reference_no')); ?>
+                    </div>          
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="reference_date">Reference Date</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($goodsSuppliedDetails->get('reference_date')); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="supplier_order_no">Supplier Order No</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($goodsSuppliedDetails->get('supplier_order_no')); ?>
+                    </div>          
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="supplier_tpn_no">Supplier TPN No</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($goodsSuppliedDetails->get('supplier_tpn_no')); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="supplier_address">Supplier Address</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($goodsSuppliedDetails->get('supplier_address')); ?>
+                    </div>          
+                </div>
+                <?php 
+                //closing the form tag  
+                 echo $this->form()->closeTag();
+                 ?>
+                </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("List of Goods Supplied"); ?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+            
+                        <div class="x_content">
+                            <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <thead>
+                                    <th class="column-title">Category </th>
+                                    <th class="column-title">Sub Category </th>
+                                    <th class="column-title">Item Name </th>
+                                    <th class="column-title">Quantity Type </th>
+                                    <th class="column-title">Quantity </th>
+                                    <th class="column-title">Rate </th>
+                                    <th class="column-title">Amount </th>
+                                </thead>
+            
+                                <tbody>
+                                  <?php foreach ($this->supplierAllGoodsDetails as $supplierGoods) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $this->escapeHtml($supplierGoods['item_category_type']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($supplierGoods['sub_category_type']); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($supplierGoods['item_name']); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($supplierGoods['item_quantity_type']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($supplierGoods['item_quantity']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($supplierGoods['item_purchasing_rate']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($supplierGoods['item_amount']);?></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

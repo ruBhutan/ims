@@ -1,0 +1,208 @@
+<?php
+$title = 'Sub Ledger';
+$this->headTitle($title);
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <a class="pull-right btn btn-primary" href="<?php echo $this->url('chartaccount', array('action' => 'addsubhead')); ?>">
+                    <div class="pull-right tableTools-container"></div>
+                    <span class="white"><i class="fa fa-plus"></i> <span class="hidden-sm hidden-xs">&nbsp;Add Sub Head </span></span>
+                </a>
+                <div class="pull-right"></div>
+                <?php echo $this->partial('/accounts/chartaccount/partial.phtml', array('active' => 'subhead')); ?>
+                <?php $flashMessenger = $this->flashMessenger('error'); ?>
+                <?php if ($flashMessenger->hasMessages()): ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <?php foreach ($flashMessenger->getMessages() as $message): ?>
+                            <?php echo $message ?>
+                        <?php endforeach ?>
+                    </div>
+                <?php endif; ?>
+                <?php $flashMessenger->setNamespace('success'); ?>
+                <?php if ($flashMessenger->hasMessages()): ?>
+                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <?php foreach ($flashMessenger->getMessages() as $message): ?>
+                            <?php echo $message ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <div class="x_content">
+                    <form method="post"> 
+                        <div class="row">
+                            <div class="form-group col-lg-2">
+                                <label for="class" class="label-control">Class</label>
+                                <select class="form-control" data-placeholder="Select" name="class" id="class" >
+                                    <option value="" ></option>
+                                    <option value="-1" <?php echo ($data['class'] == '-1') ? "selected" : ""; ?>>All</option>
+                                    <?php $classes = $this->service->getTableData($this->classObj);
+                                        foreach ($classes as $class):
+                                            $selected_class = ($class['id'] == $data['class']) ? "selected" : ""; ?>
+                                            <option value="<?php echo $class['id']; ?>" <?php echo $selected_class; ?>>
+                                                <?php echo $class['code']; ?>
+                                            </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <label for="group" class="label-control">Group</label>
+                                <select class="form-control" data-placeholder="Select" name="group" id="group" >
+                                    <option value=""></option>
+                                    <option value="-1" <?php echo ($data['group'] == '-1') ? "selected" : ""; ?>>All</option>
+                                    <?php $groups = $this->service->getDatabyParam($this->groupObj,array('class' => $data['class']),'');
+                                        foreach ($groups as $group):
+                                            $selected_group = ($group['id'] == $data['group']) ? "selected" : ""; ?>
+                                            <option value="<?php echo $group['id']; ?>" <?php echo $selected_group; ?>>
+                                                <?php echo $group['code']; ?>
+                                            </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <label for="head" class="label-control">Head</label>
+                                <select class="form-control" data-placeholder="Select" name="head" id="head" >
+                                    <option value=""></option>
+                                    <option value="-1" <?php echo ($data['head'] == '-1') ? "selected" : ""; ?>>All</option>
+                                    <?php $heads = $this->service->getDatabyParam($this->headObj,array('group' => $data['group']),'');
+                                        foreach ($heads as $head):
+                                            $selected_head = ($head['id'] == $data['head']) ? "selected" : ""; ?>
+                                            <option value="<?php echo $head['id']; ?>" <?php echo $selected_head; ?>>
+                                                <?php echo $head['code']; ?>
+                                            </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="space-12"><label>&nbsp;</label></div>
+                                <button type="submit" class="btn btn-sm btn-primary pull-center"><i class="fa fa-search"></i> Search</button>
+                            </div>
+                        </div>
+                    </form>
+                    <i class='red'>* Please note that if the Group is not selected or selected as All, only 100 Subheads will be displayed.</i>
+                    <div class="space-4"></div>
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table id="datatable" class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Sub-Head Code</th>
+                                        <th>Description</th>
+                                        <th>Class</th>
+                                        <th>Group</th>
+                                        <th>Head</th>
+                                        <th class="">Action</th>	
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $sl = 1;
+                                    foreach ($subheads as $subhead): ?>
+                                        <tr>
+                                            <td><?php echo $sl++; ?></td>
+                                            <td><?php echo $subhead['code'] ?></td>
+                                            <td><?php echo $subhead['name'] ?></td>
+                                            <td><?php echo $subhead['class'] ?></td>
+                                            <td><?php echo $subhead['group'] ?></td>
+                                            <td><?php echo $subhead['head'] ?></td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a class="btn btn-xs btn-info " href="<?php echo $this->url('chartaccount', array('action' => 'editsubhead', 'id' => my_encrypt($subhead['id'],$key))); ?>" >
+                                                        <i class="fa fa-pencil bigger-120"></i> Edit <span class="hidden-lg hidden-xs"></span>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#class').on('change', function () {
+        $.ajax({
+            method : "post",
+            url : '<?php echo $this->url('chartaccount', array('action' => 'getgroup')); ?>',
+            data: {'class': $(this).val()},
+            datatype : "json",
+            success: function(data){
+                $('#group').html(data);
+                $('#group option:selected').removeAttr('selected');
+                $('#group').trigger('chosen:updated');
+
+            },
+        });
+    });
+    $('#group').on('change', function () {
+        $.ajax({
+            method : "post",
+            url : '<?php echo $this->url('chartaccount', array('action' => 'gethead')); ?>',
+            data: {'group': $(this).val()},
+            datatype : "json",
+            success: function(data){
+                $('#head').html(data);
+                $('#head option:selected').removeAttr('selected');
+                $('#head').trigger('chosen:updated');
+
+            },
+        });
+    });
+    $(function() {
+	/*** Form Validation ***/
+	$('form').formValidation({
+            framework: 'bootstrap',
+            excluded: ':disabled',
+            message: 'This value is not valid',
+            fields: {
+                'class': {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select class'
+                        }
+                    }
+                },
+                'start_date': {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select group'
+                        }
+                    }
+                },
+                'end_date': {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please select head'
+                        }
+                    }
+                },
+            }
+        }).on('success.field.fv', function(e, data) {
+            if (data.fv.getInvalidFields().length > 0) {
+                data.fv.disableSubmitButtons(true);
+            }
+        });
+    });
+</script>

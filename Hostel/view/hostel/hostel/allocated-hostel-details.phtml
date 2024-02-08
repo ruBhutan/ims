@@ -1,0 +1,107 @@
+<?php
+ $title = 'Hostel Allocation for Students';
+ $this->headTitle($title);
+ $roomDetails = array();
+/* foreach ($this->hostelAllocationDetails as $details)
+ {
+	if(empty($roomDetails[$details['room_no']])){
+		$roomDetails[$details['room_no']][$details['id']] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name']. ' (Student ID: ' .$details['student_id'].')';
+	} else{
+		$roomDetails[$details['room_no']][$details['id']] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name']. ' (Student ID: ' .$details['student_id'].')';
+	}
+ }*/
+ foreach ($this->hostelAllocationDetails as $details)
+ {
+	if(empty($roomDetails[$details['room_no']])){
+		$roomDetails[$details['room_no']][$details['id']] = '(Student Id: ' .$details['student_id'].') '.$details['first_name'].' '.$details['middle_name'].' '.$details['last_name']. ' (Programme: ' .$details['programme_code'].')';
+	} else{
+		$roomDetails[$details['room_no']][$details['id']] = '(Student Id: ' .$details['student_id'].') '.$details['first_name'].' '.$details['middle_name'].' '.$details['last_name']. ' (Programme: ' .$details['programme_code'].')';
+	}
+ } 
+
+ $hostel_details = array();
+ foreach($this->hostelDetails as $detail){
+   $hostel_details = $detail;
+ } 
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2><br/><br>
+                    (<b>Hostel Name: <i><font color="blue"><?php echo $hostel_details['hostel_name']; ?></font></i>	&nbsp;	&nbsp;	&nbsp;Student Service Officer Name: <i><font color="blue"><?php echo $hostel_details['first_name'].' '.$hostel_details['middle_name'].' '.$hostel_details['last_name'].' ('.$hostel_details['emp_id'].')'; ?></font></i></b>)
+                    <div class="clearfix"></div>
+                  </div>
+                  <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>  
+                <p><i><b>NOTICE: </b>If there is any room available in this particular hostel then please click on "Allocate Hostel" button. It will take to allocate hostel room page and it will display available hostel room with unallocated student but this will allocate hostel one by one for missing allocation only***.</i></p> 
+                <a href="<?php echo $this->url('allocatehostelroom', array('id' => my_encrypt($id, $key))); ?>" class="btn btn-primary pull-right"><i class="fa fa-tasks"></i> Allocate Hostel</a>
+                  <div class="x_content">
+                    <br/>  
+                      <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:20%" class="column-title">Room No.</th>
+                            <th style="width:60%" class="column-title">Students</th>
+                            <th style="width:20%" class="column-title">Remarks</th>                           
+                          </tr>
+                        </thead>
+                        <tbody>
+                        
+                            <?php foreach($roomDetails as $key1 => $roommate){ ?>
+                              <tr>
+                              <td><?php echo "ROOM No: ".$key1; ?></td>
+                              <td><?php foreach($roommate as $key2 => $mate){ ?>
+                              <a href="<?php echo $this->url('removehostelallocatedstudent', array('id' => my_encrypt($key2, $key))); ?>" onmouseover="this.style.fontWeight='bold'" onmouseout="this.style.fontWeight='normal'"> <?php echo $mate. '<br/>'; } ?></a></td>
+                              <td><p><i><font color="red">(To remove student from allocated hostel room, please click on particular student under students column to remove it)</font></i></p></td>
+                              </tr>
+                            <?php } ?>                         
+                        </tbody>
+                      </table>         
+                    </div>
+                 </div>
+              </div>
+            </div>
+         </div>
+      </div>
+   

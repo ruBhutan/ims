@@ -1,0 +1,134 @@
+<?php
+ $title = 'Student Academic Timetable';
+ $this->headTitle($title);
+ $days_week = array(
+ 	'Monday',
+	'Tuesday',
+	'Wednesday',
+	'Thursday',
+	'Friday',
+	'Saturday'
+ );
+ 
+ $timetable_data = array();
+ $timetable_data['Monday'][] = '';
+ $timetable_data['Tuesday'][] = '';
+ $timetable_data['Wednesday'][] = '';
+ $timetable_data['Thursday'][] = '';
+ $timetable_data['Friday'][] = '';
+ $timetable_data['Saturday'][] = '';
+ foreach($this->timetable as $table){
+	 $timetable_data[$table['day']][$table['from_time'].'-'.$table['to_time']][] = $table['module_code'].'<br> ('.$table['classroom'].')';
+ }
+ 
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                        <!-- Adding Achievements-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Timetable")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+                               
+                            <div class="x_content">
+                            <h5><i>*(Please enter the programme and year to view the timetable)</i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                                $form->get('programme')->setValueOptions($this->programmeList);
+                                $form->get('section')->setValueOptions($this->sectionList);
+                                $form->get('year')->setValueOptions($this->selectYear);
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme Name</label>
+                                    <?php echo $this->formRow($form->get('programme')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Section</label>
+                                    <?php echo $this->formRow($form->get('section')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Year</label>
+                                    <?php echo $this->formRow($form->get('year')); ?>
+                                  </div>
+                               </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>     
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Timetable"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+            
+                            <div class="x_content">
+                              <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <thead>
+                                    <th style="width: 15%" class="column-title"></th>
+                                    <?php foreach($this->timetableTimings as $key=>$value): ?>
+                                    <th class="column-title"><?php echo substr($value,0,5).'-'.substr($value,9,5); ?></th>
+									<?php endforeach; ?>
+                                </thead>
+                                <tbody>
+                                  <?php foreach($timetable_data as $key=>$value): ?>
+                                  	<tr class="even pointer">
+                                    	<td><?php echo $key; ?></td>
+                                  	<?php for($i=0; $i<count($this->timetableTimings); $i++){ ?>
+                                    	<td align="center"><?php if(array_key_exists($this->timetableTimings[$i], $value))
+                                                        echo $value[$this->timetableTimings[$i]][0]; 
+                                                else
+                                                        echo " ";	
+                                        ?></td>
+                                    <?php } ?>
+                                    </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                            
+                           		<!-- End of Achievements-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              

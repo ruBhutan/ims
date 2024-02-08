@@ -1,0 +1,340 @@
+<?php
+ $title = 'Consolidated Marks';
+ $this->headTitle($title);
+ $modules_array= array();
+ $modules_array_temp= array();
+ $assessments = array();
+ $assessment_types = array();
+ //$assessment_weightage = array();
+ 
+ //get the module codes
+ foreach($this->studentMarkList as $key=>$value){
+     foreach($value as $key2 => $value2){
+         $modules_array_temp[$key2] = $key2;
+		 foreach($value2 as $key3 => $value3){
+       foreach($value3 as $key4 => $value4){
+        $assessments[$key2][$key3][$key4] = $key4; 
+       // $assessment_types[$key2]['assessment'] = $key3;
+        //$assessment_weightage[$key2][$key3]['weightage'] = $key4;
+       }
+		 }
+     }
+ } 
+ 
+ foreach($modules_array_temp as $key=>$value){
+     $modules_array[] = $value;
+ }
+//var_dump($modules_array); die();
+ $student_list = $this->studentList;
+ 
+ foreach($assessments as $key => $value){   
+	 foreach($value as $key2 => $value2){
+     foreach($value2 as $key3 => $value3){ 
+      if(!in_array($value, $assessment_types)){
+        $assessment_types[$key][$key2][$key3][] = $value2;
+     }
+	 	}
+ 	}	 
+ }
+ 
+ /*foreach($assessment_types as $key => $value){ var_dump($value); echo '<br>';
+  foreach($value as $key2 => $value2){var_dump($key2); echo '<br>';
+
+  }
+ }*.
+ 
+ /*foreach($assessment_types as $key => $value){ //var_dump($key); echo '<br>';echo '<br>';
+   foreach($value as $key2 => $value2){ //var_dump($value2); echo '<br>';echo '<br>';
+     if(!in_array($value, $assessment_weightage)){
+      $assessment_types[$key][$key2][] = $value2;
+     }
+   }
+ } */
+ //var_dump($assessment_types); die();
+?>
+
+ <div class="right_col" role="main">
+  <div class="">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+
+    <div class="x_panel">
+    <div class="x_title">
+        <h2><?php echo $this->escapeHtml($title); ?></h2>
+         <div class="clearfix"></div>
+        </div>
+        <br/>
+            <!-- Adding Achievements-->
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml("Consolidated Marks by Programme")?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                
+                    </ul>
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                <h5><i>*Select Programme, Academic Year and Semester to view the consoldiated marks</i></h5>
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $form->get('programme')->setValueOptions($this->programmeList);
+                    $form->get('academic_year')->setValueOptions($this->academicYearList);
+  	//Same form is being used for multiple purposes
+  	//form label is year but we need the semester
+                    $form->get('year')->setValueOptions($this->semesterList);
+                    $form->get('section')->setValueOptions($this->sectionList);
+                  ?>
+                
+                  <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Programme</label>
+                        <?php echo $this->formRow($form->get('programme')); ?>
+                      </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Academic Year</label>
+                        <?php echo $this->formRow($form->get('academic_year')); ?>
+                      </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                          <label>Semester <small><i>(i.e. 1st Semester)</i></small></label>
+                        <?php echo $this->formRow($form->get('year')); ?>
+                      </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Section</label>
+                        <?php echo $this->formRow($form->get('section')); ?>
+                      </div>
+                   </div>
+                 
+                 <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                          <?php
+                           echo $this->formHidden($form->get('csrf'));
+                           echo $this->formSubmit($form->get('submit')); 
+                           echo $this->form()->closeTag(); 
+                        ?>
+                    </div>
+                </div>
+                  
+              </div>
+            </div>
+           </div>     
+                  
+              
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml("List of Student(s)"); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                  <?php if($this->studentMarkList != NULL) {?>
+                    <b><i class="blue">CA (T): CA Theory,&nbsp;&nbsp;CA (P): CA Practical,&nbsp;&nbsp;SE (T): SE Theory,&nbsp;&nbsp;SE (P): SE Practical,&nbsp;&nbsp;W: Weightage,&nbsp;&nbsp;TW: Total Weightage,&nbsp;&nbsp;CR: Module Credit,&nbsp;&nbsp;</i></b>
+                    <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" style="width:100%">
+                        <thead>                        
+                           <tr>  
+                            <th rowspan="2" class="column-title">Student Id</th>
+                             <th rowspan="2" class="column-title">Student Name</th> 
+                             <th rowspan="2" class="column-title" style="width:5%">Sec.</th>
+                             <?php foreach($modules_array as $key => $value): ?>
+                              
+                             <th colspan="<?php echo (count($assessment_types[$value])+1);?>" class="column-title" style="width:10%"><?php echo $value; ?></th>
+                             
+                             <?php endforeach; ?>
+                             <th rowspan="2" class="column-title" style="width:7%">Total</th>
+                             <th rowspan="2" class="column-title" style="width:7%">Total with Credit</th>
+                             <th rowspan="2" class="column-title" style="width:7%">Avg. Total</th>
+                           </tr>
+                           <tr>
+                            <?php foreach($modules_array as $key => $value):
+                              $mgrand_total = 0;
+                               for($i=0; $i < count($assessment_types[$value]); $i++): 
+                                foreach($assessment_types as $key1 => $value1):
+                                  if($value == $key1){ 
+                                  foreach($value1 as $key2 => $value2){ 
+                                    foreach($value2 as $key3 => $value3){ 
+                                      $assessment_type[$value][] = $key2;
+                                      $assessment_weightage[$value][$key2] = $key3;
+                                    } 
+                                  } 
+                                  $mgrand_total += $assessment_weightage[$value][$assessment_type[$value][$i]];
+                            
+                                    
+                                    //foreach($value1 as $key2 => $value2):
+        										?>
+                             <th style="width:3%"><?php
+                              $weight = $assessment_weightage[$value][$assessment_type[$value][$i]];
+                              echo $assessment_type[$value][$i]. "<br>[W=".$weight."]"; ?></th>
+                             
+                             
+                             
+                             <?php	} ?>
+                             
+                             <?php	endforeach; ?>
+                             <?php endfor; ?>
+                             
+                            <th style="width:3%">
+                            <?php echo "T<br>[TW=".$mgrand_total."]"; ?>
+                            <?php foreach($this->moduleCreditList as $key4 => $value4): ?>
+                              <?php foreach($value4 as $key5 => $value5): ?>
+                            <?php 
+                            if($key4 == $value){
+                              echo "<br>[CR.=".$key5."]";
+                            }    
+                              ?>
+                               <?php endforeach; ?>
+                            <?php endforeach; ?>
+                            </th>
+  			                      <?php	endforeach; ?>
+                           </tr>
+                        </thead>
+                        <tbody>                                                     
+                          <?php 
+      									  $i =1; foreach($student_list as $key=>$value) : 
+                          $grand_total = 0.0;
+                          $creadit_grant_total = 0.0;
+                          $total_credited_weightage = 0;
+                          $total_modules = 0; 
+                          $credit = 0;
+      									  ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $value['student_id'];?></td>
+                            <td class=" "><?php echo $value['name'];?></td>
+                            <td class=" "><?php echo $value['section'];?></td>
+                            <?php 
+        											foreach($modules_array as $index => $module_code):
+                              $total_marks = 0;
+                              $credited_weightage = 0;
+                              for($i=0; $i < count($assessment_types[$module_code]); $i++):
+                                foreach($assessment_types as $key1 => $value1):
+                                  if($module_code == $key1){ 
+                                    foreach($value1 as $key2 => $value2){ 
+                                      foreach($value2 as $key3 => $value3){ 
+                                        $assessment_type[$module_code][] = $key2;
+                                        $assessment_weightage[$module_code][$key2] = $key3;
+                                      } 
+                                    }       
+        										?>   
+
+                            
+
+                            
+                            <?php 
+                              if(array_key_exists($module_code, $this->studentMarkList[$key])){ 
+                                 if(array_key_exists($assessment_type[$module_code][$i], $this->studentMarkList[$key][$module_code])){ 
+                                      foreach($this->studentMarkList[$key][$module_code][$assessment_type[$module_code][$i]] as $marks) { 
+                                       if($marks != 0){
+                                        $individualMarks = $this->escapeHtml(number_format((float)$marks,2,'.',''));
+                                        $total_marks += $this->escapeHtml(number_format((float)$marks,2,'.','')); 
+                                        $credited_weightage += $assessment_weightage[$module_code][$assessment_type[$module_code][$i]];
+                                        $credited_weightage1 = $assessment_weightage[$module_code][$assessment_type[$module_code][$i]];
+                                        ?>
+                                   
+                                      <?php } else {
+                                        $individualMarks = $this->escapeHtml('NA'); 
+                                       }
+                                      } 
+                                        
+                                } else {
+                                  $individualMarks =$this->escapeHtml('NA'); 
+                                 }
+                                  
+                              } else {
+                                $individualMarks = $this->escapeHtml('NA'); 
+                              }
+                            ?>
+
+                            <td 
+                            <?php 
+                              $inttotalavg = (($this->escapeHtml(number_format((float)$marks,2,'.',''))/$credited_weightage1)*100);
+                              if($inttotalavg<40){
+                              ?> class=" "style="background-color:#FFFA69"
+                            <?php 
+                              }
+                            ?>
+                            >
+                            <?php
+                              echo $individualMarks;
+                            ?>
+        										
+                            </td>
+                            <?php 
+                                  foreach($this->moduleCreditList as $key4 => $value4){
+                                    foreach($value4 as $key5 => $value5){
+                                      if($module_code == $key4){ 
+                                        $rouded_total_marks = $this->escapeHtml(number_format((float)$total_marks,0,'.',''));
+                                        $credit_total_marks = $this->escapeHtml(number_format((float)($rouded_total_marks * $key5),0,'.',''));
+                                        //$total_credited_weightage = 
+                                      } 
+                                    }
+                                  } ?>
+                            <?php } ?>
+                            
+                            <?php endforeach; ?>
+                            <?php endfor; ?>
+                            <?php
+                            foreach($this->moduleCreditList as $key4 => $value4){
+                              foreach($value4 as $key5 => $value5){ 
+                                if($module_code == $key4){ 
+                                  $credit = $key5;
+                                } 
+                              }
+                            }
+                            
+                            ?>
+                            
+			                        <td <?php if (
+                                $this->escapeHtml(((number_format((float)$total_marks,0,'.',''))/$mgrand_total)*100) < 50) {?>style="background-color:#F57A69"<?php } ?> >
+                              <!--For finding grand total with module credit -->
+                            <?php
+      												if($total_marks != 0){
+      													echo $this->escapeHtml(number_format((float)$total_marks,0,'.',''));
+                                $grand_total += $this->escapeHtml(number_format((float)$total_marks,0,'.',''));
+                                $creadit_grant_total += $this->escapeHtml(number_format((float)$credit_total_marks,0,'.',''));
+                                $total_credited_weightage += $this->escapeHtml(number_format((float)($credited_weightage * $credit),0,'.',''));
+      													$total_modules++;
+      												} else {
+      													echo $this->escapeHtml('NA'); 
+      												}
+      											?> 
+                             </td>
+  			                    <?php endforeach; ?>
+                            <td><?php echo $this->escapeHtml(number_format((float) ($grand_total),0,'.','')); ?>  </td>
+                            <td><?php echo $this->escapeHtml(number_format((float) ($creadit_grant_total),0,'.','')); ?>  </td>
+                            <td><?php
+                              $grand_total = $this->escapeHtml(number_format((float)$grand_total,0,'.',''));
+                              $total_modules = $this->escapeHtml(number_format((float)$total_modules,0,'.',''));
+                              //echo $this->escapeHtml(number_format((float)($creadit_grant_total),0,'.',''));
+                              //echo $this->escapeHtml(number_format((float)($total_credited_weightage),0,'.',''));
+                              echo $this->escapeHtml(number_format((float)(($creadit_grant_total/$total_credited_weightage)*100),2,'.',''));
+                            ?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     <?php } ?>
+		  </table>
+End
+                </div>
+              </div>
+            </div>
+               		<!-- End of display-->
+            </div>
+          </div>
+      </div>
+    </div>
+    </div>
+    </div>
+              

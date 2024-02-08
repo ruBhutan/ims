@@ -1,0 +1,105 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/ChartaccountController/editgroupAction
+ * 
+ */
+$title = "Edit Group";
+
+foreach ($this->group as $group):
+    extract($group);
+endforeach;
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>
+                <?php echo $this->partial('accounts/chartaccount/partial.phtml', array('active' => 'group')); ?>
+                <div class="x_content">
+                    <form method="post" name="editgroup" action="<?php echo $this->url('chartaccount', array('action' => 'editgroup', 'id' => $id)); ?>"  enctype="multipart/form-data" >
+                        <div class ="row">
+                            <div class="col-lg-2"></div>
+                            <div class ="col-xs-8">
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <label for="code" class="control-label">Code</label>
+                                        <input type="text" class="form-control" name="code" id="code" value="<?php echo $code; ?>" size="30" required>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="name" class="control-label">Name</label>
+                                        <input type="text" id="name" name="name" class="form-control" value="<?php echo $name ?>" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <label for="class" class="control-label">Class</label>
+                                        <select id="class" name="class" class="form-control" data-placeholder="Select" required>
+                                            <option value=""></option>
+                                            <?php $sc = $class; 
+                                                  foreach ($this->class as $class):
+                                                    $selected = ($sc == $class['id']) ? "selected" : ""; ?>
+                                                    <option value="<?php echo $class['id']; ?>" <?php echo $selected; ?>>
+                                                        <?php echo $class['name']; ?>
+                                                    </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class ="x_title"></div>
+                        <div class ="row">
+                            <div class ="col-lg-2"></div>
+                            <div class ="col-lg-8">
+                                <input type="hidden" name="group_id" id="group_id" value="<?php echo $this->id; ?>">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+                                <button type="button" class="btn btn-warning" onclick="window.history.go(-1); return false;" ><i class="fa fa-times"></i> Cancel </button>
+                            </div>
+                            <div class ="col-lg-2"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$('document').ready(function(){
+    $('form select').chosen({ allow_single_deselect: true });
+    $('form').formValidation({
+        excluded: ':disabled',
+        message: 'Please enter a value',
+        fields: {
+            code: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please provide code.'
+                    }
+                }
+            },
+            name: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please provide name.'
+                    }
+                }
+            },
+            class: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select class.'
+                    }
+                }
+            },
+        }
+    });
+});
+</script>

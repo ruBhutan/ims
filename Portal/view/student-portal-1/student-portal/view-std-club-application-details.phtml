@@ -1,0 +1,76 @@
+<?php
+
+ $title = 'Student Applied club';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">
+                        <?php
+                        $applicationDetails = array();
+                        foreach ($this->applicationDetails as $club): {
+                            $applicationDetails['club_name'] = $club['club_name'];
+                            $applicationDetails['maximum_members'] = $club['maximum_members'];
+                            $applicationDetails['advisor_name'] = $club['advisor_name'];
+                            $applicationDetails['coordinator_name'] = $club['coordinator_name'];
+                            $applicationDetails['description'] = $club['description'];
+                            $applicationDetails['reasons'] = $club['reasons'];
+                            $applicationDetails['status'] = $club['status'];
+                        }
+                     ?>
+                     <h4>Application Details</h4>
+                     <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Club Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['club_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Maximum Members:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['maximum_members']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Advisor Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['advisor_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Coordinator Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['coordinator_name']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Club Description:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['description']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Applied Reasons:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['reasons']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Application Status:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['status']; ?>
+                                        </div>
+                            </div><br/><br/><br/>
+                            <?php endforeach; ?><br/><br/>                         
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+</div>
+
+
+ 

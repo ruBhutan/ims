@@ -1,0 +1,222 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+<div class="menu_section">
+<br><br><br>
+<ul class="nav side-menu">
+	<li><a><i class="fa fa-home"></i>Home<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?php echo $this->url('index') ?>">Dashboard</a></li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-home"></i>Administration<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?php echo $this->url('addroles') ?>">Add Role</a></li>
+			<li><a href="<?php echo $this->url('adduser') ?>">Add User</a></li>
+			<li><a href="<?php echo $this->url('configureuserroutes') ?>">Configure User Routes</a></li>
+			<li><a href="<?php echo $this->url('adduserworkflow') ?>">Add User Work Flow</a></li>
+			<li><a href="<?php echo $this->url('changeuserpassword') ?>">Change User Password</a></li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-users"></i>Human Resource<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>HR Planning<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>HRD Planning<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('hrdapprovedlist') ?>">HRD Plan Approved List</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>HRM Planning<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('hrmapprovedlist') ?>">Work Force Approved List</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>HR Administration<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Leave<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('leavestatus') ?>">Apply Leave</a></li>
+						<li><a href="<?php echo $this->url('staffleavestatus') ?>">My Leave Status</a></li>
+						<li><a href="<?php echo $this->url('empleavedetaillist') ?>">Staff Leave Balance</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Staff Lifecycle<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Transfer<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('applytransferform') ?>">Apply Transfer</a></li>
+						<li><a href="<?php echo $this->url('stafftransferstatus') ?>">My Transfer Status</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Separation<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('empresignation') ?>">Apply Resignation</a></li>
+						<li><a href="<?php echo $this->url('resignationapprovallist') ?>">Resignation Approval</a></li>
+						<li><a href="<?php echo $this->url('staffresignationstatus') ?>">My Resignation Status</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Recruitment<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('listvacancy') ?>">List Job Vacancies</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Staff Tour<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('emptravelauthorization') ?>">Travel Authorization</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Staff Management<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('addemployee') ?>">Add Missing Staff</a></li>
+					<li><a href="<?php echo $this->url('employeelist') ?>">Staff List</a></li>
+					<li><a href="<?php echo $this->url('empprofilepicture') ?>">Staff Profile Picture</a></li>
+					<li><a href="<?php echo $this->url('updateempinitialdetails') ?>">Update Staff Details</a></li>
+					<li><a href="<?php echo $this->url('emprelationdetail') ?>">Staff Relation Details</a></li>
+					<li><a href="<?php echo $this->url('empworkexperience') ?>">Staff Work Experience</a></li>
+					<li><a href="<?php echo $this->url('empeducation') ?>">Staff Education</a></li>
+					<li><a href="<?php echo $this->url('emptrainingdetail') ?>">Staff Trainings</a></li>
+					<li><a href="<?php echo $this->url('emppublication') ?>">Staff Publications</a></li>
+					<li><a href="<?php echo $this->url('empresponsibility') ?>">Staff Responsibilities</a></li>
+					<li><a href="<?php echo $this->url('empcontribution') ?>">Staff Contributions</a></li>
+					<li><a href="<?php echo $this->url('empaward') ?>">Staff Awards</a></li>
+					<li><a href="<?php echo $this->url('empcommunityservice') ?>">Staff Community Service</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>HR Reports<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('hrdevelopmentreports') ?>">HR Development Report</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-bank"></i>Admission<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Student Section<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('edit-student-section') ?>">Update Student Section</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Student House<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('add-new-house') ?>">Add New House</a></li>
+					<li><a href="<?php echo $this->url('add-new-student-house') ?>">Add New Student House</a></li>
+					<li><a href="<?php echo $this->url('edit-student-house') ?>">Edit Student House</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Student Details<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('studentlists') ?>">Student Lists</a></li>
+					<li><a href="<?php echo $this->url('studentpersonaldetails') ?>">Student Personal Details</a></li>
+					<li><a href="<?php echo $this->url('studentpermanentaddressdetails') ?>">Student Permanent Address</a></li>
+					<li><a href="<?php echo $this->url('studentrelationdetails') ?>">Student Relation Details</a></li>
+					<li><a href="<?php echo $this->url('studentpreviousschooldetails') ?>">Student Previous School Details</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Parent Portal Access<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('parentportalaccess') ?>">Assign Parent</a></li>
+			</ul>
+			</li>
+			<li><a href="<?php echo $this->url('new-registered-student-list') ?>">Report New Student</a></li>
+			<li><a href="<?php echo $this->url('new-reported-student-list') ?>">Generate Student ID</a></li>
+			<li><a href="<?php echo $this->url('reported-student-list') ?>">Update Reported Student List</a></li>
+			<li><a href="<?php echo $this->url('add-new-student') ?>">Add New Student (College)</a></li>
+			<li><a href="<?php echo $this->url('register-student-semester') ?>">Student Semester Registration</a></li>
+			<li><a href="<?php echo $this->url('semesterreportedstudentlist') ?>">Update Student Status</a></li>
+			<li><a href="<?php echo $this->url('programmechange') ?>">Student Change Programme</a></li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-graduation-cap"></i>Academic<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Assessment Mark Allocation<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('addallocationmark') ?>">Allocate Assessment Marks</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Academic Assessment<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('academicassessment') ?>">Continuous Assessment</a></li>
+					<li><a href="<?php echo $this->url('viewassessmentmarks') ?>">View Continuous Assessment</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Timetable<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('addtimetable') ?>">Add Timetable</a></li>
+					<li><a href="<?php echo $this->url('viewtimetable') ?>">View Student Timetable</a></li>
+					<li><a href="<?php echo $this->url('viewtutortimetable') ?>">View Tutor Timetable</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Student Attendance<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('studentattendance') ?>">Attendance Entry</a></li>
+					<li><a href="<?php echo $this->url('extraclassattendance') ?>">Extra Class Attendance</a></li>
+					<li><a href="<?php echo $this->url('cancelledlectures') ?>">Cancelled/Called Off Lectures</a></li>
+					<li><a href="<?php echo $this->url('editstudentattendance') ?>">Edit Attendance</a></li>
+					<li><a href="<?php echo $this->url('viewstudentattendance') ?>">View Attendance</a></li>
+					<li><a href="<?php echo $this->url('deletestudentattendance') ?>">Delete Student Attendance</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Academic Calendar<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('addcalendar') ?>">Add Academic Calendar</a></li>
+					<li><a href="<?php echo $this->url('addstaffcalendarevent') ?>">Add Calendar Event (Staff)</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-calendar"></i>Planning<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>RUB Vision and Mission<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('viewfiveyearplan') ?>">View Vision and Mission</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-user"></i>Student Service<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Contribution<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('stdcontribution') ?>">Add Contribution</a></li>
+					<li><a href="<?php echo $this->url('viewstdcontribution') ?>">View Contribition</a></li>
+			</ul>
+			</li>
+			<li><a href="<?php echo $this->url('studentlists') ?>">Student Lists</a></li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-database"></i>Property and Inventory<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Goods Requisition<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('apply-goods-requisition') ?>">Apply Requisition</a></li>
+					<li><a href="<?php echo $this->url('view-requisition') ?>">Requisition List</a></li>
+					<li><a href="<?php echo $this->url('requisition-approval-list') ?>">Requisition Approval</a></li>
+					<li><a href="<?php echo $this->url('all-goods-requisition-list') ?>">All Requisition List</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Goods Transaction<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('view-item-details') ?>">Add Item Details</a></li>
+					<li><a href="<?php echo $this->url('add-item-supplier') ?>">Supplier</a></li>
+					<li><a href="<?php echo $this->url('add-item-donor') ?>">Donor</a></li>
+					<li><a href="<?php echo $this->url('add-goods-received') ?>">Stock Entry</a></li>
+					<li><a href="<?php echo $this->url('emp-goods-list') ?>">My Goods List</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-user"></i>Counseling Service<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?php echo $this->url('counselingappointment') ?>">Seek Appointment</a></li>
+			<li><a href="<?php echo $this->url('recommendcounseling') ?>">Recommend for Counseling</a></li>
+			<li><a href="<?php echo $this->url('listcounselingrecord') ?>">View Records</a></li>
+		</ul>
+	</li>
+</ul>
+</div>
+</div>

@@ -1,0 +1,118 @@
+<?php
+
+ $title = 'Form for Applying for Trainings, Workshops, Seminars etc.';
+ $this->headTitle($title);
+?>
+
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $training = $form->get('shorttermtraining');
+					         $training->get('workshop_details_id')->setValue($this->workshop_details_id);
+					         $training->get('employee_details_id')->setValue($this->employee_details_id);
+                    echo $this->formHidden($training->get('id'));
+        					echo $this->formHidden($training->get('workshop_details_id'));
+        					echo $this->formHidden($training->get('employee_details_id'));
+                         ?> 
+
+                 <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+                      ?>
+                      
+                  <h2 class="StepTitle">Important Note:</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h5><i>
+                          		1. Before applying, ensure that your personal details are upto date and correct.
+                                   For e.g.: Check whether your educational details, training details and other personal records are current and upto date. <br />
+                                2. Before uploading any documents, please ensure that they are valid (e.g. medical clearance etc)
+<br />				3. The format of the document that will uploadeThe document should be in any of these (png,jpg,jpeg,pdf).  
+			</i></h5>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Audit Clearance <small><i>(Optional):</i></small></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('audit_clearance')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Security Clearance <small><i>(Optional):</i></small></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('security_clearance')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Medical Clearance Certificate or other documents <small><i>(Optional):</i></small></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('medical_certificate')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Professional Development Form <small><i>(Optional):</i></small></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('pd_form')); ?>
+			</div>
+			<a href="https://www.rub.edu.bt/images/rub/forms/6-Professional-Development/6-2-PROFESSIONAL%20DEVELOPMENT%20FORM.docx">Click Here to download the PD Form</a>
+                    </div>
+                  </div> 
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+							echo $this->formRow($training->get('submit'));
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

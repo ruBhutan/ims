@@ -1,0 +1,249 @@
+<?php
+ $title_department = 'RUB Activities';
+ $this->headTitle($title_department);
+ $number_array = array(
+ 		'1' => 'One',
+		'2' => 'Two',
+		'3' => 'Three',
+		'4' => 'Four',
+		'5' => 'Five',
+		'6' => 'Six',
+                '7' => 'Seven',
+                '8' => 'Eight',
+                '9' => 'Nine',
+                '10' => 'Ten',
+ );
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+
+$apa_date = array();
+foreach($this->apa_deadline as $date){
+  $apa_date = $date;
+}
+
+if(empty($apa_date))
+$apa_date['end_date'] = '2000-01-01';
+
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+         <!-- List of Objectives of Head -->
+         <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title_department)?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <!-- display of objectives-->
+                <div class="x_content">
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                <h4>The following are the list of the objectives of RUB with weightage.</h4>
+                    <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No</th>
+                            <th class="column-title">Objectives</th>
+                            <th class="column-title">Weightage</th>                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i = 1; foreach($this->rub_objectives as $objectives): ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($objectives['objectives']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($objectives['weightage']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+
+                </div>
+              </div>
+            </div>
+                
+                <!-- end of display for objectives -->
+ 
+         <!-- Adding Activities-->
+         <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml('Add New VC Activities')?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                 <div class="clearfix"></div>
+              
+                </div>
+              <?php if((strtotime($apa_date['end_date']) >= strtotime(date('Y-m-d'))) && (strtotime(date('Y-m-d')) >= strtotime($apa_date['start_date']))){?>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $awpa = $form->get('awpaobjectivesactivity');
+                    //get the objectives with their id
+                    $data = $this->selectData;
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($awpa->get('id')); 
+                    $awpa->get('objectives')->setValueOptions($data);
+                    $awpa->get('employee_details_id')->setValueOptions($this->supervisorRoles);
+                ?>
+                
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" >Activities For <span class="required">*</span></label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                      <?php  echo $this->formRow($awpa->get('employee_details_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" >RUB Activities <span class="required">*</span></label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                      <?php  echo $this->formRow($awpa->get('objectives')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">New Success Indicator<span class="required">*</span></label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                      <?php  echo $this->formRow($awpa->get('activity_name')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Brief Description</label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                      <?php  echo $this->formRow($awpa->get('awpa_remarks')); ?>
+                    </div>
+                  </div>
+
+                  
+                 <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                          <?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($awpa->get('submit')); 
+						   
+                        ?>
+                    </div>
+                </div>
+                <?php echo $this->form()->closeTag();  ?>
+              </div>
+        </div> 
+                  
+          <!-- Start of table listing Activities -->
+        <div class="x_panel">
+        	<div class="x_title">
+                  <h2><?php echo $this->escapeHtml('List of Activities'); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No</th>
+                            <th class="column-title">Financial Year</th>
+                            <th class="column-title">RUB Objective</th>
+                            <th class="column-title">Activity</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                         <?php $i =1; foreach ($this->activities as $activities) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++ ;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($activities['financial_year']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($activities['objectives']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($activities['activity_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($activities['awpa_remarks']);?></td>
+                            <td>
+                              <a href="<?php echo $this->url('editactivities', array('id' => my_encrypt($activities['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+                   </div>
+                </div>
+              <?php } else {?>
+            <div class="x_content">
+           <p>You are not allowed to add the VC activities since APA deadline is not yet opened or has been closed!</p>
+
+              <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No</th>
+                            <th class="column-title">Financial Year</th>
+                            <th class="column-title">RUB Objective</th>
+                            <th class="column-title">Activity</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                         <?php $i =1; foreach ($this->activities as $activities) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++ ;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($activities['financial_year']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($activities['objectives']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($activities['activity_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($activities['awpa_remarks']);?></td>
+                            <td>
+                              <p><i>You are not allowed to take any action</i></p>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+           </div>
+           <?php } ?>
+         </div>
+        </div>
+     </div>

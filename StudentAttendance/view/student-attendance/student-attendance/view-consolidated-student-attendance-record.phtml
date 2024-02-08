@@ -1,0 +1,196 @@
+<?php
+ $title = 'Attendance Report of Students';
+ $this->headTitle($title);
+ 
+ ///Get the months between dates
+ $months = array();
+ $start = (new DateTime($this->from_date));
+ $start->modify('first day of this month');
+ $end = (new DateTime($this->to_date));
+ $end->modify('first day of next month');
+ $interval = DateInterval::createFromDateString('1 month');
+ $period = new DatePeriod($start, $interval, $end);
+ foreach($period as $dt){
+	 $months[] = $dt->format("m");
+ }
+ 
+ $key_phrase = $this->keyphrase;
+ function my_encrypt($data, $key_phrase) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key_phrase);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                    <br/>
+                        <!-- Adding Medical Record-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml($title)?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+                               
+                            <div class="x_content">
+                            <h5><i>*(The consolidated attendance record will be viewable for same year only. For example Start Date Year and End Date Year Should be same.)<br /></i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+								$form->get('year')->setValue('1');
+								$form->get('section')->setValueOptions($this->sectionList);
+								echo $this->formHidden($form->get('year'));
+                                ?>
+                            <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+								echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+								echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+								$messages = $this->flashMessenger()->getMessages();
+								foreach($messages as $message) {
+									echo '<strong>Success!</strong>'. $message;
+								}
+								echo '</div>';
+								} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+									echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+									echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+									$messages = $this->flashMessenger()->getMessages();
+									foreach($messages as $message) {
+										echo '<strong>Warning!</strong>'. $message;
+									}
+									echo '</div>';
+							 } ?>
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme Name</label>
+                                    <?php echo $this->formRow($form->get('programme')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Module</label>
+                                    <?php echo $this->formRow($form->get('module')); ?>
+                                  </div>
+                                  <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>Section</label>
+                                    <?php echo $this->formRow($form->get('section')); ?>
+                                  </div>
+                                  <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>From</label>
+                                    <?php echo $this->formRow($form->get('from_date')); ?>
+                                  </div>
+                                  <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>To</label>
+                                    <?php echo $this->formRow($form->get('to_date')); ?>
+                                  </div>
+                               </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>     
+                              
+                          
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("List of Student(s)"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+            
+                            <!-- Tabular Data of Stuent Attendance-->
+                            <div class="x_content">
+                            <h4>
+                            <b><i class="green">Lecture Name: <?php echo $this->module_tutor; ?></i><br /><br />
+                            <i class="blue">TLD: Total Lectures Delivered</i>&nbsp;&nbsp;
+                            &nbsp;&nbsp;<i class="blue">TLM: Total Lectures Missed</i>
+                            </b></h4>
+                            <br />
+                              <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <thead>
+                                  <tr class="headings">
+                                        <tr>
+                                            <td class="column-title" style="width:10%" rowspan="2">Student (ID)</td>
+                                            <?php for($i=0; $i< count($months); $i++) {?>
+                                            <td style="width: 2%" class="column-title" colspan="2"><?php echo date('F', mktime(0,0,0,$months[$i], 10)); ?></td>
+                                            <?php }?>
+                                            <td class="column-title" style="width:10%" rowspan="2">Contact Hours</td>
+                                            <td class="column-title" style="width:10%" rowspan="2">Total Classes Missed</td>
+                                            <td class="column-title" style="width:10%" rowspan="2">Percentage</td>
+                                            <td class="column-title" style="width:10%" rowspan="2">Action</td>
+                                         </tr>
+                                         <tr>
+                                        	<?php for($i=0; $i< count($months); $i++) {?>
+                                            <td>TLD</td>
+                                            <td>TLM</td>
+                                            <?php }?>
+                                         </tr>
+                                         
+                                    </thead>
+                               <tbody>
+									<?php $i=1; $total_classes_missed = 0; 
+									foreach ($this->studentList as $key => $student) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $this->escapeHtml($student[$months[0]]['name']." (".$key.")"); ?></td>
+                                    <?php for($i=0; $i< count($months); $i++) {?>
+                                    <td class=" "><?php echo $this->escapeHtml($student[$months[$i]]['classes_taken']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($student[$months[$i]]['classes_missed']);?></td>
+                                    <?php $total_classes_missed = $student[$months[$i]]['total_class_missed']; }?>
+                                    <td class=" "><?php echo $this->escapeHtml($this->totalContactHours);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($total_classes_missed);?></td>
+                                    <td class=" "><?php echo number_format((float)(($this->totalContactHours - ($total_classes_missed*$this->lectureLength))/($this->totalContactHours))*100,2,'.','');?></td>
+                                    <td>
+                                    <a href="<?php echo $this->url('individualstudentattendancerecord', array('id' => my_encrypt($key."_".$this->academic_modules_allocation_id, $key_phrase)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a> 	</td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="row">
+                                    <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                    </div>
+                                </div>
+                          </div>
+                        </div>
+                            
+                           		<!-- End of Achievements-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              

@@ -1,0 +1,265 @@
+<?php
+
+ $title = 'HRD Form (OVC / College HRO)';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+				    $proposal = $form->get('empworkforceproposal');
+
+                   echo $this->formHidden($proposal->get('id'));   
+                ?>
+                  
+                <div class="row"> 
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Five Year Plan
+                    </label>
+                <?php  echo $this->formRow($proposal->get('five_year_plan')); ?>
+                    </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Course Title 
+                    </label>
+                <?php  echo $this->formRow($proposal->get('course_title')); ?>
+                </div>
+            
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Total No.Of Slots. 
+                    </label>
+                <?php  echo $this->formRow($proposal->get('total_no_slots')); ?>
+                    </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Duration
+                    </label>
+                <?php  echo $this->formRow($proposal->get('duration')); ?>
+                    </div>   
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Training Type
+                    </label>
+                <?php  echo $this->formRow($proposal->get('training_type')); ?>
+                    </div> 
+               
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Source Of Funding
+                    </label>
+                <?php  echo $this->formRow($proposal->get('source_of_funding')); ?>
+                </div>
+            
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Target Group
+                    </label>
+                <?php  echo $this->formRow($proposal->get('target_group')); ?>
+                    </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Tuition Fees
+                    </label>
+                <?php  echo $this->formRow($proposal->get('tuition_fees')); ?>
+                    </div>   
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">DSA / TA
+                    </label>
+                <?php  echo $this->formRow($proposal->get('dsa_tada')); ?>
+                    </div> 
+               
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Air Fare
+                    </label>
+                <?php  echo $this->formRow($proposal->get('air_fare')); ?>
+                </div>
+            
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Total
+                    </label>
+                <?php  echo $this->formRow($proposal->get('total_amount')); ?>
+                    </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Priority
+                    </label>
+                <?php  echo $this->formRow($proposal->get('priority')); ?>
+                    </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Location (Place of Training)
+                    </label>
+                <?php  echo $this->formRow($proposal->get('location_of_training')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Remarks
+                    </label>
+                <?php  echo $this->formRow($proposal->get('remarks')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Approval Date
+                    </label>
+                <?php  echo $this->formRow($proposal->get('approval_date')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Approval Status
+                    </label>
+                <?php  echo $this->formRow($proposal->get('approval_status')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Submission Date
+                    </label>
+                <?php  echo $this->formRow($proposal->get('submission_date')); ?>
+                    </div>
+                    
+                </div>   
+                  
+                <div class="row">
+                    <h2>Implementation Plan (breakdown of total no. of slots mentioned above ):</h2>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year 1
+                    </label>
+                <?php  echo $this->formRow($proposal->get('amount_year_1')); ?>
+                    </div> 
+                 <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year 2
+                    </label>
+                <?php  echo $this->formRow($proposal->get('amount_year_2')); ?>
+                </div>
+            
+                 <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year 3
+                    </label>
+                <?php  echo $this->formRow($proposal->get('amount_year_3')); ?>
+                    </div>
+                   <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year 4
+                    </label>
+                <?php  echo $this->formRow($proposal->get('amount_year_4')); ?>
+                    </div>   
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year 5
+                    </label>
+                <?php  echo $this->formRow($proposal->get('amount_year_5')); ?>
+                    </div> 
+                </div>  
+          
+               
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                     <?php 
+					 echo $this->formHidden($form->get('csrf'));
+					 echo $this->formInput($proposal->get('submit')); ?>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        </div>
+              
+     <?php
+	 $title = '';
+	 $this->headTitle($title);
+	?>     
+              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+            <div class="table-responsive">
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Sl.No </th>
+                         <th class="column-title">Five Year Plan </th>
+                        <th class="column-title">Course Title </th>
+                        <th class="column-title">No.Of Slots</th>
+                        <th class="column-title"> Duration</th>
+                        <th class="column-title">Training Type</th>
+                        <th class="column-title">Funding Source</th>
+                        <th class="column-title">Target Group</th>
+                         <th class="column-title">tuition Fees</th>
+                          <th class="column-title">DSA</th>
+                           <th class="column-title">Air Fare</th>
+                            <th class="column-title">Total</th>
+                            <th class="column-title">Priority</th>
+                             <th class="column-title">Year 1</th>
+                              <th class="column-title">Year 2</th>
+                               <th class="column-title">Year 3</th>
+                               <th class="column-title">Year 4</th>
+                               <th class="column-title">Year 5</th>
+                        <th class="bulk-actions" colspan="7">
+                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr class="even pointer">
+                            <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                <br/>
+                <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Submission Date</label>
+                      <input type="date" class="form-control">
+                  </div></div>
+                </div><br/>
+                 <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <button class="btn btn-warning">Print</button>
+                    <button class="btn btn-default">Save & Close</button>
+                    <button class="btn btn-success">Submit</button>
+                 </div>
+                </div>
+               </div>
+                </div>
+              </div>
+            </div>
+         
+          </div>
+        </div> 
+
+              
+              
+   
+            
+    

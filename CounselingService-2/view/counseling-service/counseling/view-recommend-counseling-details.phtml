@@ -1,0 +1,147 @@
+<?php
+ $title = 'Recommended for Counseling';
+ $this->headTitle($title);
+
+ $suggestedDetails = array();
+ foreach($this->suggestedDetails as $details)
+ {
+  if($suggestType == 1)
+  {
+     $suggestedDetails['id'] = $details['id'];
+    $suggestedDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'].' ('.$details['emp_id'].')';
+    $suggestedDetails['c_name'] = $details['cf_name'].' '.$details['cm_name'].' '.$details['cl_name'].' ('.$details['cemp_id'].')';
+  }
+  else if($suggestType == 2){
+    $suggestedDetails['id'] = $details['id'];
+    $suggestedDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'].' ('.$details['student_id'].')';
+    $suggestedDetails['c_name'] = $details['cf_name'].' '.$details['cm_name'].' '.$details['cl_name'].' ('.$details['emp_id'].')';
+  }
+ }
+
+ $counselingSuggestDetails = array();
+ foreach($this->recommendCounselingDetails as $details)
+ {
+  $counselingSuggestDetails['subject'] = $details['subject'];
+  $counselingSuggestDetails['reason'] = $details['reason'];
+  $counselingSuggestDetails['suggested_date'] = $details['suggested_date'];
+  $counselingSuggestDetails['scheduled_time'] = $details['scheduled_time'];
+  $counselingSuggestDetails['scheduled_date'] = $details['scheduled_date'];
+  $counselingSuggestDetails['venue'] = $details['venue'];
+  $counselingSuggestDetails['counselor_remarks'] = $details['counselor_remarks'];
+  $counselingSuggestDetails['scheduled_status'] = $details['scheduled_status'];
+ }
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                
+                    <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+                  
+                ?>
+                <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Recommended Name: </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" placeholder="<?php echo $suggestedDetails['name'] ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Recommended To: </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" placeholder="<?php echo $suggestedDetails['c_name'] ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Subject: </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" placeholder="<?php echo $counselingSuggestDetails['subject'] ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reason (s): </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" rows="3" disabled="disabled" placeholder="<?php echo $counselingSuggestDetails['reason'] ?>"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Recommended Date: </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" placeholder="<?php echo $counselingSuggestDetails['suggested_date'] ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Scheduled Time: </label>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <input type="text" class="form-control col-md-7 col-xs-12" disabled="disabled" placeholder="<?php echo $counselingSuggestDetails['scheduled_time'] ?>">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Scheduled Date: </label>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <input type="text" class="form-control col-md-7 col-xs-12" disabled="disabled" placeholder="<?php echo $counselingSuggestDetails['scheduled_date'] ?>">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Venue: </label>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <input type="text" class="form-control col-md-7 col-xs-12" disabled="disabled" placeholder="<?php echo $counselingSuggestDetails['venue'] ?>">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Scheduled Status: </label>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <input type="text" class="form-control col-md-7 col-xs-12" disabled="disabled" placeholder="<?php echo $counselingSuggestDetails['scheduled_status'] ?>">
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Counselor Remark (s): </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" rows="5" disabled="disabled" placeholder="<?php echo $counselingSuggestDetails['counselor_remarks'] ?>"></textarea>
+                    </div>
+                  </div>
+                </div>     
+                <?php 
+                      echo $this->form()->closeTag();
+                    ?>                       
+                </div>
+                
+                
+              </div>
+            </div>
+       </div>       
+ 	</div>
+  </div>
+ </div>   
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+    

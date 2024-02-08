@@ -1,0 +1,31 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+<div class="menu_section">
+<br><br><br>
+<ul class="nav side-menu">
+	<li><a><i class="fa fa-home"></i>Administration<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?php echo $this->url('addroles') ?>">Add Role</a></li>
+			<li><a href="<?php echo $this->url('adduser') ?>">Add User</a></li>
+			<li><a href="<?php echo $this->url('configureuserroutes') ?>">Configure User Routes</a></li>
+			<li><a href="<?php echo $this->url('adduserworkflow') ?>">Add User Work Flow</a></li>
+			<li><a href="<?php echo $this->url('changeuserpassword') ?>">Change User Password</a></li>
+			<li><a href="<?php echo $this->url('changepassword') ?>">Change Password</a></li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-users"></i>Human Resource<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>PMS<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Review<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('empperformanceassessment') ?>">Employee Performance Assessment</a></li>
+						<li><a href="<?php echo $this->url('feedbacks') ?>">Feedbacks</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+</div>
+</div>

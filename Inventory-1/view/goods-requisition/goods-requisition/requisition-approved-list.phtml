@@ -1,0 +1,64 @@
+
+<?php
+ // module/Inventory/view/goods-requisition/goods_requisition/requisition-requisition-approval.phtml:
+
+ $title = 'Goods Requisition Approved List';
+ $this->headTitle($title);
+?>     
+<div class="right_col" role="main">
+    <div class="">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Sl.No. </th>
+                                      <th class="column-title">Staff Name </th>
+                                      <th class="column-title">Requisition Date </th>
+                                      <th class="column-title">Item Name </th>
+                                      <th class="column-title">Item Specification</th>
+                                      <th class="column-title">Item Quantity</th>
+                                      <th class="column-title">Purpose</th>
+                                      <th class="column-title">Status</th>
+                                      <th class="column-title">Approved Date</th>
+                                      <th class="column-title">Remarks</th>
+                                      <!--<th class="column-title">Action</th>-->
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <?php $i=1; ?>
+                            <?php foreach ($this->requisitionApprovedList as $requisitionApproved) : ?>
+                                <tr class="even pointer">
+                                    <td class=" "><?php echo $i; ?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($requisitionApproved->getEmployee_Details_Id());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($requisitionApproved->getDate_Of_Requisition());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($requisitionApproved->getItem_Name_Id());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($requisitionApproved->getItem_Specification());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($requisitionApproved->getItem_Quantity());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($requisitionApproved->getPurpose());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($requisitionApproved->getRequisition_Status());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($requisitionApproved->getApproval_Date());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($requisitionApproved->getRemarks());?></td>
+                                </tr>
+                            <?php $i++; ?>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

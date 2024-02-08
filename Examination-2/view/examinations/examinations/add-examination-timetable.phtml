@@ -1,0 +1,185 @@
+<?php
+ $title = 'Add Examination Timetable';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+          					$form->get('examination_hall_id')->setValueOptions($this->examinationHalls);
+                    $form->get('exam_type_id')->setValueOptions($this->examType);
+          					$form->get('organisation_id')->setValue($this->organisation_id);
+                    echo $this->formHidden($form->get('id'));
+          					echo $this->formHidden($form->get('organisation_id')); 
+          				  ?>
+                    <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Programme Name: <span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('programmes_id')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Module Name: <span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('academic_modules_allocation_id')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Exam Type: <span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('exam_type_id')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Hall No: <span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('examination_hall_id')); ?>
+                    </div>
+                </div>
+                </div>                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Start Time: <span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('start_time')); ?>
+                    </div>
+                    <label class="control-label col-md-1 col-sm-3 col-xs-12"> End Time: <span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('end_time')); ?>
+                    </div>
+                </div>
+                </div> 
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Exam Date: <span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('exam_date')); ?>
+                    </div>
+                </div>
+                </div> 
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($form->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+         <!-- Start of table listing -->
+        <div class="x_panel">
+        	<div class="x_title">
+                  <h2><?php echo $this->escapeHtml('List of Examination Dates'); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" width="5%">Sl No.</th>
+                            <th class="column-title">Programme</th>
+                            <th class="column-title">Module</th>
+                            <th class="column-title">Exam Type</th>
+                            <th class="column-title">Hall No.</th>
+                            <th class="column-title">Start Time</th>
+                            <th class="column-title">End Time</th>
+                            <th class="column-title">Date</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                         <?php $i=1; foreach ($this->examinationTimetable as $hall) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $this->escapeHtml($i++);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($hall['programme_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($hall['module_title'].' ('.$hall['module_code'].')');?></td>
+                            <td class=" "><?php echo $this->escapeHtml($hall['exam_type']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($hall['hall_no'].' ('.$hall['hall_name'].')');?></td>
+                            <td class=" "><?php echo $this->escapeHtml(date('h:i A', strtotime($hall['start_time'])));?></td>
+                            <td class=" "><?php echo $this->escapeHtml(date('h:i A', strtotime($hall['end_time'])));?></td>
+                            <td class=" "><?php echo $this->escapeHtml($hall['exam_date']);?></td>
+                            <td class=" ">
+                            	<a href="<?php echo $this->url('editexamtimetable', array('id' => my_encrypt($hall['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+                   </div>
+                </div>
+    
+          </div>
+        </div> 
+     </div>
+              
+   
+            
+    

@@ -1,0 +1,185 @@
+                         
+                        <!-- page content -->
+                                  <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="x_panel">
+                                      <div class="x_content">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                          <div class="profile_title">
+                                            <div class="col-md-6">
+                                              <h2>HR Report</h2>
+                                            </div>
+                                            <div class="col-md-6">
+                                            </div>
+                                          </div>
+                                          <!-- start of report-graph -->
+                                          <div class="x_content">
+                                            <canvas id="bar-chart-grouped" style="width:100%; height:280px;"></canvas>
+                                          </div>
+                                          <!-- end of report-graph -->
+                                          
+                                          <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                                <!-- start reports -->
+                                                <br /><br />
+                                                <h2><?php echo "Table";?></h2>
+												<?php if($this->hr_report != NULL) {?>
+                                                <table class="table table-striped jambo_table table-bordered">
+                                                    <thead>                        
+                                                       <tr>  
+                                                         <th rowspan="3" class="column-title" style="width:20%">Major Occupational Group</td>
+                                                         <th colspan="4" class="column-title" style="width:32%"><?php echo 'Academics'; ?></td>
+                                                         <th colspan="4" class="column-title" style="width:32%"><?php echo 'Administrative & Technical'; ?></td>
+                                                       </tr>
+                                                       <tr>                       
+                                                         <th colspan="2" class="column-title"><?php echo 'Bhutanese'; ?></th>
+                                                         <th colspan="2" class="column-title"><?php echo 'Non- Bhutanese'; ?></th>
+                                                         <th colspan="2" class="column-title"><?php echo 'Bhutanese'; ?></th>
+                                                         <th colspan="2" class="column-title"><?php echo 'Non- Bhutanese'; ?></th>
+                                                       </tr>
+                                                       <tr>                       
+                                                         <th style="width:4%"><?php echo 'M'; ?></th>
+                                                         <th style="width:4%"><?php echo 'F'; ?></th>
+                                                         <th style="width:4%"><?php echo 'M'; ?></th>
+                                                         <th style="width:4%"><?php echo 'F'; ?></th>
+                                                         <th style="width:4%"><?php echo 'M'; ?></th>
+                                                         <th style="width:4%"><?php echo 'F'; ?></th>
+                                                         <th style="width:4%"><?php echo 'M'; ?></th>
+                                                         <th style="width:4%"><?php echo 'F'; ?></th>
+                                                       </tr>
+                                                    </thead>
+                                                    <tbody>                                                     
+													  <?php $i =1; foreach($this->hr_report as $key=>$value) : ?>
+                                                      <tr class="even pointer">
+                                                        <td class=" "><?php echo $this->organisationList[$key];?></td>
+                                                        <td class=" "><?php 
+                                                            if(array_key_exists('Academics', $this->hr_report[$key])){
+																if(array_key_exists('Bhutanese', $this->hr_report[$key]['Academics'])){
+																	if(array_key_exists('1', $this->hr_report[$key]['Academics']['Bhutanese'])){
+																	 	echo count($this->hr_report[$key]['Academics']['Bhutanese']['1']);
+																	} else
+																		echo $this->escapeHtml(0);	
+																} else
+																	echo $this->escapeHtml(0);	
+                                                            }
+                                                             else
+                                                                echo $this->escapeHtml(0);										
+                                                            ?></td>
+                                                         <td class=" "><?php 
+                                                            if(array_key_exists('Academics', $this->hr_report[$key])){
+																if(array_key_exists('Bhutanese', $this->hr_report[$key]['Academics'])){
+																	if(array_key_exists('2', $this->hr_report[$key]['Academics']['Bhutanese'])){
+																	 	echo count($this->hr_report[$key]['Academics']['Bhutanese']['2']);
+																	} else
+																		echo $this->escapeHtml(0);	
+																} else
+																	echo $this->escapeHtml(0);	
+                                                            }
+                                                             else
+                                                                echo $this->escapeHtml(0);										
+                                                            ?></td>
+                                                        <td class=" "><?php 
+                                                            if(array_key_exists('Academics', $this->hr_report[$key])){
+																if(array_key_exists('NonBhutanese', $this->hr_report[$key]['Academics'])){
+																	if(array_key_exists('1', $this->hr_report[$key]['Academics']['NonBhutanese'])){
+																	 	echo count($this->hr_report[$key]['Academics']['NonBhutanese']['1']);
+																	} else
+																		echo $this->escapeHtml(0);	
+																} else
+																	echo $this->escapeHtml(0);	
+                                                            }
+                                                             else
+                                                                echo $this->escapeHtml(0);										
+                                                            ?></td>
+                                                         <td class=" "><?php 
+                                                            if(array_key_exists('Academics', $this->hr_report[$key])){
+																if(array_key_exists('NonBhutanese', $this->hr_report[$key]['Academics'])){
+																	if(array_key_exists('2', $this->hr_report[$key]['Academics']['NonBhutanese'])){
+																	 	echo count($this->hr_report[$key]['Academics']['NonBhutanese']['2']);
+																	} else
+																		echo $this->escapeHtml(0);	
+																} else
+																	echo $this->escapeHtml(0);	
+                                                            }
+                                                             else
+                                                                echo $this->escapeHtml(0);										
+                                                            ?></td>
+                                                         <td class=" "><?php 
+                                                            if(array_key_exists('Administrative and Technical', $this->hr_report[$key])){
+																if(array_key_exists('Bhutanese', $this->hr_report[$key]['Administrative and Technical'])){
+																	if(array_key_exists('1', $this->hr_report[$key]['Administrative and Technical']['Bhutanese'])){
+																	 	echo count($this->hr_report[$key]['Administrative and Technical']['Bhutanese']['1']);
+																	} else
+																		echo $this->escapeHtml(0);	
+																} else
+																	echo $this->escapeHtml(0);	
+                                                            }
+                                                             else
+                                                                echo $this->escapeHtml(0);										
+                                                            ?></td>
+                                                         <td class=" "><?php 
+                                                            if(array_key_exists('Administrative and Technical', $this->hr_report[$key])){
+																if(array_key_exists('Bhutanese', $this->hr_report[$key]['Administrative and Technical'])){
+																	if(array_key_exists('2', $this->hr_report[$key]['Administrative and Technical']['Bhutanese'])){
+																	 	echo count($this->hr_report[$key]['Administrative and Technical']['Bhutanese']['2']);
+																	} else
+																		echo $this->escapeHtml(0);	
+																} else
+																	echo $this->escapeHtml(0);	
+                                                            }
+                                                             else
+                                                                echo $this->escapeHtml(0);										
+                                                            ?></td>
+                                                        <td class=" "><?php 
+                                                            if(array_key_exists('Administrative and Technical', $this->hr_report[$key])){
+																if(array_key_exists('NonBhutanese', $this->hr_report[$key]['Administrative and Technical'])){
+																	if(array_key_exists('1', $this->hr_report[$key]['Administrative and Technical']['NonBhutanese'])){
+																	 	echo count($this->hr_report[$key]['Administrative and Technical']['NonBhutanese']['1']);
+																	} else
+																		echo $this->escapeHtml(0);	
+																} else
+																	echo $this->escapeHtml(0);	
+                                                            }
+                                                             else
+                                                                echo $this->escapeHtml(0);										
+                                                            ?></td>
+                                                         <td class=" "><?php 
+                                                            if(array_key_exists('Administrative and Technical', $this->hr_report[$key])){
+																if(array_key_exists('NonBhutanese', $this->hr_report[$key]['Administrative and Technical'])){
+																	if(array_key_exists('2', $this->hr_report[$key]['Administrative and Technical']['NonBhutanese'])){
+																	 	echo count($this->hr_report[$key]['Administrative and Technical']['NonBhutanese']['2']);
+																	} else
+																		echo $this->escapeHtml(0);	
+																} else
+																	echo $this->escapeHtml(0);	
+                                                            }
+                                                             else
+                                                                echo $this->escapeHtml(0);										
+                                                            ?></td>
+                                                      </tr>
+                                                      <?php endforeach; ?>
+                                                    </tbody>
+                                                  </table>
+                                                 <?php } ?>
+                                                <!-- end of reports -->
+                                          </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                                          <div class="profile_title">
+                                            <div class="col-md-6">
+                                              <h2>Report</h2>
+                                            </div>
+                                          </div>
+                                          <br />
+                    
+                                          <!-- report generation -->
+                                          <h5><i>*Generate Report. Please note that the graphs will be not be displayed in the generated pdf report. To use the graphs, 
+                                                save the graphs from the webpage and paste it to relevant document</i></h5><br />
+                                         <a href="<?php echo $this->url('generatehrreports', array('reporttype' => $this->report_type));?>" class="btn btn-success">Generate Report</a>
+                                         
+                                          <!-- end of report generation -->
+                    
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            <!-- /page content -->
+                  

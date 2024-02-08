@@ -1,0 +1,245 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Bank Reconciliation Details';
+ $this->headTitle($title);
+?>
+
+  <div class="right_col" role="main">
+          <div class="">          
+      <div class="clearfix"></div>
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+                      </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                      </div>
+                <div class="x_content">
+
+
+                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#bankreconciliation" id="bankreconciliation-tab" role="tab" data-toggle="tab" aria-expanded="true">Enter/Edit Bank Reconciliation Details</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#conciliation" role="tab" id="conciliation-tab" data-toggle="tab" aria-expanded="false">Generate Bank Conciliation Statement </a>
+                      </li>
+                      
+                      
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="bankreconciliation" aria-labelledby="bankreconciliation-tab">
+                          <br>
+                          <div class="x_panel">
+                          <div table class="responsive"> 
+                              
+                      <table class="table table-striped jambo_table bulk_action">
+                          <div class="row">
+                         <label class="control-label col-md-3 col-sm-4 col-xs-12" for="month">Month: <span class="required">*</span>
+                      </label> 
+                        <div class="col-md-6 form-group">
+                            <select class="form-control">
+                                <option>--Select--</option>
+                                <option>Jan</option>
+                                <option>Feb</option>
+                                <option>March</option>
+                                 <option>April</option>
+                                 
+                            </select>
+                        </div></div>
+                          <div class="row">
+      <label class="control-label col-md-3 col-sm-4 col-xs-12" for="month">1.Fund Withdrawn As Per Bank Statement of the Bank:: <span class="required">*</span>
+                      </label>                    
+    <div class="col-md-6 form-group">
+   <input type="text" id="withdrawn" class="form-control col-md-7 col-xs-12">
+    </div>
+                          </div>
+    <div class="row">
+      <label class="control-label col-md-3 col-sm-4 col-xs-12" for="month">2. ADD. Cheque Issued But Not Cashed(Annex-1): <span class="required">*</span>
+                      </label>                    
+    <div class="col-md-6 form-group">
+   <input type="text" id="withdrawn" class="form-control col-md-7 col-xs-12">
+    </div>
+                          </div>
+   
+<div class="row">
+      <label class="control-label col-md-3 col-sm-4 col-xs-12" for="month">3. ADD.Amount debited In CashBook But Not In Bank Statement(Annex-2): <span class="required">*</span>
+                      </label>                    
+    <div class="col-md-6 form-group">
+   <input type="text" id="withdrawn" class="form-control col-md-7 col-xs-12">
+    </div>
+                          </div>
+
+<div class="row">
+      <label class="control-label col-md-3 col-sm-4 col-xs-12" for="month">4. LESS.Amount debited In Bank Statement But Not in Cash Book(Annex-3): <span class="required">*</span>
+                      </label>                    
+    <div class="col-md-6 form-group">
+   <input type="text" id="withdrawn" class="form-control col-md-7 col-xs-12">
+    </div>
+                          </div>
+
+                          <br>       
+ <div class="row">
+<div class="col-md-4 form-group">
+    <button class="btn btn-success">Add</button>
+    <button class="btn btn-primary">Cancel</button>
+</div>
+  </div>
+  
+ 
+                                            
+                      </table>
+                     </div></div></div>
+                    
+                    
+                      <div role="tabpanel" class="tab-pane fade" id="conciliation" aria-labelledby="conciliation-tab">
+                        <br>
+                          <div class="x_panel">
+                          <div table class="responsive"> 
+                              <div>
+                                  <label class="control-label col-md-3 col-sm-4 col-xs-12" for="acc_no">Bank Account No <span class="required">*</span>
+                      </label>                    
+    <div class="col-md-6 form-group">
+                            <select class="form-control">
+                                <option>--Select--</option>
+                                <option>Bank of Bhutan - 201703400</option>
+                                <option>Bhutan National Bank -1231231231</option>
+                                <option>Druk Punjab Nation Bank - 12312312</option>
+                                 <option>T-Bank - 454534515</option>
+                                 <option>BIL - 09876</option>
+                                 <option>RICBL - 09234</option>
+                                 
+                            </select>
+                        </div>
+                              </div>
+                              <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                              
+                            
+                            <th class="column-title">Month </th>
+                            <th class="column-title">FundWithDrawnAsPerChequeBook </th>
+                            <th class="column-title">Reconciliation Total </th>
+                            <th class="column-title">Details</th>
+                            
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr class="even pointer">
+                          
+                        
+                        <td>January</td>
+                        <td>32323.1</td>
+                        <td></td>
+                        <td><a href="#">view</a>  </td>
+                        
+                        
+                      </tr>
+                      
+                      <tr class="odd pointer">
+                          
+                        
+                        <td>February</td>
+                        <td>535251.09</td>
+                        <td></td>
+                        <td><a href="#">view </a></td>
+                        
+                         
+                      </tr>
+                      <tr class="odd pointer">
+                          
+                        
+                        <td>March</td>
+                        <td>112290.78</td>
+                        <td></td>
+                        <td><a href="#">view</a></td>
+                        
+                         
+                      </tr>
+                      <tr class="odd pointer">
+                          
+                        
+                        <td>April</td>
+                        <td>06/04/2017</td>
+                        <td></td>
+                        <td><a href="#">View</a></td>
+                        
+                         
+                      </tr>
+                      
+                      </tbody>
+                                            
+                      </table>
+                          </div></div>
+                      </div>
+                      
+                       
+                    </div>
+                  
+
+              <div id="custom_notifications" class="custom-notifications dsp_none">
+    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+    </ul>
+    <div class="clearfix"></div>
+    <div id="notif-group" class="tabbed_notifications"></div>
+  </div>
+             
+             
+              
+     <script>
+    $(function() {
+      var cnt = 10; //$("#custom_notifications ul.notifications li").length + 1;
+      TabbedNotification = function(options) {
+        var message = "<div id='ntf" + cnt + "' class='text alert-" + options.type + "' style='display:none'><h2><i class='fa fa-bell'></i> " + options.title +
+          "</h2><div class='close'><a href='javascript:;' class='notification_close'><i class='fa fa-close'></i></a></div><p>" + options.text + "</p></div>";
+
+        if (document.getElementById('custom_notifications') == null) {
+          alert('doesnt exists');
+        } else {
+          $('#custom_notifications ul.notifications').append("<li><a id='ntlink" + cnt + "' class='alert-" + options.type + "' href='#ntf" + cnt + "'><i class='fa fa-bell animated shake'></i></a></li>");
+          $('#custom_notifications #notif-group').append(message);
+          cnt++;
+          CustomTabs(options);
+        }
+      }
+
+      CustomTabs = function(options) {
+        $('.tabbed_notifications > div').hide();
+        $('.tabbed_notifications > div:first-of-type').show();
+        $('#custom_notifications').removeClass('dsp_none');
+        $('.notifications a').click(function(e) {
+          e.preventDefault();
+          var $this = $(this),
+            tabbed_notifications = '#' + $this.parents('.notifications').data('tabbed_notifications'),
+            others = $this.closest('li').siblings().children('a'),
+            target = $this.attr('href');
+          others.removeClass('active');
+          $this.addClass('active');
+          $(tabbed_notifications).children('div').hide();
+          $(target).show();
+        });
+      }
+
+      CustomTabs();
+
+      var tabid = idname = '';
+      $(document).on('click', '.notification_close', function(e) {
+        idname = $(this).parent().parent().attr("id");
+        tabid = idname.substr(-2);
+        $('#ntf' + tabid).remove();
+        $('#ntlink' + tabid).parent().remove();
+        $('.notifications a').first().addClass('active');
+        $('#notif-group div').first().css('display', 'block');
+      });
+    })
+  </script>

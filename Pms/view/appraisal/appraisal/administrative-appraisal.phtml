@@ -1,0 +1,218 @@
+<?php
+ $title = 'Performance Management System - Administrative Appraisal';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+$pms_date = array();
+foreach($this->iwp_deadline as $date){
+  $pms_date = $date;
+}
+
+if(empty($pms_date))
+$pms_date['end_date'] = '2000-01-01';
+
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+              
+         <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                 <div class="clearfix"></div>
+              
+                </div>
+                <?php if((strtotime($pms_date['end_date']) >= strtotime(date('Y-m-d'))) && (strtotime(date('Y-m-d')) >= strtotime($pms_date['start_date']))){?>
+
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $awpa = $form->get('iwpactivities');
+          					//get the objectives with their id
+          					$data = $this->selectData;
+                    echo $this->form()->openTag($form);
+					          $awpa->get('employee_details_id')->setValue($this->employee_details_id);
+          					$awpa->get('status')->setValue('Not Submitted');
+          					$awpa->get('appraisal_period')->setValue($this->appraisal_period);
+                    echo $this->formHidden($awpa->get('id')); 
+          					echo $this->formHidden($awpa->get('employee_details_id'));
+          					echo $this->formHidden($awpa->get('status'));
+          					echo $this->formHidden($awpa->get('appraisal_period'));
+          					$awpa->get('awpa_objectives_activity_id')->setValueOptions($data);
+          				  ?>
+
+                    <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">New Activity<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($awpa->get('awpa_objectives_activity_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Sub Activity Name<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($awpa->get('subactivity_name')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Brief Description for Success Indicator</label>
+                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Outstanding</label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('outstanding_description')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> </label>
+                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Very Good</label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('very_good_description')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> </label>
+                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Good</label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('good_description')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> </label>
+                    <label class="control-label col-md-1 col-sm-3 col-xs-12">Needs Improvement</label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($awpa->get('needs_improvement_description')); ?>
+                    </div>
+                  </div>
+                 
+                 <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                          <?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($awpa->get('submit')); 
+						   echo $this->form()->closeTag(); 
+                        ?>
+                    </div>
+                </div>
+          </div>
+        </div>
+      </div>     
+                  
+              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml("Success Indicators"); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                         <th style="width:20%" rowspan="2" class="column-title">College /OVC/Section Outputs.</th>
+                         <th style="width:20%" rowspan="2" class="column-title">Sub Activity Name</th>
+                         <th style="width:40%" colspan="4" class="column-title">Target Values</th>
+                         <th style="width:10%" rowspan="2" class="column-title">Status</th>
+                         <th style="width:10%" rowspan="2" class="column-title">Action</th>
+                      </tr>
+                      <tr class="headings">
+                         <th style="width:10%" class="column-title">Outstanding</th>
+                         <th style="width:10%" class="column-title">Very Good</th>
+                         <th style="width:10%" class="column-title">Good</th>
+                         <th style="width:10%" class="column-title">Needs Improvement</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <?php
+					  	$i=0;
+						$activity = NULL;
+						foreach($this->kpi as $kpi){ 
+					  ?>
+                      <tr class="even pointer">
+                        <td class=" "><?php if($activity != $kpi['activity_name']) { echo ++$i.'. '.$kpi['activity_name']; $activity=$kpi['activity_name']; $j=1;}?></td>
+                        <td class=" "><?php echo $i.'.'.$j++.' '.$kpi['subactivity_name'];?></td>
+                        <td class=" "><?php echo $kpi['outstanding_description'];?></td>
+                        <td class=" "><?php echo $kpi['very_good_description'];?></td>
+                        <td class=" "><?php echo $kpi['good_description'];?></td>
+                        <td class=" "><?php echo $kpi['needs_improvement_description'];?></td>
+                        <td class=" "><?php echo $kpi['status']; ?></td>
+                        <td><a href="<?php echo $this->url('viewadministrativeappraisal', array('id' => my_encrypt($kpi['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a><br />
+                            <?php if($kpi['status'] != "Approved") { ?>
+                            <a href="<?php echo $this->url('editadministrativeappraisal', array('id' => my_encrypt($kpi['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a><br />
+                            <?php  } if($kpi['status'] == "Pending for Approval" || $kpi['status'] == "Not Submitted") {?>
+                            <a href="<?php echo $this->url('deleteadministrativeappraisal', array('id' => my_encrypt($kpi['id'], $key)));?>" class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Delete</a><?php } ?></td>
+                      </tr>
+                      <?php  } ?>
+                    </tbody>
+                  </table>
+                <div class="col-md-12 col-sm-12 col-xs-12" align="left">
+                    <div class="row">
+                        <?php
+                            // Opening of the form tag
+                            $submitForm->setAttribute('action', $this->url('submitiwpactivities', array('id' => $this->employee_details_id)));
+                            $submitForm->prepare();
+                            echo $this->form()->openTag($submitForm);
+                            echo $this->formHidden($submitForm->get('csrf'));
+                            echo $this->formSubmit($submitForm->get('submit'));
+                            echo $this->form()->closeTag();
+                      ?>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          <?php } else {?>
+            <div class="x_content">
+           <p>You are not allow to submit your appraisal since appraisal deadline is not yet opened or has been closed!</p>
+           </div>
+           <?php } ?>
+         </div>
+        </div>
+      </div>
+    </div>

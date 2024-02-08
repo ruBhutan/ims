@@ -1,0 +1,41 @@
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('List of student fees'); ?></h2>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <br/>
+    <div class="x_content">
+        <div class="table-responsive">
+            <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                <thead>
+                <tr class="headings">
+                    <th class="column-title">Sl. No</th>
+                    <th class="column-title">Fee Category</th>
+                    <th class="column-title">Fee Semester</th>
+                    <th class="column-title">Financial Year</th>
+                    <th class="column-title">Amount</th>
+                    <th class="column-title">Status</th>
+                    <th class="column-title">Updated</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $i = 1;
+                foreach ( $this->studentFeeList as $detail ) : ?>
+                    <tr class="even pointer">
+                        <td class=" " width="8%"><?php echo $i++; ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['fee_category']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['semester_id']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['financial_year']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['amount']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['status']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['updated_at']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

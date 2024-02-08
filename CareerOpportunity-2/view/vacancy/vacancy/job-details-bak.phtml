@@ -1,0 +1,121 @@
+<?php
+ $title = 'Job Vacancy Details';
+ $this->headTitle($title);
+ 
+ $vacancy = array();
+ foreach($this->vacancyDetail as $detail){
+	 $vacancy = $detail;
+ }
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+					<?php
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    ?>
+                    <div class="row">
+                        <div class="form-group">
+                        	<label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title  </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">      
+							<input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $vacancy['position_title']; ?>">
+                            </div>
+                        	<label class="control-label col-md-2 col-sm-2 col-xs-12">Position Category  </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">      
+							<input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->positionCategory[$vacancy['position_category']]; ?>">
+                            </div>   
+                         </div>
+                     </div>
+                     <div class="row">
+                        <div class="form-group">
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Employee Type </label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                           <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $vacancy['employee_type']; ?>">
+                           </div>
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                        	<label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">  
+                            <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->positionLevel[$vacancy['position_level']]; ?>">
+                       		</div>
+                        	<label class="control-label col-md-2 col-sm-2 col-xs-12">Number of Slot  </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                             <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $vacancy['no_of_slots']; ?>">
+                    		</div>
+                    	</div>
+                    </div>
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Working Agency  </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->workingAgency[$vacancy['working_agency']]; ?>">
+                    	</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Requirements : General Responsibility </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                        <textarea class="form-control" rows="5" disabled="disabled" placeholder='<?php echo $vacancy['general_responsibilities']; ?>'></textarea>
+                    	</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Specific Roles and Responsibility:</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                        <textarea class="form-control" rows="5" disabled="disabled" placeholder='<?php echo $vacancy['specific_responsibilities']; ?>'></textarea>
+                    	</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Education,Qualification & Experience</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                        <textarea class="form-control" rows="5" disabled="disabled" placeholder='<?php echo $vacancy['education_qualification_experience']; ?>'></textarea>
+                    	</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Knowledge,Skills & Ability</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                        <textarea class="form-control" rows="5" disabled="disabled" placeholder='<?php echo $vacancy['knowledge_skills']; ?>'></textarea>
+                    	</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Advertisement</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">  
+                        <input type="text" class="form-control" placeholder="<?php echo $vacancy['date_of_advertisement']; ?>">
+                    	</div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Last Date of Submission</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">  
+                        <input type="text" class="form-control" placeholder="<?php echo $vacancy['last_date_submission']; ?>">
+                    	</div>
+                      </div>
+                    </div>
+                    
+                    
+                  
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                  </div>
+              </div>
+          </div>
+       </div>
+    </div>

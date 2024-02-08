@@ -1,0 +1,106 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Transfer of Goods';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="x_content">
+                    <br />
+                    <?php
+                      $form->prepare();
+                              echo $this->form()->openTag($form);
+                                  $transfergoods = $form->get('transfergoods');
+                               echo $this->formHidden($transfergoods->get('id')); 
+                               echo $this->form()->openTag($form);
+                               echo $this->formHidden($transfergoods->get('id'));
+                                   $transfergoods->get('item_name_id')->setValueOptions($selectData2);
+                     ?>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Department Head From</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($transfergoods->get('department_head_from')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Department Head To</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($transfergoods->get('department_head_to')); ?>
+                                    </div>
+                            </div>
+                        </div> 
+                        <br/>    
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Transfer Date</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($transfergoods->get('transfer_date')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Item Name</label>
+                                      <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($transfergoods->get('item_name_id')); ?>
+                                      </div>
+                            </div>
+                        </div> 
+                        <br/>    
+                                <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Item Quantity</label>
+                                      <div class="col-md-3 col-sm-3 col-xs-12">
+                                          <?php  echo $this->formRow($transfergoods->get('item_quantity')); ?>
+                                      </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Rate</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($transfergoods->get('rate')); ?>
+                                    </div>
+                            </div>
+                        </div>
+                                <br/>
+                                <div class="row">
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Amount </label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                                      <?php  echo $this->formRow($transfergoods->get('amount')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                                      <?php  echo $this->formRow($transfergoods->get('remarks')); ?>
+                                    </div>
+                            </div>
+                        </div>
+                                                           
+                                <br/>
+                        <div class="row">
+                            <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <?php 
+                                                     // echo $this->formHidden($form->get('csrf'));
+                                                      echo $this->formInput($transfergoods->get('submit')); ?>
+                      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $(window).on('beforeunload', function () {
+                                $("input[type=submit], input[type=button]").prop("disabled", "disabled");
+                            });
+                        </script>
+					</div>
+                                </div>
+                        </div>
+                            <?php
+                                echo $this->form()->closeTag();
+                            ?>
+                    </div><!--end of x-content-->
+                </div><!--end of x-Panel-->
+          </div><!--end of col-md-12 col-xs-12-- >
+      </div><!--end of ""-->
+ </div><!--end of right_col-- >
+ 
+
+ 

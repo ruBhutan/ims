@@ -1,0 +1,123 @@
+<?php
+ $title = 'Edit Top Level Menu';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <h5><i>Note: This is to add a module that appear at zero level. Menu weight means at what position the menus have to display (Example:- If you enter menu weight '1' then it will display at top). Please check the module icon with respect to your module.</i></h5>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $module = $form->get('module');
+                    $module->get('id')->setValue($this->editModule->getId());
+                    $module->get('module_name')->setValue($this->editModule->getModule_Name());
+                    $module->get('module_description')->setValue($this->editModule->getModule_Description());
+                    $module->get('menu_icon')->setValue($this->editModule->getMenu_Icon());
+                    $module->get('menu_weight')->setValue($this->editModule->getMenu_Weight());
+                    $module->get('submit')->setValue('Update Menu');
+                    echo $this->formHidden($module->get('id'));
+				  ?>
+          <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()){?>
+                <div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <strong>Success!</strong> <?=$this->flashMessenger()->setAutoEscape(false)->render(); ?>
+                </div>
+                <?php } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {?>
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <strong>Failure!</strong> <?=$this->flashMessenger()->setAutoEscape(false)->render(); ?>
+                </div>
+                <?php } ?>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Module Name<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($module->get('module_name')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Module Description<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($module->get('module_description')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Module Icon<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($module->get('menu_icon')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Menu Weight<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($module->get('menu_weight')); ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+            						<?php
+            						   echo $this->formHidden($form->get('csrf'));
+            						   echo $this->formSubmit($module->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+          <div class="x_title">
+                  <h2><?php echo $this->escapeHtml('Lists of added module'); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Module Name</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Icon</th>
+                            <th class="column-title">Weight</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i = 1; foreach ($this->menus as $detail) : ?>
+                          <tr class="even pointer">
+                            <td class=" " width="8%"><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['module_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['module_description']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['menu_icon']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['menu_weight']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                  </div>
+               </div>
+             </div>
+        
+        </div>
+          </div>

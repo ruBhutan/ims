@@ -1,0 +1,228 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+    $title = 'Student List';
+    $this->headTitle($title);
+
+    //get student list in an array
+ $studentName = array();
+ $studentGender = array();
+ $programmeName = array();
+ $studentSemester = array();
+ $studentSection = array();
+ $academicYear = array();
+ $studentYear = array();
+
+ $i=1;
+ $j=1;
+ foreach($this->graduateStudentList as $student){
+    $studentName[$i] = $student['first_name'].' '.$student['middle_name'].' '.$student['last_name'].' ('.$student['student_id'].')';
+    $studentGender[$i] = $student['stdgender'];
+    $programmeName[$i] = $student['programme_name'];
+    $studentSemester[$i] = $student['semester'];
+    $studentSection[$i] = $student['section'];
+    $academicYear[$i] = $student['academic_year'];
+    $studentYear[$i] = $student['year'];
+    $i++;
+ } 
+
+     $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ 
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div> 
+
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("Search of Student List")?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                  
+                        </div>
+                       <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                        <div class="x_content">
+                            <h5><i>*(In order to search the list of student and to update the graduated student, you have to compulsory select programme and year from drop down list (whereas name and student id is optionally) and click on search button to display the list of students with respect to the programme and year you select.)<br />
+                                        *** For student name you can search with first name and for student id you have to type correct ID. When list display, check the student who will be graduated and at last below the lists you have to check the confirmation check box to confirm it.** </i></h5>
+                                  <br />
+                            <?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                             $form->get('programme')->setValueOptions($this->programmeList);
+                            $form->get('year')->setValueOptions($this->studentYear);
+                            $form->get('academic_year')->setValueOptions($this->stdAcademicYear);
+                            ?>
+                        
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme</label>
+                                    <?php echo $this->formRow($form->get('programme')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Year</label>
+                                    <?php echo $this->formRow($form->get('year')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Academic Year</label>
+                                    <?php echo $this->formRow($form->get('academic_year')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Student Name</label>
+                                    <?php echo $this->formRow($form->get('student_name')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Student ID</label>
+                                    <?php echo $this->formRow($form->get('student_id')); ?>
+                                </div>
+                            </div>                         
+                            <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("List of student"); ?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <?php
+                       // if($changeProgrammeForm != NULL){
+               
+                        // Opening of the form tag
+                       $graduatedStudentForm->setAttribute('action', $this->url('updategraduatedstudent', array('action' => 'updateGraduatedStudent')));
+                        $form->prepare();
+                        echo $this->form()->openTag($graduatedStudentForm);
+                        $graduatedStudentForm->get('studentCount')->setValue($this->studentCount);
+                        $graduatedStudentForm->get('academic_year')->setValue($this->academicYear);
+                        $graduatedStudentForm->get('programme')->setValue($this->programmesId);
+                        $graduatedStudentForm->get('year')->setValue($this->yearId);
+                        $graduatedStudentForm->get('student_name')->setValue($this->studentName);
+                        $graduatedStudentForm->get('student_id')->setValue($this->studentId);
+                        echo $this->formHidden($graduatedStudentForm->get('academic_year'));
+                        echo $this->formHidden($graduatedStudentForm->get('programme'));
+                        echo $this->formHidden($graduatedStudentForm->get('year'));
+                        echo $this->formHidden($graduatedStudentForm->get('id')); 
+                        echo $this->formHidden($graduatedStudentForm->get('student_name'));
+                        echo $this->formHidden($graduatedStudentForm->get('student_id'));           
+                        echo $this->formHidden($graduatedStudentForm->get('studentCount'));                            
+                        ?>     
+                        <div class="x_content">
+                            <div  class="table-responsive">
+                                <table class="table table-striped jambo_table bulk_action" width="100%">  
+                                    <thead>
+                                        <tr class="headings">
+                                                                      
+                                            <th class="column-title">Sl.No. </th>
+                                            <th class="column-title">Student Id & Name</th>
+                                            <th class="column-title">Gender</th>
+                                            <th class="column-title">Programme</th>
+                                            <th class="column-title">Year</th>
+                                            <th class="column-title">Semester</th>
+                                            <th class="column-title">Section</th>
+                                            <th class="column-title">Academic Year</th>
+                                            <th class="column-title">Action</th>
+        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php for($i = 1; $i<=$this->studentCount; $i++) {?> 
+                                        <tr class="even pointer">
+                                            <td class=" " width="8%"><?php echo $i; ?></td>
+                                            <td class=" "><?php echo $studentName[$i]; ?></td>
+                                            <td class=" "><?php echo $studentGender[$i]; ?></td>
+                                            <td class=" "><?php echo $programmeName[$i]; ?></td>
+                                            <td class=" "><?php echo $studentYear[$i]; ?></td>
+                                            <td class=" "><?php echo $studentSemester[$i]; ?></td>
+                                            <td class=" "><?php echo $studentSection[$i]; ?></td>
+                                            <td class=" "><?php echo $academicYear[$i]; ?></td>
+                                            <td class="a-center"><?php echo $this->formRow($graduatedStudentForm->get('student_'.$i)); ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div><br><br>
+                            <div class="clearfix"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-6 col-sm-6 col-xs-12" for="confirmation"><i>I hereby declare that all the data checked are valid and confirmed</i><span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <?php  echo $this->formRow($graduatedStudentForm->get('confirmation')); ?>
+                                </div>
+                            </div>
+                        </div><br/>
+                        </div>
+                        <?php
+                            echo $this->formHidden($graduatedStudentForm->get('csrf'));
+                            echo $this->formSubmit($graduatedStudentForm->get('submit'));
+                            echo $this->form()->closeTag();
+                            ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>      
+</div> 
+         
+       
+                

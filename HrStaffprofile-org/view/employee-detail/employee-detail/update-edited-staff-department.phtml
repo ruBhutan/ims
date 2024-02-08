@@ -1,0 +1,145 @@
+<?php
+ $title = 'Edit Staff Department';
+ $this->headTitle($title);
+ 
+ $personal = array();
+ foreach($this->personalDetails as $detail){
+	 $personal = $detail;
+ }
+
+ $department = array();
+ foreach ($this->departmentDetails as $details) {
+   $department = $details;
+ }
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+          					//$form->get('new_working_agency')->setValueOptions($this->organisationList);
+          					$form->get('employee_details_id')->setValue($this->employee_details_id);
+                    $form->get('organisation_id')->setValue($this->organisation_id);
+                    $form->get('departments_id')->setValue($department['departments_id']);
+                    $form->get('departments_units_id')->setValue($department['departments_units_id']);
+                    echo $this->formHidden($form->get('organisation_id'));
+          					echo $this->formHidden($form->get('employee_details_id'));
+                 ?> 
+                  <div class="clearfix"></div>
+                  <!-- Personal Details Information-->
+                  <h2 class="StepTitle">Personal Details</h2>
+                  <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['first_name'].' '.$personal['middle_name'].' '.$personal['last_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['emp_id']; ?></i></h4>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Department:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $department['department_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Division/Section:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $department['unit_name']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Personal Details Information-->
+                  <!-- Present Job Details Information-->
+                  <h2 class="StepTitle">Present Job Identification</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['position_title']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['position_level']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Pay Scale:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['position_title']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Category:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['category']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Major Occupational Group:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['major_occupational_group']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- End of Employee Details Information-->
+
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h2><i> Details</i></h2>
+                       </div>
+                    </div>
+                  </div>
+                  
+                  
+                  <h5><i><font color="red">***If you want to edit/ change the unit/ section under displayed department, first please select another department from the department drop down list and then select again the same department in order to display the list of unit/ section under that particular displayed department.</font></i></h5><br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Department:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($form->get('departments_id')); ?>
+                        </div> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Division/Section:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($form->get('departments_units_id')); ?>
+                        </div>
+                    </div>
+                  </div>
+                                     
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+                            echo $this->formRow($form->get('submit'));
+                            echo $this->form()->closeTag($form);
+                         ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+</div>
+ 

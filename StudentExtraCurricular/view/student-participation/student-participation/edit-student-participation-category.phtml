@@ -1,0 +1,94 @@
+<?php
+ $title = 'Edit Category';
+ $this->headTitle($title);
+
+ $participationCategory = array();
+ foreach($this->categoryDetail as $details){
+  $participationCategory = $details;
+ } 
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $participation = $form->get('participation');
+                    $participation->get('id')->setValue($participationCategory['id']);
+					          $participation->get('organisation_id')->setValue($participationCategory['organisation_id']);
+                    $participation->get('participation_type')->setValue($participationCategory['participation_type']);
+                    $participation->get('remarks')->setValue($participationCategory['remarks']);
+                    echo $this->formHidden($participation->get('id'));
+          					echo $this->formHidden($participation->get('organisation_id'));
+          				  ?>
+                
+                <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+                
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Participation Category Name<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($participation->get('participation_type')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Participation Description<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($participation->get('remarks')); ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+            						<?php
+            						   echo $this->formHidden($form->get('csrf'));
+            						   echo $this->formSubmit($participation->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+             </div>
+        
+        </div>
+    
+          </div>
+

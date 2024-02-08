@@ -1,0 +1,138 @@
+<?php
+ $title = 'Leave Status';
+ $this->headTitle($title);
+ $total_leave_taken = array();
+ $leave_category = array();
+ foreach($this->eolTaken as $total){
+		if($total_leave_taken == NULL)
+			$total_leave_taken[$total['emp_leave_category_id']] = $total['days_of_leave'];
+		else 
+			$total_leave_taken[$total['emp_leave_category_id']] += $total['days_of_leave'];
+ }
+ foreach($this->casualLeaveTaken as $total){
+	  if($total_leave_taken == NULL)
+			$total_leave_taken[$total['emp_leave_category_id']] = $total['days_of_leave'];
+		else 
+			$total_leave_taken[$total['emp_leave_category_id']] += $total['days_of_leave'];
+ }
+ foreach($this->earnedLeaveTaken as $total){
+	  if($total_leave_taken == NULL)
+			$total_leave_taken[$total['emp_leave_category_id']] = $total['days_of_leave'];
+		else 
+			$total_leave_taken[$total['emp_leave_category_id']] += $total['days_of_leave'];
+ }
+ foreach($this->studyLeaveTaken as $total){
+	  if($total_leave_taken == NULL)
+			$total_leave_taken[$total['emp_leave_category_id']] = $total['days_of_leave'];
+		else 
+			$total_leave_taken[$total['emp_leave_category_id']] += $total['days_of_leave'];
+ }
+ foreach($this->maternityLeaveTaken as $total){
+	  if($total_leave_taken == NULL)
+			$total_leave_taken[$total['emp_leave_category_id']] = $total['days_of_leave'];
+		else 
+			$total_leave_taken[$total['emp_leave_category_id']] += $total['days_of_leave'];
+ }
+ foreach($this->leaveCategory as $leave){
+	 $leave_category[] = $leave;
+ }
+
+ //if it is earned leave, need to add the balance and month-wise days
+ foreach($leave_category as $key=>$value){
+	 if($value['leave_category'] == 'Earned Leave'){
+		 $month = (int) date('m')-1 ;
+		 $leave_category[$key]['total_days'] = ($value['total_days'] * $month) + $this->earnedLeaveBalance;
+	 }
+ }
+	 
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }?>
+                    <div class="x_content">
+                 <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        <th width="5%" class="column-title">Sl.No </th>
+                        <th width="10%" class="column-title">Leave Types</th>
+                        <th width="10%" class="column-title">Total Days of Leave</th>
+                        <th width="25%" class="column-title">Description</th>
+                        <th width="10%" class="column-title">Leave Balance</th>
+                        <th width="10%" class="column-title">Approval From</th>
+                        <th width="10%" class="column-title">Apply</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <?php $i=1; foreach ($leave_category as $category) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($category['leave_category']);?></td>
+                            <td class=" "><?php 
+												if($category['leave_category'] != 'Earned Leaved')
+													echo $this->escapeHtml((int)$category['total_days']);
+												else
+													echo $this->escapeHtml($category['total_days']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($category['remarks']);?></td>
+                            <td class=" ">
+								<?php 
+									//Need to deduct the number of days leave was taken for each category
+									if(array_key_exists($category['id'], $total_leave_taken))
+										echo $this->escapeHtml((int)$category['total_days'])-$total_leave_taken[$category['id']];
+									else
+										echo $this->escapeHtml((int)$category['total_days']); 
+										
+								?></td>
+                            <td class=" "><?php echo $this->escapeHtml($category['approval_by']);?></td>
+                            <td class=" ">
+                            	<?php 
+									if(array_key_exists($category['id'], $total_leave_taken)){
+										if(($category['total_days'])-$total_leave_taken[$category['id']] <= 0) { ?>
+                                		<?php echo $this->escapeHtml("No Leave Balance"); } 
+										else { ?>
+                                        <a href="<?php echo $this->url('empleaveapplication', array('id' => bin2hex(base64_encode($category['id'])))); ?>" class="btn btn-info btn-xs">Apply</a>
+                                 <?php } }
+								 	else{ ?>
+                                    	<a href="<?php echo $this->url('empleaveapplication', array('id' => bin2hex(base64_encode($category['id'])))); ?>" class="btn btn-info btn-xs">Apply</a>
+                                 <?php
+									}
+								  ?>
+                                </td>
+                          </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                    
+                  </table>
+                        <h6>Notes:No Leave carry over for Teaching(academic) employees</h6>
+          </div></div></div>
+              
+               
+          </div></div>
+         
+          
+        
+         
+     
+     

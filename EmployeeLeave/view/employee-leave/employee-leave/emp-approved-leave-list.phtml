@@ -1,0 +1,95 @@
+<?php
+ $title = 'Approved Leave Details (HRO)';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }?>
+                     <h5><i>Staff Approved List for the cancel or adjustment of leave</i></h5>
+                        	<div class="row">
+                            </div>
+                            <br/>
+                                <div class="table-responsive">
+                                  <table id="datatable" class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                        <th class="column-title">Sl No </th>
+                                        <th class="column-title">Staff Name </th>
+                                        <th class="column-title">Staff ID </th>
+                                        <th class="column-title">Type of Leave </th>
+                                        <th class="column-title">Days of Leave </th>
+                                        <th class="column-title">Date From</th>
+                                        <th class="column-title">Date To</th>
+                                        <th class="column-title">Reasons</th>
+                                        <th class="column-title">Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php if(!empty($this->approvedLeaveList)){?>
+                                       <?php $i = 1; foreach ($this->approvedLeaveList as $approved) : ?>
+                                        <tr>
+                                          <td class=" "><?php echo $i++; ?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['first_name'].' '.$approved['middle_name'].' '.$approved['last_name']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['emp_id']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['leave_category']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['days_of_leave']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['from_date']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['to_date']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['reason']);?></td>
+                                           <td class=" last"> <a href="<?php echo $this->url('updateempapprovedleave', array('id' => my_encrypt($approved['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Update</a></td>
+                                        </tr>
+                                     <?php endforeach; ?>
+                                   <?php } ?>
+                                    </tbody>
+                                  </table>
+                                </div>                      
+
+                        
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

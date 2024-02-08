@@ -1,0 +1,69 @@
+<?php
+// module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+$title = 'Alumni Member List';
+$this->headTitle($title);
+
+?>
+<div class="right_col" role="main">
+<div class="">
+<div class="col-md-12 col-sm-12 col-xs-12">
+<div class="x_panel">
+  <div class="x_title">
+      <h2><?php echo $this->escapeHtml($title); ?></h2>
+          <div class="clearfix"></div>
+  </div>
+      <div class="x_content">
+          <div class="table-responsive">
+              <table id ="datatable-responsive" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                  <div class="form-group">
+                           
+                  </div><br/><br/>  
+                              <thead>
+                                  <tr class="headings">
+                                     <!-- <th>
+                                          <input type="checkbox" id="check-all" class="flat">
+                                      </th>-->                          
+                                      <th class="column-title">Sl.No. </th>
+                                      <th class="column-title"> Name </th>
+                                      <th class="column-title">CID No.</th>
+                                      <th class="column-title">D.O.B</th>
+                                      <th class="column-title">Programme</th>
+                                      <th class="column-title">Graduation Year</th>
+                                      
+                                      <th class="column-title">Status</th>
+                                      <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                                      <th class="bulk-actions" colspan="7">
+                                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                      </th>
+                                  </tr>
+                              </thead>
+                              <?php $i=1; ?>
+                              <?php foreach ($this->members as $member) : ?>
+                                  <tr class="even pointer">
+                                     <!-- <td class="a-center ">
+                                          <input type="checkbox" class="flat" name="table_records">
+                                      </td>-->
+                                      <td class=" "><?php echo $i; ?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member->getFirst_Name());?>&nbsp;<?php echo $this->escapeHtml($member->getMiddle_Name());?><br><?php echo $this->escapeHtml($member->getLast_Name());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member->getCid());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member->getDate_Of_Birth());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member->getProgramme_Name());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member->getGraduation_Year());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member->getSubscription());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member->getAlumni_Status());?></td>
+                                      <td class="last"> <a href="<?php echo $this->url('alumni-profile', array('id' => $member->getId()));?>"><button type="button" class="btn btn-success btn-xs">View Details</button></a></td>
+                                      </tr>
+                              <?php $i++; ?>
+                              <?php endforeach; ?>
+                  </table>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+
+

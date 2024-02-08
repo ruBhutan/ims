@@ -1,0 +1,191 @@
+<?php
+ $title = 'Approval of Transfer Applicant (OVC)';
+ $this->headTitle($title);
+ 
+ $personal = array();
+ $transfer_details = array();
+ foreach($this->personalDetails as $detail){
+	 $personal = $detail;
+ }
+ 
+ foreach($this->transferDetails as $tmp){
+	 $transfer_details = $tmp;
+ }
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+					$transfer = $form->get('ovcapproval');
+					$transfer->get('id')->setValue($transfer_details['id']);
+					echo $this->formHidden($transfer->get('id'));
+                 ?> 
+                  <div class="clearfix"></div>
+                  <!-- Personal Details Information-->
+                  <h2 class="StepTitle">Personal Details</h2>
+                  <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['first_name'].' '.$personal['middle_name'].' '.$personal['last_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['emp_id']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Personal Details Information-->
+                  <!-- Present Job Details Information-->
+                  <h2 class="StepTitle">Present Job Identification</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->positionTitleList[$transfer_details['previous_position_title']]; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->positionLevelList[$transfer_details['previous_position_level']]; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Pay Scale:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $transfer_details['previous_pay_scale']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Category:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->positionCategoryList[$transfer_details['previous_position_category']]; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Major Occupational Group:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['major_occupational_group']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">College/Agency:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->organisationList[$transfer_details['previous_working_agency']]; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Present Job Details Information-->
+                   <!-- New Job Details Information-->
+                  <h2 class="StepTitle">New/Transfer Job Identification</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->positionTitleList[$transfer_details['new_position_title']]; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->positionLevelList[$transfer_details['new_position_level']]; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Pay Scale:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $transfer_details['new_pay_scale']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Category:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->positionCategoryList[$transfer_details['new_position_category']]; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Major Occupational Group:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['major_occupational_group']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">College/Agency:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->organisationList[$transfer_details['new_working_agency']]; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- End of New Job Details Information-->
+                  <br />
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h2><i>Transfer Details</i></h2>
+                       </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Transfer Order No.<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($transfer->get('ovc_transfer_status')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks</label>
+                       <div class="col-md-8 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($transfer->get('ovc_transfer_remarks')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                   <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Upload Rejection Order<br><small class="text-navy">(If Transfer is Rejected)</small></label>
+                       <div class="col-md-8 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($transfer->get('rejection_order')); ?>
+                        </div>
+                    </div>
+                  </div>                     
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+                            echo $this->formRow($form->get('submit'));
+                            echo $this->form()->closeTag($form);
+                         ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

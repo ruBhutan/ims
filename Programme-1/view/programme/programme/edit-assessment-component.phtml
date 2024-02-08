@@ -1,0 +1,78 @@
+<?php
+ $title = 'Edit Assessment Component';
+ $this->headTitle($title);
+ 
+ $assessment_details = array();
+ foreach($this->assessmentDetails as $detail){
+	 $assessment_details = $detail;
+ }
+  
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="col-md-12 col-xs-12">
+                      <div class="x_panel">
+                        <div class="x_title">
+                          <h2><?php echo $this->escapeHtml("Edit Assessment Component")?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                              </li>
+                        
+                            </ul>
+                         <div class="clearfix"></div>
+                      
+                        </div>
+                           
+                        <div class="x_content">
+                          <br />
+                           <?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $assessment = $form->get('assessmentcomponent');
+                            $assessment->get('assessment_component_types_id')->setValueOptions($this->assessmentComponentTypeList);
+							$assessment->get('id')->setValue($assessment_details['id']);
+							$assessment->get('assessment_component_types_id')->setValue($assessment_details['assessment_component_types_id']);
+							$assessment->get('weightage')->setValue($assessment_details['weightage']);
+							//$assessment->get('remarks')->setValue($assessment_details['remarks']);
+							$assessment->get('academic_modules_id')->setValue($assessment_details['academic_modules_id']);
+                            echo $this->formHidden($assessment->get('id'));
+							echo $this->formHidden($assessment->get('assessment_component_types_id'));
+							echo $this->formHidden($assessment->get('academic_modules_id'));
+              echo $this->formHidden($assessment->get('remarks'));
+                          ?>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Assessment Type:<span class="required">*</span></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?php  echo $this->formRow($assessment->get('assessment_component_types_id')); ?>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Weightage:<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                              <?php  echo $this->formRow($assessment->get('weightage')); ?>
+                            </div>
+                          </div>
+                         <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                  <?php
+                                   echo $this->formHidden($form->get('csrf'));
+                                   echo $this->formSubmit($assessment->get('submit')); 
+                                   echo $this->form()->closeTag(); 
+                                ?>
+                            </div>
+                        </div>
+                          
+                      </div>
+                    </div>
+                </div>     
+
+         </div>
+       </div>
+     </div>
+              

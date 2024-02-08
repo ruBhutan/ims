@@ -1,0 +1,137 @@
+<?php
+
+ $title = 'Allocate Modules to An Academic Year';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+                </div>
+                  <div class="x_content">
+                	<br/>
+                 	<?php
+						// Opening of the form tag
+						$form->prepare();
+						echo $this->form()->openTag($form);
+						$form->get('programmes_id')->setValueOptions($this->programmeList);
+						$form->get('academic_modules_id')->setValueOptions($this->moduleList);
+						$form->get('academic_year')->setValue(date('Y'));
+						echo $this->formHidden($form->get('id'));
+					?>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-2 col-xs-12">Academic Year<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('academic_year')); ?>
+                            </div>
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">Year<span class="required">*</span><br />
+                            	<small>(e.g. 1st Year, 2nd Year etc.)</small></label>
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('year')); ?>
+                            </div>
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">Semester<span class="required">*</span></label>
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('semester')); ?>
+                            </div>
+                        </div>
+                     </div>
+                     <br />
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-2 col-xs-12">Programme<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($form->get('programmes_id')); ?>
+                            </div>
+                        </div>
+                     </div>
+                     <br />
+                    <div class="row">
+                           <label class="control-label col-md-3 col-sm-2 col-xs-12">Module Name <span class="required">*</span><br />
+                            	<small>(To select more than one module, press the "shift key" and select)</small></label>
+                           <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?php echo $this->formRow($form->get('academic_modules_id')); ?>
+                           </div>
+                     </div>
+                    
+                     <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <?php
+                                   
+                                   echo $this->formHidden($form->get('csrf'));
+                                   echo $this->formSubmit($form->get('submit')); 
+                                ?>
+                                </div>
+                            </div>
+                       </div>
+                            <?php
+                            echo $this->form()->closeTag();
+                            ?>
+                        </div>
+                      </div>
+                </div>
+               <?php
+				 $title = 'Academic Modules for Academic Year';
+				 $this->headTitle($title);
+			  ?>
+              <div class="col-md-12 col-xs-12">
+                  
+                  <div class="x_panel">
+                    <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                        <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Programme Name</th>
+                            <th class="column-title">Module Title</th>
+                            <th class="column-title">Module Code</th>
+                            <th class="column-title">Credits</th>
+                            <th class="column-title">Year</th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title">Academic Year</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach ($this->moduleAllocated as $module) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['programme_name']); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_title']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_code']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_credit']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['year']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['semester']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['academic_year']);?></td>
+                            <td><a href="<?php echo $this->url('editacademicyearmodule', array('id' => $module['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                
+                </div>
+              </div>
+            </div>
+           </div>  
+          </div>
+        </div> 
+     </div>

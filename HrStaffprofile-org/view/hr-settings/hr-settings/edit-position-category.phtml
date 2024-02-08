@@ -1,0 +1,116 @@
+<?php
+ $title = 'Edit Position Category';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+      <div class="">
+        <div class="col-md-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><?php echo $this->escapeHtml($title); ?></h2>
+             <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+            <br />
+            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+            <div id="myTabContent" class="tab-content">
+              <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="profile-tab">
+               <br/> 
+               <p> 
+                <div class="x_panel"> 
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+					           $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $position = $form->get('positioncategory');
+          					//$position->get('major_occupational_group_id')->setValueOptions($this->occupationalGroup);
+          					$position->get('id')->setValue($this->categoryDetails->getId());
+          					$position->get('major_occupational_group_id')->setValue($this->categoryDetails->getMajor_Occupational_Group_Id());
+          					$position->get('category')->setValue($this->categoryDetails->getCategory());
+          					$position->get('description')->setValue($this->categoryDetails->getDescription());
+                    echo $this->formHidden($position->get('major_occupational_group_id'));
+                    echo $this->formHidden($position->get('id'));
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Occupational Group<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" value="<?php  echo $this->categoryDetails->getMajor_Occupational_Group(); ?>" class="form-control" readonly="readonly">
+                    </div>
+                </div>
+                </div> 
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Category: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($position->get('category')); ?>
+                    </div>
+                </div>
+                </div> 
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">Position Category Description: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($position->get('description')); ?>
+                    </div>
+                </div>
+                </div>   
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($position->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="example-datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Position Category </th>
+                            <th class="column-title">Occupational Group</th>
+                            <th class="column-title">Position Category Descriptions </th>
+                            <th class="column-title">Action </th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php foreach ($this->position_category as $category): ?>
+                          <tr>
+                            <td><?php echo $this->escapeHtml($category->getCategory());?></td>
+                            <td><?php echo $this->escapeHtml($occupationalGroup[$category->getMajor_Occupational_Group_Id()]);?></td>
+                            <td><?php echo $this->escapeHtml($category->getDescription());?></td>
+                            <td><a href="<?php echo $this->url('editpositioncategory', array('id' => $category->getId()));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				</div>
+				</div>
+                <!-- End of tabs-->        
+                
+   		 </div>
+ 		</div>
+	</div>
+</div>
+</div>
+            

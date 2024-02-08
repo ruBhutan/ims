@@ -1,0 +1,112 @@
+<?php
+ $title = 'Recheck Application Details';
+ $this->headTitle($title);
+ 
+ $student_details = array();
+ foreach($this->studentDetails as $detail){
+	 $student_details = $detail;
+ }
+
+ $recheck_detail = array();
+ foreach($this->recheckApplicationDetails as $details){
+     $recheck_detail = $details;
+ }
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+        
+                  <h2 class="StepTitle">Applicant Details:</h2>
+                   <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-4 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $student_details['first_name'].' '.$student_details['middle_name'].' '.$student_details['last_name']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Student ID:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $student_details['student_id']; ?></i></h4>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Programme:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $student_details['programme_name']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+        	  </div> 
+
+                  <br /><br/>
+                  <h2 class="StepTitle">Applicantion Details:</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Name (and Code):<span class="required">*</span></label>
+                       <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $recheck_detail['module_title'].' ('.$recheck_detail['module_code'].')'; ?>" readonly>
+                        </div>
+                    </div>
+                  </div>
+                 <br>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Type:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $recheck_detail['type']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Application Date:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $recheck_detail['application_date']; ?>" readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Payment Status:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $recheck_detail['payment_status']; ?>" readonly>
+                        </div>
+                        <?php if($recheck_detail['payment_status'] == 'Payment Updated'){?>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Payment Remarks:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <Textarea class="form-control" readonly>
+                          <?php echo $recheck_detail['payment_remarks']; ?>
+                          </Textarea>
+                        </div>
+                        <?php } ?>
+                    </div>
+                  </div>
+
+                  <br>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Recheck Status:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $recheck_detail['recheck_status']; ?>" readonly>
+                        </div>
+                        <?php if($recheck_detail['recheck_status'] == 'Recheck Done'){?>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Recheck Remarks:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <Textarea class="form-control" readonly>
+                          <?php echo $recheck_detail['recheck_remarks']; ?>
+                          </Textarea>
+                        </div>
+                        <?php } ?>
+                    </div>
+                  </div>
+        </div>
+  	 </div>
+   </div>
+ </div>
+ </div>
+ 

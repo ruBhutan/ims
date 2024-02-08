@@ -1,0 +1,174 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+$title = 'Parent Portal Access';
+$this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ 
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div> 
+
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("Search for List of Student to Assign Parent Portal Access")?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                  
+                        </div>
+                       <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                        ?>       
+                        <div class="x_content">
+                            <h5><i>*(In order to search the list of student  and to view details of student parent portal access, edit parent portal access and add parent portal access (especially if it is not assign student parent portal), you have to compulsory select programme and year from drop down list (whereas name and student id is optionally) and click on search button to display the list of students with respect to the programme and year you select.)<br />
+                                        *** For student name you can search with first name and for student id you have to type correct ID. When list display, tick the checkbox with respect to student, select parent type from dropdown list and click on submit add button of respective student** </i></h5>
+                                  <br />
+                            <?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $form->get('programme')->setValueOptions($this->studentProgramme);
+                            $form->get('year')->setValueOptions($this->studentYear);
+                            ?>
+                        
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme</label>
+                                    <?php echo $this->formRow($form->get('programme')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Year</label>
+                                    <?php echo $this->formRow($form->get('year')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Student Name</label>
+                                    <?php echo $this->formRow($form->get('studentName')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Student ID</label>
+                                    <?php echo $this->formRow($form->get('studentId')); ?>
+                                </div>
+                            </div>                         
+                            <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("List of student"); ?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>     
+                        <div class="x_content">
+                            <h5><i>Below are the list of student under selected programme and Year.<br />
+                            To assign parent portal access of particular student, just click on particular button under "Action" column with respect to particular student and click on Add button.</i></h5>
+                            <div  class="table-responsive">
+                                <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">  
+                                    <thead>
+                                        <tr class="headings">
+                                                                      
+                                            <th class="column-title" width="10%">Sl.No. </th>
+                                            <th class="column-title">Name & Student Id</th>
+                                            <th class="column-title">Programme</th>
+                                            <th class="column-title">Year</th>
+                                            <th class="column-title">Semester</th>
+                                            <th class="column-title">Action<small> (Click on view button to view assigned parent and if not click on other three button to assign)</small></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        $i = 1;
+                                        foreach($this->studentList as $list): ?>
+                                        <tr class="even pointer">
+                                            <td class=" "><?php echo $i; ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($list['first_name']) . ' ' .
+                                                               $this->escapeHtml($list['middle_name']) . ' ' .
+                                                               $this->escapeHtml($list['last_name']) .' (' .
+                                                               $this->escapeHtml($list['student_id']).')';?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($list['programme_name']); ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($list['year']); ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($list['semester']); ?></td>
+                                            <td class=" " width="28%"> <a href="<?php echo $this->url('viewparentportalaccessdetails', array('id' => my_encrypt($list['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View </a>
+                                                <a href="<?php echo $this->url('assignfatheraccess', array('id' => my_encrypt($list['id'], $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-user-plus"></i> Father </a>
+                                                <a href="<?php echo $this->url('assignmotheraccess', array('id' => my_encrypt($list['id'], $key))); ?>" class="btn btn-success btn-xs"><i class="fa fa-user-plus"></i> Mother </a>
+                                                <a href="<?php echo $this->url('assignguardianaccess', array('id' => my_encrypt($list['id'], $key))); ?>" class="btn btn-default btn-xs"><i class="fa fa-user-plus"></i> Guardian </a>
+                                            </td>                                         
+                                        </tr>
+                                        <?php $i++; ?>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div><br/>
+                        </div><br/>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>      
+    </div> 
+</div>
+</div>         
+       
+                

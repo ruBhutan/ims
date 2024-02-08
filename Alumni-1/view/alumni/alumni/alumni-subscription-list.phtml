@@ -1,0 +1,76 @@
+<?php
+
+ $title = 'Alumni Subscription Details Lists';
+ $this->headTitle($title);
+?>
+		<div class="right_col" role="main">
+          <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="x_panel">
+                  <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                      $messages = $this->flashMessenger()->getMessages();
+                      foreach($messages as $message) {
+                        echo '<strong>Success!</strong>'. $message;
+                      }
+                      echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                  <div class="x_content">
+                    <?php if($this->organisation_id != 1) {?>
+                    <div class="row">
+                      <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                        <div class="title_left">
+                            <h3>Subscription / Resources Provided</h3>
+                            <small><b>Following are the list(s) of subscription that we provide and actually our alumni can avail through this system.</b></small>
+                            <div class="ln_solid"></div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                      <!-- start of display-->
+                      <?php $i=1; foreach ($this->subscriptionList as $subscription) : ?>
+                      <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                        <div class="well profile_view">
+                          <div class="col-sm-12">
+                          <h2><?php echo $this->escapeHtml($subscription['subscription_details']);?></h2>
+                            <div class="left col-xs-12">
+                              <p><strong>Subscription Details: </strong> <?php echo $this->escapeHtml($subscription['subscription_details']);?></p>
+                              <p><strong>Remarks (s)/ Description: </strong><?php echo $this->escapeHtml($subscription['remarks']);?></p>
+                            </div>
+                          </div>
+                          <div class="col-xs-12 bottom text-center"></div>
+                        </div>
+                      </div>
+                      <?php endforeach; ?>
+                      <!-- end of display-->
+                       <div class="col-xs-12 bottom text-center">
+                         <p>If you want to avail the resources that we provide then please click on SUBSCRIBE button to subscribe the resources<br>
+                            <a href="<?php echo $this->url('applyalumnisubscription');?>"><span class="btn btn-primary">SUBSCRIBE</span></a>
+                         </p>
+
+                       </div>
+                    </div>
+                  <?php } else{?>
+                    <p>You are not allow to apply for subscription</p>
+                  <?php } ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+              
+             

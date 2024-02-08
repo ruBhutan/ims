@@ -1,0 +1,101 @@
+<?php
+
+ $title = 'Continuous Assessment Record Details';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+$module = array();
+foreach($this->module_details as $details){
+    $module = $details;
+} 
+?>
+
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                  
+                  <?php if(!$check_compiled_ca){ 
+                      if(!empty($ca_details)){ ?>
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title).' (<i>Module: '.$module['module_title'].'-'.$module['module_code'].', Total Weightage: '.$module['weightage'].'</i>)'; ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                        <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                         <div class="form-group">      
+                      </div> 
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Assessment </th>
+                            <th class="column-title">Submission Date</th>
+                            <th class="column-title">Marks Obtained</th>
+                            <th class="column-title">Assessment Marks</th>
+                            <th class="column-title">Assessment Weightage</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                          <?php $i=1; foreach ($this->ca_details as $details) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($details['assessment']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($details['date_submission']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($details['marks']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($details['assessment_marks']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($details['assessment_weightage']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                          <?php } else {?>
+                            <div class="x_content">
+                                <?php 
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                                echo '<strong>Sorry! There are not even a single continuous assessment has been entered</strong>';
+                                echo '</div>';
+                                ?>
+                            </div>
+                         <?php } ?>
+                        <?php } else {?>
+                            <div class="x_content">
+                                <?php 
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                                echo '<strong>Sory! You are not able to view the continuous assessment details since it has already compiled.</strong>';
+                                echo '</div>';
+                                ?>
+                            </div>
+                          <?php } ?>
+                
+                </div>
+                </div>
+                </div>
+                </div>
+             
+          </div>
+        </div> 
+     </div>         

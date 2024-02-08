@@ -1,0 +1,89 @@
+<?php
+$title = 'Party';
+$this->headTitle($title);
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+	<div class=" ">
+		<div class="col-md-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2><?php echo $this->escapeHtml($title);?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="pull-right tableTools-container"></div>
+				<a class="pull-right btn btn-primary" href="<?php echo $this->url('asset', array('action'=>'addparty'));?>"
+				<span class="white"><i class="fa fa-plus"></i> <span class="hidden-sm hidden-xs">&nbsp;Add  Party </span></span>
+				</a>
+				<div class="pull-right"></div>
+				<?php echo $this->partial('accounts/asset/partial.phtml', array('active' => 'party')); ?>
+				<div class="x_content">
+					<div class="table-responsive">
+						<table id="datatable" class="table table-striped jambo_table bulk_action">
+							<thead>
+								<tr class="headings">
+									<th>SL. No. </th>
+									<th>Party</th>
+									<th>Party Role</th>
+									<th>License No.</th>
+									<th>TPN No.</th>
+									<th>Bank Account No.</th>
+									<th>Contact No.</th>
+									<th>Organisation</th>
+									<th class="">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+									$i = 1;
+									foreach ($this->rowset as $rows):
+								?>
+									<tr>
+										<td><?php echo $i; ?> </td>
+										<td><b><?php echo $rows['supplier_name']; ?></b></td>
+										<td><?php echo $rows['party_role']; ?></td>
+										<td><?php echo $rows['supplier_license_no']; ?></td>
+										<td><?php echo $rows['supplier_tpn_no']; ?></td>
+										<td><?php echo $rows['supplier_bank_acc_no']; ?></td>
+										<td><?php echo $rows['supplier_contact_no']; ?></td>
+										<td><?php echo $rows['organisation']; ?></td>
+										<td>
+											<a class="btn btn-xs btn-info " href="<?php echo $this->url('asset', array('action'=>'editparty', 'id'=> my_encrypt($rows['id'], $key)));?>" >
+												<i class="fa fa-pencil"></i> Edit<span class="hidden-lg hidden-xs"></span></span>
+											</a>
+										</td>
+									</tr>
+								<?php
+								$i++;
+								endforeach;
+								?>
+							</tbody>
+						</table>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("tr[data-href]").each(function(){
+		if($(this).attr('data-href')!='#'){
+			$(this).css('cursor','pointer');
+			$(this).bind('click',function() {
+				window.document.location = $(this).attr("data-href");
+			});
+		}
+	});
+</script>
+

@@ -1,0 +1,221 @@
+<?php
+ $title = 'Leave Application';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <?php if($this->student_id){?>  
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $leave = $form->get('leaveapplication');
+                    $leave->get('student_id')->setValue($this->student_id);
+                    $leave->get('student_leave_category_id')->setValueOptions($this->leaveCategory);
+                    $leave->get('leave_status')->setValue('Pending');
+                    $leave->get('outing_category')->setValue($this->outingCategory);
+                    echo $this->formHidden($leave->get('student_id'));
+                    echo $this->formHidden($leave->get('leave_status'));
+                    echo $this->form()->openTag($form);
+      				  ?>
+                <h5><i>***Please select leave category from the drop down list based on the leave you are applying for. Your leave will be approved by the authority based on the category you are applying. If you are applying leave during weekdays means please select category "Weekday Leave" and if you are applying during weekend then please select "Weekend Leave".<br/><br/>
+                NOTE: Especially for Dayscholar, no need to apply for "Weekend Leave".</i><br/><br/>
+                <br/>
+
+                <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>   
+
+                <div class="row">    
+                  <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-12 col-xs-12">Leave Category: <span class="required">*</span></label>
+                      <div class="col-md-6 col-sm-12 col-xs-12">
+                        <?php  echo $this->formRow($leave->get('student_leave_category_id')); ?>
+                     </div>
+                  </div>
+                </div>
+
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-12 col-xs-12">From Date: <span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12">
+                      <?php  echo $this->formRow($leave->get('from_date')); ?>
+                   </div>
+                   <label class="control-label col-md-2 col-sm-12 col-xs-12">To Date: <span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12">
+                      <?php  echo $this->formRow($leave->get('to_date')); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-12 col-xs-12">Reasons:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                      <?php  echo $this->formRow($leave->get('reasons')); ?>
+                    </div>
+                </div> 
+                </div>
+                <div class="row">    
+                   <label class="control-label col-md-3 col-sm-12 col-xs-12">Leaving From: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                      <?php  echo $this->formRow($leave->get('outing_category')); ?>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" >    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-12 col-xs-12">Attach Documents: <small>(Optional - this will be applicable if you are applying for medical, and so on.)</small> </label>
+                  <div class="col-md-6 col-sm-12 col-xs-12">
+                    <?php  echo $this->formRow($leave->get('evidence_file')); ?>
+                  </div>
+                </div> 
+                </div> 
+
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formHidden($form->get('csrf'));
+						            echo $this->formSubmit($leave->get('submit')); 
+                      ?>
+                        </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                </div>
+              </div>
+            </div>
+              
+              
+             <?php
+             $title = 'Leave Details';
+             $this->headTitle($title);
+             ?>
+              <div class="col-md-12 col-xs-12">
+                  
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                <?php
+                $current_academic_details = array();
+                foreach($this->semester_duration as $details){
+                  $current_academic_details['from_date'] = $details['from_date'];
+                  $current_academic_details['to_date'] = $details['to_date'];
+                }
+                 ?>
+                    <div class="x_content">
+                        <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                         <div class="form-group">      
+                      </div> 
+                        <thead>
+                          <tr class="headings">
+                           <!--<th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>-->
+                              <th class="column-title">Sl. No</th>
+                              <th class="column-title">Leave Type</th>
+                            <th class="column-title">From Date</th>
+                            <th class="column-title">To Date</th>
+                            <th class="column-title">Reasons</th>
+                            <th class="column-title">Status</th>
+                            <th class="bulk-actions" colspan="7">
+                            <th class=" last">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php $i=1; foreach($this->appliedLeaveList as $leave):?>
+                          <tr>
+                            <?php //if(($leave['from_date'] >= $current_academic_details['from_date']) && ($leave['from_date'] <= $current_academic_details['to_date'])){ ?>
+                            <td><?php echo $i++; ?></td>
+                            <td><?php echo $leave['leave_category'] ?></td>
+                            <td><?php echo $leave['from_date'] ?></td>
+                            <td><?php echo $leave['to_date'] ?></td>
+                            <td><?php echo $leave['reasons'] ?></td>
+                            <td><?php echo $leave['leave_status'] ?></td>
+                            <td>
+                              <a href="<?php echo $this->url('viewstdleave', array('id' =>my_encrypt($leave['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
+                            </td>
+                          <?php //} ?>
+                          </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+
+                
+                </div>
+              </div>
+              <?php } else{?>
+              <div class="x_content">
+                    <?php 
+                            
+                     echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                    echo '<strong>Alert! You are not eligible to apply for student leave.</strong>';
+                    echo '</div>';
+                    ?>
+                  </div>
+            <?php } ?>
+            </div>
+          </div>
+          </div>  
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+    

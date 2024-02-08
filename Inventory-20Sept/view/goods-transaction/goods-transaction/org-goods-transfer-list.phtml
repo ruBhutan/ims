@@ -1,0 +1,167 @@
+
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Organisation Goods Transfer Lists';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>     
+<div class="right_col" role="main">
+    <div class="">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                 <!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">To Organisation</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">From Organisation</a>
+                        </li>
+                      </ul>
+
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                <br/>
+                                <!-- Adding Item Category-->
+                                <div class="col-md-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("To Organisation Lists")?></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                          </li>
+                                    
+                                        </ul>
+                                     <div class="clearfix"></div>
+                                  
+                                    </div>
+          
+                                      <div class="x_content">
+                                        <div class="table-responsive">
+                                            <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                                <thead>
+                                                    <tr class="headings">
+                                                        <th class="column-title">Sl. No</th>
+                                                        <th class="column-title">To Organisation </th>
+                                                        <th class="column-title">Transfer By </th>
+                                                        <th class="column-title">Item Name </th>
+                                                        <th class="column-title">Quantity </th>
+                                                        <th class="column-title">Transfer Date </th>
+                                                        <th class="column-title">Status</th>
+                                                        <th class="column-title">Action</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                <?php $i=1; ?>
+                                                <?php foreach ($this->orgTransferToList as $orgList) : ?>
+                                                    <tr class="even pointer">
+                                                        <td class=" " width="8%"><?php echo $i; ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['organisation_name']); ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['first_name'].' '.
+                                                                                $orgList['middle_name'].' '.
+                                                                                $orgList['last_name'].' ('.
+                                                                                $orgList['emp_id'].')'); ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['item_name']); ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['transfer_quantity']); ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['transfer_date']); ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['transfer_status']); ?></td>
+                                                        <th class=" " width="10%"><a href="<?php echo $this->url('org-goods-transfer-to-details', array('id' => my_encrypt($orgList['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                        </th>
+                                                    </tr>
+                                                <?php $i++; ?>
+                                                <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                    <br/>   
+                                          
+                                      
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                      <div class="x_panel">
+                                        <div class="x_title">
+                                          <h2><?php echo $this->escapeHtml("From Organisation Lists"); ?></h2>
+                                          <ul class="nav navbar-right panel_toolbox">
+                                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                            </li>
+                                          </ul>
+                                          <div class="clearfix"></div>
+                                        </div>
+                                            <div class="x_content">
+                                                <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                    <tr class="headings">
+                                                        <th class="column-title">Sl. No</th>
+                                                        <th class="column-title">From Organisation </th>
+                                                        <th class="column-title">Transfer By </th>
+                                                        <th class="column-title">Item Name </th>
+                                                        <th class="column-title">Quantity </th>
+                                                        <th class="column-title">Transfer Date </th>
+                                                        <th class="column-title">Status</th>
+                                                        <th class="column-title">Action</th>
+                                                    </tr>
+                                                </thead>
+
+                                                    <tbody>
+                                                <?php $i=1; ?>
+                                                <?php foreach ($this->orgTransferFromList as $orgList) : ?>
+                                                    <tr class="even pointer">
+                                                        <td class=" " width="8%"><?php echo $i; ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['organisation_name']); ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['first_name'].' '.
+                                                                                $orgList['middle_name'].' '.
+                                                                                $orgList['last_name'].' ('.
+                                                                                $orgList['emp_id'].')'); ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['item_name']); ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['transfer_quantity']); ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['transfer_date']); ?></td>
+                                                        <td class=" "><?php echo $this->escapeHtml($orgList['transfer_status']); ?></td>
+                                                        <th class=" " width="10%"><a href="<?php echo $this->url('org-goods-transfer-from-details', array('id' => my_encrypt($orgList['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a>
+                                                        </th>
+                                                    </tr>
+                                                <?php $i++; ?>
+                                                <?php endforeach; ?>
+                                                </tbody>
+                                                </table>
+                                        </div>
+                                       
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

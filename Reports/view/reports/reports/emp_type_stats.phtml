@@ -1,0 +1,73 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('List of Staff By Employee Type'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+       
+           <div class="table-responsive">
+               <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                <tr class="headings">
+                     <th class="column-title" >Sl.No </th>
+                     <th class="column-title" >Organisation</th>
+                     <?php 
+                      foreach ($emp_type as $erow) {
+                        
+                         echo '<th class="column-title">'. $erow['employee_type'].'</th>'; 
+                     }
+                    //var_dump($emp_type);
+                     ?>
+                    <th class="column-title">Total</th>
+                   
+                  </tr>
+
+                </thead>
+                <tbody>
+
+
+                <?php $i=1; 
+               // var_dump($this->hr_report);
+               foreach ($organisationList as $list)
+
+                 {
+                   // echo $list;
+                    $total = 0;
+                      if ($list != 'All Colleges/Agency')
+                      { 
+                           echo "<tr><td>".$i++."</td><td>".$list."</td>";
+                           foreach ($emp_type as $emp)
+                           {   
+                            if (!empty($this->hr_report[$list][$emp['employee_type']])){
+
+                                echo "<td>".$this->hr_report[$list][$emp['employee_type']] .'</td>';
+                                $total+=$hr_report[$list][$emp['employee_type']];
+
+                            }
+                              
+                            else  
+                                echo "<td></td>";
+                            }
+                            echo '<td>'.$total.'</td>';
+              
+
+                           echo "</tr>";
+                      } 
+
+                 }   
+
+                        
+                      ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

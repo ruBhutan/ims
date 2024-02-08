@@ -1,0 +1,199 @@
+<?php
+ $title = 'HRD Proposal Form';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+				   $proposal = $form->get('hrdplan');
+				   $proposal->get('approval_status')->setValue('Pending');
+				   $proposal->get('id')->setValue($this->hrdProposal->getId());
+				   $proposal->get('working_agency')->setValue($this->hrdProposal->getWorking_Agency());
+				   $proposal->get('five_year_plan')->setValue($this->hrdProposal->getFive_Year_Plan()); 
+				   $proposal->get('course_title')->setValue($this->hrdProposal->getCourse_Title()); 
+				   $proposal->get('total_no_slots')->setValue($this->hrdProposal->getTotal_No_Slots()); 
+				   $proposal->get('priority')->setValue($this->hrdProposal->getPriority()); 
+				   $proposal->get('duration')->setValue($this->hrdProposal->getDuration());
+           $proposal->get('duration_unit')->setValue($this->hrdProposal->getDuration_Unit()); 
+				   $proposal->get('training_type')->setValue($this->hrdProposal->getTraining_Type()); 
+				   $proposal->get('source_of_funding')->setValue($this->hrdProposal->getSource_Of_Funding()); 
+           $proposal->get('training_type')->setValueOptions($this->trainingType); 
+           $proposal->get('source_of_funding')->setValueOptions($this->fundingType); 
+				   $proposal->get('target_group')->setValue($this->hrdProposal->getTarget_Group()); 
+				   $proposal->get('location_of_training')->setValue($this->hrdProposal->getLocation_Of_Training()); 
+				   $proposal->get('tuition_fees')->setValue($this->hrdProposal->getTuition_Fees()); 
+				   $proposal->get('dsa_tada')->setValue($this->hrdProposal->getDsa_Tada()); 
+				   $proposal->get('air_fare')->setValue($this->hrdProposal->getAir_Fare()); 
+				   $proposal->get('remarks')->setValue($this->hrdProposal->getRemarks()); 
+				   $proposal->get('amount_year_1')->setValue($this->hrdProposal->getAmount_Year_1()); 
+				   $proposal->get('amount_year_2')->setValue($this->hrdProposal->getAmount_Year_2()); 
+				   $proposal->get('amount_year_3')->setValue($this->hrdProposal->getAmount_Year_3()); 
+				   $proposal->get('amount_year_4')->setValue($this->hrdProposal->getAmount_Year_4()); 
+				   $proposal->get('amount_year_5')->setValue($this->hrdProposal->getAmount_Year_5()); 
+				   echo $this->formHidden($proposal->get('id'));
+				   echo $this->formHidden($proposal->get('approval_status'));
+				   echo $this->formHidden($proposal->get('working_agency'));
+                ?>
+                <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+              echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+              echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+              $messages = $this->flashMessenger()->getMessages();
+              foreach($messages as $message) {
+                echo '<strong>Success!</strong>'. $message;
+              }
+              echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                <br />
+                <div class="row">
+                <div class="form-group">  
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Five Year Plan<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('five_year_plan')); ?>
+                    </div>
+                   <label class="control-label col-md-2 col-sm-2 col-xs-12">Course Title<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('course_title')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-group">  
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Total No. of Slots<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('total_no_slots')); ?>
+                    </div>
+                   <label class="control-label col-md-3 col-sm-3 col-xs-12">Duration ( In <?php echo $this->hrdProposal->getDuration_Unit(); ?>)<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('duration')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Priority<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('priority')); ?>
+                    </div>
+                </div>
+                </div>
+                <br />
+                <div class="row"> 
+                <h4><i>Training Details:</i></h4>
+                <div class="row">
+                <div class="form-group">  
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Training Type<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('training_type')); ?>
+                    </div>
+                   <label class="control-label col-md-2 col-sm-2 col-xs-12">Source of Funding<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('source_of_funding')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-group">  
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Target Group (in brief)<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('target_group')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Location(Place of Training)<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('location_of_training')); ?>
+                    </div>
+                </div>
+                </div>
+                <br />
+                <div class="row">
+                <h4><i>Training Fees:</i></h4>
+                <div class="form-group">  
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Tuition Fees<span class="required">*</span></label>
+                   <div class="col-md-2 col-sm-2 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('tuition_fees')); ?>
+                    </div>
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">DSA/TA<span class="required">*</span></label>
+                   <div class="col-md-2 col-sm-2 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('dsa_tada')); ?>
+                    </div>
+                   <label class="control-label col-md-1 col-sm-1 col-xs-12">Air Fare<span class="required">*</span></label>
+                   <div class="col-md-2 col-sm-2 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('air_fare')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-group">  
+                   <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks<span class="required">*</span></label>
+                   <div class="col-md-8 col-sm-8 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('remarks')); ?>
+                    </div>
+                </div>
+                </div>
+                <br />
+                <div class="row">
+                <h4><i>Implementation Plan (Breakdown of Slots Mentioned Above):</i></h4>
+                <div class="form-group">  
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Year 1<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php  echo $this->formRow($proposal->get('amount_year_1')); ?>
+                    </div>
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Year 2<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php  echo $this->formRow($proposal->get('amount_year_2')); ?>
+                    </div>
+                   <label class="control-label col-md-1 col-sm-1 col-xs-12">Year 3<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php  echo $this->formRow($proposal->get('amount_year_3')); ?>
+                    </div>
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Year 4<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php  echo $this->formRow($proposal->get('amount_year_4')); ?>
+                    </div>
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Year 5<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php  echo $this->formRow($proposal->get('amount_year_5')); ?>
+                    </div>
+                </div>
+                </div>
+                    
+                </div>    
+          
+               
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                     <?php 
+					 echo $this->formHidden($form->get('csrf'));
+					 echo $this->formRow($proposal->get('approve')); ?>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+
+      </div>
+     </div>
+   </div>
+  </div>

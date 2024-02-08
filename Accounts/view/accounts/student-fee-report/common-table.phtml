@@ -1,0 +1,65 @@
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Student Fee Reports'); ?></h2>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    Total Receivable Fees
+                </span>
+                <?php $totalReceivableFees = isset($this->receivableAndPaidFeesCount['total_receivable_fees']) ? $this->receivableAndPaidFeesCount['total_receivable_fees'] : 0.00 ?>
+                <input type="text" class="form-control" value="<?= $totalReceivableFees; ?>" disabled>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+        <div class="col-lg-4">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    Total Fees Received
+                </span>
+                <?php $totalReceivedFees = isset($this->receivableAndPaidFeesCount['total_received_fees']) ? $this->receivableAndPaidFeesCount['total_received_fees'] : 0.00 ?>
+                <input type="text" class="form-control" value="<?= $totalReceivedFees ?>" disabled>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+    <br/>
+    <div class="x_content">
+        <div class="table-responsive">
+            <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                <thead>
+                    <tr class="headings">
+                        <th class="column-title">SI. No</th>
+                        <th class="column-title">Student Name</th>
+                        <th class="column-title">Fee Category Name</th>
+                        <th class="column-title">Total Fees</th>
+                        <th class="column-title">Fees Paid</th>
+                        <th class="column-title">Status</th>
+                        <th class="column-title">Financial Year</th>
+                        <th class="column-title">Paid Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $i = 1;
+                    foreach ( $this->studentReport as $detail ) :
+                        ?>
+                        <tr class="even pointer">
+                            <td class=" " width="8%"><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['student_full_name']); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['fee_category']); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['total_fee']); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['fee_received']); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['status']); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['financial_year']); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['paid_date']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

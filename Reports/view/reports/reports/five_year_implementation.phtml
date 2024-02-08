@@ -1,0 +1,74 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('HR Training Implementation Report (Five Year Plan)'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <h5><i>*P - Planned HR Development Activities<br /></i>
+            <i>*Imp. (A) - Implementation of Adhoc Training<br /></i>
+            <i>*Imp. (P) - Implementation of Planned Training<br /></i></h5>
+          <br />
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+               <table id="datatable-fixed-header" class="table table-striped jambo_table table-bordered">
+                <thead>
+                    <td style="width:15%">Agency</td>
+                    <?php foreach($this->five_year_plan as $year): ?>
+                        <td><?php echo $year; ?></td>
+                        <td><?php echo $year; ?></td>
+                        <td><?php echo $year; ?></td>
+                        <?php endforeach; ?>
+                         </thead>
+                         <tr>
+                           <td></td>
+                           <td><b>P</b></td>
+                           <td><b><i>Imp.(P)</i></b></td>
+                           <td><b><i>Imp. (A)</i></b></td>
+                           <td><b>P</b></td>
+                           <td><b><i>Imp.(P)</i></b></td>
+                           <td><b><i>Imp. (A)</i></b></td>
+                           <td><b>P</b></td>
+                           <td><b><i>Imp.(P)</i></b></td>
+                           <td><b><i>Imp. (A)</i></b></td>
+                           <td><b>P</b></td>
+                           <td><b><i>Imp.(P)</i></b></td>
+                           <td><b><i>Imp. (A)</i></b></td>
+                           <td><b>P</b></td>
+                           <td><b><i>Imp.(P)</i></b></td>
+                           <td><b><i>Imp. (A)</i></b></td>
+                         </tr>
+                    <tbody>
+
+                        <?php foreach($organisation_list as $key => $value) : ?>
+                      <tr>
+                        <td><?php echo $value; ?></td>
+                        <?php foreach($this->five_year_plan as $year): ?>
+                        <td><b><?php 
+                                if(array_key_exists($key, $this->hr_report))	
+                                        echo ($this->hr_report[$key]['Planned']['longterm'][$year] + $this->hr_report[$key]['Planned']['shortterm'][$year]);
+                                else 
+                                        echo "NA"; ?></b></td>
+                        <td><?php 
+                                if(array_key_exists($key, $this->hr_report))
+                                        echo ($this->hr_report[$key]['Planned_implemented']['longterm'][$year] + $this->hr_report[$key]['Planned_implemented']['shortterm'][$year]); 
+                                else
+                                        echo "NA"; ?></td>
+                        <td><?php 
+                                if(array_key_exists($key, $this->hr_report))
+                                        echo ($this->hr_report[$key]['Adhoc']['longterm'][$year] + $this->hr_report[$key]['Adhoc']['shortterm'][$year]); 
+                                else
+                                        echo "NA"; ?></td>
+                        <?php endforeach; ?>
+                      <tr>
+                        <?php endforeach; ?>
+                    </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

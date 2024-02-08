@@ -1,0 +1,136 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/TransactionController/indexAction
+ * 
+ */
+$title = "Transaction";
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <?php $flashMessenger = $this->flashMessenger('error'); ?>
+                <?php if ($flashMessenger->hasMessages()): ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <?php foreach ($flashMessenger->getMessages() as $message): ?>
+                            <?php echo $message ?>
+                        <?php endforeach ?>
+                    </div>
+                <?php endif; ?>
+                <?php $flashMessenger->setNamespace('success'); ?>
+                <?php if ($flashMessenger->hasMessages()): ?>
+                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <?php foreach ($flashMessenger->getMessages() as $message): ?>
+                            <?php echo $message ?>	
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <div class="pull-right tableTools-container"></div>
+                <a class="pull-right btn btn-primary" href="<?php echo $this->url('transaction', array('action' => 'addtransaction')); ?>">
+                    <span class="white"><i class="fa fa-plus"></i> <span class="hidden-sm hidden-xs">&nbsp;Add new Transaction </span></span>
+                </a>
+                <form method="post" action="<?php echo $this->url('transaction'); ?>"  enctype="multipart/form-data" >
+                    <div class="form-group col-lg-3">
+                        <label class="control-label" for="organisation">Organisation</label>
+                        <select class="form-control" name="organisation" id="organisation" data-placeholder="select" onchange='this.form.submit()'>
+                            <option value="">Select Organisation</option>
+                            <?php
+                            $results = ($this->role == "ADMIN") ? $this->service->getTableData($this->orgObj) : $this->service->getDatabyParam($this->orgObj, array('id' => $data['userorg']),'');
+                            foreach ($results as $result):
+                                $selected_org = ($result['id'] == $data['userorg']) ? "selected" : "";
+                                ?>
+                                <option value="<?php echo $result['id']; ?>" <?php echo $selected_org; ?>>
+                                    <?php echo $result['organisation_name']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label class="control-label" for="year">Year</label>
+                        <select class="form-control" id="year" name="year" data-placeholder="Select" onchange='this.form.submit()'>
+                            <option value=""></option>
+                            <?php
+                            for ($year = date('Y'); $year >= $data['minYear']; $year--):
+                                $selected = ($year == $data['year']) ? "selected" : "";
+                                ?>
+                                <option value="<?php echo $year; ?>" <?php echo $selected; ?> >
+                                    <?php echo $year; ?>
+                                </option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label class="control-label" for="month">Month</label>
+                        <select class="form-control" id="month" name="month" data-placeholder="Select" onchange='this.form.submit()'>
+                            <?php for ($month = 1; $month <= 12; $month++): ?>
+                                <?php $selected = ($month == $data['month']) ? 'selected' : ''; ?>
+                                <option value="<?php echo $month; ?>" <?php echo $selected; ?>>
+                                    <?php echo DateTime::createFromFormat('!m', $month)->format('F'); ?>
+                                </option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                </form><br />
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped jambo_table bulk_action">
+                            <thead>
+                                <tr class="headings">
+                                    <th>SL. No. </th>
+                                    <th>Voucher</th>
+                                    <th>Voucher Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $sl = 1; ?>
+                                <?php foreach ($this->results as $row): ?>
+                                <tr data-href="<?php echo $this->url('transaction', array('action' => 'viewtransaction', 'id' => my_encrypt($row['id'],$key))); ?>">
+                                        <td><?php echo $sl++; ?></td>
+                                        <td>
+                                            <b><?php echo $row['voucher_no']; ?></b>
+                                            <span style="color:#666;font-size:95%;"><?php echo $row['voucher_date']; ?></span>
+                                            <span class="label label-info"><?php echo $row['voucher_type']; ?></span>
+                                            <?php echo $this->status($row['status']); ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $row['voucher_amount']; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$("tr[data-href]").each(function () {
+    if ($(this).attr('data-href') != '#') {
+        $(this).css('cursor', 'pointer');
+        $(this).bind('click', function () {
+            window.document.location = $(this).attr("data-href");
+        });
+    }
+});
+</script>

@@ -1,0 +1,17 @@
+<?php // partial.phtml 
+  $bankaccount = ($this->active == "bankaccount")?"active":"";
+  $cashaccount = ($this->active == "cashaccount")?"active":"";
+  $party = ($this->active == "party")?"active":"";
+?>
+<br/>
+<!-- Start a tab -->
+<!--<div class="" role="tabpanel" data-example-id="togglable-tabs">-->
+	<ul id="myTab" class="nav nav-tabs bar_tabs">
+		<li class="<?php echo $bankaccount; ?>"> <a href="<?php echo $this->url('asset', array('action' => 'bankaccount')); ?>"><i class="blue ace-icon fa fa-globe bigger-120"> </i> Bank Accounts </a></li>
+		
+		<li role="presentation" class="<?php echo $cashaccount; ?>"><a href="<?php echo $this->url('asset', array('action' => 'cashaccount')); ?>" > <i class="blue ace-icon fa fa-sitemap bigger-120"> </i>Cash Accounts</a></li>
+		
+		<li role="presentation" class="<?php echo $party; ?>"><a href="<?php echo $this->url('asset', array('action' => 'party')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>Party</a></li>
+		
+	</ul>
+<!--</div>-->

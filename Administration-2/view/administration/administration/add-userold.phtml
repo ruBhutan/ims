@@ -1,0 +1,239 @@
+<?php
+ $title = 'Add New User';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+  <div class="">
+    <?php if($organisation_id == '1') { ?>
+    <div class="col-md-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><?php echo $this->escapeHtml($title); ?></h2>
+         <div class="clearfix"></div>
+        </div>
+        <h5><i>Add new user form<br/><br/>
+        Note: This form is use to add new user if you have entered the details but forgot to create user in order to access the system.</i></h5>
+        <div class="x_content">
+          <br />
+           <?php
+            // Opening of the form tag
+            $form->prepare();
+            echo $this->form()->openTag($form);
+            $user = $form->get('user');
+            $user->get('role')->setValueOptions($this->allUserRoles);
+            $user->get('region')->setValueOptions($this->selectOrganisation);
+            $user->get('username')->setValueOptions($this->selectAllStaff);
+            echo $this->formHidden($user->get('id'));
+           ?>
+           <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()){?>
+                <div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <strong>Success!</strong> <?=$this->flashMessenger()->setAutoEscape(false)->render(); ?>
+                </div>
+                <?php } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {?>
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <strong>Failure!</strong> <?=$this->flashMessenger()->setAutoEscape(false)->render(); ?>
+                </div>
+                <?php } ?>  
+        <div class="row">    
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">User Name<span class="required">*</span></label>
+            <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+            <?php  echo $this->formRow($user->get('username')); ?>
+            </div>
+           </div>
+           <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">User Role<span class="required">*</span></label>
+            <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+            <?php  echo $this->formRow($user->get('role')); ?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Password<span class="required">*</span></label>
+            <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+            <?php  echo $this->formRow($user->get('password')); ?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation<span class="required">*</span></label>
+            <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+            <?php  echo $this->formRow($user->get('region')); ?>
+            </div>
+          </div>
+        </div> 
+          
+        <div class="row">
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                <div class="col-md-5 col-sm-6 col-xs-12">
+    						<?php
+    						   echo $this->formHidden($form->get('csrf'));
+    						   echo $this->formSubmit($user->get('submit')); 
+                ?>
+            	</div>
+            </div>
+       </div>
+            <?php
+            echo $this->form()->closeTag();
+            ?>
+        </div>
+      </div>
+
+<!-- Start of table listing budget ledgers -->
+<div class="x_panel">
+  <div class="x_title">
+            <h2><?php echo $this->escapeHtml("List of Users"); ?></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+            <h5><i>List of added users of different organisation</i></h5>
+          </div>
+        <div class="x_content">
+             
+              <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title">Sl. No</th>
+                    <th class="column-title">User Name</th>
+                    <th class="column-title">Role</th>
+                    <th class="column-title">Organisation</th>
+                    <th class="column-title">Action</th>
+                    
+                     </tr>
+                </thead>  
+                <tbody>
+                 <?php $i = 1; foreach ($this->allUsers as $detail) : ?>
+                  <tr class="even pointer">
+                    <td class=" " width="8%"><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($detail['username']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($detail['role']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($detail['organisation_name']);?></td>
+                    <td class=" last" width="10%"><a href="<?php echo $this->url('edituser', array('id' => $detail['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a></td>
+                  </tr>
+                  <?php $i++; ?>
+                  <?php endforeach; ?>
+              </tbody>
+              </table>
+             </div>
+          </div>
+       </div>
+     <?php } else {?>
+      <div class="col-md-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><?php echo $this->escapeHtml($title); ?></h2>
+         <div class="clearfix"></div>
+        </div>
+        <h5><i>Add new user form<br/><br/>
+        Note: This form is use to add new user if you have entered the details but forgot to create user in order to access the system.</i></h5>
+        <div class="x_content">
+          <br />
+           <?php
+            // Opening of the form tag
+            $form->prepare();
+            echo $this->form()->openTag($form);
+            $user = $form->get('user');
+            $user->get('role')->setValueOptions($this->userRoles);
+            $user->get('region')->setValue($this->organisation_id);
+            $user->get('username')->setValueOptions($this->selectOrgStaff);
+            echo $this->formHidden($user->get('region'));
+            echo $this->formHidden($user->get('id'));
+           ?>
+           <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()){?>
+                <div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <strong>Success!</strong> <?=$this->flashMessenger()->setAutoEscape(false)->render(); ?>
+                </div>
+                <?php } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {?>
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <strong>Failure!</strong> <?=$this->flashMessenger()->setAutoEscape(false)->render(); ?>
+                </div>
+                <?php } ?>   
+        <div class="row">    
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">User Name<span class="required">*</span></label>
+            <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+            <?php  echo $this->formRow($user->get('username')); ?>
+            </div>
+           </div>
+           <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">User Role<span class="required">*</span></label>
+            <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+            <?php  echo $this->formRow($user->get('role')); ?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Password<span class="required">*</span></label>
+            <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+            <?php  echo $this->formRow($user->get('password')); ?>
+            </div>
+          </div>
+        </div> 
+          
+        <div class="row">
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                <div class="col-md-5 col-sm-6 col-xs-12">
+                <?php
+                   echo $this->formHidden($form->get('csrf'));
+                   echo $this->formSubmit($user->get('submit')); 
+                ?>
+              </div>
+            </div>
+       </div>
+            <?php
+            echo $this->form()->closeTag();
+            ?>
+        </div>
+      </div>
+
+<!-- Start of table listing budget ledgers -->
+<div class="x_panel">
+  <div class="x_title">
+            <h2><?php echo $this->escapeHtml("List of Users"); ?></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+            <h5><i>List of added users.</i></h5>
+          </div>
+        <div class="x_content">
+             
+              <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title">Sl. No</th>
+                    <th class="column-title">User Name</th>
+                    <th class="column-title">Role</th>
+                    <th class="column-title">Action</th>
+                    
+                     </tr>
+                </thead>  
+                <tbody>
+                 <?php $i = 1; ?>
+                 <?php foreach ($this->users as $user) : ?>
+                  <tr class="even pointer">
+                    <td class=" " width="8%"><?php echo $i;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($user['username']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($user['role']);?></td>
+                    <td class=" last" width="10%"><a href="<?php echo $this->url('edituser', array('id' => $user['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a></td>
+                  </tr>
+                  <?php $i++; ?>
+                  <?php endforeach; ?>
+              </tbody>
+              </table>
+             </div>
+          </div>
+       </div>
+     <?php } ?>
+     </div>      
+  </div>
+</div> 
+</div>

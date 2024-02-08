@@ -1,0 +1,81 @@
+<?php
+
+ $title = 'Current Semester Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2>Current Semester Continious Assessment Results</h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <?php
+                    $assessment_component_weightage = array();
+                      $assessment_types = array();
+                      $academic_module_id = array();
+                      $module_name = array();
+                      $module_code = array();
+
+                      foreach($this->studentCADetails as $key=>$value){
+                        foreach($value as $key2=>$value2){
+                          $assessment_types[$key] = $key;
+                          $academic_module_id[$key2] = $key2;
+                          $assessment_component_weightage[$key2][$key] = $value2;
+                        }
+                      }
+
+                    foreach ($this->moduleList as $key=>$value) {
+                        foreach($value as $key2=>$value2){
+                         // var_dump($value2); die();
+                         $module_name[$key] = $value2;
+                         $module_code[$key] = $key2;
+                        }
+                       } 
+                    ?>
+                    <div class="x_content">
+                      <div class="table-responsive">
+                          <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Sl/No</th>
+                            <th>Module Code</th>
+                            <th>Module Name</th>
+                            <?php foreach($assessment_types as $type): ?>
+                            <th style="width: 8%" class="column-title"><?php echo $type; ?></th>
+                            <?php endforeach; ?>
+                            <th>Detail</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach($assessment_component_weightage as $key=>$value): ?>
+                            <tr>
+                            <td><?php echo $i++; ?></td>
+                             <td><?php echo $module_code[$key]; ?></td>
+                            <td><?php echo $module_name[$key]; ?></td>
+                            <?php foreach($assessment_types as $type): ?>
+                            <td class=" "><?php echo $value[$type]; ?></td>
+                            <?php endforeach; ?>
+                            <td>Details will be soon once marks are entered</td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                  </div>
+                </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+</div>
+
+
+ 

@@ -1,0 +1,72 @@
+<?php
+ $title = 'Update WorkForce  (RUB / OVC HRO)';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                     <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div><br/>
+                    <br/>
+                    <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">     
+                            <th style="width:3%" class="column-title">Sl.No. </th>
+                            <th class="column-title">Working Agency </th>
+                            <th class="column-title">Department </th>
+                            <th class="column-title">Position Title </th>
+                            <th class="column-title">Position Category </th>
+                            <th class="column-title">Position Level </th>
+                            <th class="column-title">Existing No.</th>
+                            <th class="column-title">Approved No.</th>
+                            <th class="column-title">Approved Date</th>
+                            <th class="column-title">Date</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i= 1; foreach ($this->approvals as $approval) : ?>
+                            <tr>
+                              <td class=" "><?php echo $this->escapeHtml($i++); ?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getOrganisation_Name());?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getDepartment_Name());?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getPosition_Title());?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getCategory());?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getPosition_Level());?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getExisting_No());?></td>
+                              <td class=" "><?php  ?></td>
+                              <td class=" "><?php  ?></td>
+                              <td class=" "><?php  ?></td>
+                              <td><a href="<?php echo $this->url('viewhrmproposal', array('id' => my_encrypt($approval->getId(), $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                              	<a href="<?php echo $this->url('approvehrmproposal', array('id' => my_encrypt($approval->getId(), $key)));?>" class="btn btn-success btn-xs">Update</a>
+                            </tr>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                         
+                    </div>
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

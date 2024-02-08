@@ -1,0 +1,95 @@
+<?php
+ $title = 'Search for Current Supplementary Budget';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($form->get('id'));
+				  ?>  
+                <div class="row">    
+                    <label class="col-md-3 col-sm-3 col-xs-12">Broad Head Name<span class="required">*</span></label>
+                    <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                    <?php  //echo $this->formRow($form->get('broad_head_name')); ?>
+                    </div>
+                    <label class="col-md-3 col-sm-3 col-xs-12">Broad Head Code<span class="required">*</span></label>
+                    <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                    <?php  //echo $this->formRow($form->get('broad_head_code')); ?>
+                    </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($form->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+            <div class="x_title">
+                  <h2><?php echo $this->escapeHtml('List of Current Supplementary Budget'); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Programme Name</th>
+                            <th class="column-title">Accounts Group Head</th>
+                            <th class="column-title">Chart of Accounts</th>
+                            <th class="column-title">Approved Amount</th>
+                            <th class="column-title">Supplementary Amount</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i = 1; foreach ($this->supplementaryBudget as $budget) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['ledger_head']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['group_head']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['account_code']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['budget_amount_approved']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['amount']);?></td>
+                            <td class=" last"><a href="<?php echo $this->url('viewcurrentsupplementarybudget', array('id' => $budget['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View Details</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                  </div>
+               </div>
+             </div>
+        
+        
+    
+          </div>
+        </div> 
+     </div>

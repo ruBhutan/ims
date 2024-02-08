@@ -1,0 +1,145 @@
+<?php
+ $title = 'Objectives & Actions ( Individual College)';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+              
+         <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                
+                    </ul>
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+                <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Five Year Plan 
+                    </label>
+                <?php  echo $this->formRow($form->get('five_year_plan')); ?>
+                </div>
+            
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Financial Year 
+                    </label>
+                <?php  echo $this->formRow($form->get('financial_year')); ?>
+                     </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Plan Type
+                    </label>
+                <?php  echo $this->formRow($form->get('plan_type')); ?>
+                    </div> 
+                     
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Working Agency
+                    </label>
+                <?php  echo $this->formRow($form->get('position_group')); ?>
+                    </div></div>
+                     
+                     
+                  <div class="row">    
+                 <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Objectives
+                    </label>
+                <?php  echo $this->formRow($form->get('mission')); ?>
+                    </div>
+                     
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">weightage
+                    </label>
+                <?php  echo $this->formRow($form->get('weight')); ?>
+                    </div>
+                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Is the Objective Mandatory?:
+                    </label>
+<p>
+                                Yes: <input type="radio" class="flat" name="gender" id="genderM" value="M" checked="" required /> 
+                              No: <input type="radio" class="flat" name="gender" id="genderF" value="F" />
+                              </p>                    </div>
+                     
+                     </div>
+                  
+                  
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <button type="button" class="btn btn-success">Add</button>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                  
+          </div>
+        </div>
+                  </div>     
+              
+     <?php
+ $title = '';
+ $this->headTitle($title);
+?>     
+              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Financial Year</th>
+                        <th class="column-title">Objective </th>
+                        <th class="column-title">weightage</th>
+                        <th class="column-title">Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr class="even pointer">
+                        <td class=" ">2012 - 2013</td>
+                         <td class=" "><textarea class="form-control" readonly>ddddsssffff</textarea></td>
+                        <td class=" ">40%</td>
+                        <td class=" "><button type="button" class="btn btn-success">Edit</button><button type="button" class="btn btn-success">Delete</button><a href='addaction'><button type="button" class="btn btn-success">Add Action</button></a><button type="button" class="btn btn-success">View Action</button></td>
+                       
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+         
+          </div>
+        </div> 
+
+              
+              
+   
+            
+    

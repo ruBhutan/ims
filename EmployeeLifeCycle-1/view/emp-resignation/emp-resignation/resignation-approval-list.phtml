@@ -1,0 +1,105 @@
+<?php
+ $title = 'Resignation Approval List';
+ $this->headTitle($title);
+ 
+ //need to store employee details in an array
+ $employeeName = array();
+ $employeeID = array();
+ foreach($this->resigningEmployee as $resign){
+	 $employeeName[$resign['id']] = $resign['first_name'];
+	 $employeeName[$resign['id']] .= ' '. $resign['middle_name'];
+	 $employeeName[$resign['id']] .= ' '. $resign['last_name'];
+	 $employeeID[$resign['id']] = $resign['emp_id'];
+ }
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                  <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                      $messages = $this->flashMessenger()->getMessages();
+                      foreach($messages as $message) {
+                        echo '<strong>Success!</strong>'. $message;
+                      }
+                      echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                    <div class="table-responsive">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No </th>
+                            <th class="column-title">Staff Name </th>
+                            <th class="column-title">Staff ID </th>
+                            <th class="column-title">Resignation Type</th>
+                            <th class="column-title"><span class="nobr">Application Receive Date</span></th>
+                            <th class="column-title"><span class="nobr">Status</span></th>
+                            <th class="column-title no-link last"><span class="nobr">Status</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+						  <?php $i=1; foreach ($this->resignationList as $resignation) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($employeeName[$resignation['employee_details_id']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($employeeID[$resignation['employee_details_id']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($resignation['resignation_type']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($resignation['date_of_application']);?></td>
+                            <td class=" ">
+                               <?php if($resignation['resignation_status'] == NULL){
+                                 echo "Still Pending";
+                                 }else{
+                                ?>
+                              <?php echo $this->escapeHtml($resignation['resignation_status']);?>
+                                <?php } ?>
+                              </td>
+                            <td><a href="<?php echo $this->url('viewresignationdetails', array('id' => my_encrypt($resignation['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                            	<?php  if($resignation['resignation_status'] == NULL) {?>
+                                <a href="<?php echo $this->url('approveresignation', array('id' => my_encrypt($resignation['id'], $key), 'employee_details_id' => my_encrypt($resignation['employee_details_id'], $key))); ?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i>Approve Resignation</a>
+                                <a href="<?php echo $this->url('rejectresignation', array('id' => my_encrypt($resignation['id'], $key))); ?>" class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Reject Resignation</a>
+                                <?php } ?>
+                                </td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody> 
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+     </div>     
+ </div>
+                         
+                     

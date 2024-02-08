@@ -1,0 +1,104 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Black Listed Supplier Details';
+ $this->headTitle($title);
+  ?>
+
+<div class="right_col" role="main">
+    <div class="">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><?php echo $this->escapeHtml($title); ?></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $editsupplier = $form->get('itemsupplier');
+                    echo $this->form()->openTag($form);
+                    $editsupplier->get('id')->setValue($this->supplierDetails->getId());
+                    $editsupplier->get('organisation_id')->setValue($this->supplierDetails->getOrganisation_Id());
+                     echo $this->formHidden($editsupplier->get('organisation_id'));
+                    $editsupplier->get('supplier_name')->setValue($this->supplierDetails->getSupplier_Name());
+                    $editsupplier->get('supplier_tpn_no')->setValue($this->supplierDetails->getSupplier_Tpn_No());
+                    $editsupplier->get('supplier_bank_acc_no')->setValue($this->supplierDetails->getSupplier_Bank_Acc_No());
+                    $editsupplier->get('supplier_contact_no')->setValue($this->supplierDetails->getSupplier_Contact_No());
+                    $editsupplier->get('supplier_address')->setValue($this->supplierDetails->getSupplier_Address());
+                    $editsupplier->get('supplier_status')->setValue($this->supplierDetails->getSupplier_Status());
+                    $editsupplier->get('from_date')->setValue($this->supplierDetails->getFrom_Date());
+                    $editsupplier->get('to_date')->setValue($this->supplierDetails->getTo_Date());
+                    $editsupplier->get('supplier_license_no')->setValue($this->supplierDetails->getSupplier_License_No());
+                    echo $this->formHidden($editsupplier->get('supplier_status'));
+
+                 ?>               
+                
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="supplier_name">Supplier Name</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" placeholder="<?php echo $this->supplierDetails->getSupplier_Name(); ?>" class="form-control" readonly> 
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="supplier_license_no">Supplier License No</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" placeholder="<?php echo $this->supplierDetails->getSupplier_License_No(); ?>" class="form-control" readonly> 
+                    </div>
+                </div>
+                
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="supplier_tpn_no">Supplier TPN No</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" placeholder="<?php echo $this->supplierDetails->getSupplier_Tpn_No(); ?>" class="form-control" readonly> 
+                    </div>
+                </div>
+
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="supplier_bank_acc_no">Supplier Bank Account No</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" placeholder="<?php echo $this->supplierDetails->getSupplier_Bank_Acc_No(); ?>" class="form-control" readonly> 
+                    </div>
+                </div>
+
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="supplier_contact_no">Supplier Contact No</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" placeholder="<?php echo $this->supplierDetails->getSupplier_Contact_No(); ?>" class="form-control" readonly> 
+                    </div>
+                </div>
+
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="from_date">From Date</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <input type="text" placeholder="<?php echo $this->supplierDetails->getFrom_Date(); ?>" class="form-control" readonly> 
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="to_date">To Date</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <input type="text" placeholder="<?php echo $this->supplierDetails->getTo_Date(); ?>" class="form-control" readonly> 
+                    </div>
+                </div>
+
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="supplier_address">Supplier Address</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <textarea class="form-control" rows="5" readonly><?php echo $this->supplierDetails->getSupplier_Address(); ?></textarea>
+                    </div>
+                </div>
+
+                <?php 
+                //closing the form tag  
+                 echo $this->form()->closeTag();
+                 ?>
+               </div>
+              </div>
+           
+            </div>
+        </div>
+    </div>

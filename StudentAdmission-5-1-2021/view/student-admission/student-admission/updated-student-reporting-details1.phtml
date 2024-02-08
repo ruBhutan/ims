@@ -1,0 +1,504 @@
+<?php
+ $title = 'Add New Student';
+ $this->headTitle($title);
+ ?>
+ <div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <!-- Smart Wizard -->
+                    <p>Please fill in the forms which are necessary</p>
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                      <ul class="wizard_steps">
+                          <li>
+                          <a href="#step-1">
+                            <span class="step_no">1</span>
+                            <span class="step_descr">
+                                              Step 1<br />
+                                              <small>OFFICIAL <br/>DETAILS</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-2">
+                            <span class="step_no">2</span>
+                            <span class="step_descr">
+                                              Step 2<br />
+                                              <small>PERSONAL <br/>DETAILS</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-3">
+                            <span class="step_no">3</span>
+                            <span class="step_descr">
+                                              Step 3<br />
+                                              <small>CONTACT<br/>DETAILS</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-4">
+                            <span class="step_no">4</span>
+                            <span class="step_descr">
+                                              Step 4<br />
+                                              <small>PARENT <br/>DETAILS</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-5">
+                            <span class="step_no">5</span>
+                            <span class="step_descr">
+                                              Step 5<br />
+                                              <small>GUARDIAN <br/>DETAILS</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-6">
+                            <span class="step_no">6</span>
+                            <span class="step_descr">
+                                              Step 6<br />
+                                              <small>PREVIOUS SCHOOL<br/>DETAILS</small>
+                                          </span>
+                          </a>
+                        </li>                                
+                      </ul>
+					  
+					  <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $reported = $form->get('updatedstudentreportingdetails');
+                        echo $this->formHidden($reported->get('id'));
+                        // $register->get('programme_name_id')->setValueOptions($programmeName); 
+                        //$register->get('organisation_name_id')->setValueOptions($organisationName); 
+
+                        echo $this->form()->openTag($form);
+                        $reported->get('id')->setValue($this->reporteddetails->getId());
+                        $reported->get('programme_name_id')->setValue($this->reporteddetails->getProgramme_Name());
+                        $reported->get('organisation_name_id')->setValue($this->reporteddetails->getOrganisation_Name());
+                        $reported->get('first_name')->setValue($this->reporteddetails->getFirst_Name());
+                        $reported->get('middle_name')->setValue($this->reporteddetails->getMiddle_Name());
+                        $reported->get('last_name')->setValue($this->reporteddetails->getLast_Name());
+                        $reported->get('cid')->setValue($this->reporteddetails->getCid());
+                         $reported->get('registration_no')->setValue($this->reporteddetails->getRegistration_No());
+                        $reported->get('date_of_birth')->setValue($this->reporteddetails->getDate_Of_Birth());
+                        $reported->get('gender')->setValue($this->reporteddetails->getGender());
+                        $reported->get('blood_group')->setValue($this->reporteddetails->getBlood_Group());
+                        $reported->get('birth_place')->setValue($this->reporteddetails->getBirth_Place());
+                        $reported->get('nationality')->setValue($this->reporteddetails->getNationality());
+                        $reported->get('mother_tongue')->setValue($this->reporteddetails->getMother_Tongue());
+                        $reported->get('admission_year')->setValue($this->reporteddetails->getAdmission_Year());
+                         $reported->get('student_type_id')->setValue($this->reporteddetails->getStudent_Type_Id());
+
+                        $reported->get('student_reporting_status')->setValue($this->reporteddetails->getStudent_Reporting_Status());
+
+                        $reported->get('joining_date')->setValue($this->reporteddetails->getJoining_Date());
+                       $reported->get('student_type_id')->setValue($this->reporteddetails->getStudent_Type());
+                        //$reported->get('student_category_id')->setValue($this->reporteddetails->getStudent_Category_Id());
+                        //$reported->get('dzongkhag_name_id')->setValue($this->reporteddetails->getDzongkhag_Name_Id());
+                        //$reported->get('gewog_name_id')->setValue($this->reporteddetails->getGewog_Name_Id());
+                        //$reported->get('village_name_id')->setValue($this->reporteddetails->getVillage_Name_Id());
+
+                       // $joining_date = date('Y-m-d');
+                       // $reported->get('joining_date')->setValue($joining_date);
+                       // echo $this->formHidden($reported->get('joining_date'));
+
+                        //$admission_year = date('Y-m-d');
+                        //$reported->get('admission_year')->setValue($admission_year);
+                        //echo $this->formHidden($register->get('admission_year'));
+
+                      $reported->get('dzongkhag_name_id')->setValueOptions($dzongkhagName); 
+                       $reported->get('gewog_name_id')->setValueOptions($gewogName); 
+                       $reported->get('village_name_id')->setValueOptions($villageName);
+                       $reported->get('student_category_id')->setValueOptions($studentCategory);
+
+                        $reported->get('submit')->setValue('Submit');
+                       echo $this->formRow($reported->get('id')); 
+
+                     ?>
+                        <div id="step-1">
+                            <h2 class="StepTitle">Step 1: OFFICIAL DETAILS:</h2>
+                          <form class="form-horizontal form-label-left input_mask"><br/>
+                        <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Registration/Index No.</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($reported->get('registration_no')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Joining Date</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($reported->get('joining_date')); ?>
+                                    </div>
+                            </div> 
+                            <div class="form-group">
+                              <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($reported->get('organisation_name_id')); ?>
+                                    </div>
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('programme_name_id')); ?>
+                                        </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Enrollment Year</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('admission_year')); ?>
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('student_id')); ?>
+                                        </div>
+                            </div>  
+                          </form>
+                        </div>
+                    <br>
+                      <div id="step-2">
+                      <h2 class="StepTitle">Step 2: PERSONAL DETAILS</h2>
+					  <br>
+                          <form class="form-horizontal form-label-left input_mask"><br/>
+							<div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">First Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($reported->get('first_name')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Middle Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($reported->get('middle_name')); ?>
+                                    </div>
+                            </div>    
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Last Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($reported->get('last_name')); ?>
+                                    </div>
+                                 <label class="control-label col-md-2 col-sm-2 col-xs-12">CID No# </label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($reported->get('cid')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('gender')); ?>
+                                      </div>
+
+                                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($reported->get('student_type_id')); ?>
+                                    </div>
+                                
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('date_of_birth')); ?>
+                                      </div>
+
+
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Category</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($reported->get('student_category_id')); ?>
+                                    </div>
+                            </div>
+                            <br/>
+                      
+                      
+                         
+                    </form>
+
+                      </div>
+                      <div id="step-3">
+                        <h2 class="StepTitle">Step 3: CONTACT DETAILS</h2>
+                    <form class="form-horizontal form-label-left input_mask"><br/>
+                    <div class="form-group"> 
+
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('dzongkhag_name_id')); ?>
+                                    </div>
+                                
+                                 <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                           <?php  echo $this->formRow($reported->get('gewog_name_id')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Village </label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('village_name_id')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">House No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('house_no')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Thram No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('thram_no')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Mobile No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('mobile_number')); ?>
+                                    </div>
+                            </div>
+                              <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Email Address</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('email_address')); ?>
+                                    </div>
+                            </div>
+                            <br/>
+                        
+                        
+                    </form>
+                      </div>
+                                                
+                      <div id="step-4">
+                          <h2 class="StepTitle">Step 4: PARENT DETAILS </h2>
+                          <form class="form-horizontal form-label-left input_mask"><br/>
+
+                      <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Father's Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('father_name')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">CID No.</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('father_cid')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Father's Nationality</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('father_nationality')); ?>
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('father_dzongkhag')); ?>
+                                    </div>
+                                
+                            </div>
+                            <div class="form-group"> 
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('father_gewog')); ?>
+                                    </div>
+                                
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Village</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('father_village')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                
+
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">House No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('father_house_no')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Thram No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('father_thram_no')); ?>
+                                    </div>
+
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupation</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('father_occupation')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother's Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('mother_name')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">CID No.</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('mother_cid')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('mother_nationality')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">House No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('mother_house_no')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Thram No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('mother_thram_no')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Village</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('mother_village')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('mother_gewog')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('mother_dzongkhag')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupation</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('mother_occupation')); ?>
+                                    </div>
+                                 <label class="control-label col-md-2 col-sm-2 col-xs-12">Parent's Present Address</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('parents_present_address')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Parent's Contact No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('parents_contact_no')); ?>
+                                    </div>
+                            </div>
+                            <br/>
+                    </form>
+                      </div>
+
+                      <div id="step-5">
+                      <h2 class="StepTitle">Step 5: GUARDIAN DETAILS</h2>
+                          <form class="form-horizontal form-label-left input_mask"><br/>
+                           <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('guardian_name')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupation</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('guardian_occupation')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Relation</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('guardian_relation')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Present Address</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('guardian_present_address')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                            <h4>Permanent Address:</h4>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('guardian_dzongkhag')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Village</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('guardian_village')); ?>
+                                    </div>
+                                
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('guardian_gewog')); ?>
+                                    </div>
+
+
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Mobile No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('guardian_phone_no')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Email Address</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('guardian_email_address')); ?>
+                                    </div>
+                            </div>
+                            <br/>
+                              
+                      
+							</form>
+                      </div>
+                        <!-- Dynamically adding rows --> 
+                        <div id="step-6">
+                            <h2 class="StepTitle">Step 6: PREVIOUS SCHOOL DETAILS </h2>
+                        <form class="form-horizontal form-label-left input_mask"><br/>
+                             <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Institution(University),City and Country</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('institution')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Aggregate Marks Obtained</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('aggregate_marks_obtained')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Duration From</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('duration_from')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Duration To</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('duration_to')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Education / Class</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('education')); ?>
+                                    </div>
+							</div>                                                 
+                       </form>
+                      </div>
+							<div class="form-group">
+                            <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <?php  echo $this->formRow($reported->get('save')); ?>
+                                        </div>
+                                </div>
+                            </div>
+                    </div>
+							
+
+                        
+					</div>
+				</div>
+              </div>
+        </div>
+     </div>
+</div>
+         
+ <?php     
+$this->inlineScript()->captureStart();
+echo <<<JS
+      $(document).ready(function() {
+        $('#wizard').smartWizard();
+
+        $('.buttonNext').addClass('btn btn-success');
+        $('.buttonPrevious').addClass('btn btn-primary');
+        $('.buttonFinish').addClass('btn btn-default');
+      });
+JS;
+$this->inlineScript()->captureEnd();?>

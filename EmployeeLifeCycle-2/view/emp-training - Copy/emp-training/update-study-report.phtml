@@ -1,0 +1,211 @@
+<?php
+
+ $title = 'Application Form and Documents Submitted After Completion of Long Term Training/Study etc.';
+ $this->headTitle($title);
+ 
+ $training_detail = array();
+ $institute_detail = array();
+ $nomination_list = array();
+ 
+ foreach($this->trainingDetails as $key=>$value){
+	foreach($value as $key1=>$value1){
+		$training_detail[$value['employee_details_id']][$key1] = $value1;
+	}
+        $institute_detail['course_title'] = $value['course_title'];
+        $institute_detail['institute_name'] = $value['institute_name'];
+        $institute_detail['institute_location'] = $value['institute_location'];
+        $institute_detail['institute_country'] = $value['institute_country'];
+        $institute_detail['field_study'] = $value['field_study'];
+        $institute_detail['training_start_date'] = $value['training_start_date'];
+        $institute_detail['training_end_date'] = $value['training_end_date'];
+ }
+ 
+ foreach($this->trainingNominations as $key=>$value){
+	$nomination_list[$value['employee_details_id']] = $value['first_name'].' '.$value['middle_name'].' '.$value['last_name'].' ('.$value['emp_id'].')';
+ }
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $training = $form->get('trainingreport');
+                    $training->get('training_details_id')->setValue($this->training_details_id);
+                    echo $this->formHidden($training->get('id'));
+                    echo $this->formHidden($training->get('training_details_id'));
+                 ?>
+
+                 <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+                      ?> 
+                  <h2 class="StepTitle">List of Staff:</h2>
+                    <?php $i = 1; foreach ($nomination_list as $key=>$value) : ?>
+                        <div class="row">
+                        <div class="form-group">  
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12"><?php echo $i++; ?>:</label>
+                           <div class="col-md-4 col-sm-2 col-xs-12">
+                              <h4 class="blue"><i><?php echo $value; ?></i></h4>
+                            </div>
+                        </div>
+                      </div>
+                    <?php endforeach; ?>
+                  <div class="clearfix"></div>
+                  <div class="ln_solid"></div>
+                  <!-- Training Details Information-->
+                  <h2 class="StepTitle">Training Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Course Title:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $institute_detail['course_title']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Institute Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $institute_detail['institute_name'];; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Address/Location:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $institute_detail['institute_location'];; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Country:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $institute_detail['institute_country'];; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">From:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $institute_detail['training_start_date'];; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">To:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $institute_detail['training_end_date'];; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Training Details Information-->
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <h2 class="StepTitle">Add Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Aggregate Marks Obtained</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('marks_obtained')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Study Status</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('study_status')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Award Name</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('award_name')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('remarks')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <h4><i>Upload Documents</i></h4>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Joining Report</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('joining_report')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Feedback Form</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('feedback_form')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Certificates</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('certificates')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Marksheets</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('marksheets')); ?>
+                        </div>
+                    </div>
+                  </div> 
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+                            echo $this->formRow($training->get('submit'));
+                            echo $this->form()->closeTag($form);
+                         ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

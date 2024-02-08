@@ -1,0 +1,57 @@
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('List of added student fee structure'); ?></h2>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <h5><i>Note: If you have made any mistake then please click on edit button to edit it.</i></h5>
+    <br/>
+    <div class="x_content">
+        <div class="table-responsive">
+            <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                <thead>
+                <tr class="headings">
+                    <th class="column-title">Sl. No</th>
+                    <th class="column-title">Category</th>
+                    <th class="column-title">Total Fee</th>
+                    <th class="column-title">Programme</th>
+                    <th class="column-title">Financial Year</th>
+                    <th class="column-title">Organisation</th>
+                    <th class="column-title">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $i = 1;
+                foreach ( $this->fee_structure_lists as $detail ) : ?>
+                    <tr class="even pointer">
+                        <td class=" " width="8%"><?php echo $i++; ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['student_fee_category_name']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['total_fee']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['programme_name']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['financial_year']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['organisation_name']); ?></td>
+                        <td class=" last" width="10%">
+                            <?php
+
+                            $isDisabled = false;
+                            $financialYear = explode('-', $detail['financial_year']);
+                            if ( strtotime(end($financialYear)) <= strtotime(date('Y')) ) {
+                                $isDisabled = true;
+                            }
+                            ?>
+                            <a <?php echo $isDisabled ? 'disabled="disabled' : ''; ?>
+                                    href="<?php echo $isDisabled ? "JavaScript:void(0);" : $this->url('edit-fee-structure', array('id' => my_encrypt($detail['id'], $this->key))); ?>"
+                                    class="btn btn-info btn-xs">
+                                <i class="fa fa-pencil"></i>
+                                Edit
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

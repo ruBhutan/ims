@@ -1,0 +1,180 @@
+<?php
+ $title = 'Adding Student Back Year';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <br/>
+                        <!-- Adding Student Back Year-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Search for Student")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+                               
+                            <div class="x_content">
+                            <h5><i>*(In order to add student who has a "back year", first search for the student and then select the student from the table below.
+                                    Input as many fields as possible to narrow the search.)<br />
+                                    **Also note, search by name is done by "First Name" only</i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+								$form->get('student_batch')->setValueOptions($this->batchList);
+								$form->get('backlog_academic_year')->setValueOptions($this->academicYearList);
+								$form->get('backlog_semester')->setValueOptions($this->semesterList);
+                              ?>
+                            <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                            ?>  
+                              <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme</label>
+                                    <?php echo $this->formRow($form->get('programmes_id')); ?>
+                                </div>
+                                <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>Student Batch</label>
+                                    <?php echo $this->formRow($form->get('student_batch')); ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Back Paper Details</label>
+                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Academic Module</label>
+                                    <?php echo $this->formRow($form->get('academic_modules_id')); ?>
+                                </div>
+                                <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>Backlog Academic Year</label>
+                                    <?php echo $this->formRow($form->get('backlog_academic_year')); ?>
+                                </div>
+                                <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>Backlog Semester</label>
+                                    <?php echo $this->formRow($form->get('backlog_semester')); ?>
+                                </div>
+                            </div>                       
+                            <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>       
+                          
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("List of student for semester registration"); ?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <?php
+                        $studentBackPaperForm->setAttribute('action', $this->url('addstudentbackpaper', array('action' => 'addStudentBackPaper')));
+                        $form->prepare();
+                        echo $this->form()->openTag($studentBackPaperForm);
+                        $studentBackPaperForm->get('backlog_semester')->setValue($this->backlog_semester);
+                        $studentBackPaperForm->get('backlog_academic_year')->setValue($this->backlog_academic_year);
+                        $studentBackPaperForm->get('programmes_id')->setValue($this->programme);
+                        $studentBackPaperForm->get('academic_modules_id')->setValue($this->academic_modules_id);
+						$studentBackPaperForm->get('student_batch')->setValue($this->student_batch);
+                        echo $this->formHidden($studentBackPaperForm->get('backlog_semester'));
+                        echo $this->formHidden($studentBackPaperForm->get('backlog_academic_year'));
+                        echo $this->formHidden($studentBackPaperForm->get('programmes_id'));
+                        echo $this->formHidden($studentBackPaperForm->get('academic_modules_id')); 
+                        echo $this->formHidden($studentBackPaperForm->get('student_batch'));
+						echo $this->formHidden($studentBackPaperForm->get('id')); 
+                        ?>     
+                        <div class="x_content">
+                            <div  class="table-responsive">
+                                <table class="table table-striped jambo_table bulk_action">  
+                                     <thead>
+                                        <th class="column-title">Student ID </th>
+                                        <th class="column-title">Name </th>
+                                        <th class="column-title">Year </th>
+                                        <th class="column-title">CA </th>
+                                        <th class="column-title no-link last"><span class="nobr">SE</span></th>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($studentList as $student) {?>
+                                        <tr class="even pointer">
+                                            <td class=" "><?php echo $student['student_id'];?></td>
+                                            <td class=" "><?php echo $student['first_name']." ".$student['middle_name']." ".$student['last_name']; ?></td>
+                                            <td class=" "><?php echo $student['enrollment_year']; ?></td>
+                                            <td class="a-center"><?php echo $this->formRow($studentBackPaperForm->get("CA_".$student['id'])); ?></td>
+                                            <td class="a-center"><?php echo $this->formRow($studentBackPaperForm->get("SE_".$student['id'])); ?></td>
+                                        </tr>
+                                        <?php  }?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <?php
+                            echo $this->formHidden($studentBackPaperForm->get('csrf'));
+                            echo $this->formSubmit($studentBackPaperForm->get('submit'));
+                            echo $this->form()->closeTag();
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div> 

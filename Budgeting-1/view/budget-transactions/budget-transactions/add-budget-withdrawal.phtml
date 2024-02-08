@@ -1,0 +1,145 @@
+<?php
+ $title = 'Budget Re-Appropriation Proposal (College Finance Officer)';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                  <?php
+					// Opening of the form tag
+                    $budgetForm->setAttribute('action', $this->url('updatebudgetreappropriation', array('action' => 'updateBudgetReappropriation')));
+					$budgetForm->prepare();
+                    echo $this->form()->openTag($budgetForm);
+					
+				  ?>
+                  <div class="row">    
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Reference No<span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <?php  echo $this->formRow($budgetForm->get('reference_no')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Reference Date<span class="required">*</span></label>
+                        <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                        <?php  echo $this->formRow($budgetForm->get('reference_date')); ?>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Purpose<span class="required">*</span></label>
+                        <div class="col-md-7 col-sm-6 col-xs-12">
+                          <?php  echo $this->formRow($budgetForm->get('purpose')); ?>
+                        </div>
+                      </div>
+                 </div>
+                 <br />
+                <!--start of reappropriation details -->
+                <div class="x_panel">
+                <div class="x_title">
+                  <h2><i><?php echo $this->escapeHtml('Reappropriation From Details: Select Cost Object'); ?></i></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <h5><i>**Please note that any empty or zero values will be ignored.</i></h5>
+                  <br />
+                    <table class="table table-bordered">
+                            <thead>
+                              <tr class="headings">
+                                <th class="column-title">Cost Object</th>
+                                <th class="column-title">Budget</th>
+                                <th class="column-title">Expenditure</th>
+                                <th class="column-title">Balance</th>
+                                <th class="column-title">Amount</th>
+                              </tr>
+                            </thead>  
+                            <tbody>
+                          <tr>
+                             <?php $i =0; foreach ($this->toData as $data) : ?>
+                              <tr class="even pointer">
+                                <td class=" "><?php echo $this->escapeHtml($this->chartAccounts[$data['chart_of_accounts_id']]);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['proposed_budget_amount']);?></td>
+                                <td class=" "><?php echo "expenditure"; ?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['balance']);?></td>
+                                <td class=" "><?php echo $this->formRow($budgetForm->get('to_'.$this->toIds[$i++])); ?></td>
+                              </tr>
+                              <?php endforeach; ?>
+                          </tr>
+                         </tbody>
+                       </table>
+                </div>
+              </div>
+              <br />
+              <!-- End of Reappropriation From Details box-->
+              
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2><i><?php echo $this->escapeHtml('Reappropriation To Details: Select Cost Object'); ?></i></h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                      </ul>
+                     <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                    <h5><i>**Please note that any empty or zero values will be ignored.</i></h5>
+                      <br />
+                    <table class="table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Cost Object</th>
+                            <th class="column-title">Budget</th>
+                            <th class="column-title">Expenditure</th>
+                            <th class="column-title">Balance</th>
+                            <th class="column-title">Amount</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i =0; foreach ($this->fromData as $data) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $this->escapeHtml($this->chartAccounts[$data['chart_of_accounts_id']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($data['proposed_budget_amount']);?></td>
+                            <td class=" "><?php echo  "expenditure"; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($data['proposed_budget_amount']);?></td>
+                            <td class=" "><?php echo $this->formRow($budgetForm->get('from_'.$this->fromIds[$i++])); ?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                     </tbody>
+                   </table>
+                  
+                </div>
+              </div>
+                   <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						   //echo $this->formHidden($budgetForm->get('organisation_id'));
+						   echo $this->formHidden($budgetForm->get('csrf'));
+						   echo $this->formSubmit($budgetForm->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+              
+              <!-- End of Reappropriation To Details-->
+             </div>
+        </div>
+       
+              	
+    
+          </div>
+        </div> 
+     </div>

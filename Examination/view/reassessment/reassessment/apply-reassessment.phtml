@@ -1,0 +1,228 @@
+<?php
+ $title = 'Application for Reassessment of Module';
+ $this->headTitle($title);
+ 
+ $student_details = array();
+ foreach($this->studentDetails as $detail){
+	 $student_details = $detail;
+ }
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				        <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $marks = $form->get('reassessment');
+                    $marks->get('student_id')->setValue($this->student_id);
+                    $marks->get('application_date')->setValue(date('Y-m-d'));
+                    $marks->get('academic_modules_allocation_id')->setValueOptions($this->moduleList);
+                    echo $this->formHidden($marks->get('id'));
+                    echo $this->formHidden($marks->get('student_id'));
+                 ?> 
+                  <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                      echo '<strong>Success!</strong>'. $message;
+                    }
+                    echo '</div>';
+                  } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                      echo '<strong>Warning!</strong>'. $message;
+                    }
+                    echo '</div>';
+                } ?>
+                  <h2 class="StepTitle">Instructions:</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h5>Re-assessment and Repeat of a module</h5>
+                          <ol>
+                            <li>Reassessment is permitted to allow a student to make good an initial failure. It thus affords the student an opportunity to succeed in the failed component of a module (s) (coursework or end of semester examination) and ultimately gain an award.</li>
+                            <li>The Board of Examiners shall decide on the form of the re-assessment (e.g. written examination, viva voce, or an additional assignment, or any additional requirement which was not met), taking cognisance of the nature of the failed module and the nature of the failure.  This may differ from the format of the first assessment and need not be the same for all students.</li>
+                            <li>A student may be re-assessed in a failed module(s) provided that he or she: </li>
+                            <ul>
+                              <li>has not failed in more than 30% of the total number of modules prescribed for that semester (rounded off to the nearest whole number of modules); and </li>
+                              <li>shall not be re-assessed in a module more than once.</li>
+                            </ul>
+                            <li>Re-assessments should take place before, or at the commencement of the next semester.</li>
+                            <li>A student who is re-assessed for a module failure, where there are no clear extenuating circumstances[1], shall be awarded no more than 50% on passing the re-assessment, this being the minimum pass mark.</li>
+                            <li>A student shall be eligible to repeat failed module(s) where he or she:</li>
+                            <ul>
+                              <li>has failed in the re-assessment of a module(s). In such an event, the student shall meet all assessment requirements of those modules. For students under this category, attendance in lectures is not mandatory;  and </li>
+                              <li>has failed more than 30% of the total number of modules prescribed for that semester (rounded off to the nearest whole number of modules). In such an event the student shall meet all teaching, learning and assessment requirements of the failed modules. For students under this category, attendance in lectures is mandatory.</li>
+                            </ul>
+                            <li>A student will be given the opportunity to repeat a module when it is offered at the first available instance. </li>
+                            <li>Where a module is repeated the mark obtained will replace the mark achieved at earlier attempts.</li>
+                            <li>A student may repeat a failed module upto two times.  In the event a student fails a repeated module, he/she will not be eligible for reassessment.</li>
+                            <li>A student may not register for more than 2 repeat modules in addition to the modules prescribed for the semester.</li>
+                        </ol>
+                       </div>
+                    </div>
+                  </div>
+                   <div class="row">
+                    <div class="form-group">  
+                      <label class="control-label col-md-2 col-sm-12 col-xs-12">Student ID:</label>
+                      <div class="col-md-4 col-sm-12 col-xs-12">
+                        <h4 class="blue"><i><?php echo $student_details['student_id']; ?></i></h4>
+                      </div>
+                      <label class="control-label col-md-2 col-sm-12 col-xs-12">Name:</label>
+                      <div class="col-md-4 col-sm-12 col-xs-12">
+                        <h4 class="blue"><i><?php echo $student_details['first_name'].' '.$student_details['middle_name'].' '.$student_details['last_name']; ?></i></h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-12 col-xs-12">Programme:</label>
+                      <div class="col-md-10 col-sm-12 col-xs-12">
+                        <h4 class="blue"><i><?php echo $student_details['programme_name']; ?></i></h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <br />
+                  <?php 
+                  if($this->duration['from_date'] <= date('Y-m-d') && date('Y-m-d') <= $this->duration['to_date']){
+                  ?>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Module Name (and Code):<span class="required">*</span></label>
+                       <div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php 
+                          $total_module = count($this->total_module_list);
+                          $total_module_fail = count($this->moduleList);
+                          $module_failed_percentage = round((30/100)*$total_module);
+                          if($total_module_fail <= $module_failed_percentage){
+                            echo $this->formRow($marks->get('academic_modules_allocation_id')); 
+                          }else if($total_module_fail >= $module_failed_percentage){
+                            echo "<i><font color=red>You are not eligble for RA as you failed in more than 30% of the total module</font></i>";
+                          }else{
+                            echo "<i><font color=red>You done't have RA</font></i>";
+                          }
+                          ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Application Date:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($marks->get('application_date')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <br /><br />
+                  <div class="row">
+                    <div class="form-group">  
+                    <label class="control-label col-md-10 col-sm-12 col-xs-12"><?php echo 'I, hereby declare that the information provided above are true to the best of my knowledge and I bear full responsibility for any anamoly'; ?></label>
+                    	<div class="col-md-2 col-sm-12 col-xs-12">
+                        <?php echo $this->formRow($marks->get('agreement')); ?>
+                      </div>
+                    </div>
+                  </div>
+                  <br />                    
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+                            echo $this->formRow($marks->get('submit'));
+                            echo $this->form()->closeTag($form);
+                          ?>
+                        </div>
+                      </div>
+                      <?php } else { ?>
+                          <div class="x_content">
+                            <?php 
+                                                  
+                                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                                      echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                                          echo '<strong>Alert! You are not allow to apply for reassessment since period has been expired or not yet announced.</strong>';
+                                          echo '</div>';
+                                  ?>
+                          </div>
+                        <?php } ?>
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+            <?php
+            $title1 = "List of Recheck application";
+            ?>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2><?php echo $this->escapeHtml($title1); ?></h2>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                            <th style="width: 5%" class="column-title">Sl No</th>
+                            <th class="column-title">Module </th>
+                            <th class="column-title">Module Type </th>
+                            <th class="column-title">Academic Year</th>
+                            <th class="column-title">Year</th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title">Payment Status</th>
+                            <th class="column-title">Reassessment Status</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span> </th>
+                        </thead>
+    
+                        <tbody>
+                          <?php $i = 1;
+                          foreach($reassessmentList as $list) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $list['module_title'].' ('.$list['module_code'].')';?></td>
+                            <td class=" "><?php echo $list['module_type'];?></td>
+                            <td class=" "><?php echo $list['academic_year'];?></td>
+                            <td class=" "><?php echo $list['year'];?></td>
+                            <td class=" "><?php echo $list['semester'];?></td>
+                            <td class=" "><?php echo $list['payment_status'];?></td>
+                            <td class=" "><?php echo $list['reassessment_status'];?></td>
+                            <td class=" "><a href="<?php echo $this->url('reassessmentapplicationdetails', array('id' => my_encrypt($list['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+              </div>
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

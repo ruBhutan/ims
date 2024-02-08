@@ -1,0 +1,77 @@
+<h3 class="header smaller lighter grey"> Deductions</h3>
+<table id="deduction_table" class="table table-striped jambo_table bulk_action">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Type</th>
+        <th>Default Amount(<?php echo $this->currency_code(); ?>)</th>
+        <th>Amount(<?php echo $this->currency_code(); ?>)
+            <small><span class="fa fa-exclamation-circle"><i> (DLWP)</i></span>
+            </small>
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <?php $j = 1;
+    $total_deduction = 0;
+    foreach ( $this->employee_deduction_data as $deduction ):?>
+        <tr>
+            <td><?php echo $j++; ?> </td>
+
+            <td><?php echo $deduction['pay_head']; ?></td>
+
+            <td><?php echo $deduction['amount']; ?></td>
+
+            <td>
+                <input class="form-control"
+                       type="hidden"
+                       name="actual_deduction_amt"
+                       id="actual_deduction_amt"
+                       value="<?php echo $deduction['amount']; ?>"
+                />
+
+                <input type="hidden"
+                       id="d_dlwp"
+                       value="<?php echo $deduction['dlwp']; ?>"
+                />
+
+                <input type="hidden"
+                       id="d_roundup"
+                       value="<?php echo $deduction['roundup']; ?>"
+                />
+                <?php if ( $deduction['dlwp'] == '1' ): $actual_amt = $deduction['amount']; ?>
+                    <span class="input-icon input-icon-right">
+                                                        <input type="text"
+                                                               name="deduction_amt"
+                                                               id="deduction_amt"
+                                                               class="form-control"
+                                                               value="<?php echo $actual_amt; ?>"
+                                                               readonly
+                                                        />
+                                                        <i class="ace-icon fa fa-exclamation-circle"></i>
+                                                    </span>
+                <?php else: ?>
+                    <input class="form-control"
+                           type="text"
+                           name="deduction_amt"
+                           id="deduction_amt"
+                           value="<?php echo $deduction['amount']; ?>"
+                           readonly
+                    />
+                <?php endif; ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+
+    <?php if ( $j === 1 ) : ?>
+        <tr>
+            <td colspan="4">
+                <p>
+                    Deductions records not found.
+                </p>
+            </td>
+        </tr>
+    <?php endif; ?>
+    </tbody>
+</table>

@@ -1,0 +1,98 @@
+
+<?php
+
+ $title = 'Job Vacancies';
+ $this->headTitle($title);
+?>
+	<div class="right_col" role="main">
+          <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+                      </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                          
+                        <?php
+							// Opening of the form tag
+							$form->prepare();
+							echo $this->form()->openTag($form);
+						  ?>
+						
+						  <div class="row">
+							  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+								<label>Agency Name</label>
+								<?php echo $this->formRow($form->get('working_agency')); ?>
+							  </div>
+							  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+								<label>Position Title</label>
+								<?php echo $this->formRow($form->get('position_title')); ?>
+							  </div>
+							  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+								<label>Position Category</label>
+								<?php echo $this->formRow($form->get('position_category')); ?>
+							  </div>
+						   </div>
+						 
+						 <div class="row">
+							<div class="ln_solid"></div>
+							<div class="form-group">
+								<label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+								  <?php
+								   echo $this->formHidden($form->get('csrf'));
+								   echo $this->formSubmit($form->get('submit')); 
+								   echo $this->form()->closeTag(); 
+								?>
+							</div>
+						</div>
+						  
+					  </div>
+					</div>
+				   </div>
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+     		 <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Position Title </th>
+                            <th class="column-title">Employment Type</th>
+                            <th class="column-title">Total No. of Slots </th>
+                            <th class="column-title">Working Agency </th>
+                            <th class="column-title">Last Date</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php foreach ($this->vacancyList as $vacancy) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $this->escapeHtml($positionTitle[$vacancy['position_title']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($empType[$vacancy['employee_type']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($vacancy['no_of_slots']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($organisations[$vacancy['working_agency']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($vacancy['last_date_submission']);?></td>
+                            <td class="last"><a href="<?php echo $this->url('jobdetails', array('id' => $vacancy['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                            	<a href="<?php echo $this->url('applyjob', array('id' => $vacancy['id']));?>" class="btn btn-info btn-xs">Apply</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+              

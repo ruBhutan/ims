@@ -1,0 +1,75 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Student Feedbacks';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                     <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/><div class="x_content">
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            
+                            <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Academic Year</th>
+                              <th class="column-title">Module Name</th>
+                            <th class="column-title">Programme</th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title">Status </th>
+                            <th class="column-title">Result</th>
+                            <th class="column-title">Details</th>
+                            <th class="column-title">No. of Student</th>
+                            </th>
+                           
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                 <td>2017</td>
+                                  <td>Digital</td>
+                                <td>Bsc. Computer Science</td>
+                                <td>3rd Semester</td>
+                                 <td>completed</td>
+                                <td>10%</td>
+                                 <td>View</td>
+                                  <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                 <td>2017</td>
+                                  <td>Digital</td>
+                                <td>Bsc. Computer Science</td>
+                                <td>3rd Semester</td>
+                                 <td>not completed</td>
+                                <td></td>
+                                <td>View</td>
+                                 <td></td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div></div>
+                    <br/>
+                        <div class="row">
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Final Total Score</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="system auto generate">
+                        </div>
+                      </div></div>
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

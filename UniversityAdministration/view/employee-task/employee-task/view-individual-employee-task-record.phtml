@@ -1,0 +1,154 @@
+<?php
+ $title = 'Staff APA/Task/Project Recorded Details';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+  }
+
+
+ $staff_records = array();
+ $staff_name = NULL;
+ $staff_id = NULL;
+ //$student_programme = NULL;
+ //$student_year = NULL;
+ foreach($this->staffRecords as $records){
+	 $staff_records[] = $records;
+	 $staff_name = $records['first_name']. ' '.$records['middle_name']. ' '.$records['last_name'];
+	 $staff_id = $records['emp_id'];
+	 //$student_programme = $records['programme_name'];
+	 //$student_year = $records['enrollment_year'];
+ }
+ ?>
+
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    Note: By default the following list will show all the actvities of a particular staff. You can also have look at the list of activities for a particular dates. So in order to view activities for particular dates, please select the From Data and To Date to get the list below.
+                    <?php
+                      // Opening of the form tag
+                      $searchForm->prepare();
+                      echo $this->form()->openTag($searchForm);
+                    ?>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">From Date: </label>
+                        <?php echo $this->formRow($searchForm->get('from_date')); ?>
+                      </div>
+                      <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">To Date</label>
+                        <?php echo $this->formRow($searchForm->get('to_date')); ?>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                        <?php
+                          echo $this->formHidden($searchForm->get('csrf'));
+                          echo $this->formSubmit($searchForm->get('submit')); 
+                          echo $this->form()->closeTag(); 
+                        ?>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+                    <?php
+					// Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    ?>
+                    <div class="row">
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff Name:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $staff_name; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $staff_id; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="ln_solid"></div>
+                    <br />
+                     <!-- start work experience -->
+                            <table id="datatable-buttons" class="table jambo_table table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Working Type</th>
+                                  <th>APA/Task/Project Category</th>
+                                  <th>APA/Task/Project Activity Details</th>
+                                  <th>From Date</th>
+                                  <th>To Date</th>
+                                  <th>From Time</th>
+                                  <th>To Time</th>
+                                  <th>Status</th>
+                                  <th>Recorded By</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+								              <?php $i=1; foreach ($staff_records as $staff) : ?>
+                                 <tr>
+                                    <td><?php echo $i++;?></td>
+                                    <td><?php echo $staff['employeetask_type'];?></td>
+                                    <td><?php echo $staff['employee_task_category'];?></td>
+                                    <td><?php echo $staff['employeetask_details'];?></td>
+                                    <td><?php echo $staff['from_date'];?></td>
+                                    <td><?php echo $staff['to_date'];?></td>
+                                    <td><?php echo $staff['from_time'];?></td>
+                                    <td><?php echo $staff['to_time'];?></td>
+                                    <td><?php echo $staff['status'];?></td>
+                                    <td><?php echo $staff['staff_first_name'].' '.$staff['staff_last_name'].' ('.$staff['emp_id'].')';?></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                            <!-- end work experience -->            
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php 
+                               echo $this->form()->closeTag();
+                            ?>
+                            </div>
+                    	  </div>
+                     </div>
+                 
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>

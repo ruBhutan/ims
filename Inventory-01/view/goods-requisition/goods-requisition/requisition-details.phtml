@@ -1,0 +1,84 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Requisition Details';
+ $this->headTitle($title);
+
+ //Store details of employees as they should be printed only once
+ foreach ($this->approvals as $employee)
+ {
+	 $item_quantity = $employee->getItem_Quantity();
+	 $item_description = $employee->getItem_Description();
+ }
+
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_panel">
+                <div class="x_content">
+                     <div class="">
+                      <!-- To display details -->
+                      <div class="container desc">
+                          <div class="row">
+                                    <div class="col-lg-3 col-lg-offset-1">
+                                            <h5>Employee Details</h5>
+                                    </div>
+                                    <div class="col-lg-4">
+                                            <p>
+                                            
+                                            </p>
+                                    </div>
+                           </div><!--/.row -->
+                                <br>
+                                <hr> 
+                          <div class="row">
+                                    <div class="col-lg-3 col-lg-offset-1">
+                                            <h5>Requisition Details</h5>
+                                    </div>
+                                    <div class="col-lg-4">
+                                            <p>
+                                              	<t>Item Quantity: <?php echo $this->escapeHtml($item_quantity);?></t><br/>
+                                             	<t>Item Description: <?php echo $this->escapeHtml($item_description);?> </t><br/>
+                                            </p>
+                                      
+                                    </div>
+                           </div><!--/.row -->
+                                <br>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-lg-3 col-lg-offset-1">
+                                            <h5>Remarks</h5>
+                                    </div>
+                                    <div class="col-lg-4">
+                                            <p></p>
+                                    </div>
+                                </div><!--/.row -->
+                          <div class="row">
+                        		<div class="ln_solid"></div>
+                        		<div class="form-group">
+                        		<label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                        		<div class="col-md-6 col-sm-6 col-xs-12">
+                            		<button class="btn btn-success">Approve</button>
+									<button class="btn btn-danger">Reject</button>
+								</div>
+						  	  </div>
+						   </div>
+                          </div><!--/.container -->
+                     </div>
+					</div>
+				 </div>
+			</div>
+		  </div>
+	  </div>
+</div>
+            
+         
+              
+       
+                

@@ -1,0 +1,122 @@
+<?php
+ $title = 'Allocate Budget Provision';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+               <div class="row">
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Five Year Plan</label>
+               <select class="form-control"><option>--select--</option></select>
+                  </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Working Agency</label>
+                 <select class="form-control"><option>--select--</option></select>
+                  </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Objectives</label>
+                 <select class="form-control"><option>--select--</option></select>
+                  </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Action Plan</label>
+                <select class="form-control"><option>--select--</option></select>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Approved Budget</label>
+                   <input type="text" placeholder="Auto-retrieve" class="form-control" >
+                  </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Budget Source</label>
+                   <select class="form-control"><option>--select--</option></select>
+                  </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Funding Source</label>
+                  <select class="form-control"><option>--select--</option></select>
+                  </div>
+             
+                </div>  
+                  <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <button type="button" class="btn btn-success">Add</button>
+                    </div>
+                    </div>
+                    </div>
+    
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        </div>
+              
+    <?php
+ $title = '';
+ $this->headTitle($title);
+?>                 
+    <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Working Agency</th>
+                        <th class="column-title">Objective</th>
+                        <th class="column-title">Action Plan</th>
+                        <th class="column-title">Approved Budget</th>
+                        <th class="column-title">Budget Source</th>
+                        <th class="column-title">Funding Source</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr class="even pointer">
+                        <td></td>  
+                       <td></td>
+                        <td></td>  
+                       <td></td>
+                        <td></td>  
+                       <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                    
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+
+              
+              
+   
+            
+    

@@ -1,0 +1,363 @@
+<?php
+ $title = 'Generate New Staff ID';
+ $this->headTitle($title);
+
+ $employee_details = array();
+ foreach($this->newEmployeeDetails as $details){
+  $employee_details['first_name'] = $details['first_name'];
+  $employee_details['middle_name'] = $details['middle_name'];
+  $employee_details['last_name'] = $details['last_name'];
+  $employee_details['date_of_birth'] = $details['date_of_birth'];
+  $employee_details['marital_status'] = $details['marital_status'];
+  $employee_details['gender'] = $details['gender'];
+  $employee_details['cid'] = $details['cid'];
+  $employee_details['country'] = $details['country'];
+  $employee_details['nationality'] = $details['nationality'];
+  $employee_details['phone_no'] = $details['phone_no'];
+  $employee_details['email'] = $details['email'];
+  $employee_details['blood_group'] = $details['blood_group'];
+  $employee_details['religion'] = $details['religion'];
+  $employee_details['emp_house_no'] = $details['emp_house_no'];
+  $employee_details['emp_thram_no'] = $details['emp_thram_no'];
+  $employee_details['emp_dzongkhag'] = $details['emp_dzongkhag'];
+  $employee_details['emp_gewog'] = $details['emp_gewog'];
+  $employee_details['emp_village'] = $details['emp_village'];
+  $employee_details['organisation_id'] = $details['organisation_id'];
+  $employee_details['departments_id'] = $details['departments_id'];
+  $employee_details['departments_units_id'] = $details['departments_units_id'];
+  $employee_details['emp_type'] = $details['emp_type'];
+  $employee_details['position_title_id'] = $details['position_title_id'];
+  $employee_details['position_level_id'] = $details['position_level_id'];
+  $employee_details['recruitment_date'] = $details['recruitment_date'];
+  $employee_details['status'] = $details['status'];
+  $employee_details['emp_resignation_id'] = $details['emp_resignation_id'];
+
+  $employee_details['major_occupational_group'] = $details['major_occupational_group'];
+  $employee_details['maritial_status'] = $details['maritial_status'];
+  $employee_details['dzongkhag_name'] = $details['dzongkhag_name'];
+  $employee_details['gewog_name'] = $details['gewog_name'];
+  $employee_details['village_name'] = $details['village_name'];
+  $employee_details['employee_type'] = $details['employee_type'];
+  $employee_details['egender'] = $details['egender'];
+  $employee_details['eblood_group'] = $details['eblood_group'];
+  $employee_details['ereligion'] = $details['ereligion'];
+  $employee_details['department_name'] = $details['department_name'];
+  $employee_details['unit_name'] = $details['unit_name'];
+  $employee_details['category'] = $details['category'];
+  $employee_details['major_occupational_group'] = $details['major_occupational_group'];
+   $employee_details['ecountry'] = $details['ecountry'];
+   $employee_details['position_title'] = $details['position_title'];
+   $employee_details['position_level'] = $details['position_level'];
+    $employee_details['enationality'] = $details['enationality'];
+ }
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <?php
+          						// Opening of the form tag
+          						$form->prepare();
+          						echo $this->form()->openTag($form);
+          						$form->get('id')->setValue($this->id);
+          						$form->get('emp_id')->setValue($this->empId);
+                      $form->get('first_name')->setValue($employee_details['first_name']);
+                       $form->get('middle_name')->setValue($employee_details['middle_name']);
+                        $form->get('last_name')->setValue($employee_details['last_name']);
+                         $form->get('date_of_birth')->setValue($employee_details['date_of_birth']);
+                         $form->get('marital_status')->setValue($employee_details['marital_status']);
+                         $form->get('gender')->setValue($employee_details['gender']);
+                         $form->get('cid')->setValue($employee_details['cid']);
+                         $form->get('country')->setValue($employee_details['country']);
+                         $form->get('nationality')->setValue($employee_details['nationality']);
+                         $form->get('phone_no')->setValue($employee_details['phone_no']);
+                         $form->get('email')->setValue($employee_details['email']);
+                         $form->get('blood_group')->setValue($employee_details['blood_group']);
+                         $form->get('religion')->setValue($employee_details['religion']);
+                         $form->get('emp_house_no')->setValue($employee_details['emp_house_no']);
+                         $form->get('emp_thram_no')->setValue($employee_details['emp_thram_no']);
+                         $form->get('emp_dzongkhag')->setValue($employee_details['emp_dzongkhag']);
+                         $form->get('emp_gewog')->setValue($employee_details['emp_gewog']);
+                         $form->get('emp_village')->setValue($employee_details['emp_village']);
+                         $form->get('organisation_id')->setValue($employee_details['organisation_id']);
+                         $form->get('departments_id')->setValue($employee_details['departments_id']);
+                         $form->get('departments_units_id')->setValue($employee_details['departments_units_id']);
+                         $form->get('emp_type')->setValue($employee_details['emp_type']);
+                         $form->get('position_title_id')->setValue($employee_details['position_title_id']);
+                         $form->get('position_level_id')->setValue($employee_details['position_level_id']);
+                         $form->get('recruitment_date')->setValue($employee_details['recruitment_date']);
+                          $form->get('emp_resignation_id')->setValue($employee_details['emp_resignation_id']);
+                         $form->get('status')->setValue('Generated');
+          						echo $this->formHidden($form->get('id'));
+                      echo $this->formHidden($form->get('first_name'));
+                      echo $this->formHidden($form->get('middle_name'));
+                      echo $this->formHidden($form->get('last_name'));
+                      echo $this->formHidden($form->get('date_of_birth'));
+                      echo $this->formHidden($form->get('marital_status'));
+                      echo $this->formHidden($form->get('gender'));
+                      echo $this->formHidden($form->get('cid'));
+                      echo $this->formHidden($form->get('country'));
+                      echo $this->formHidden($form->get('nationality'));
+                      echo $this->formHidden($form->get('phone_no'));
+                      echo $this->formHidden($form->get('email'));
+                      echo $this->formHidden($form->get('blood_group'));
+                      echo $this->formHidden($form->get('religion'));
+                      echo $this->formHidden($form->get('emp_house_no'));
+                      echo $this->formHidden($form->get('emp_thram_no'));
+                      echo $this->formHidden($form->get('emp_dzongkhag'));
+                      echo $this->formHidden($form->get('emp_gewog'));
+                      echo $this->formHidden($form->get('emp_village'));
+                      echo $this->formHidden($form->get('organisation_id'));
+                      echo $this->formHidden($form->get('departments_id'));
+                      echo $this->formHidden($form->get('departments_units_id'));
+                      echo $this->formHidden($form->get('emp_type'));
+                      echo $this->formHidden($form->get('position_title_id'));
+                      echo $this->formHidden($form->get('position_level_id'));
+                      echo $this->formHidden($form->get('recruitment_date'));
+          						echo $this->formHidden($form->get('emp_id'));
+                      echo $this->formHidden($form->get('emp_resignation_id'));
+                      echo $this->formHidden($form->get('status'));
+                      $form->get('submit')->setValue('Generate ID');
+          					 ?> 
+                     <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+      							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+      							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+        							$messages = $this->flashMessenger()->getMessages();
+        							foreach($messages as $message) {
+        								echo '<strong>Success!</strong>'. $message;
+        							}
+        							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                     <div id="step-1">
+                        <h2 class="StepTitle">Staff Details:</h2>
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">First Name<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['first_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Middle Name</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                 <input type="text" value="<?php echo $employee_details['middle_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Last Name</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['last_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['date_of_birth']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Marital Status<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                <input type="text" value="<?php echo $employee_details['maritial_status']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Gender</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['egender']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">CID<span class="required">*</span><br />
+                            	<small>(In case of non-national, plese enter work permit no.)</small></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['cid']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Country</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['ecountry']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Nationality</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['enationality']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                           <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Phone No:</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['phone_no']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">E-mail</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['email']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Blood Group<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['eblood_group']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Religion</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['ereligion']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <h2 class="StepTitle">Address Details:</h2>
+                           <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">House No:</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['emp_house_no']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Thram No:</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['emp_thram_no']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['dzongkhag_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Gewog</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['gewog_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Village</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                 <input type="text" value="<?php echo $employee_details['village_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <h2 class="StepTitle">Employment Details:</h2>
+                           <div class="row">
+                            <div class="form-group">  
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Department</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['department_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Unit</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['unit_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupational Group<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['major_occupational_group']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Category<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['category']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Staff Type<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['employee_type']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['position_title']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Position Level<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['position_level']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                
+                            </div>
+                          </div>
+                          <br />
+                           <div class="row">
+                            <div class="form-group">  
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Recruitment Date<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['recruitment_date']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                
+                            </div>
+                          </div>
+                    <br />
+                     <br />
+                      <div class="row">
+                        <div class="form-group">  
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Office Order No:</label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($form->get('office_order_no')); ?>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group">  
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Office Order Date:</label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($form->get('office_order_date')); ?>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group">  
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Evidence File:</label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($form->get('evidence_file')); ?>
+                            </div>
+                        </div>
+                      </div>
+                    
+                
+          		<div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf'));
+                            echo $this->formSubmit($form->get('submit')); 
+							              echo $this->form()->closeTag($form);
+						              ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>

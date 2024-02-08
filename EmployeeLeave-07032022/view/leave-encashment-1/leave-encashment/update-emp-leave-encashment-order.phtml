@@ -1,0 +1,156 @@
+<?php
+ $title = '';
+ $this->headTitle($title);
+
+ $empDetails = array();
+ foreach($this->empDetails as $details){
+     $empDetails = $details;
+ } //var_dump($empDetails); die();
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Update Order for Approved Leave Encashment</h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $form->get('id')->setValue($id);
+                    $form->get('employee_details_id')->setValue($empDetails['employee_details_id']);
+                    $form->get('submit')->setValue('Uploade Order');
+                    echo $this->formHidden($form->get('employee_details_id'));
+                    echo $this->formHidden($form->get('id'));
+                    ?>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                     echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                     $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                      echo '<strong>Success!</strong>'. $message;
+                    }
+                    echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                  <!-- Personal Details Information-->
+                  <h2 class="StepTitle">Staff Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $empDetails['first_name'].' '.$empDetails['middle_name'].' '.$empDetails['last_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $empDetails['emp_id']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Department Unit:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $empDetails['unit_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Department:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $empDetails['department_name']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  
+                  <br />
+                  <!-- End of Personal Details Information-->
+                  <!-- Education Details Information-->
+                  <h2 class="StepTitle">Leave Encashment Details</h2>
+                  <div class="table-responsive">
+						<table class="table table-striped jambo_table table-bordered">
+							<thead>
+								<tr class="headings">
+									<th class="column-title">Sl.No.</th>
+									<th class="column-title"><span class="nobr">Application Date</span></th>
+                                    <th class="column-title"><span class="nobr">Leave Balance (In Days)</span></th>
+									<th class="column-title"><span class="nobr">Approval</span></th>
+									<th class="column-title"><span class="nobr">Remarks</span></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php $i=1; ?>
+								<?php foreach ($this->leaveEncashmentDetails as $approved) : ?>
+								<tr class="even pointer">
+									<td class=" " width="8%"><?php echo $i; ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($approved['application_date']);?></td>
+									<td class=" "><?php echo $this->escapeHtml($approved['leave_balance']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($approved['approval_date']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($approved['remarks']);?></td>
+								</tr>
+								<?php $i++; ?>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div>
+                    <div class="ln_solid"></div>
+                  <br /><br/>
+                  <!-- End of Education Details Information-->
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Order Number: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php  echo $this->formRow($form->get('order_no')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Order Date: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php  echo $this->formRow($form->get('order_date')); ?>
+                    </div>
+                </div>
+                </div> 
+                  
+                <div class="row">    
+                <div class="form-group">
+                    
+                 </div>
+                 </div>
+              
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Order File: </label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                      <?php  echo $this->formRow($form->get('order_file')); ?>
+                    </div>
+                </div> 
+                </div>
+  
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+						echo $this->formRow($form->get('csrf'));
+						echo $this->formSubmit($form->get('submit')); 
+                      ?>
+                    </div>
+                 </div>
+                 </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                </div>
+              </div>
+           </div>
+        </div>
+     </div>   
+              

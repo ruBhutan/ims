@@ -1,0 +1,197 @@
+<?php
+
+ $title = 'Student Permanent Address';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">
+                    <h2>Personal Details</h2>
+                 <?php
+                 $personalDetails = array();
+                 foreach ($this->stdDetails as $details): {
+                      $personalDetails['id'] = $details['id'];
+                      $personalDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'];
+                      $personalDetails['student_id'] = $details['student_id'];
+                      $personalDetails['programme_name'] = $details['programme_name'];
+                      $personalDetails['stdgender'] = $details['stdgender'];
+                      $personalDetails['student_type'] = $details['student_type'];
+                      $personalDetails['enrollment_year'] = $details['enrollment_year'];
+                  } 
+                 ?>
+                    <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['student_id']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['stdgender']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['student_type']; ?>
+                                        </div>
+                            </div><br/><br/>
+
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['programme_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Enrollment Year:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['enrollment_year']; ?>
+                                        </div>
+                            </div>
+
+                            <br/><br/>
+                        <?php endforeach; ?>
+                    <h2>Nationality</h2>
+                        <?php
+                        $nationalityDetails = array();
+                        foreach ($this->stdNationality as $nationality): {
+                            $nationalityDetails['country'] = $nationality['country'];
+                            $nationalityDetails['nationality'] = $nationality['nationality'];
+                        }
+                     ?>
+                     <?php
+                        if(empty($nationalityDetails)) {
+                            $nationalityDetails['country'] = "NA";
+                            $nationalityDetails['nationality'] = "NA";
+                     ?>
+
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Country:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $nationalityDetails['country']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $nationalityDetails['nationality']; ?>
+                                        </div>
+                            </div>
+                            <?php } else {?>
+                                <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Country:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $nationalityDetails['country']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $nationalityDetails['nationality']; ?>
+                                        </div>
+                            </div>
+                           <?php } ?>
+                            <?php endforeach; ?><br/><br/> 
+
+                            <h2>Permanent Address</h2>
+                            <?php
+                            $permanentAddr = array();
+                            foreach ($this->stdPermanentAddr as $address): {
+                                 $permanentAddr['dzongkhag_name'] = $address['dzongkhag_name'];
+                                 $permanentAddr['gewog_name'] = $address['gewog_name'];
+                                 $permanentAddr['village_name'] = $address['village_name'];
+                             } 
+                            ?>
+                            <?php
+                            if(empty($permanentAddr)){ 
+                                $permanentAddr['dzongkhag_name'] = "NA";
+                                 $permanentAddr['gewog_name'] = "NA";
+                                 $permanentAddr['village_name'] = "NA";
+                            ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag:</label>
+                                    <div class="col-md-2 col-sm-2 col-xs-12">
+                                        <?php echo $permanentAddr['dzongkhag_name']; ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog:</label>
+                                        <div class="col-md-2 col-sm-2 col-xs-12">
+                                            <?php echo $permanentAddr['gewog_name']; ?>
+                                      </div>
+                                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Village:</label>
+                                        <div class="col-md-2 col-sm-2 col-xs-12">
+                                            <?php echo $permanentAddr['village_name']; ?>
+                                      </div>
+                            </div>
+                            <?php } else {?>
+                                <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag:</label>
+                                    <div class="col-md-2 col-sm-2 col-xs-12">
+                                        <?php echo $permanentAddr['dzongkhag_name']; ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog:</label>
+                                        <div class="col-md-2 col-sm-2 col-xs-12">
+                                            <?php echo $permanentAddr['gewog_name']; ?>
+                                      </div>
+                                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Village:</label>
+                                        <div class="col-md-2 col-sm-2 col-xs-12">
+                                            <?php echo $permanentAddr['village_name']; ?>
+                                      </div>
+                            </div>
+                            <?php } ?>
+                            <?php endforeach; ?><br/><br/>
+                            <?php 
+                            $contactDetails = array();
+                            foreach ($this->stdContactDetails as $contact): {
+                                $contactDetails['house_no'] = $contact['house_no'];
+                                $contactDetails['thram_no'] = $contact['thram_no'];
+                            }
+                            ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">House No:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <?php echo $contactDetails['house_no']; ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Thram No:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $contactDetails['thram_no']; ?>
+                                      </div>
+                            </div><br/><br/>
+                        <?php endforeach; ?>
+                        
+                    </div>
+                    
+            </div><!--end of x-content-->
+            <div class="ln_solid"></div>
+                          <div class="row">
+                            <div class="form-group">
+                              <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a href="<?php echo $this->url('studentpermanentaddressdetails');?>"><span class="btn btn-primary"><i class="fa fa-angle-double-left"></i> Back</span></a>
+                                <a href="<?php echo $this->url('viewstudentpreviousschooldetails', array('id' => my_encrypt($personalDetails['id'], $key)));?>"><span class="btn btn-info">Next <i class="fa fa-angle-double-right"></i></span></a>
+                              </div>
+                            </div>
+                          </div>
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+
+
+ 

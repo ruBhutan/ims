@@ -1,0 +1,104 @@
+<?php
+ $title = 'Workshop, Seminar, Field Visit & Other Details';
+ $this->headTitle($title);
+
+$training_details = array();
+foreach($this->trainingDetails as $detail){
+  $training_details = $detail;
+} 
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content"> 
+                    <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                 ?> 
+                    <br/>                       
+                    <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Training Type:</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <h4><i><?php  echo $training_details['training_type_detail']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Source of Funding:</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <h4><i><?php  echo $training_details['funding_type']; ?></i></h4>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                    <br />
+                    <h4><i>Workshop/Seminar Details Details:</i></h4>
+                    <br />
+                    <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Workshop/Seminar Title:</label>
+                       <div class="col-md-8 col-sm-8 col-xs-12">
+                          <h4><i><?php  echo $training_details['title']; ?></i></h4>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Workshop/Seminar Start Date:</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <h4><i><?php  echo $training_details['workshop_start_date']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Workshop/Seminar End Date:</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <h4><i><?php  echo $training_details['workshop_end_date']; ?></i></h4>
+                        </div>
+                    </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks:</label>
+                       <div class="col-md-8 col-sm-8 col-xs-12">
+                          <h4><i><?php  echo $training_details['remarks']; ?></i></h4>
+                        </div>
+                    </div>
+                    </div> 
+                    <br />
+                    <h4><i>Institute Details:</i></h4>
+                    <br />
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Institute/University Name:</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <h4><i><?php  echo $training_details['institute_name']; ?></i></h4>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Training/Study Location:</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <h4><i><?php  echo $training_details['country']; ?></i></h4>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Training/Study Address:</label>
+                       <div class="col-md-8 col-sm-8 col-xs-12">
+                          <h4><i><?php  echo $training_details['institute_location']; ?></i></h4>
+                        </div>
+                    </div>
+                    </div>
+                <?php
+                echo $this->form()->closeTag($form);
+                ?>
+         </div>
+	  </div>
+    </div>
+  </div>
+</div>
+</div>
+
+  

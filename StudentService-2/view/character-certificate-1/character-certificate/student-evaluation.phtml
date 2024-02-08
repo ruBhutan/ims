@@ -1,0 +1,193 @@
+<?php
+ $title = 'Student Evaluation';
+ $this->headTitle($title);
+ 
+ //get student list in an array
+ $studentName = array();
+ $studentId = array();
+ $studentSection = array();
+ $criteriaName = array();
+ $i=1;
+ $j=1;
+ foreach($this->studentList as $student){
+	 $studentName[$i] = $student['first_name']. ' ' .$student['middle_name'].' '.$student['last_name'];
+	 $studentId[$i] = $student['student_id'];
+   $studentSection[$i] = $student['section'];
+	 $i++;
+ }
+ 
+ foreach($this->criteria as $criteria){
+	 $criteriaName[$j++] =$criteria['evaluation_criteria'];
+ }
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                        <!-- Adding Achievements-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Search for Students by Module")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+
+                            <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                               
+                            <div class="x_content">
+                            <h5><i>*In order to evaluate the students' character, search by Module Name.</i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                								$form->get('academic_module_tutors_id')->setValueOptions($this->programmeList);
+                								//need to set it so as to validate form
+                								$form->get('programmes_id')->setValue('0');
+                								$form->get('batch')->setValue('0');
+                								echo $this->formHidden($form->get('programmes_id'));
+                								echo $this->formHidden($form->get('batch'));
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                                    <label>Module</label>
+                                    <?php echo $this->formRow($form->get('academic_module_tutors_id')); ?>
+                                  </div>
+                              </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>     
+                              
+                      <body dir="ltr">    
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                              <h2>List of Student(s) with list of character evaluation criteria. Make sure you enter the rating for all student for all the character evaluation criteria.")</h2>
+                              <h5><b><font color="red">(Rating should be >= 0.00 to <= 4.00. Rating criteria as follows:[ 3.50-4.00 = Excellent, 2.50-3.49 = Good, 1.50-2.49 = Satisfactory and 0.00-1.49 = Poor ] )</font></b></h5>
+                              <i><font color="red">(If student lists does not display from the above selected module then the selected module is not a final year module or there is no student)</font></i>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                             <?php
+                                // Opening of the form tag
+								                $evaluationForm->setAttribute('action', $this->url('ccevaluation', array('action' => 'characterCertificateEvaluation')));
+                                $form->prepare();
+                                echo $this->form()->openTag($evaluationForm);
+                								$evaluationForm->get('programme_id')->setValue($this->programmesId);
+                								$evaluationForm->get('batch')->setValue($this->batch);
+                                $evaluationForm->get('academic_module_tutors_id')->setValue($this->academic_module_tutors_id);
+                               // $evaluationForm->get('character_evaluation_criteria_id')->setValue($this->criteria);
+                								$evaluationForm->get('studentName')->setValue($this->studentName);
+                								$evaluationForm->get('studentCount')->setValue($this->studentCount);
+                								$evaluationForm->get('criteriaCount')->setValue($this->criteriaCount);
+                								echo $this->formHidden($evaluationForm->get('id'));
+                								echo $this->formHidden($evaluationForm->get('programme_id'));
+                								echo $this->formHidden($evaluationForm->get('batch'));
+                                echo $this->formHidden($evaluationForm->get('academic_module_tutors_id'));
+                                //echo $this->formHidden($evaluationForm->get('character_evaluation_criteria_id'));
+                								echo $this->formHidden($evaluationForm->get('studentName'));
+                								echo $this->formHidden($evaluationForm->get('studentCount'));
+                								echo $this->formHidden($evaluationForm->get('criteriaCount'));
+                              ?>
+                              
+                                
+                            <div class="x_content">
+                              <div class="sticky-table sticky-ltr-cells">
+                                <table class="table table-striped table-bordered">
+                                  <thead>
+                                    <tr class="sticky-header">
+                                      <th class="sticky-cell">Name & ID & Section</th>
+                                      <?php for($i=1; $i<= $this->criteriaCount; $i++) {?>
+                                      <th class="column-title"><?php echo $criteriaName[$i]?></th>
+                                      <?php }?>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <?php for($i = 1; $i<=$this->studentCount; $i++) {?>
+                                    <tr class="even pointer">
+                                      <td class="sticky-cell"><?php echo $studentName[$i].' ('.$studentId[$i].')'; ?></td>
+                                      <?php for($j=1; $j<=$this->criteriaCount; $j++) {?>
+                                      <td style="width: 12%"><?php echo $this->formRow($evaluationForm->get('evaluation_'.$i.$j)); ?></td>
+                                      <?php } ?>
+                                    </tr>
+                                    <?php }?>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                             <!-- </div> -->
+                            </div>
+                          </div>
+                      
+                        <div class="clearfix"></div>
+                        <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                      if(!empty($studentCount)){
+                                        echo $this->formHidden($evaluationForm->get('csrf'));
+                                       echo $this->formSubmit($evaluationForm->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                      }
+                                       
+                                    ?>
+                                      
+                                </div>
+                            </div>
+                            </body>
+                            
+                           		<!-- End of Achievements-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              

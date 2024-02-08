@@ -1,0 +1,42 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('List of College Grant Announced'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+               <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Grant Type </th>
+                     <th class="column-title">Grant  Category</th>
+                     <th class="column-title">Organisation/ College </th>
+                     <th class="column-title">From Date</th>
+                     <th class="column-title">To Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php $i=1; foreach ($this->research_report as $list) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['grant_type']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['grant_category']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['organisation_name']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['start_date']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['end_date']);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

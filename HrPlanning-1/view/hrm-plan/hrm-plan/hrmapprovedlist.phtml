@@ -1,0 +1,160 @@
+<?php
+ $title = 'Work Force Approved Lists (RUB / OVC HRO)';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                     <br/>
+
+                     <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+                    
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?> 
+                
+                	<!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Approved HRM Proposal</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Not Approved HRM Proposal</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Pending for Approval</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <br/>
+                                <div class="table-responsive">
+                                  <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                                    <thead>
+                                      <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Working Agency</th>
+                                         <th class="column-title">Department Name</th>
+                                         <th class="column-title">Existing No</th>
+                                         <th class="column-title">Required No</th>
+                                         <th class="column-title">Position Title</th>
+                                         <th class="column-title">Position Category</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->approvedList as $list) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getOrganisation_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getDepartment_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getExisting_No());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getRequired_No());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getPosition_Title());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getCategory());?></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                  <br /><br />
+                                    <h7>Notes: Total Approved No. = existing no.+ Approved proposed no. and GAP=Total Approved no.-existing no.</h7>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                <br/>
+                                <div class="table-responsive">
+                                  <table id="datatable" class="table table-striped jambo_table table-bordered">
+                                    <thead>
+                                      <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Working Agency</th>
+                                         <th class="column-title">Department Name</th>
+                                         <th class="column-title">Existing No</th>
+                                         <th class="column-title">Required No</th>
+                                         <th class="column-title">Position Title</th>
+                                         <th class="column-title">Position Category</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->rejectedList as $rejectlist) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getOrganisation_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getDepartment_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getExisting_No());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getRequired_No());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getPosition_Title());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getCategory());?></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                    <h7>Notes: Total Approved No. = existing no.+ Approved proposed no. and GAP=Total Approved no.-existing no.</h7>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                            <br/>
+                            <div class="table-responsive">
+                              <table id="datatable-fixed-header" class="table table-striped jambo_table table-bordered">
+                                <thead>
+                                  <tr class="headings">
+                                     <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Working Agency</th>
+                                         <th class="column-title">Department Name</th>
+                                         <th class="column-title">Existing No</th>
+                                         <th class="column-title">Required No</th>
+                                         <th class="column-title">Position Title</th>
+                                         <th class="column-title">Position Category</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                   <?php $i=1; foreach ($this->pendingList as $pendinglist) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getOrganisation_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getDepartment_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getExisting_No());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getRequired_No());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getPosition_Title());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getCategory());?></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                                <h7>Notes: Total Approved No. = existing no.+ Approved proposed no. and GAP=Total Approved no.-existing no.</h7>
+                            </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

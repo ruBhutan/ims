@@ -1,0 +1,118 @@
+<?php
+/**
+ *
+ * View -- of Account/ChequeController/chequecancelAction
+ *
+ */
+$title = 'Cheque Cancellation';
+
+foreach($this->chequedtls as $row):
+   extract($row);
+endforeach;
+
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>			
+				<div class="x_content">
+					<form method="post" action="<?php echo $this->url('cheque', array('action' => 'addchequecancel')); ?>" enctype="multipart/form-data">
+						<div class="row">
+                            <div class="col-lg-2"></div>
+                            <div class ="col-lg-8">								
+								<div class="form-group col-lg-6">
+									<label for="instrument_no" class="control-label">Cheque No.</label>
+									<input class="form-control" type="text" id="instrument_no" name="instrument_no" value ="<?php echo $instrument_no; ?>" readonly >
+								</div>
+								<div class="form-group col-lg-6">
+									<label class="control-label" for="note">Reasons for Cancellation</label>
+									<textarea class="form-control" name="note" id="note"></textarea>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="cancellation_date" class="control-label">Cancellation Date</label>
+									<div class="date input-group" id="cancellation_date" data-date="<?php echo date('Y-m-d');?>" data-date-format="yyyy-mm-dd">
+										<input class="form-control span2" name="cancellation_date" id="cancellation_date" type="text" placeholder="Payment Date" value="<?php echo date('Y-m-d'); ?>" readonly required>
+										<span class="input-group-addon add-on"><i class="fa fa-calendar"></i> </span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-2"></div>
+						</div>
+						<div class="x_title"></div>
+						<div class ="row">
+						    <div class ="col-lg-2"></div>
+							<div class ="col-lg-8">
+								<div class="col-lg-6">
+									<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+									<button type="button" class="btn btn-warning" onclick="javascript:history.back();" ><i class="fa fa-times"></i> Cancel </button>
+								</div>
+							</div>
+							<div class ="col-lg-2"></div>
+						</div>
+					</form>
+			    </div>
+			</div>
+		</div>                    
+    </div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		$('#cancellation_date').datepicker();
+		$('#cancellation_date').on('changeDate',function(){
+			$('form').formValidation('revalidateField','cancellation_date');
+		});
+	//* On changing the account to bank,get cheque*//
+	$('#bank_account').on('change',function(){
+	$.post(
+		"<?php echo $this->url('cheque', array('action' => 'getcheque'));?>",
+		{
+		bcaccount_id: $(this).val(),
+		},
+		function(data){
+			console.log(data);
+			$('select#cheque_no').html(data.instrument_no);
+			$('select#cheque_no').trigger('chosen:updated');
+		},
+		'json'
+		);
+	});	
+		/*** form validation***/ 
+		$('form').formValidation({
+		    framework: 'bootstrap',
+		    excluded: ':disabled',
+		    message: 'This value is not valid',
+		    fields: {
+		        'cancellation_date': {
+		            validators: {
+		                notEmpty: {
+		                    message: 'Please select Cancellation date.'
+		                }
+		            }
+		        },
+		        'bank_account': {
+		            validators: {
+		                notEmpty: {
+		                    message: 'Please select Bank.'
+		                }
+		            }
+		        },
+		        'cheque_no': {
+		            validators: {
+		                notEmpty: {
+		                    message: 'Please select cheque no.'
+		                }
+		            }
+		        },                   
+		    }
+		});
+
+	});
+</script>

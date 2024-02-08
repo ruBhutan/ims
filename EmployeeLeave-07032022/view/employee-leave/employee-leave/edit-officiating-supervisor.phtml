@@ -1,0 +1,120 @@
+<?php
+ $title = 'Assign Officiating Supervisor';
+ $this->headTitle($title);
+ $officiating_details = array();
+ foreach($this->officiatingDetail as $detail){
+	 $officiating_details = $detail;
+ }
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $leave = $form->get('officiatingsupervisor');
+					$leave->get('officiating_supervisor')->setValueOptions($this->employeeList);
+					$leave->get('id')->setValue($officiating_details['id']);
+					$leave->get('remarks')->setValue($officiating_details['remarks']);
+					$leave->get('officiating_supervisor')->setValue($officiating_details['officiating_supervisor']);
+                    echo $this->formHidden($leave->get('id'));
+				  ?>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">From-To: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                      <?php  echo $this->formRow($leave->get('date_range')); ?>
+                    </div>
+                </div>
+                </div>
+               <div class="row" >     
+               <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Assign Officiating: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                      <?php  echo $this->formRow($leave->get('officiating_supervisor')); ?>
+                    </div>
+                </div>
+                </div>
+                  
+                 <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:<span class="required">*</span>
+                    </label>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                      <?php  echo $this->formRow($leave->get('remarks')); ?>
+                    </div>
+                </div> 
+                </div>
+                 
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formRow($form->get('csrf'));
+						echo $this->formSubmit($leave->get('submit')); 
+                      ?>
+                        </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                </div>
+              </div>
+            </div>
+            <!-- Officating Table List-->
+            <div class="col-md-12 col-xs-12">
+                  
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml('Officiating List'); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Officiating Supervisor</th>
+                            <th class="column-title">From Date</th>
+                            <th class="column-title">To Date</th>
+                            <th class="column-title">Remarks</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i=1; foreach($this->officiatingList as $officiating):?>
+                          <tr>
+                            <td><?php echo $i++;?></td>
+                            <td><?php echo $this->escapeHtml($officiating['first_name'].' '.$officiating['middle_name'].' '.$officiating['last_name']);?></td>
+                            <td><?php echo $this->escapeHtml($officiating['from_date']);?></td>
+                            <td><?php echo $this->escapeHtml($officiating['to_date']);?></td>
+                            <td><?php echo $this->escapeHtml($officiating['remarks']);?></td>
+                            <td><a href="<?php echo $this->url('editofficiatingsupervisor', array('id' => $officiating['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                
+                </div>
+             </div>
+          </div>
+        </div>
+      

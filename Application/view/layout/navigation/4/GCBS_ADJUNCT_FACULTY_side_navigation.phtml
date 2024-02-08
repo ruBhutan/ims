@@ -1,0 +1,125 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+<div class="menu_section">
+<br><br><br>
+<ul class="nav side-menu">
+	<li><a><i class="fa fa-users"></i>Human Resource<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>HR Planning<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>HRM Planning<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('hrmapprovedlist') ?>">Work Force Approved List</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>HR Administration<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Leave<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('leavestatus') ?>">Apply Leave</a></li>
+						<li><a href="<?php echo $this->url('staffleavestatus') ?>">My Leave Status</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Leave Encashment<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('empleaveencashmentapplication') ?>">Leave Encashment</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Staff Task<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('employeetaskcategory') ?>">Add Task/Project</a></li>
+						<li><a href="<?php echo $this->url('addempemployeetaskrecord') ?>">Add Self Activities</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Department Filing<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('viewfilingdocument') ?>">View Documents</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Staff Lifecycle<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Promotion<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('empapplypromotion') ?>">Apply Promotion</a></li>
+						<li><a href="<?php echo $this->url('staffpromotionstatus') ?>">My Promotion Status</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Separation<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('empresignation') ?>">Apply Resignation</a></li>
+						<li><a href="<?php echo $this->url('staffresignationstatus') ?>">My Resignation Status</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Recruitment<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('listvacancy') ?>">List Job Vacancies</a></li>
+					<li><a href="<?php echo $this->url('appliedjobapplicationstatus') ?>">Individual Job Applicant Status</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>HR Development<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('applytrainings') ?>">Apply Trainings & Workshops</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Staff Tour<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('stafftourstatus') ?>">Travel Status</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-graduation-cap"></i>Academic<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Academic Assessment<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Continuous Assessment<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('academicassessment') ?>">Add CA Marks</a></li>
+						<li><a href="<?php echo $this->url('viewassessmentmarks') ?>">View CA Marks</a></li>
+						<li><a href="<?php echo $this->url('editassessmentmarks') ?>">Edit/Moderate CA Marks</a></li>
+						<li><a href="<?php echo $this->url('compileassessmentmarks') ?>">Compile CA Marks</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Semester End<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('semesterassessment') ?>">Add SE Marks</a></li>
+						<li><a href="<?php echo $this->url('editsemestermarks') ?>">Edit/Moderate SE Marks</a></li>
+						<li><a href="<?php echo $this->url('compilesemestermarks') ?>">Compile SE Marks</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Module Allocation<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('electivemoduleallocation') ?>">Assign Student for Elective Module</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Assessment Mark Allocation<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('addallocationmark') ?>">Allocate Assessment Marks</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Timetable<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('addtimetable') ?>">Add Timetable</a></li>
+					<li><a href="<?php echo $this->url('viewtutortimetable') ?>">View Tutor Timetable</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Student Attendance<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('studentattendance') ?>">Attendance Entry</a></li>
+					<li><a href="<?php echo $this->url('extraclassattendance') ?>">Extra Class Attendance</a></li>
+					<li><a href="<?php echo $this->url('cancelledlectures') ?>">Cancelled/Called Off Lectures</a></li>
+					<li><a href="<?php echo $this->url('tutordeletestudentattendance') ?>">Delete Attendance</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+</div>
+</div>

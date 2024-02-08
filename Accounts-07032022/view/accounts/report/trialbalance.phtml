@@ -1,0 +1,430 @@
+<?php
+/**
+ * View -- of Report/AccountsreportController/trailbalanceAction
+ */
+	$grand_debit = 0;
+	$grand_credit = 0;
+	$title = "Trial Balance";
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>  
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+				<div class="pull-right"></div>
+                <?php echo $this->partial('accounts/report/partial.phtml', array('active' => 'trialbalance')); ?>
+		    <form method="post" action="<?php echo $this->url('report', array('action' => 'trialbalance')); ?>"  enctype="multipart/form-data" >    
+				<div class="row">    
+					<div class="form-group col-lg-2">
+						<label for="tier" class="control-label">Tier</label>
+						<select name="tier" id="tier" class="form-control" data-paceholder="Select">
+						    <option value=""></option>
+							<?php 
+								$st1 = ($data["tier"]==1)? 'selected':'';
+								$st2 = ($data["tier"]==2)? 'selected':'';
+								$st3 = ($data["tier"]==3)? 'selected':'';
+								$st4 = ($data["tier"]==4)? 'selected':'';
+							?>
+							<option value="4" <?php echo $st4; ?> > Class </option>
+							<option value="3" <?php echo $st3; ?>> Group </option>
+							<option value="2" <?php echo $st2; ?>> Ledger </option>
+							<option value="1" <?php echo $st1; ?>> Sub Ledger </option>
+						</select>
+					</div> 
+					<div class="form-group col-lg-2">
+						<label for="organisation" class="contol-label">Organisation</label>
+						<select class="form-control" name="organisation" id="organisation" data-placeholder="Select" >
+							<?php 
+								foreach($this->orgObj->get(array('id'=>$data["organisation"])) as $rows):
+							?>
+								<?php $selected_org = ($data["organisation"]==$rows['id'])? 'selected':'';?>
+								<option value="<?php echo $rows['id'];?>" <?php echo $selected_org;?> ><?php echo $rows['organisation_name'];?></option>
+							<?php endforeach;?>							
+						</select>
+					</div> 
+					<div class="form-group col-lg-2">
+						<label class="control-label" for="start_date">Start Date</label>
+						<div class="date input-group" id="start_date" data-date="<?php echo date('Y-m-d');?>" data-date-format="yyyy-mm-dd" >
+							<input class="form-control span2" name="start_date" id="start_date" type="text" placeholder="Start Date" value="<?php echo $data['start_date'];?>" readonly required>
+							<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+						</div>
+					</div>
+					<div class="form-group col-lg-2">
+						<label class="control-label" for="end_date">End Date</label>
+						<div class="date input-group" id="end_date" data-date="<?php echo date('Y-m-d');?>" data-date-format="yyyy-mm-dd" >
+							<input class="form-control span2" name="end_date" id="end_date" type="text" placeholder="End Date" value="<?php echo $data['end_date'];?>" readonly required>
+							<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+						</div>
+					</div></br> 
+                    <div class="col-lg-2">
+					    <button type = "submit" class="btn btn-sm btn-success pull-right"><i class="fa fa-gear"></i> Generate </button>
+					</div>				
+                </div>				
+			</form>
+			<div class="clearfix">
+				<label>  <i class="orange fa fa-map-marker"></i> Organisation: </label> <span><?php echo $loc = ($data["organisation"] == -1)? "All Organisation": $this->orgObj->getColumn($data["organisation"], 'organisation_name');?></span>
+			</div>
+			<div class="row col-lg-12">
+				<div class="clearfix">
+					<input type="hidden" name="start_date" id="start_date" value="<?php echo $data["start_date"]?>">
+					<input type="hidden" name="end_date" id="end_date" value="<?php echo $data["end_date"]?>">
+				</div>
+			</div>
+			<div class="row col-lg-12">	
+			    <div>
+					<table id="datatable" class="table table-striped jambo_table bulk_action">
+						<thead>
+							<tr>
+								<th>Particulars</th>
+								<th>Opening Balance</th>
+								<th></th>
+								<th>Debit</th>
+								<th>Credit</th>
+								<th>Closing Balance</th>
+								<th></th>
+							</tr>
+						</thead>
+						
+						<tbody id="trial_balance">
+						
+							<?php  
+							if($data['tier'] > 0):
+								if($data['tier'] <= 4):
+									foreach($this->classObj->getTransactionClass($data['organisation'],$data['start_date'],$data['end_date']) as $classrow): //class 
+										
+										$total_debit = $this->transactiondetailObj->getSumbyClass($data['organisation'],$data['start_date'],$data['end_date'],'debit', $classrow['id']);
+										$total_credit = $this->transactiondetailObj->getSumbyClass($data['organisation'],$data['start_date'],$data['end_date'],'credit', $classrow['id']);
+										
+										if($classrow['id'] == '1' || $classrow['id'] == '2'): /* (==) Asset & Liabilities AND (!=) Income & Expense */
+										$opening_balance = $this->transactiondetailObj->getOpeningBalance($data['organisation'],$data['start_date'],$data['end_date'], $classrow['id'], 4);
+										else:
+										$opening_balance =0;
+										endif;
+										if($classrow['id'] == '1' || $classrow['id'] == '2'): /* (==) Asset & Liabilities AND (!=) Income & Expense */
+										$closing_balance = $this->transactiondetailObj->getClosingBalanceAL($data['organisation'],$data['start_date'],$data['end_date'], $classrow['id'], 4);	
+										else:
+										$closing_balance = $this->transactiondetailObj->getClosingBalanceIE($data['organisation'],$data['start_date'],$data['end_date'], $classrow['id'], 4);	
+										endif;
+										if($opening_balance == '' || $opening_balance == '0'):
+											$cr_or_dr_ob = "";
+										else:
+											$cr_or_dr_ob = ($opening_balance < 0)? "Cr":"Dr";
+										endif;
+										
+										if($opening_balance < 0):
+											$opening_balance = -$opening_balance;
+										endif;
+										if($closing_balance == '' || $closing_balance == '0'):
+											$cr_or_dr_cb = "";
+										else:
+											$cr_or_dr_cb = ($closing_balance < 0)? "Cr":"Dr";
+										endif;
+										
+										if($closing_balance < 0):
+											$closing_balance = -$closing_balance;
+										endif;
+										$grand_debit += $total_debit;
+										$grand_credit += $total_credit;
+									?>							
+										<tr class="classrow">
+											<td><?php echo $classrow['name'];?></td>
+											<td style="text-align:right"><?php echo number_format((float)$opening_balance, 2, '.', ',');?></td>
+											<td><?php echo $cr_or_dr_ob;//echo $this->decimal($opening_cr);?></td>
+											<td style="text-align:right"><?php echo number_format((float)$total_debit, 2, '.', ',');?></td>
+											<td style="text-align:right"><?php echo number_format((float)$total_credit, 2, '.', ',');?></td>
+											<td style="text-align:right"><?php echo number_format((float)$closing_balance, 2, '.', ',');?></td>
+											<td><?php echo $cr_or_dr_cb;//echo $this->decimal($closing_cr); ?></td>
+										</tr>
+									<?php 
+										if($data['tier'] <= 3):
+											foreach($this->groupObj->getTransactionGroup($data['organisation'],$data['start_date'],$data['end_date'], array('class'=>$classrow['id'])) as $grouprow): //group 
+												
+												$total_debit = $this->transactiondetailObj->getSumbyGroup($data['organisation'],$data['start_date'],$data['end_date'],'debit', $grouprow['id']);
+												$total_credit = $this->transactiondetailObj->getSumbyGroup($data['organisation'],$data['start_date'],$data['end_date'], 'credit', $grouprow['id']);
+												
+												if($grouprow['class'] == 1 || $grouprow['id'] == 2): /* (==) Asset & Liabilities AND (!=) Income & Expense */
+												$opening_balance = $this->transactiondetailObj->getOpeningBalance($data['organisation'],$data['start_date'],$data['end_date'], $grouprow['id'], 3);
+												else:
+												$opening_balance = 0;
+												endif;
+												
+												if($grouprow['class'] == '1' || $grouprow['class'] == '2'): /* (==) Asset & Liabilities AND (!=) Income & Expense */
+												$closing_balance = $this->transactiondetailObj->getClosingBalanceAL($data['organisation'],$data['start_date'],$data['end_date'],$grouprow['id'], 3);	
+												else:
+												$closing_balance = $this->transactiondetailObj->getClosingBalanceIE($data['organisation'],$data['start_date'],$data['end_date'],$grouprow['id'], 3);	
+												endif;
+												if($opening_balance == '' || $opening_balance == '0'):
+													$cr_or_dr_ob = "";
+												else:
+													$cr_or_dr_ob = ($opening_balance < 0)? "Cr":"Dr";
+												endif;
+												
+												if($opening_balance < 0):
+													$opening_balance = -$opening_balance;
+												endif;
+												if($closing_balance == '' || $closing_balance == '0'):
+													$cr_or_dr_cb = "";
+												else:
+													$cr_or_dr_cb = ($closing_balance < 0)? "Cr":"Dr";
+												endif;
+												
+												if($closing_balance < 0):
+													$closing_balance = -$closing_balance;
+												endif;
+											?>													
+												<tr class="grouprow">
+													<td><?php echo $grouprow['name'];?></td>
+													<td style="text-align:right"><?php echo number_format((float)$opening_balance, 2, '.', ',');?></td>
+													<td><?php echo $cr_or_dr_ob;//echo $this->decimal($opening_cr);?></td>
+													<td style="text-align:right"><?php echo number_format((float)$total_debit, 2, '.', ',');?></td>
+													<td style="text-align:right"><?php echo number_format((float)$total_credit, 2, '.', ',');?></td>
+													<td style="text-align:right"><?php echo number_format((float)$closing_balance, 2, '.', ',');?></td>
+													<td><?php echo $cr_or_dr_cb;//echo $this->decimal($closing_cr); ?></td>
+												</tr>
+											<?php
+										   if($data['tier'] <= 2):
+											foreach($this->headObj->getTransactionHead($data['organisation'],$data['start_date'],$data['end_date'], array('group'=>$grouprow['id'])) as $headrow): // head
+												$total_debit = $this->transactiondetailObj->getSumbyHead($data['organisation'],$data['start_date'],$data['end_date'], 'debit', $headrow['id']);
+												$total_credit = $this->transactiondetailObj->getSumbyHead($data['organisation'],$data['start_date'],$data['end_date'],'credit', $headrow['id']);
+												$class_id = $this->groupObj->getColumn(array('id'=>$headrow['group'],'class'=>array(1,2)),'class');
+												
+												if($class_id == '1' || $class_id == '2'):
+												$opening_balance = $this->transactiondetailObj->getOpeningBalance($data['organisation'],$data['start_date'],$data['end_date'], $headrow['id'], 2);
+												else:
+												$opening_balance = 0;
+												endif;
+												if($class_id == '1' || $class_id == '2'):
+												$closing_balance = $this->transactiondetailObj->getClosingBalanceAL($data['organisation'],$data['start_date'],$data['end_date'], $headrow['id'], 2);	
+												else:
+													$closing_balance = $this->transactiondetailObj->getClosingBalanceIE($data['organisation'],$data['start_date'],$data['end_date'],$headrow['id'], 2);	
+												endif;
+												if($opening_balance == '' || $opening_balance == '0'):
+													$cr_or_dr_ob = "";
+												else:
+													$cr_or_dr_ob = ($opening_balance < 0)? "Cr":"Dr";
+												endif;
+												
+												if($opening_balance < 0):
+													$opening_balance = -$opening_balance;
+												endif;
+										
+												if($closing_balance == '' || $closing_balance == '0'):
+													$cr_or_dr_cb = "";
+												else:
+													$cr_or_dr_cb = ($closing_balance < 0)? "Cr":"Dr";
+												endif;
+												
+												if($closing_balance < 0):
+													$closing_balance = -$closing_balance;
+												endif;
+											?>													
+												<tr class="headrow">
+													<td><?php echo $headrow['name'];?></td>
+													<td style="text-align:right"><?php echo number_format((float)$opening_balance, 2, '.', ',');?></td>
+													<td><?php echo $cr_or_dr_ob;//echo $this->decimal($opening_cr);?></td>
+													<td style="text-align:right"><?php echo number_format((float)$total_debit, 2, '.', ',');?></td>
+													<td style="text-align:right"><?php echo number_format((float)$total_credit, 2, '.', ',');?></td>
+													<td style="text-align:right"><?php echo number_format((float)$closing_balance, 2, '.', ',');?></td>
+													<td><?php echo $cr_or_dr_cb;//echo $this->decimal($closing_cr); ?></td>
+												</tr>
+													<?php 
+														if($data['tier'] <= 1):
+															foreach($this->subheadObj->getTransactionSubhead($data['organisation'],$data['start_date'],$data['end_date'], array('head'=>$headrow['id'])) as $subheadrow): // subhead
+																$total_debit = $this->transactiondetailObj->getSumbySubhead($data['organisation'],$data['start_date'],$data['end_date'], 'debit', $subheadrow['id']);
+																$total_credit = $this->transactiondetailObj->getSumbySubhead($data['organisation'],$data['start_date'],$data['end_date'],'credit', $subheadrow['id']);
+																$group_id = $this->headObj->getColumn(array('id'=>$subheadrow['head']),'group'); 
+																$class_id = $this->groupObj->getColumn(array('id'=>$group_id,'class'=>array('1','2')),'class');
+																if($class_id == '1' || $class_id == '2'):
+																	$opening_balance = $this->transactiondetailObj->getOpeningBalance($data['organisation'],$data['start_date'],$data['end_date'], $subheadrow['id'], 1);
+																else:   
+																	$opening_balance = 0;	
+																endif;
+																if($class_id == '1' || $class_id == '2'):
+																$closing_balance = $this->transactiondetailObj->getClosingBalanceAL($data['organisation'],$data['start_date'],$data['end_date'], $subheadrow['id'], 1);	
+																else:
+																$closing_balance = $this->transactiondetailObj->getClosingBalanceIE($data['organisation'],$data['start_date'],$data['end_date'], $subheadrow['id'], 1);	
+																endif;
+																if($opening_balance == '' || $opening_balance == '0'):
+																	$cr_or_dr_ob = "";
+																else:
+																	$cr_or_dr_ob = ($opening_balance < 0)? "Cr":"Dr";
+																endif;
+																
+																if($opening_balance < 0):
+																	$opening_balance = -$opening_balance;
+																endif;
+																
+																if($closing_balance == '' || $closing_balance == '0'):
+																	$cr_or_dr_cb = "";
+																else:
+																	$cr_or_dr_cb = ($closing_balance < 0)? "Cr":"Dr";
+																endif;
+																
+																if($closing_balance < 0):
+																	$closing_balance = -$closing_balance;
+																endif;
+															?>															
+																<tr class="subheadrow">
+																	<td><?php echo $subheadrow['name'];?></td>
+																	<td style="text-align:right"><?php echo number_format((float)$opening_balance, 2, '.', ',');?></td>
+																	<td><?php echo $cr_or_dr_ob;//echo $this->decimal($opening_cr);?></td>
+																	<td style="text-align:right"><?php echo number_format((float)$total_debit, 2, '.', ',');?></td>
+																	<td style="text-align:right"><?php echo number_format((float)$total_credit, 2, '.', ',');?></td>
+																	<td style="text-align:right"><?php echo number_format((float)$closing_balance, 2, '.', ',');?></td>
+																	<td><?php echo $cr_or_dr_cb;//echo $this->decimal($closing_cr); ?></td>
+																</tr>											
+															<?php 
+															endforeach;
+														endif;
+													endforeach;
+												endif;
+											endforeach;
+										endif; 
+									endforeach;
+								endif;
+								endif;?>
+							<tr class="grandrow">
+								<td>Grand Total</td>
+								<td> </td>
+								<td> </td>
+								<td style="text-align:right"><?php echo number_format((float)$grand_debit, 2, '.', ',');?></td>
+								<td style="text-align:right"><?php echo number_format((float)$grand_credit, 2, '.', ',');?></td>
+								<td> </td>
+								<td> </td>
+							</tr>
+						</tbody>
+					</table>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+<script>
+	$(function(){
+	    $('#start_date').datepicker();
+		$('#end_date').datepicker();
+		$('#start_date').on('changeDate',function(){
+			$('form').formValidation('revalidateField', $(this).attr('id'));
+		});
+		$('#end_date').on('changeDate',function(){
+			$('form').formValidation('revalidateField', $(this).attr('id'));
+		});
+		/*** Form Validation ***/
+	    $('form').formValidation({
+			framework: 'bootstrap',
+			excluded: ':disabled',
+			message: 'This value is not valid',
+			fields: {
+				'tier': {
+					validators: {
+						notEmpty: {
+							message: 'Please select tier'
+						}
+					}
+				},
+				'activity' : {
+					validators: {
+						notEmpty: {
+							message: 'Please select activity'
+						}
+					}
+				},
+				'sub_activity' : {
+					validators: {
+						notEmpty: {
+							message: 'Please select sub activity'
+						}
+					}
+				},
+				'organisation' : {
+					validators: {
+						notEmpty: {
+							message: 'Please select organisation'
+						}
+					}
+				},
+				'start_date': {
+					validators: {
+						notEmpty: {
+							message: 'Please select start date'
+						}
+					}
+				},
+				'end_date': {
+					validators: {
+						notEmpty: {
+							message: 'Please select end date'
+						}
+					}
+				},
+			}
+		}).on('success.field.fv', function(e, data) {
+			if (data.fv.getInvalidFields().length > 0) {    // There is invalid field
+				data.fv.disableSubmitButtons(true);
+			}
+		});
+		var title_table = 'Trial Balance Report: ' +' from '+$('input#start_date').val()+' to '+$('input#end_date').val();
+		
+		$('#example').DataTable( {
+		ordering: false,
+		dom: 'Bfrtip',
+		/*buttons: [
+			'copy', 'csv', 'excel', 'pdf', 'print'
+		]*/
+		lengthMenu: [
+			[ 10,25, 50, -1 ],
+			[ '10 rows','25 rows', '50 rows', 'Show all' ]
+		],
+		columnDefs: [ {
+			visible: false
+		} ],
+		buttons: [
+			{
+				extend: 'copy',
+				exportOptions: {
+					columns: ':visible'
+				},
+				text: '<i class="fa fa-files-o"></i> Copy',
+				titleAttr: 'Copy'
+			},
+			{
+				extend: 'excel',
+				title: title_table,
+				exportOptions: {
+					columns: ':visible'
+				},
+				text: '<i class="fa fa-file-excel-o"></i> Excel',
+				titleAttr: 'Excel'
+			},
+			{
+				extend: 'pdfHtml5',
+				title: title_table,
+				exportOptions: {
+					columns: ':visible'
+				},
+				orientation: 'landscape',
+				pageSize: 'LEGAL',
+				text: '<i class="fa fa-file-pdf-o"></i> Pdf',
+				titleAttr: 'PDF'
+			},
+			{
+				extend: 'print',
+				title: title_table,
+				exportOptions: {
+					columns: ':visible'
+				},
+				text: '<i class="fa fa-print"></i> Print',
+				titleAttr: 'Print'
+			},
+			'pageLength','colvis'
+		],
+		select:true
+	    } );
+	});
+</script>

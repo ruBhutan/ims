@@ -1,0 +1,138 @@
+<?php
+ $title = 'Separation Record Details';
+ $this->headTitle($title);
+ $recordDetails = array();
+ foreach($this->separationDetails as $details)
+ {
+   $recordDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'];
+   $recordDetails['emp_id'] = $details['emp_id'];
+   $recordDetails['resignationType'] = $details['resignationType'];
+   $recordDetails['reason_for_resignation'] = $details['reason_for_resignation'];
+   $recordDetails['date_of_birth'] = $details['date_of_birth'];
+   $recordDetails['date_of_application'] = $details['date_of_application'];
+   $recordDetails['separation_order_no'] = $details['separation_order_no'];
+   $recordDetails['separation_order_date'] = $details['separation_order_date'];   
+   $recordDetails['remarks'] = $details['remarks'];
+
+ }
+ 
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                  <?php 
+                  $form->prepare();
+                   echo $this->form()->openTag($form);
+                  ?>
+                <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                <h2 class="">Staff Details</h2>
+                <div class="row">
+                <div class="form-group">
+                   <label class="control-label col-md-3 col-sm-3 col-xs-12">Staff Name:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                  <input type="text" class="form-control" placeholder="<?php echo $recordDetails['name']; ?>" disabled="disabled">
+                  </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Staff ID:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $recordDetails['emp_id']; ?>" disabled="disabled">
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Date of Birth:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $recordDetails['date_of_birth']; ?>" disabled="disabled">
+                    </div>
+                </div>
+                </div>
+                <br /><br />
+                <h2 class="">Resignation Application Details</h2>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Resignation Type:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $recordDetails['resignationType']; ?>" disabled="disabled">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Date of Application:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $recordDetails['date_of_application']; ?>" disabled="disabled">
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reason:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php echo $recordDetails['reason_for_resignation']; ?>'></textarea>
+                    </div>
+                </div>
+                </div> 
+                 <br /><br />
+                <h2 class="">Separation Details</h2>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Separation Order No:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $recordDetails['separation_order_no']; ?>" disabled="disabled">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Separation Order Date:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $recordDetails['separation_order_date']; ?>" disabled="disabled">
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php echo $recordDetails['remarks']; ?>'></textarea>
+                    </div>
+                </div>
+                </div>        
+                       <?php echo $this->form()->closeTag(); ?> 
+                </div>
+              </div>
+            </div>
+       </div>       
+  </div>
+ 
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+    

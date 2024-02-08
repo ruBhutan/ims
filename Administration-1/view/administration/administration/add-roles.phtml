@@ -1,0 +1,187 @@
+<?php
+ $title = 'Add New Role';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<?php if($organisation_id == '1') { ?>
+<div class="right_col" role="main">
+          <div class=" ">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                 <h5><i>Form to add new role by Super Admin or OVC Admin.
+                </div>
+                  <b>Note:- You have right to add College Admin and other roles of your own organisation.</b></i></h5><br/>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $role = $form->get('userroles');
+                    $role->get('organisation_id')->setValueOptions($this->selectOrganisation);
+                    echo $this->formHidden($role->get('id'));
+				            ?>
+                    <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">User Role<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($role->get('rolename')); ?>
+                    </div>
+                   </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($role->get('organisation_id')); ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+						            <?php
+          						   echo $this->formHidden($form->get('csrf'));
+          						   echo $this->formSubmit($role->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+            </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+          <div class="x_title">
+            <h2><?php echo $this->escapeHtml("List of Roles"); ?></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+            <h5><i>List of added roles of different organisation</i></h5>
+          </div>
+                <div class="x_content">
+                  <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Role</th>
+                            <th class="column-title">Organisation</th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                         <?php $i = 1; foreach ($this->allUserRoles as $detail) : ?>
+                          <tr class="even pointer">
+                            <td class=" " width="8%"><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['rolename']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['organisation_name']);?></td>
+                            <td class=" last" width="10%">
+				<?php if($detail['type'] != 'Non-Editable'){?>
+				<a href="<?php echo $this->url('editroles', array('id' => my_encrypt($detail['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+				<?php }else{?>
+                              <p><i>Non Editable</i></p>
+                            <?php } ?>
+				</td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                    </div>
+                  </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+    <?php } else {?>
+    <div class="right_col" role="main">
+      <div class=" ">
+            <div class="col-md-12 col-xs-12">
+        
+        <!-- Start of table listing budget ledgers -->
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml("List of Roles"); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                  <h5><i>List of added roles (You can edit the role if necessary)</i></h5>
+                </div>
+                <div class="x_content">
+                  <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                    <thead>
+                      <tr class="headings">
+                        <th class="column-title">Sl. No</th>
+                        <th class="column-title">Role</th>
+                        
+                         </tr>
+                    </thead>  
+                    <tbody>
+                     <?php $i = 1; foreach ($this->userRoles as $role) : ?>
+                      <tr class="even pointer">
+                        <td class=" "><?php echo $i++;?></td>
+                        <td class=" "><?php echo $this->escapeHtml($role['rolename']);?></td>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>    
+          </div>
+        </div> 
+        <?php } ?>
+      </div>
+    </div>

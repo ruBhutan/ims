@@ -1,0 +1,59 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">   
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Stock Summary as of - '); echo(date("j F Y"));?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+                <?php if($this->inventory_reports != NULL) {?>
+                    <table id="datatable-buttons" class="table table-striped jambo_table table-bordered" width="100%">
+                    <thead>
+                      <tr class="headings">
+                         <th class="column-title">Sl.No </th>
+                         <th class="column-title">Category Type</th>
+                         <th class="column-title">Sub Category Type</th>
+                         <th class="column-title">Received Date</th>
+                         <th class="column-title">Item Name</th>
+                         <th class="column-title">Quantity in Stock</th>
+                         <th class="column-title">Rate</th>
+                         <th class="column-title">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <?php $i=1;
+                    foreach ($this->inventory_reports as $key => $value) : 
+                        foreach ($value as $key2 => $value2):foreach ($value2 as $key3 => $value3): 
+                            foreach ($value3 as $key4 => $value4): foreach ($value4 as $key5 => $value5):
+                                foreach ($value5 as $key6 => $value6): 
+                                    $amount = $key6*$key5;
+                      ?>
+                      <tr class="even pointer">
+                        <td class=" "><?php echo $i++;?></td>
+                        <td class=" "><?php echo $this->escapeHtml($key);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($key2);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($key3);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($key4);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($key5);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($key6);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($amount);?></td>
+                        
+                      </tr>
+                                      <?php endforeach;
+                                      endforeach;
+                                  endforeach; 
+                              endforeach;
+                          endforeach; 
+                      endforeach; 
+                      ?>
+                    </tbody>
+                  </table>
+               <?php } ?>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

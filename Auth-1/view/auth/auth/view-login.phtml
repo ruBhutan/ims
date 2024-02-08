@@ -1,0 +1,59 @@
+<?php
+$basepath = $this->basePath();
+$this->headScript()
+        ->appendFile($basepath . '/js/jquery/dist/jquery.min.js')
+        ->appendFile($basepath .'/js/jquery-validation/dist/jquery.validate.js')
+        ->appendFile($basepath . '/js/user/login.js');
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>RUB-IMS | Log in</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="#"><font color="green"><b>RUB-IMS</b> Login</font></a>
+  
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg"><i class="ace-icon fa fa-coffee"></i> 
+  Please Enter Your Information</p>
+
+    <form role="form" class="form-horizontal" name="f" method="post" id="loginForm" data-url="<?= $this->basePath(); ?>">
+      <div class="form-group has-feedback">
+        <input tabindex="4" type='text' placeholder='Username' id="username" class="email_input form-control" value="" name="username" tabindex="1">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input id="password" tabindex="5" class="email_input form-control" type="password" placeholder="Password" name="password" tabindex="2">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" id='signIn' tabindex="3" class="btn btn-block btn-primary btn-flat" data-spinner="right"><i class="fa fa-arrow-circle-right"></i> Login</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+    <a href="<?= $this->url('auth') . '/view-register'; ?>" tabindex="3" class="text-center" data-spinner="right"><i class="fa fa-user-plus"></i> Register Job Applicant</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <a href="<?= $this->url('auth') . '/forgot-password'; ?>" tabindex="3" class="text-center" data-spinner="right"><i class="fa fa-key"></i> Forgot Password?</a>
+<br><br><font color="green">Please use Google Chrome.</font>
+    </div>
+  <!-- /.login-box-body -->
+</div>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Generating Employee Salary';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+              
+                </div>
+             <div class="x_content">
+                <form> <br/>
+                    <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-1 col-xs-12">Month<span class="required">*</span>
+                        </label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                        <select class="form-control">
+                                <option>----Select---</option>
+                                <option>April</option>
+                                <option>March</option>
+                                <option>February</option>
+                                <option>January</option>
+                                </select>
+                          </div>
+                             <div class="col-md-6 col-sm-6 col-xs-12">
+                             <button class="btn btn-success">Generate</button>
+                   
+                 </div>
+                        </div>
+                        
+                        </div>
+
+                      
+                      </form><br/>
+             <div class="x_content">
+
+            <div class="table-responsive">
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Sl.No </th>
+                        <th class="column-title">Employee Name</th>
+                        <th class="column-title">Employee ID </th>
+                        <th class="column-title">Designation</th>
+                        <th class="column-title">Basic Pay</th>
+                        <th class="column-title">Allowance<br>(HA+TA)</th>
+                        <th class="column-title">Deduction<br>(PF+GIS+HC+TDS)</th>
+                        <th class="column-title">Advance Taken</th>
+                        <th class="column-title">Bank Loan</th>
+                          <th class="column-title">Total payable</th>
+                           
+                            
+                        <th class="bulk-actions" colspan="7">
+                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr class="even pointer">
+                       <td class=" ">1</td>
+                       <td class=" ">Tshering</td>
+                       <td class=" ">321312</td>
+                       <td class=" ">Vice Chancellor</td>
+                       <td class=" ">82685</td>
+                       <td class=" ">50000</td>
+                       <td class=" ">10000</td>
+                       <td class=" ">50000</td>
+                       <td class=" ">10000</td>
+                       <td class=" ">122685</td>
+                       
+                      </tr>
+                      <tr class="even pointer">
+                       <td class=" ">2</td>
+                       <td class=" ">Tshering</td>
+                       <td class=" ">444444</td>
+                       <td class=" ">President</td>
+                       <td class=" ">64,575</td>
+                       <td class=" ">8000</td>
+                       <td class=" ">8000</td>
+                       <td class=" ">50000</td>
+                       <td class=" ">10000</td>
+                       <td class=" ">6500</td>
+                       
+                      </tr>
+                      <tr class="even pointer">
+                       <td class=" ">3</td>
+                       <td class=" ">Wangchuk</td>
+                       <td class=" ">5435435</td>
+                       <td class=" ">Chief Program Officer</td>
+                       <td class=" ">46000</td>
+                       <td class=" ">5000</td>
+                       <td class=" ">8000</td>
+                       <td class=" ">50000</td>
+                       <td class=" ">10000</td>
+                       <td class=" ">45000</td>
+                       
+                      </tr>
+                      <tr class="even pointer">
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       
+                      </tr>
+                      <tr class="even pointer">
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "><b>Total Amount</b></td>
+                       <td class=" "></td>
+                       <td class=" "><b><input type="text" class="form-control" placeholder="450,500" readonly=""></b></td>
+                       
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                </div>
+                 <div class="col-md-4 form-group">
+           <button class="btn btn-primary">Print</button>
+           <button class="btn btn-danger">Export</button>
+           <button class="btn btn-success">Print Voucher</button>
+             </div>
+                </div>
+              </div>
+            </div>
+                      
+                  
+          </div>
+        </div>
+                  </div>
+          
+ 
+                
+                 

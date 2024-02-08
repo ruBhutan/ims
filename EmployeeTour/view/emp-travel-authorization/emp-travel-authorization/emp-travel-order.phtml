@@ -1,0 +1,126 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Staff Approved Travel Authorization';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+	
+<div class="right_col" role="main">
+	<div class="">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2><?php echo $this->escapeHtml($title); ?> (Pending Order Lists)</h2>
+					<div class="clearfix"></div>
+				</div>
+				<?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+				<div class="x_content">
+					<div class="table-responsive">
+						<table id="datatable" class="table table-striped jambo_table bulk_action">
+							<thead>
+								<tr class="headings">
+									<th class="column-title">Sl.No.</th>
+									<th class="column-title"><span class="nobr">Travel Auth No</span></th>
+									<th class="column-title"><span class="nobr">Staff Name</span></th>
+									<th class="column-title"><span class="nobr">Staff ID</span></th>
+									<th class="column-title"><span class="nobr">Purpose</span></th>
+									<th class="column-title"><span class="nobr">Approval</span></th>
+									<th class="column-title"><span class="nobr">Action</span></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php $i=1; ?>
+								<?php foreach ($this->approvedEmpTravels as $approved) : ?>
+								<tr class="even pointer">
+									<td class=" " width="8%"><?php echo $i; ?></td>
+									<td class=" "><?php echo $this->escapeHtml($approved['travel_auth_no']); ?></td>
+									<td class=" "><?php echo $this->escapeHtml($approved['first_name'].' '.$approved['middle_name'].' '.$approved['last_name']);?></td>
+									<td class=" "><?php echo $this->escapeHtml($approved['emp_id']); ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approved['purpose_of_tour']);?></td>
+									<td class=" "><?php echo $this->escapeHtml($approved['travel_auth_date']);?></td>
+									<td class=" " width="10%">  
+										<a href="<?php echo $this->url('updateemptravelorder', array('id' => my_encrypt($approved['id'],$key)));?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> Update Order</a>
+								</td>
+								</tr>
+								<?php $i++; ?>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="clearfix"></div><br/>
+				<h2>Staff Approved Travel Authorization (Updated Order Lists)</h2>
+				<div class="x_content">
+					<div class="table-responsive">
+						<table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+							<thead>
+								<tr class="headings">
+									<th class="column-title">Sl.No.</th>
+									<th class="column-title"><span class="nobr">Travel Auth No</span></th>
+									<th class="column-title"><span class="nobr">Staff Name</span></th>
+									<th class="column-title"><span class="nobr">Staff ID</span></th>
+									<th class="column-title"><span class="nobr">Order Number</span></th>
+									<th class="column-title"><span class="nobr">Purpose</span></th>
+									<th class="column-title"><span class="nobr">Approval</span></th>
+									<th class="column-title"><span class="nobr">Action</span></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php $i=1; ?>
+								<?php foreach ($this->approvedOrderEmpTravels as $order) : ?>
+								<tr class="even pointer">
+									<td class=" " width="8%"><?php echo $i; ?></td>
+									<td class=" "><?php echo $this->escapeHtml($order['travel_auth_no']); ?></td>
+									<td class=" "><?php echo $this->escapeHtml($order['first_name'].' '.$order['middle_name'].' '.$order['last_name']);?></td>
+									<td class=" "><?php echo $this->escapeHtml($order['emp_id']); ?></td>
+									<td class=" "><?php echo $this->escapeHtml($order['order_no']); ?></td>
+                                        				<td class=" "><?php echo $this->escapeHtml($order['purpose_of_tour']);?></td>
+									<td class=" "><?php echo $this->escapeHtml($order['travel_auth_date']);?></td>
+									<td class=" " width="10%">  
+
+										<a href="<?php echo $this->url('viewtravelorderdetails', array('id' => my_encrypt($order['id'],$key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View Order</a>
+									</td>
+								</tr>
+								<?php $i++; ?>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div>
+				</div>		 
+			</div>
+		</div>
+	</div>
+</div>

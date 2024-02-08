@@ -1,0 +1,556 @@
+<?php 
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/bootstrap/dist/css/bootstrap.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/font-awesome/css/font-awesome.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/Ionicons/css/ionicons.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('dist/css/AdminLTE.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('dist/css/skins/_all-skins.min.css'));
+    
+    // Add a JavaScript file
+    $this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+        
+?>
+<?php if($this->usertype == 1) { ?>
+  <!-- page content -->
+        
+        <?php  
+        $organisation_list = array();
+          foreach($this->organisationList as $key=>$organisation){
+            $organisation_list[$key] = $organisation;
+          }?>
+          <!-- Main content -->
+          <?php
+          $organisation_lists = array();
+          foreach($this->organisationLists as $key=>$organisation){
+            $organisation_lists[$key] = $organisation;
+          }
+          ?>
+          <?=$this->render('test-partial.phtml')?>
+          <div class="right_col" role="main">
+            <section class="content">
+              <!-- Main row -->
+               <div class="clearfix"></div>
+               <!-- Small boxes (Stat box) -->
+               <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                      <div class="inner">
+                        <h4>Leave/Tour Notifications</h4>
+                        <p><i><?php echo count($this->leave_notifications); ?> New</i></p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-pencil-square-o"></i>
+                      </div>
+                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                  </div>
+                  <!-- ./col -->
+                  <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                      <div class="inner">
+                        <h4>Goods and Requisitions</h4>
+                        <p><i><?php echo count($this->goods_notifications); ?> New</i></p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-bars"></i>
+                      </div>
+                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                  </div>
+                  <!-- ./col -->
+                  <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                      <div class="inner">
+                        <h4>HR Lifecycle Alerts</h4>
+                        <p><i><?php echo count($this->pms_notifications); ?> New</i></p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-flag-o"></i>
+                      </div>
+                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                  </div>
+                  <!-- ./col -->
+                  <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                      <div class="inner">
+                        <h4>Other Notifications</h4>
+                        <p><i><?php echo count($this->other_notifications); ?> New</i></p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-bell-o"></i>
+                      </div>
+                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                  </div>
+                  <!-- ./col -->
+                </div>
+                <!-- /.row -->
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                    <div class="well profile_view">
+                      <?php
+                      $details = array();
+                      foreach ($this->staffDetails as $sdetail): { 
+                        $details['name'] = $sdetail['first_name'].' '.$sdetail['middle_name'].' '.$sdetail['last_name'];
+                        $details['emp_id'] = $sdetail['emp_id'];
+                        $details['unit_name'] = $sdetail['unit_name'];
+                        $details['department_name'] = $sdetail['department_name'];
+                        $img_location = $sdetail['profile_picture'];
+                      }
+                      ?>
+                      <div class="col-sm-12">
+                        <h4 class="brief"><i>Personal Information in Brief</i></h4>
+                        <div class="left col-xs-7">
+                          <h2><?php echo $details['name'].' ('.$details['emp_id'].')'; ?></h2>
+                          <p><strong>Department: </strong> <?php echo $details['department_name']; ?> </p>
+                          <p><strong>Unit: </strong> <?php echo $details['unit_name']; ?> </p>
+                          <p><strong>Position Title: </strong> <?php echo $this->presentPositionTitle; ?> </p>
+                          <p><strong>Position Level: </strong> <?php echo $this->presentPositionLevel; ?> </p>
+                          <p><strong>Role: </strong> <?php echo $this->userrole; ?> </p>
+                        </div>
+                        <div class="right col-xs-5 text-center">
+                          <?php if(!empty($img_location)){?>
+                            <img src="<?php echo '../'.$img_location; ?>" alt="..." class="img-circle profile_img">
+                          <?php } else{?>
+                            <p><i>Notice: No profile image uploaded!</i></p>
+                          <?php }?>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom text-center">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>For details click view profile button</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="<?php echo $this->url('staffprofile', array('action' => 'staffProfile')); ?>" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> View Profile</a>
+                        </div>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2><i class="fa fa-align-left"></i> Staff on Leave <small>(<?php echo date('d-M-Y'); ?>)</small> </h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <div class="table-responsive">
+                        <table class="table table-striped jambo_table table-bordered">
+                          <thead>
+                            <tr class="headings">
+                                <th class="column-title">Staff</th>
+                                <th class="column-title">Department</th>
+                                <th class="column-title">Division</th>
+                                <th class="column-title">Duration</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php 
+                            foreach($this->staff_on_leave as $leave):?>
+                              <tr>
+                                 <td class=" "><?php echo $leave['first_name'].' '.$leave['middle_name'].' '.$leave['last_name']; ?></td> 
+                                 <td class=" "><?php echo $leave['department_name']; ?></td> 
+                                 <td class=" "><?php echo $leave['unit_name']; ?></td>
+                                 <td class=" "><?php echo $leave['from_date'].' - '.$leave['to_date']; ?></td>                               
+                              </tr>
+                            <?php endforeach; ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2><i class="fa fa-align-left"></i> Information, Help and Support </h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <!-- start accordion -->
+                      <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel">
+                          <a class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <h4 class="panel-title">RUB-IMS Modules</h4>
+                          </a>
+                          <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Admission, Academic and Assessment Module</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Human Resource Management Module</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Property and Invemtory Management Module</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Student Service Management Module</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Finance Module</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Planning and Budgeting Module</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Research Management Module</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Alumni Management Module</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel">
+                          <a class="panel-heading collapsed" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><h4 class="panel-title">Implemented Features in RUB-IMS</h4></a>
+                          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="panel-body">
+                              <!-- Type you text Here -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel">
+                          <a class="panel-heading collapsed" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><h4 class="panel-title">RUB-IMS User Manual</h4></a>
+                          <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                            <div class="panel-body">
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                <a href="../data/user_manual/RUB-IMS-HRM-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Human Resources User Manual</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href=""><i class="fa fa-file-pdf-o"></i> Admission User Manual</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Academic User Manual</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Examination User Manual</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Planning User Manual</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Budgeting User Manual</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Student Services User Manual</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Research Management User Manual</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Counseling User Manual</a>
+                              </div>
+                              <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Alumni User Manual</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end of accordion -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <table class="table table-striped jambo_table table-bordered">
+                        <h2>Number of Student <small>By Colleges as of (<?php echo date('d-M-Y'); ?>)</small></h2>
+                        <thead>                        
+                          <tr>
+                            <td rowspan="3">College</td>
+                            <td rowspan="3">Total No of Student</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php $i = 2; foreach($this->no_of_student as $student):?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $organisation_list[$i]; ?></td>
+                            <td class=" "><?php 
+                            if(array_key_exists($i, $this->no_of_student)){
+                              echo count($this->no_of_student[$i]);
+                            }
+                            else
+                              echo $this->escapeHtml('0');
+                            $i++;
+                            ?>
+                            </td>
+                          </tr>
+                        </tbody><?php  endforeach; ?>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <table class="table table-striped jambo_table table-bordered">
+                        <h2>Number of Staff <small>by OVC/Colleges as of (<?php echo date('d-M-Y'); ?>)</small></h2>
+                        <thead>                        
+                          <tr>
+                            <td rowspan="3">College/ Organisation</td>
+                            <td rowspan="3">Total No of Staff</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php $i = 1; foreach($this->no_of_staff as $staff):?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $organisation_lists[$i]; ?></td>
+                            <td class=" "><?php 
+                            if(array_key_exists($i, $this->no_of_staff)){
+                              echo count($this->no_of_staff[$i]);
+                            }
+                            else
+                              echo $this->escapeHtml('0');
+                            $i++;
+                            ?>
+                            </td>
+                          </tr>
+                        </tbody><?php  endforeach; ?>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- /.row (main row) -->
+          </section>
+        </div>
+        
+<?php } else if($this->usertype == 2){?> 
+  <!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              <!--  Student Portal -->
+              <!-- First row Start -->
+              <div class="row">
+                <!-- First Left Column Start -->
+                <div class="col-md-6 col-sm-6 col-xs-6 ">
+                  <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                    <div class="well profile_view">
+                      <div class="col-sm-12">
+                        <h4 class="brief"><i>Bachellor of Computer Application</i></h4>
+                        <div class="left col-xs-7">
+                          <h2>Dawa Tshering</h2>
+                          <p><strong>Programme: </strong> Bachellor of Computer Application </p>
+                          <ul class="list-unstyled">
+                            <li><strong>Year of Enrolment:</strong> 2019 </li>
+                            <li><strong>Current Year:</strong> Year 1 </li>
+                            <li></i><strong>Current Semester:</strong> Second Semester</li>
+                          </ul>
+                        </div>
+                        <div class="right col-xs-5 text-center">
+                          <img src="images/img.jpg" alt="" class="img-circle img-responsive">
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom text-center">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          For Detail Click View Profile Button
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <button type="button" class="btn btn-primary btn-xs">
+                            <i class="fa fa-user"> </i> View Profile
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>News and Information</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                          <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <h4>Star Ratings<small> Hover and click on a star</small></h4>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- First Left Column End -->
+                <!-- First Right Column Start -->
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Your Attendance</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                          <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Sl/No</th>
+                              <th>Module Code</th>
+                              <th>Module Name</th>
+                              <th>Class Delivered</th>
+                              <th>Class Attended</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>MAT0123</td>
+                              <td>Mathematics</td>
+                              <td>60</td>
+                              <td>40</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>MAT0123</td>
+                              <td>Mathematics</td>
+                              <td>60</td>
+                              <td>40</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>MAT0123</td>
+                              <td>Mathematics</td>
+                              <td>60</td>
+                              <td>40</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">4</th>
+                              <td>MAT0123</td>
+                              <td>Mathematics</td>
+                              <td>60</td>
+                              <td>40</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">5</th>
+                              <td>MAT0123</td>
+                              <td>Mathematics</td>
+                              <td>60</td>
+                              <td>40</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- First Right Column End -->
+
+                <!-- Second Column Start -->
+                <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2>Current Semester Detail</h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Sl/No</th>
+                            <th>Module Code</th>
+                            <th>Module Name</th>
+                            <th>Continius Assessment</th>
+                            <th>Semester Exam</th>
+                            <th>Detail</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>MAT0123</td>
+                            <td>Mathematics</td>
+                            <td>60</td>
+                            <td>40</td>
+                            <td><button type="button" class="btn btn-info">Detail Info</button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                </div><!-- Second Column End -->
+              </div>
+
+                <!-- Second Column Start -->
+                <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2>Current Semester Continious Assessment Results</h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Sl/No</th>
+                            <th>Module Code</th>
+                            <th>Module Name</th>
+                            <th>Continius Assessment</th>
+                            <th>Detail</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>MAT0123</td>
+                            <td>Mathematics</td>
+                            <td>60</td>
+                            <td><button type="button" class="btn btn-info">Result</button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+<?php } else if($this->usertype == 3){?>
+  <!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              
+        
+            </section>
+            <!-- /.content -->
+          </div>
+        <?php } else if($this->usertype == 4){?> 
+  <!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              
+        
+            </section>
+            <!-- /.content -->
+          </div>
+<?php }  ?><!-- /.content-wrapper -->
+
+
+
+
+
+
+

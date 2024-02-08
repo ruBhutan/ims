@@ -1,0 +1,178 @@
+<?php
+ $title = 'Add Employee Education Details';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                    <br/>
+					<?php
+					// Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $education = $form->get('employeeeducation');
+                    $education->get('employee_details_id')->setValue($this->id);
+					$education->get('college_country')->setValueOptions($this->country);
+					$education->get('funding')->setValueOptions($this->funding_category);
+          $education->get('study_level')->setValueOptions($this->study_level);
+                    echo $this->formHidden($education->get('id')); 
+					echo $this->formHidden($education->get('employee_details_id'));
+                    ?>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Staff Name <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $this->employees->getFirst_Name(). ' '.$this->employees->getMiddle_Name(). ' '.$this->employees->getLast_Name(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      <label class="control-label col-md-3 col-sm-2 col-xs-12">Staff ID <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $this->employees->getEmp_Id(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="ln_solid"></div>
+                    <br />
+                        <!-- start education detail -->
+                            <table class="data table table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>School/College</th>
+                                  <th>Address/City</th>
+                                  <th>Country</th>
+                                  <th>Start</th>
+                                  <th>End</th>
+                                  <th>Field</th>
+                                  <th>Study Level</th>
+                                  <th>Funding</th>
+                                  <th>Marks Obtained</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php $i= 1; foreach($this->employeeDetails as $detail): ?>
+                                <tr>
+                                  <td><?php echo $i++; ?></td>
+                                  <td><?php echo $detail['college_name']; ?></td>
+                                  <td><?php echo $detail['college_location']; ?></td>
+                                  <td><?php echo $detail['country']; ?></td>
+                                  <td><?php echo $detail['start_date']; ?></td>
+                                  <td><?php echo $detail['end_date']; ?></td>
+                                  <td><?php echo $detail['field_study']; ?></td>
+                                  <td><?php echo $detail['study_level']; ?></td>
+                                  <td><?php echo $detail['funding_type']; ?></td>
+                                  <td><?php echo $detail['marks_obtained']; ?></td>
+                                  <td class=" " width="21%">
+                                  <?php if(!empty($detail['evidence_file'])){?>
+                                        <a href="<?php echo $this->url('downloadempeducationevidencefile', array('id' => my_encrypt($detail['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download</a>
+                                    <?php } else{?> 
+                                        <p><i>File Not Uploaded!</i></p>
+                                    <?php }?>
+                                  </td>
+                                </tr>
+                               <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                            <!-- end education detail -->   
+                    <div class="ln_solid"></div>
+                    <br /><br /><br />
+                    <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Schoolo/College Name</label>
+						  <?php echo $this->formRow($education->get('college_name')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>School/College City/Address</label>
+						  <?php echo $this->formRow($education->get('college_location')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Country</label>
+						  <?php echo $this->formRow($education->get('college_country')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Field of Study</label>
+						  <?php echo $this->formRow($education->get('field_study')); ?>
+                        </div>
+                     </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Start Date</label>
+						  <?php echo $this->formRow($education->get('start_date')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>End Date</label>
+						  <?php echo $this->formRow($education->get('end_date')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Mode of Study</label>
+						  <?php echo $this->formRow($education->get('study_mode')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Study Level</label>
+						  <?php echo $this->formRow($education->get('study_level')); ?>
+                        </div>
+                     </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Type of Funding</label>
+						  <?php echo $this->formRow($education->get('funding')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Agg. Marks Obtained</label>
+						  <?php echo $this->formRow($education->get('marks_obtained')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Evidence File: <small>(Optional)</small></label>
+              <?php echo $this->formRow($education->get('evidence_file')); ?>
+                        </div>
+                     </div>
+                    </div>
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+							   echo $this->formSubmit($education->get('submit'));
+                               echo $this->form()->closeTag();
+                            ?>
+                            <a href="<?php echo $this->url('empeducation');?>"><span class="btn btn-primary">Done</span></a>
+                            </div>
+                    	  </div>
+                     </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+              
+       
+                

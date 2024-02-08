@@ -1,0 +1,311 @@
+<?php
+ // module/GoodsTransaction/view/goods-transaction/goods-transaction/add-goods-recieved-purchased.phtml:
+
+ $title = 'Supplied Goods Lists';
+ $this->headTitle($title);
+
+function numtowords($num){ 
+  $decones = array( 
+              '01' => "One", 
+              '02' => "Two", 
+              '03' => "Three", 
+              '04' => "Four", 
+              '05' => "Five", 
+              '06' => "Six", 
+              '07' => "Seven", 
+              '08' => "Eight", 
+              '09' => "Nine", 
+              10 => "Ten", 
+              11 => "Eleven", 
+              12 => "Twelve", 
+              13 => "Thirteen", 
+              14 => "Fourteen", 
+              15 => "Fifteen", 
+              16 => "Sixteen", 
+              17 => "Seventeen", 
+              18 => "Eighteen", 
+              19 => "Nineteen" 
+              );
+  $ones = array( 
+              0 => " ",
+              1 => "One",     
+              2 => "Two", 
+              3 => "Three", 
+              4 => "Four", 
+              5 => "Five", 
+              6 => "Six", 
+              7 => "Seven", 
+              8 => "Eight", 
+              9 => "Nine", 
+              10 => "Ten", 
+              11 => "Eleven", 
+              12 => "Twelve", 
+              13 => "Thirteen", 
+              14 => "Fourteen", 
+              15 => "Fifteen", 
+              16 => "Sixteen", 
+              17 => "Seventeen", 
+              18 => "Eighteen", 
+              19 => "Nineteen" 
+              ); 
+  $tens = array( 
+              0 => "",
+              2 => "Twenty", 
+              3 => "Thirty", 
+              4 => "Forty", 
+              5 => "Fifty", 
+              6 => "Sixty", 
+              7 => "Seventy", 
+              8 => "Eighty", 
+              9 => "Ninety" 
+              ); 
+  $hundreds = array( 
+              "Hundred", 
+              "Thousand", 
+              "Million", 
+              "Billion", 
+              "Trillion", 
+              "Quadrillion" 
+              ); //limit t quadrillion 
+  $num = number_format($num,2,".",","); 
+  $num_arr = explode(".",$num); 
+  $wholenum = $num_arr[0]; 
+  $decnum = $num_arr[1]; 
+  $whole_arr = array_reverse(explode(",",$wholenum)); 
+  krsort($whole_arr); 
+  $rettxt = ""; 
+  foreach($whole_arr as $key => $i){ 
+      if($i < 20){ 
+          $rettxt .= $ones[$i]; 
+      }
+      elseif($i < 100){ 
+          $rettxt .= $tens[substr($i,0,1)]; 
+          $rettxt .= " ".$ones[substr($i,1,1)]; 
+      }
+      else{ 
+          $rettxt .= $ones[substr($i,0,1)]." ".$hundreds[0]; 
+          $rettxt .= " ".$tens[substr($i,1,1)]; 
+          $rettxt .= " ".$ones[substr($i,2,1)]; 
+      } 
+      if($key > 0){ 
+          $rettxt .= " ".$hundreds[$key]." "; 
+      } 
+
+  } 
+  $rettxt = $rettxt." Ngultrum";
+
+  if($decnum > 0){ 
+      $rettxt .= " and "; 
+      if($decnum < 20){ 
+          $rettxt .= $decones[$decnum]; 
+      }
+      elseif($decnum < 100){ 
+          $rettxt .= $tens[substr($decnum,0,1)]; 
+          $rettxt .= " ".$ones[substr($decnum,1,1)]; 
+      }
+      $rettxt = $rettxt." chhertum"; 
+  } 
+  return $rettxt." Only";
+}
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+			  <div class="x_title">
+        
+				<h2><?php echo $this->escapeHtml($title); ?></h2>
+				<ul class="nav navbar-right panel_toolbox">
+				  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+				</ul>
+
+			  <div class="clearfix"></div>
+			  </div>
+			  <div id="print-content">
+        <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $goodsSupplier = $form->get('goodsreceived');
+                    echo $this->form()->openTag($form);
+
+                    $goodsSupplier->get('id')->setValue($this->goodsSupplierDetail->getId());
+                    $goodsSupplier->get('supplier_details_id')->setValue($this->goodsSupplierDetail->getSupplier_Details_Id());
+                    echo $this->formHidden($goodsSupplier->get('supplier_details_id'));
+                    $goodsSupplier->get('supplier_order_no')->setValue($this->goodsSupplierDetail->getSupplier_Order_No());
+                    echo $this->formHidden($goodsSupplier->get('supplier_order_no'));
+                    $goodsSupplier->get('supplier_name')->setValue($this->goodsSupplierDetail->getSupplier_Name());
+                    echo $this->formHidden($goodsSupplier->get('supplier_name'));
+                    $goodsSupplier->get('reference_no')->setValue($this->goodsSupplierDetail->getReference_No());
+                    echo $this->formHidden($goodsSupplier->get('reference_no'));
+                    $goodsSupplier->get('reference_date')->setValue($this->goodsSupplierDetail->getReference_Date());
+                    echo $this->formHidden($goodsSupplier->get('reference_date'));
+                    //$goodsSupplier->get('reference_date')->setValue($this->goodsSupplierDetail->getReference_Date());
+
+                    $goodsSupplier->get('organisation_id')->setValue($this->goodsSupplierDetail->getOrganisation_Id());
+                    echo $this->formHidden($goodsSupplier->get('organisation_id'));
+
+                    $goodsSupplier->get('submit')->setValue('Generate Voucher');
+
+                    echo $this->formHidden($goodsSupplier->get('id'));
+                 ?> 
+               <table width=100%>
+                <tr>
+                  <td width="20%" align="center">
+                  <?php 
+                  $image = $this->getOVCLogo; 
+                  if(!empty($image))
+                  {
+                    if($this->document_type == 'Logo')
+                    {
+                      $title = 'Logo';
+                    } else if($this->document_type == 'Banner')
+                    {
+                      $title = 'Banner';
+                    } 
+                  ?>
+                  <img class="img-responsive avatar-view" src="<?php echo '../../'.$image; ?>" alt="Avatar"  title="<?php echo $organisation['organisation_name'].' '.$title; ?>" height="90">
+                  <?php } else{?>
+                    <h4><b><i class="blue">There is no image uploaded. Please upload it!</i></b></h4>
+                  <?php } ?>
+                  </td>
+                  <td width="60%" align="center">
+                    <i>
+                      <h3 class="blue">
+                        <?php echo $this->organization_details['organisation_name'].'<br> '.$this->organization_details['organisation_dzongkha_name'].'<br></h3><h2> '.$this->organization_details['address']; ?></h2>
+                    </i>
+                </td>
+                  <td width="20%">
+                    <?php 
+                    $image = $this->getSelfLogo; 
+                    if(!empty($image))
+                    {
+                      if($this->document_type == 'Logo')
+                      {
+                        $title = 'Logo';
+                      } else if($this->document_type == 'Banner')
+                      {
+                        $title = 'Banner';
+                      } 
+                    ?>
+                    <img class="img-responsive avatar-view" src="<?php echo '../../'.$image; ?>" alt="Avatar"  title="<?php echo $organisation['organisation_name'].' '.$title; ?>" height="90">
+                    <?php } else{?>
+                      <h4><b><i class="blue">There is no image uploaded. Please upload it!</i></b></h4>
+                    <?php } ?>
+                  </td>
+                </tr>
+              </table> <br>
+              <p class="text-right"><b>Printed Date: </b><?php echo (date('F j, Y')); ?></p>
+              <p class="text-center"><b>Receipt Voucher</b></p>
+
+                <table class="table table-striped jambo_table bulk_action" width="100%" border="0px">
+                  <tr>
+                    <td><b>Supplier</b></td>
+                    <td><?php echo $this->goodsSupplierDetail->getSupplier_Name(); ?></td>
+                    <td><b>Voucher Number</b></td>
+                    <td>
+                      <?php 
+                       if (!$this->goodsSupplierDetail->getReceipt_Voucher_No()){
+                          echo "Voucher Not Generated"; 
+                        } else {
+                          echo $this->goodsSupplierDetail->getReceipt_Voucher_No();    
+                        }
+                      ?>
+                    </td>
+                    
+                  </tr>
+                  <tr>
+                    <td><b>Reference Number</b></td>
+                    <td><?php echo $this->goodsSupplierDetail->getReference_No(); ?></td>
+                    <td><b>System Id</b></td>
+                    <td><?php echo $this->goodsSupplierDetail->getId(); ?></td>
+                  </tr>
+                  <tr>
+                    <td><b>Reference Date</b></td>
+                    <td><?php echo $this->goodsSupplierDetail->getReference_Date(); ?></td>
+                    <td><b>Enter date</b></td>
+                    <td><?php echo $this->goodsSupplierDetail->getCreated_At(); ?></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td><b>Supplier Order Number</b></td>
+                    <td><?php echo $this->goodsSupplierDetail->getSupplier_Order_No(); ?></td>
+                  </tr>
+                </table>
+			  </div> <!-- End of x-content -->
+ 
+
+            <!-- Start of table listing item to issue -->
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml('Lists of Item Supplied'); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <h5><i>*The following are the list of the item supplied by particular supplier mentioned above. You can click on generate button to generate receipt voucher or print if already generated.</i></h5>
+                  <br />
+                  <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action" width="100%" border="1px">
+                        <thead>
+                          <tr class="headings">    
+                            <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Item</th>
+							              <th class="column-title">Item Quantity</th>
+                            <th class="column-title">Item Rate (Nu)</th>
+                            <th class="column-title">Item Amount (Nu)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i=1; ?>
+                        <?php $total_item_quantity = 0; $total_item_purchasing_rate = 0; $total_item_amount = 0; ?>
+                        <?php foreach ($this->suppliedGoodsList as $suppliedGoods) : ?>
+                            <tr>
+                                  <td class=" "><?php echo $i; ?></td>
+                                  <td class=" "><?php echo $this->escapeHtml($suppliedGoods['item_name']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($suppliedGoods['item_quantity']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($suppliedGoods['item_purchasing_rate']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($suppliedGoods['item_amount']);?></td>    
+                            </tr>
+                            <?php $i++; ?>
+                            <?php 
+                            //$total_item_quantity += $suppliedGoods['item_quantity'];
+                            //$total_item_purchasing_rate += $suppliedGoods['item_purchasing_rate'];
+                            $total_item_amount += $suppliedGoods['item_amount']; 
+                            ?>
+                         <?php endforeach; ?>
+                        </tbody>
+                        <tr style="border-top:1px solid #ddd;border-bottom:1px solid #ddd;">
+                            <th colspan="4" style="font-size:13px"> Total : </th>
+                            <th style="font-size:13px;">Nu. <?php  echo number_format((float)$total_item_amount, 2, '.', ',');?></th>
+                        </tr>
+                        <tr style="border-top:1px solid #ddd;border-bottom:1px solid #ddd;">
+                         <th colspan="5" style="font-size:13px; text-align:left">Total: <i>(<?php echo numtowords($total_item_amount);?>)</i></th>
+                        </tr>
+                      </table>
+                      <hr>
+                      <table class="table table-striped jambo_table bulk_action" width="100%" border="0px">
+                        <tr>
+                          <td><b>Verified By:</b> </td>
+                          <td align="right"><b>Prepared By:</b> <?php echo $this->layout()->userDetails; ?></td>
+                        </tr>
+                      </table>
+
+                     </div>
+                 </div> 
+
+                 <input type="button" class="btn btn-primary" onclick="printDiv('print-content')" value="Print this Page"/>
+
+
+                           <?php 
+                //closing the form tag  
+                echo $this->form()->closeTag();
+                 ?>                 
+             </div>
+        </div> 
+    </div>
+</div>
+</div>
+

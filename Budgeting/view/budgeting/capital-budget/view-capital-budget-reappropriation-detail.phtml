@@ -1,0 +1,162 @@
+<?php
+ $title = 'Capital Reappropriation Budget Details';
+ $this->headTitle($title);
+ $budgetDetail = array();
+ foreach ($this->budgetReappropriation as $key=>$value){
+	 $budgetDetail[$key] = $value;
+ }
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+                </div>
+                  <div class="x_content">
+                	<br/>
+                     <?php
+                        // Opening of the form tag
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+					            ?>
+
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><i><?php echo $this->escapeHtml('Reappropriation From Details: '); ?></i></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                    <table class="table table-bordered">
+                            <thead>
+                              <tr class="headings">
+                                <th class="column-title">Activity Name</th>
+                                <th class="column-title">Broad Head Name</th>
+                                <th class="column-title">Object Code</th>
+                                <th class="column-title">Budget</th>
+                                <th class="column-title">Expenditure</th>
+                                <th class="column-title">Balance</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                          <tr>
+                             <?php $i =0; foreach ($this->fromDataDetails as $data) : ?>
+                              <tr class="even pointer">
+                                <td class=" "><?php echo $this->escapeHtml($data['activity_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['broad_head_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['object_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['budget_amount_approved']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['budget_amount_approved'] - $data['balance']); ?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['balance']);?></td>
+                              </tr>
+                              <?php endforeach; ?>
+                          </tr>
+                         </tbody>
+                       </table>
+                </div>
+              </div>
+              <br />
+              <!-- End of Reappropriation From Details box-->
+              
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2><i><?php echo $this->escapeHtml('Reappropriation To Details:'); ?></i></h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                      </ul>
+                     <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <br />
+                    <table class="table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Activity Name</th>
+                            <th class="column-title">Broad Head Name</th>
+                            <th class="column-title">Object Code</th>
+                            <th class="column-title">Budget</th>
+                            <th class="column-title">Expenditure</th>
+                            <th class="column-title">Balance</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i =0; foreach ($this->toDataDetails as $data) : ?>
+                          <tr class="even pointer">
+                                <td class=" "><?php echo $this->escapeHtml($data['activity_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['broad_head_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['object_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['budget_amount_approved']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['budget_amount_approved'] - $data['balance']); ?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['balance']);?></td>
+                              </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                     </tbody>
+                   </table>
+                  
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Reference No<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['reference_no']; ?>">
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Reference Date<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['reference_date']; ?>">
+                            </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="form-group"> 
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Reasons<span class="required">*</span> </label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php  echo $budgetDetail[0]['purpose']; ?>'></textarea>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Amount to Reappropriate:<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['from_amount']; ?>">
+                            </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <?php 
+                                    echo $this->form()->closeTag();
+                                    ?>
+                                </div>
+                            </div>
+                       </div>
+                        </div>
+                      </div>
+                </div>
+
+             </div>
+           </div>
+          </div>
+        </div> 
+     </div>
+     
+     

@@ -1,0 +1,113 @@
+<?php
+
+ $title = 'Student Guardian Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">
+                        <?php
+                        $guardianDetails = array();
+                        foreach ($this->stdGuardianDetails as $guardian): {
+                            $guardianDetails['name'] = $guardian['first_name'].' '.$guardian['middle_name'].' '.$guardian['last_name'];
+                            $guardianDetails['student_id'] = $guardian['student_id'];
+                            $guardianDetails['stdgender'] = $guardian['stdgender'];
+                            $guardianDetails['student_type'] = $guardian['student_type'];
+                            $guardianDetails['programme_name'] = $guardian['programme_name'];
+                            $guardianDetails['enrollment_year'] = $guardian['enrollment_year'];
+                            $guardianDetails['guardian_name'] = $guardian['guardian_name'];
+                            $guardianDetails['guardian_cid'] = $guardian['guardian_cid'];
+                            $guardianDetails['guardian_occupation'] = $guardian['guardian_occupation'];
+                            $guardianDetails['guardian_relation'] = $guardian['guardian_relation'];
+                            $guardianDetails['guardian_address'] = $guardian['guardian_address'];
+                            $guardianDetails['guardian_contact_no'] = $guardian['guardian_contact_no'];
+                            $guardianDetails['remarks'] = $guardian['remarks'];
+                        }
+                     ?>
+                     <h4>Student Details</h4>
+                     <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['student_id']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Gender:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['stdgender']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['student_type']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Programme:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['programme_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Enrollment Year:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['enrollment_year']; ?>
+                                        </div>
+                            </div><br/><br/><br/>
+                        <h4>Guardian Details</h4>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['guardian_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian CID:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['guardian_cid']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian Occupation:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['guardian_occupation']; ?>
+                                        </div>
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian Relation:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['guardian_relation']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian Address:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['guardian_address']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian Contact No:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['guardian_contact_no']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $guardianDetails['remarks']; ?>
+                                        </div>
+                            </div>
+                            <?php endforeach; ?><br/><br/>                         
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+</div>
+
+
+ 

@@ -1,0 +1,128 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Student Leave Details';
+ $this->headTitle($title);
+
+ foreach($this->leave as $detail){
+     $leave_details = $detail;
+ }
+ 
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <div class="clearfix"></div>
+                  </div>
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $leave = $form->get('leaveapplication');
+                    $leave->get('id')->setValue($leave_details['id']);
+                    $leave->get('from_date')->setValue($leave_details['from_date']);
+                    $leave->get('to_date')->setValue($leave_details['to_date']);
+                    $leave->get('outing_category')->setValue($leave_details['outing_category']);
+                    $leave->get('evidence_file')->setValue($leave_details['evidence_file']);
+                    $leave->get('reasons')->setValue($leave_details['reasons']);
+                    $leave->get('leave_status')->setValue($leave_details['leave_status']);
+                    $leave->get('student_id')->setValue($leave_details['student_id']);
+                    $leave->get('student_leave_category_id')->setValue($leave_details['student_leave_category_id']);
+                    $leave->get('approved_by')->setValue($this->employee_details_id);
+                    echo $this->formHidden($leave->get('id'));
+                    echo $this->formHidden($leave->get('from_date'));
+                    echo $this->formHidden($leave->get('to_date'));
+                    echo $this->formHidden($leave->get('outing_category'));
+                    echo $this->formHidden($leave->get('evidence_file'));
+                    echo $this->formHidden($leave->get('reasons'));
+                    echo $this->formHidden($leave->get('leave_status'));
+                    echo $this->formHidden($leave->get('student_id'));
+                    echo $this->formHidden($leave->get('student_leave_category_id'));
+                    echo $this->formHidden($leave->get('approved_by'));
+				            ?>
+                    <p><i>***Student Leave Details: If you want to approve then please click on Approve button and if you want to reject then please click on Reject button.</i></p>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Student Name:</label>
+                        <div class="col-md-8 col-sm-12 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['first_name']. ' '.$leave_details['middle_name'].' '.$leave_details['last_name'].' ('.$leave_details['studentId'].')'; ?>" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Programme:</label>
+                        <div class="col-md-8 col-sm-12 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['programme_name']; ?>" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Year:</label>
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['year']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Semester:</label>
+                        <div class="col-md-3 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['semester'].' Semester'; ?>" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">From Date:</label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['from_date']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">To Date: </label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['to_date']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Outing Category: </label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['outing_category']; ?>" readonly>
+                        </div>
+                      </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Type of leave:</label>
+                        <div class="col-md-8 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder='<?php echo $leave_details['leave_category']; ?>' readonly>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Reasons:</label>
+                        <div class="col-md-8 col-sm-9 col-xs-12">
+                          <textarea class="form-control"  placeholder='<?php echo $leave_details['reasons']; ?>' readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">View Attacheds Documents:</label>
+                        <div class="col-md-8 col-sm-9 col-xs-12">
+                          <?php 
+                          if($leave_details['evidence_file'] != NULL){?>
+                            <a href="<?php echo $this->url('downloadstdleaveapplication', array('filename' => $leave_details['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } 
+											     else 
+												    echo "Documents Not Submitted";  
+											     ?>
+                        </div>
+                      </div>  
+                        <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Remarks:
+                        </label>
+                        <div class="col-md-8 col-sm-9 col-xs-12">
+                          <?php  echo $this->formRow($leave->get('remarks')); ?>
+                        </div>
+                      </div>
+                     </br> 
+                    
+                    <div class="form-group">
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                       <?php
+                        echo $this->formRow($form->get('csrf'));
+            						echo $this->formSubmit($leave->get('approve'));
+            						echo $this->formSubmit($leave->get('reject'));
+                      ?>
+                      </div>
+                    </div>
+
+                </div>
+              </div>
+            </div></div></div>

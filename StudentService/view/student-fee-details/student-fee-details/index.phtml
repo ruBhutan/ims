@@ -1,0 +1,110 @@
+<?php
+
+$title = 'Student Fee Details';
+$this->headTitle($title);
+$key = $this->keyphrase;
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <br/>
+
+                <?php $flashMessenger = $this->flashMessenger(); ?>
+
+                <?php if ( $this->message_status == 'Success' && $flashMessenger->hasMessages() ): ?>
+                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    aria-hidden="true">×</span></button>
+                        <?php foreach ( $flashMessenger->getMessages() as $msg ): ?>
+                            <strong>Success!</strong> <?php echo $msg ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ( $this->message_status == 'Failure' && $flashMessenger->hasMessages() ): ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    aria-hidden="true">×</span></button>
+                        <?php foreach ( $flashMessenger->getMessages() as $msg ): ?>
+                            <strong>Failure!</strong> <?php echo $msg ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+
+                <div class="x_content">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation ID:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getOrganisation_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getStudent_Id()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getFirst_Name() . ' ' . $this->studentDetails->getMiddle_Name() . ' ' . $this->studentDetails->getLast_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Email:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getEmail()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Contact No:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getContact_No()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getProgramme_Name()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getStudent_Type()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getOrganisation_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="clearfix"></div>
+                </div><!--end of x-content-->
+
+
+            </div>
+
+            <!-- Start of table listing fee structure-->
+            <?php $this->key = $key; ?>
+            <div id="feeSrtucureTable" class="x_panel">
+                <?php echo $this->render('student-fee-details/student-fee-details/student-fee-table.phtml') ?>
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,221 @@
+<?php
+
+ $title = 'Update Student Personal Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">
+                    <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $parents = $form->get('updatestudentparentdetails');
+                        echo $this->form()->openTag($form);
+                        $parents->get('id')->setValue($this->parentDetails->getId());
+                        $parents->get('student_id')->setValue($this->parentDetails->getId());
+                        $parents->get('father_nationality')->setValueOptions($this->nationality);
+                        $parents->get('mother_nationality')->setValueOptions($this->nationality);
+                        $parents->get('first_name')->setValue($this->parentDetails->getFirst_Name());
+                        $parents->get('middle_name')->setValue($this->parentDetails->getMiddle_Name());
+                        $parents->get('last_name')->setValue($this->parentDetails->getLast_Name());
+                        $parents->get('std_id')->setValue($this->parentDetails->getStudent_Id());
+                        $parents->get('student_gender')->setValue($this->parentDetails->getStudent_Gender());
+                        $parents->get('student_type')->setValue($this->parentDetails->getStudent_Type());
+                        $parents->get('programme_name')->setValue($this->parentDetails->getProgramme_Name());
+                        $parents->get('enrollment_year')->setValue($this->parentDetails->getEnrollment_Year());
+                        $parents->get('father_name')->setValue($this->parentDetails->getFather_Name());
+                        $parents->get('father_cid')->setValue($this->parentDetails->getFather_Cid());
+                        $parents->get('father_nationality')->setValue($this->parentDetails->getFather_Nationality());
+                        $parents->get('father_occupation')->setValue($this->parentDetails->getFather_Occupation());
+                        $parents->get('father_house_no')->setValue($this->parentDetails->getFather_House_No());
+                        $parents->get('father_thram_no')->setValue($this->parentDetails->getFather_Thram_No());
+                        $parents->get('mother_name')->setValue($this->parentDetails->getMother_Name());
+                        $parents->get('mother_cid')->setValue($this->parentDetails->getMother_Cid());
+                        $parents->get('mother_nationality')->setValue($this->parentDetails->getMother_Nationality());
+                        $parents->get('mother_occupation')->setValue($this->parentDetails->getMother_Occupation());
+                        $parents->get('mother_house_no')->setValue($this->parentDetails->getMother_House_No());
+                        $parents->get('mother_thram_no')->setValue($this->parentDetails->getMother_Thram_No());
+                        $parents->get('parents_contact_no')->setValue($this->parentDetails->getParents_Contact_No());
+                        $parents->get('parents_present_address')->setValue($this->parentDetails->getParents_Present_Address());
+                        echo $this->formHidden($parents->get('id'));
+                        echo $this->formHidden($parents->get('student_id'));
+                        $parents->get('submit')->setValue('Update');
+                        echo $this->formHidden($parents->get('id')); 
+
+                     ?>
+                    <h2>Personal Details</h2>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php echo $this->formRow($parents->get('first_name')).' '.$this->formRow($parents->get('middle_name')).' '.$this->formRow($parents->get('last_name')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php echo $this->formRow($parents->get('std_id')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php echo $this->formRow($parents->get('student_gender')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php echo $this->formRow($parents->get('student_type')); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php echo $this->formRow($parents->get('programme_name')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Enrollment Year:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php echo $this->formRow($parents->get('enrollment_year')); ?>
+                        </div>
+                    </div><br/><br/>
+
+                    <h2>Parent Details</h2>
+
+                    <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Father's Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('father_name')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">CID No.</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('father_cid')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Father's Nationality</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('father_nationality')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupation</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('father_occupation')); ?>
+                                    </div>                                
+                            </div>
+                            <div class="form-group">                            
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">House No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('father_house_no')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Thram No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('father_thram_no')); ?>
+                                    </div>
+
+                            </div>
+                            <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($form->get('father_dzongkhag')); ?>
+                                    </div> 
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($form->get('father_gewog')); ?>
+                                    </div>
+                            </div>
+
+                            <div class="form-group">                                
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Village</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($form->get('father_village')); ?>
+                                    </div>
+                            </div>
+                            <br><br>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother's Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('mother_name')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">CID No.</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('mother_cid')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('mother_nationality')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupation</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('mother_occupation')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">House No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('mother_house_no')); ?>
+                                    </div> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Thram No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('mother_thram_no')); ?>
+                                    </div>
+                                
+                            </div>
+                            <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($form->get('mother_dzongkhag')); ?>
+                                    </div> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($form->get('mother_gewog')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Village</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($form->get('mother_village')); ?>
+                                    </div>
+                                
+                            </div><br><br>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Parent's Contact No#</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('parents_contact_no')); ?>
+                                    </div>
+                                 <label class="control-label col-md-2 col-sm-2 col-xs-12">Parent's Present Address</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($parents->get('parents_present_address')); ?>
+                                    </div>
+                            </div> 
+                     
+
+                            <div class="form-group">
+                            <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <?php  echo $this->formHidden($form->get('csrf')); ?>
+                                            <?php  echo $this->formSubmit($parents->get('submit')); ?>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <?php
+                                echo $this->form()->closeTag();
+                            ?>
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+</div>
+
+
+ 

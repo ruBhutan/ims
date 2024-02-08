@@ -1,0 +1,129 @@
+<?php
+ $title = 'Performance Management System - Administrative Appraisal';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+              
+        
+        <?php if($this->role == "ADMINISTRATIVE_STAFF" || $this->role == "PROGRAMME_LEADER" || $this->role == "HOD" || $this->role == "SECTION_HEAD" || $this->role == "DAA" || $this->role == "DSA" || $this->occupational_group == 'Administrative and Technical' ) { ?>
+              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                         <th style="width:20%" rowspan="2" class="column-title">College /OVC/Section Outputs.</th>
+                         <th style="width:20%" rowspan="2" class="column-title">Sub Activity Name</th>
+                         <th style="width:40%" colspan="4" class="column-title">Target Values</th>
+                         <th style="width:10%" rowspan="2" class="column-title">Status</th>
+                         <th style="width:10%" rowspan="2" class="column-title">Action</th>
+                      </tr>
+                      <tr class="headings">
+                         <th style="width:10%" class="column-title">Outstanding</th>
+                         <th style="width:10%" class="column-title">Very Good</th>
+                         <th style="width:10%" class="column-title">Good</th>
+                         <th style="width:10%" class="column-title">Needs Improvement</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <?php
+					  	$i=0;
+						$activity = NULL;
+						foreach($this->kpi as $kpi){ 
+					  ?>
+                      <tr class="even pointer">
+                        <td class=" "><?php if($activity != $kpi['activity_name']) { echo ++$i.'. '.$kpi['activity_name']; $activity=$kpi['activity_name']; $j=1;}?></td>
+                        <td class=" "><?php echo $i.'.'.$j++.' '.$kpi['subactivity_name'];?></td>
+                        <td class=" "><?php echo $kpi['outstanding_description'];?></td>
+                        <td class=" "><?php echo $kpi['very_good_description'];?></td>
+                        <td class=" "><?php echo $kpi['good_description'];?></td>
+                        <td class=" "><?php echo $kpi['needs_improvement_description'];?></td>
+                        <td class=" "><?php echo $kpi['status']; ?></td>
+                        <td><a href="<?php echo $this->url('viewadministrativeappraisal', array('id' => $kpi['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a><br />
+                            <?php if($kpi['status'] != "Approved") { ?>
+                            <a href="<?php echo $this->url('editadministrativeappraisal', array('id' => $kpi['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a><br />
+                            <?php  } ?>
+                            </td>
+                      </tr>
+                      <?php  } ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+           <?php } else { ?>
+           <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml("Academic APIs"); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                    <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                      <thead>
+                        <tr class="headings">
+                           <th style="width:25%" class="column-title">College/Department Output</th>
+                           <th style="width:25%" class="column-title">Activities</th>
+                           <th style="width:15%" class="column-title">Maximum API </th>
+                           <th style="width:15%" class="column-title">Minimum API</th>
+                           <th style="width:10%" class="column-title">Status</th>
+                           <th style="width:10%" class="column-title">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                                                                <?php 
+                                                                      $i=0;
+                                                                      $activity=NULL;
+                                                                      foreach($academic_activities as $key=>$value){
+                                                                ?>
+                        <tr class="even pointer">
+                          <td class=" "><?php  $j=1;?></td>
+                          <td class="blue"><i><b><?php echo $key; ?></b></i></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                          <td class=" "></td>
+                        </tr>
+                        <?php 
+                                                                      foreach($value as $key1=>$value1){
+                                                                              foreach($value1 as $key2=>$value2){
+                                                                ?>
+                        <tr>
+                          <td class=" "><?php echo $key1; ?></td>
+                          <td class=" "><?php echo $api[$value2['pms_nature_activity_id']];?></td>
+                          <td class=" "><?php echo $value2['maximum_api'];?></td>
+                          <td class=" "><?php echo $value2['minimum_api'];?></td>
+                          <td class=" "><?php echo $value2['status']; ?></td>
+                          <td><a href="<?php echo $this->url('viewacademicappraisal', array('id' => $value2['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a><br />
+          <?php if($value2['status'] != "Approved") { ?>
+          <a href="<?php echo $this->url('editacademicappraisal', array('id' => $value2['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a><br />
+          <?php  } ?></td>
+                        </tr>
+                        <?php  } } } ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+           <?php } ?>
+         </div>
+        </div>
+       </div> 
+      </div>

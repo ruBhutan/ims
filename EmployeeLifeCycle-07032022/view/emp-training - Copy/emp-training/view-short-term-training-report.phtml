@@ -1,0 +1,139 @@
+<?php
+
+ $title = 'Application Form and Documents Submitted After Completion of Training/Workshop/Seminars etc.';
+ $this->headTitle($title);
+ 
+ $training_detail = array();
+ foreach($this->trainingDetails as $detail){
+	 $training_detail = $detail;
+ }
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $training = $form->get('trainingreport');
+                    echo $this->formHidden($training->get('id'));
+                 ?> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Aggregate Marks Obtained</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('marks_obtained')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Study Status</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('study_status')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Award Name</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('award_name')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Extension Date</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('extension_to_date')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('remarks')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Committee Approved Evidence</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('committee_approved_evidence')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <h4><i>Upload Documents</i></h4>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Joining Report</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('joining_report')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Professional Development Report Form</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('professional_development_report')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Feedback Form</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('feedback_form')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Certificates</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('certificates')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Marksheets</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('marksheets')); ?>
+                        </div>
+                    </div>
+                  </div> 
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+							echo $this->formRow($training->get('submit'));
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

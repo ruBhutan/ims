@@ -1,0 +1,244 @@
+<?php
+ $title = 'Resignation Record- No Due Clearance Form';
+ $this->headTitle($title);
+ 
+ //need to store employee details in an array
+ $employeeName = array();
+ $employeeID = array();
+ $due_clearance = array();
+ foreach($this->resigningEmployee as $resign){
+	 $employeeName[$resign['id']] = $resign['first_name'];
+	 $employeeName[$resign['id']] .= ' '. $resign['middle_name'];
+	 $employeeName[$resign['id']] .= ' '. $resign['last_name'];
+	 $employeeID[$resign['id']] = $resign['emp_id'];
+ }
+ 
+ foreach($this->employeeDueClearance as $dues){
+	 $due_clearance[$dues['employee_details_id']][] = $dues['issuing_authority'];
+ }
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+
+//different forms for OVC and Colleges
+if($this->organisation_id == 1){
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                  <div class="clearfix"></div>
+                  </div>
+                 <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+                      ?>
+                  <div class="x_content">
+                    <div class="table-responsive">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No </th>
+                            <th class="column-title">Staff Name </th>
+                            <th class="column-title">Staff ID </th>
+                            <th class="column-title">Store</th>
+                            <th class="column-title">Accounts</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+						            <?php $i=1; foreach ($this->resignationList as $resignation) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($employeeName[$resignation['employee_details_id']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($employeeID[$resignation['employee_details_id']]);?></td>
+                            <td>
+								        <?php if(array_key_exists($resignation['employee_details_id'], $due_clearance) && in_array($this->store_clearance_authority, $due_clearance[$resignation['employee_details_id']])){?>
+                                    <a  class="btn btn-success btn-xs">Clearance Issued</a>
+                                <?php } else {?>
+                                    <?php if($this->userrole == $this->store_clearance_authority){?>
+                                    <a href="<?php echo $this->url('issuestoredues', array('id' => my_encrypt($resignation['id'], $key)));?>" class="btn btn-primary btn-xs">Issue No Dues</a>
+									       <?php } else {?>
+                                        <a class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Not Authorised</a>
+                                    <?php } ?>
+                                <?php } ?></td>
+                            <td>
+								          <?php if(array_key_exists($resignation['employee_details_id'], $due_clearance) && in_array($this->accounts_clearance_authority, $due_clearance[$resignation['employee_details_id']])){?>
+                                    <a  class="btn btn-success btn-xs">Clearance Issued</a>
+                                <?php } else {?>
+                                    <?php if($this->userrole == $this->accounts_clearance_authority){?>
+                                    <a href="<?php echo $this->url('issueaccountsdues', array('id' => my_encrypt($resignation['id'], $key)));?>" class="btn btn-primary btn-xs">Issue No Dues</a>
+									       <?php } else {?>
+                                        <a class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Not Authorised</a>
+                                    <?php } ?>
+                                <?php } ?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                        <div class="form-group">
+                      <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3">
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+     </div>     
+   </div>
+<?php }
+	//No Due Certificate for Colleges 
+	else { ?>   
+   <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                  <div class="clearfix"></div>
+                  </div>
+                  <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+                      ?>
+                  <div class="x_content">
+                    <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No </th>
+                            <th class="column-title">Staff Name </th>
+                            <th class="column-title">Staff ID </th>
+                            <th class="column-title">Store</th>
+                            <th class="column-title">IT</th>
+                            <th class="column-title">Accounts</th>
+                            <th class="column-title">Library</th>
+                            <th class="column-title">Estate Manager</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+						  <?php $i=1; foreach ($this->resignationList as $resignation) : ?>
+                          <tr class="even pointer">
+                            <td><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($employeeName[$resignation['employee_details_id']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($employeeID[$resignation['employee_details_id']]);?></td>
+                            <td>
+								<?php if(array_key_exists($resignation['employee_details_id'], $due_clearance) && in_array($this->store_clearance_authority, $due_clearance[$resignation['employee_details_id']])){?>
+                                    <a  class="btn btn-success btn-xs">Clearance Issued</a>
+                                <?php } else {?>
+                                    <?php if($this->userrole == $this->store_clearance_authority){?>
+                                    <a href="<?php echo $this->url('issuestoredues', array('id' => my_encrypt($resignation['id'], $key)));?>" class="btn btn-primary btn-xs">Issue No Dues</a>
+									<?php } else {?>
+                                        <a class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Not Authorised</a>
+                                    <?php } ?>
+                                <?php } ?></td>
+                            <td>
+								<?php if(array_key_exists($resignation['employee_details_id'], $due_clearance) && in_array($this->it_clearance_authority, $due_clearance[$resignation['employee_details_id']])){?>
+                                    <a  class="btn btn-success btn-xs">Clearance Issued</a>
+                                <?php } else {?>
+                                    <?php if($this->userrole == $this->it_clearance_authority){?>
+                                    <a href="<?php echo $this->url('issueitdues', array('id' => my_encrypt($resignation['id'], $key)));?>" class="btn btn-primary btn-xs">Issue No Dues</a>
+									<?php } else {?>
+                                        <a class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Not Authorised</a>
+                                    <?php } ?>
+                                <?php } ?></td>
+                            <td>
+								<?php if(array_key_exists($resignation['employee_details_id'], $due_clearance) && in_array($this->accounts_clearance_authority, $due_clearance[$resignation['employee_details_id']])){?>
+                                    <a  class="btn btn-success btn-xs">Clearance Issued</a>
+                                <?php } else {?>
+                                    <?php if($this->userrole == $this->accounts_clearance_authority){?>
+                                    <a href="<?php echo $this->url('issueaccountsdues', array('id' => my_encrypt($resignation['id'], $key)));?>" class="btn btn-primary btn-xs">Issue No Dues</a>
+									<?php } else {?>
+                                        <a class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Not Authorised</a>
+                                    <?php } ?>
+                                <?php } ?></td>
+                             <td>
+								<?php if(array_key_exists($resignation['employee_details_id'], $due_clearance) && in_array($this->library_clearance_authority, $due_clearance[$resignation['employee_details_id']])){?>
+                                    <a  class="btn btn-success btn-xs">Clearance Issued</a>
+                                <?php } else {?>
+                                    <?php if($this->userrole == $this->library_clearance_authority){?>
+                                    <a href="<?php echo $this->url('issuelibrarydues', array('id' => my_encrypt($resignation['id'], $key)));?>" class="btn btn-primary btn-xs">Issue No Dues</a>
+									<?php } else {?>
+                                        <a class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Not Authorised</a>
+                                    <?php } ?>
+                                <?php } ?></td>
+                            <td>
+								<?php if(array_key_exists($resignation['employee_details_id'], $due_clearance) && in_array($this->estate_clearance_authority, $due_clearance[$resignation['employee_details_id']])){?>
+                                    <a  class="btn btn-success btn-xs">Clearance Issued</a>
+                                <?php } else {?>
+                                    <?php if($this->userrole == $this->estate_clearance_authority){?>
+                                    <a href="<?php echo $this->url('issueestatedues', array('id' => my_encrypt($resignation['id'], $key)));?>" class="btn btn-primary btn-xs">Issue No Dues</a>
+									<?php } else {?>
+                                        <a class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Not Authorised</a>
+                                    <?php } ?>
+                                <?php } ?></td>    
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                        <div class="form-group">
+                      <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3">
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+     </div>     
+   </div>
+ <?php } ?>            
+                     

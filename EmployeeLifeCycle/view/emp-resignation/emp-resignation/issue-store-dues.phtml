@@ -1,0 +1,126 @@
+<?php
+
+ $title = 'Issue No Dues Certificate (Store)';
+ $this->headTitle($title);
+ ?>
+
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $resignation = $form->get('dues');
+                    echo $this->form()->openTag($form);
+                    //$resignation->get('id')->setValue($this->id);
+                    $resignation->get('issuing_authority')->setValue($this->store_clearance_authority);
+                    $resignation->get('emp_resignation_id')->setValue($this->emp_resignation_id);
+                    echo $this->formHidden($resignation->get('id')); 
+          					echo $this->formHidden($resignation->get('issuing_authority'));
+          					echo $this->formHidden($resignation->get('emp_resignation_id'));
+          				  ?>  
+
+                    <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+                      ?>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Goods Issued to Staff:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <!-- Education Details Information-->
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Item Name</th>
+                            <th class="column-title">Quantity</th>
+                            <th class="column-title">Status</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->empGoods as $goods):?>
+                             <tr class="even pointer">
+                              <td><?php echo $goods['item_name']; ?></td>
+                              <td><?php echo $goods['emp_quantity']; ?></td>
+                              <td><?php echo 'Due'; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+                  <!-- End of Education Details Information-->
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($resignation->get('remarks')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Date of Issue:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($resignation->get('date_of_issue')); ?>
+                    </div>
+                </div>
+                </div>
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+          						<?php
+          						   echo $this->formHidden($form->get('csrf'));
+          						   echo $this->formSubmit($resignation->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        </div>
+
+             
+          </div>
+        </div> 
+     </div>
+            
+         
+              
+       
+                

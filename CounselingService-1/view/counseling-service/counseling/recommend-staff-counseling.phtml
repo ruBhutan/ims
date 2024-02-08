@@ -1,0 +1,156 @@
+<?php
+ $title = 'Recommend Staff for Counseling';
+ $this->headTitle($title);
+ 
+  
+ $employee_details = array();
+ foreach($this->employeeDetails as $detail)
+ {
+	 $employee_details['id'] = $detail['id'];
+	 $employee_details['name'] = $detail['first_name'].' '. $detail['middle_name'].' '.$detail['last_name'];
+ }
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+        				   $counsel = $form->get('suggestcounseling');
+        				   //getting the student details
+        					$staffName;
+        					$empId; //this is the student id
+        					//$staffId; //this is the auto generated id
+        					$staffDetail = $this->staff;
+        					foreach($staffDetail as $staff){
+        						$staffName = $staff['first_name'];
+        						$staffName .= ' ';
+        						$staffName .= $staff['middle_name'];
+        						$staffName .= ' ';
+        						$staffName .= $staff['last_name'];
+        						$empId = $staff['emp_id'];
+        						//$stdId = $staff['id'];
+        					}
+        					
+        					//setting the value of the std id
+                  $counsel->get('counselor_id')->setValueOptions($this->selectCounselor);
+        					$counsel->get('suggested_id')->setValue($this->suggested_id);
+        					$counsel->get('suggested_by')->setValue($this->employee_details_id);
+                  $counsel->get('suggested_date')->setValue(date('Y-m-d'));
+                  $counsel->get('suggested_status')->setValue('Pending');
+                  $counsel->get('suggested_type')->setValue('1');
+                  echo $this->formHidden($counsel->get('id'));
+        					echo $this->formHidden($counsel->get('suggested_id'));  
+        					echo $this->formHidden($counsel->get('suggested_by'));
+                  echo $this->formHidden($counsel->get('suggested_date'));
+                  echo $this->formHidden($counsel->get('suggested_status')); 
+                  echo $this->formHidden($counsel->get('suggested_type'));   
+                  $counsel->get('submit')->setValue('Suggest'); 
+                ?>
+                <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Staff Name <span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <input type="text" placeholder="<?php echo $staffName; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID <span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                        <input type="text" placeholder="<?php echo $empId; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">To: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counsel->get('counselor_id')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Subject: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counsel->get('subject')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counsel->get('reason')); ?>
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Suggested By:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" placeholder="<?php echo $employee_details['name']; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                    </div>
+                </div> 
+                </div>
+           
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                   		<?php 
+        							echo $this->formHidden($form->get('csrf'));
+        							echo $this->formSubmit($counsel->get('submit')); 
+        						?>
+                    	</div>
+                    </div>
+                </div>
+                    <?php echo $this->form()->closeTag(); ?>
+                       
+                </div>
+              </div>
+            </div>
+       </div>       
+ 	</div>
+  </div>
+ </div>   
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+    

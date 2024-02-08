@@ -1,0 +1,138 @@
+<?php
+ $title = 'LANGUAGE SKILLS OF RELEVANCE TO THE ASSIGNMENT';
+ $this->headTitle($title);
+
+   $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $registrant = $form->get('language');
+                    $registrant->get('job_applicant_id')->setValue($this->job_applicant_id);
+                    echo $this->formHidden($registrant->get('id'));
+          					echo $this->formHidden($registrant->get('job_applicant_id'));
+          				  ?>  
+		<h4>
+<i><font color="green">(Mention your competency in relation to speaking, reading and writing) (Excellent, Very Good, Good, Average)</font><i><br><br>
+<i><font color="red">***Please fill up the form to update your language skills details. All star marks are mandatory field (s).</font></i></h4>  <br/>
+                      <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                      echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                      echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                      $messages = $this->flashMessenger()->getMessages();
+                      foreach($messages as $message) {
+                      echo '<strong>Success!</strong>'. $message;
+                      }
+                     echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }?>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Language<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('language')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Speaking<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('spoken')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reading<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('reading')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Writing<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('writing')); ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($registrant->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Language</th>
+                            <th class="column-title">Speaking</th>
+                            <th class="column-title">Reading</th>
+                            <th class="column-title">Writing</th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                         <?php $i = 1; foreach ($this->languageDetails as $detail) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['language']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['spoken']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['reading']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['writing']);?></td>
+                            <td class=" last"><a href="<?php echo $this->url('editregistrantlanguageskills', array('id' => my_encrypt($detail['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+                  </div>
+               </div>
+             </div>
+        
+        
+    
+          </div>
+        </div> 
+     </div>

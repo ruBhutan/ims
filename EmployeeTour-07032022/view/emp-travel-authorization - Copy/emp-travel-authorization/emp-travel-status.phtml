@@ -1,0 +1,144 @@
+<?php
+
+ $title = 'Travel Authorization';
+ $this->headTitle($title);
+?>  
+
+<div class="right_col" role="main">
+     <div class="">
+            
+         <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $plan = $form->get('emptravelauthorization');
+                    echo $this->form()->openTag($form);
+					//$plan->get('id')->setValue($this->hrdProposal->getId());
+                    //echo $this->formHidden($plan->get('id'));
+					//echo $this->formHidden($plan->get('approval_status'));
+					//$plan->get('approval_date')->setValue(date('Y-m-d'));
+					//echo $this->formHidden($plan->get('approval_date'));
+				  ?>    
+                 <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Staff Name</label>
+                        <input type="text" placeholder="Dorjee" class="form-control" readonly="readonly"/>
+                      </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Staff ID</label>
+                        <input type="text" placeholder="Rub002" class="form-control" readonly>
+                       </div>
+                  	  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Date: From </label>
+                        <input type="text" placeholder="2/2/2017" class="form-control" readonly>
+                      </div>
+                 	  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Date: To</label>
+                        <input type="text" placeholder="6/2/2017" class="form-control" readonly>
+                      </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>No. of Days</label>
+                        <input type="text" placeholder="6/2/2017" class="form-control" readonly>
+                      </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Purpose:</label>
+                        <input type="text" placeholder="Seminar on work delegation" class="form-control" readonly>
+                      </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Mode of Travel:</label>
+                        <input type="text" placeholder="Car" class="form-control" readonly>
+                      </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Upload Documents</label>
+                        <input type="text" placeholder="View" class="form-control" readonly>
+                      </div>
+                    </div> <!-- end of row -->
+          		</div>
+                <!-- Travel details table -->
+                <div class="x_content">
+                  <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Station From</th>
+                            <th class="column-title">Date From</th>
+                            <th class="column-title no-link last"><span class="nobr">Station To</span></th>
+                            <th class="column-title no-link last"><span class="nobr">Date To</span></th>
+                            <th class="column-title">Mode of Travel </th>
+                            <th class="column-title no-link last"><span class="nobr">Halt At</span></th>
+                            <th class="column-title no-link last"><span class="nobr">Purpose</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Thimphu</td>
+                                <td>20/11/2016</td>
+                                <td>Paro</td>
+                                <td>25/11/2016</td>
+                                <td>Pool Vehicle</td>
+                                <td>Paro</td>
+                                <td>HRC workshop</td>
+                                </tr>
+                                <tr>
+                                <td>Thimphu</td>
+                                <td>20/11/2016</td>
+                                <td>Paro</td>
+                                <td>25/11/2016</td>
+                                <td>Pool Vehicle</td>
+                                <td>Paro</td>
+                                <td>HRC workshop</td>
+                                </tr>
+                                <tr>
+                                <td>Thimphu</td>
+                                <td>20/11/2016</td>
+                                <td>Paro</td>
+                                <td>25/11/2016</td>
+                                <td>Pool Vehicle</td>
+                                <td>Paro</td>
+                                <td>HRC workshop</td>
+                                </tr>
+                        </tbody> 
+                      </table>
+                    </div>
+                    <form class="form-inline">
+                      <div class="form-group">
+                        <label>Estimated Travel Expenses Nu. </label>
+                                <input type="text"  class="form-control" placeholder="Nu.30000">
+                      </div>
+                      <div class="form-group">
+                        <label>Advance required Nu. </label>
+                    	<input type="text"  class="form-control" placeholder="Nu.15000">
+                      </div>
+                	</form>
+                    <div class="row" > 
+                        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                      		<label>Remarks</label>
+                   			<textarea class="form-control"></textarea>
+                 		</div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                       <?php
+						echo $this->formRow($plan->get('approve'));
+						echo $this->formRow($plan->get('reject'));
+						echo $this->formRow($form->get('csrf'));
+						echo $this->form()->closeTag($form);
+					   ?>
+                      </div>
+                    </div>
+          		</div>
+              </div>
+        </div>   
+     </div>
+</div>
+
+
+            

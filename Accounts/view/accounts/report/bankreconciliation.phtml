@@ -1,0 +1,200 @@
+<?php
+
+/**
+ * View -- of Report/AccountsreportController/plsAction
+ */
+$title = "Bank Reconciliation";
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>
+
+                <div class="x_content">
+                    <form data-toggle="validator" method="post"
+                          action="<?php echo $this->url('report', array('action' => 'bankreconciliation')); ?>"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="form-group col-lg-2">
+                                <label class="control-label" for="organisation">Organisation</label>
+                                <select class="form-control" name="organisation" id="organisation"
+                                        data-placeholder="select">
+                                    <?php
+
+                                    $rowsets = $this->serviceObj->getDatabyParam('organisation', array('id' => $data['organisation']), null);
+
+                                    foreach ( $rowsets as $row ):
+                                        $selected_org = ($row['id'] == $data['organisation']) ? "selected" : "";
+                                        ?>
+                                        <option value="<?php echo $row['id']; ?>" <?php echo $selected_org; ?>>
+                                            <?php echo $row['organisation_name']; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <label class="control-label" for="account">Bank Account</label>
+                                <select class="form-control" name="account" id="account" data-placeholder="select">
+                                    <?php
+
+                                    foreach ( $accounts_details as $row ):
+                                        $selected_org = ($row['id'] == $data['account']) ? "selected" : "";
+                                        ?>
+                                        <option value="<?php echo $row['id']; ?>" <?php echo $selected_org; ?>>
+                                            <?php echo $row['name']; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <label class="control-label" for="start_date">Start Date</label>
+
+                                <input type="text"
+                                       name="start_date"
+                                       class="form-control fa fa-calender-o"
+                                       id="start_date"
+                                       value="<?php echo $data['start_date']; ?>"
+                                       placeholder="Start Date"
+                                       readonly
+                                       required
+                                >
+
+                                <!--<div class="date input-group" id="start_date" data-date="<?php /*echo date('Y-m-d'); */ ?>"
+                                     data-date-format="yyyy-mm-dd">
+                                    <input class="form-control span2" name="start_date" id="start_date" type="text"
+                                           placeholder="Start Date" value="<?php /*echo $data['start_date']; */ ?>" readonly
+                                           required>
+                                    <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+                                </div>-->
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <label class="control-label" for="end_date">End Date</label>
+
+                                <input type="text"
+                                       name="end_date"
+                                       class="form-control fa fa-calender-o"
+                                       id="end_date"
+                                       value="<?php echo $data['end_date']; ?>"
+                                       placeholder="End Date"
+                                       readonly
+                                       required
+                                >
+
+                                <!-- <div class="date input-group" id="end_date" data-date="<?php /*echo date('Y-m-d'); */ ?>"
+                                     data-date-format="yyyy-mm-dd">
+                                    <input class="form-control span2" name="end_date" id="end_date" type="text"
+                                           placeholder="End Date" value="<?php /*echo $data['end_date']; */ ?>" readonly
+                                           required>
+                                    <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-sm btn-success pull-right"><i
+                                            class="fa fa-gear"></i> Generate
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clearfix">
+                        <label> <i class="orange fa fa-map-marker"></i> Organisation: </label>
+                        <span>
+                            <?php
+
+                            $organisationName = $this->serviceObj->getDatabyParam('organisation', $data["organisation"], 'organisation_name');
+
+                            echo $org = ($data["organisation"] == -1) ? "All Organisation" : $organisationName[0]['organisation_name']; ?></span>
+                    </div>
+                    <div>
+                        <table class="table table-bordered table-striped table-condensed" id="example">
+                            <thead>
+                            <tr>
+                                <th colspan="2"></th>
+                                <th colspan="">Amount</th>
+                                <th colspan="">Remarks</th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="">
+                            <?php echo $this->renderBankConciliation; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        /*$('#start_date').datepicker();
+        $('#end_date').datepicker();*/
+
+        $('#start_date').daterangepicker({
+            singleDatePicker: true,
+            singleClasses: "picker_2",
+            locale: {
+                format: 'YYYY-MM-DD'
+            },
+            showDropdowns:true
+        });
+
+        $('#end_date').daterangepicker({
+            singleDatePicker: true,
+            singleClasses: "picker_2",
+            locale: {
+                format: 'YYYY-MM-DD'
+            },
+            showDropdowns:true
+        });
+    });
+
+    $('#start_date').on('changeDate', function () {
+        $('form').formValidation('revalidateField', $(this).attr('id'));
+    });
+    $('#end_date').on('changeDate', function () {
+        $('form').formValidation('revalidateField', $(this).attr('id'));
+    });
+    /*** Form Validation ***/
+    $('form').formValidation({
+        framework: 'bootstrap',
+        excluded: ':disabled',
+        message: 'This value is not valid',
+        fields: {
+            'start_date': {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select start date'
+                    }
+                }
+            },
+            'end_date': {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select end date'
+                    }
+                }
+            },
+            'tier': {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select tier'
+                    }
+                }
+            },
+        }
+    }).on('success.field.fv', function (e, data) {
+        if (data.fv.getInvalidFields().length > 0) {    // There is invalid field
+            data.fv.disableSubmitButtons(true);
+        }
+    });
+</script>

@@ -1,0 +1,178 @@
+<?php
+
+ $title = 'Application Form and Documents Submitted for Training';
+ $this->headTitle($title);
+ 
+ $training_detail = array();
+ $nomination_list = array();
+ foreach($this->trainingDetails as $key=>$value){
+	foreach($value as $key1=>$value1){
+		$training_detail[$value['employee_details_id']][$key1] = $value1;
+	}
+ }
+ 
+ foreach($this->trainingNominations as $key=>$value){
+	$nomination_list[$value['employee_details_id']] = $value['first_name'].' '.$value['middle_name'].' '.$value['last_name'];
+ }
+ 
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+
+                    <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+                      ?>
+                      
+                      <div class="table-responsive">
+                          <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                              <tr class="headings">     
+                                <th style="width:10%" class="column-title">Name </th>
+                                <th style="width:9%" class="column-title">Audit Clearance Form</th>
+                                <th style="width:9%" class="column-title">Security Clearance Form </th>
+                                <th style="width:9%" class="column-title">Medical Clearance Certificate</th>
+                                <th style="width:9%" class="column-title">Acceptance Letter from Institute</th>
+                                <th style="width:9%" class="column-title">Course Content and Schedule </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 1; foreach ($nomination_list as $key=>$value) : ?>
+                                <tr>
+                                   <td class=" "><?php echo $i++.'. '.$value;?></td>
+                                   <td class=" ">
+                                   		<?php if(array_key_exists($key, $training_detail)){?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'audit_clearance_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } 
+											  else 
+												echo "Documents Not Submitted";  
+											?>
+                                        </td>
+                                   <td class=" ">
+                                   		<?php if(array_key_exists($key, $training_detail)){?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'security_clearance_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } 
+											  else 
+												echo "Documents Not Submitted";  
+											?>
+                                        </td>
+                                   <td class=" ">
+                                   		<?php if(array_key_exists($key, $training_detail)){?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'medical_certificate_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } 
+											  else 
+												echo "Documents Not Submitted";  
+											?>
+                                        </td>
+                                   <td class=" ">
+                                   		<?php if(array_key_exists($key, $training_detail)){?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'acceptance_letter_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } 
+											  else 
+												echo "Documents Not Submitted";  
+											?>
+                                        </td>
+                                   <td class=" ">
+                                   		<?php if(array_key_exists($key, $training_detail)){?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'course_content_schedule_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } 
+											  else 
+												echo "Documents Not Submitted";  
+											?>
+                                        </td>
+                                </tr>
+                             <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                   </div>
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <br />
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $training = $form->get('longtermtraining');
+                    echo $this->formHidden($training->get('id'));
+                 ?> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Award Letter</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('award_letter')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Understanding Letter</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('understanding_letter')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Departure Intimidation Form</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('departure_intimidation_form')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Pre Departure Briefing Form</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('predeparture_briefing_form')); ?>
+                        </div>
+                    </div>
+                  </div> 
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12">Understanding for Secondment</label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($training->get('understanding_secondment')); ?>
+                        </div>
+                    </div>
+                  </div>                   
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+							echo $this->formRow($training->get('submit'));
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

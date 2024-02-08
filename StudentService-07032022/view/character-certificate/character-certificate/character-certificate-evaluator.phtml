@@ -1,0 +1,125 @@
+<?php
+ $title = 'Student Character Evaluator Identification';
+ $this->headTitle($title);
+ 
+ $programmes = array();
+ $evaluatorNames = array();
+ foreach($this->programmeList as $key=>$value)
+ {
+	 $programmes[$key] = $value;
+ }
+ 
+ foreach($this->evaluatorDetails as $name)
+ {
+	 $evaluatorNames[$name['id']] = $name['first_name'] .' '.$name['middle_name'].' '.$name['last_name'];
+ }
+ 
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $evaluator = $form->get('characterevaluator');
+					$evaluator->get('employee_details_id')->setValueOptions($this->staffList);
+					$evaluator->get('programmes_id')->setValueOptions($this->programmeList);
+                    echo $this->formHidden($evaluator->get('id')); 
+				  ?>  
+                 <div class="row">
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">For Programme<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($evaluator->get('programmes_id')); ?>
+                    </div>
+                  </div> 
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Staff Name</label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($evaluator->get('employee_details_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">For Batch<span class="required">*</span><br />
+                    		<small>(e.g. 2015)</small></label>
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($evaluator->get('batch')); ?>
+                    </div>
+                  </div>
+                </div> 
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						  echo $this->formHidden($form->get('csrf'));
+						  echo $this->formSubmit($evaluator->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php echo $this->form()->closeTag(); ?>
+                </div>
+              </div>
+
+        
+        <!-- Start of table listing Evaluators -->
+        <div class="x_panel">
+            <div class="x_title">
+                  <h2><?php echo $this->escapeHtml('List of Evaluators for Evaluating Student Character'); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No. </th>
+                            <th class="column-title">Evaluator Name</th>
+                            <th class="column-title">Evaluator For Programme</th>
+                            <th class="column-title">Evaluator For Batch</th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i =1; foreach ($this->evaluatorList as $evaluator) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($evaluatorNames[$evaluator['employee_details_id']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programmes[$evaluator['programmes_id']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($evaluator['batch']);?></td>
+                            <td><a href="<?php echo $this->url('addunit', array('id' => $evaluator['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                            	<a href="<?php echo $this->url('addunit', array('id' => $evaluator['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                    </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                 </div>
+              </div>
+    
+          </div>
+        </div> 
+     </div>
+    </div>
+   </div>
+   

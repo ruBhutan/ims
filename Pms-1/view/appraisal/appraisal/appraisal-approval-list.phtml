@@ -1,0 +1,73 @@
+<?php
+ $title = 'Appraisal Approval Lists';
+ $this->headTitle($title);
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+
+ <div class="right_col" role="main">
+  <div class="">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+            <h2><?php echo $this->escapeHtml($title); ?></h2>
+             <div class="clearfix"></div>
+            </div>
+            <br/>
+            <div class="table-responsive">
+              <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title">Sl.No. </th>
+                    <th class="column-title">Appraisal Type</th>
+                    <th class="column-title">Employee Name</th>
+                    <th class="column-title">EID</th>
+                    <th class="column-title">Department</th>
+                    <th class="column-title">Status</th>
+                    <th class="column-title">View Nominations</th>
+                    <th class="column-title">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php $i=1;  foreach($this->administrativeAppraisal as $appraisal): ?>
+                      <tr class="even pointer">
+                        <td class=" "><?php echo $i++;?></td>
+                        <td class=" "><?php echo 'Administrative'; ?></td>
+                        <td class=" "><?php echo $appraisal['first_name'].' '.$appraisal['middle_name'].' '.$appraisal['last_name'];?></td>
+                        <td class=" "><?php echo $appraisal['emp_id']; ?></td>
+                        <td class=" "><?php echo $appraisal['department_name']; ?></td>
+                        <td class=" "><?php echo ''; ?></td>
+                        <td class=" "><a href="<?php echo $this->url('viewnominationappraisal', array('id' => my_encrypt($appraisal['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a></td>
+                        <td><a href="<?php echo $this->url('viewadministrativeappraisaldetail', array('id' => my_encrypt($appraisal['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a></td>
+                      </tr>
+                  <?php endforeach; ?>
+                  <?php foreach($this->academicAppraisal as $appraisal): ?>
+                      <tr class="even pointer">
+                        <td class=" "><?php echo $i++;?></td>
+                        <td class=" "><?php echo 'Academic'; ?></td>
+                        <td class=" "><?php echo $appraisal['first_name'].' '.$appraisal['middle_name'].' '.$appraisal['last_name'];?></td>
+                        <td class=" "><?php echo $appraisal['emp_id'];?></td>
+                        <td class=" "><?php echo $appraisal['department_name']; ?></td>
+                        <td class=" "><?php echo ''; ?></td>
+                        <td class=" "><a href="<?php echo $this->url('viewnominationappraisal', array('id' => my_encrypt($appraisal['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a></td>
+                        <td><a href="<?php echo $this->url('viewacademicappraisaldetail', array('id' => my_encrypt($appraisal['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a></td>
+                      </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>

@@ -1,0 +1,244 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Employee Details ';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+              
+                   <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                    
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                <form>   
+                 <div class="row">
+                  <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                      <label>Employee Name</label>
+                    <input type="text" placeholder="Dorjee  Wangmo Wangda" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                      <label>Employee ID</label>
+                    <input type="text" placeholder="RUB2345" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                      <label>Position Title</label>
+                    <input type="text" placeholder="Finance Officer" class="form-control" readonly>
+                  </div>
+
+                  
+                </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Citizenship  Identity  Card</label>
+                    <input type="text" placeholder="10504050409" class="form-control" readonly>
+                  </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Date of Birth</label>
+                    <input type="text" placeholder="03-04-1979" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Agency Location</label>
+                    <input type="text" placeholder="Thimphu" class="form-control" readonly>
+                  </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Contact No.</label>
+                    <input type="text" placeholder="18734532" class="form-control" readonly>
+                  </div>
+                        
+                      </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Permanent Address</label>
+                    <input type="text" placeholder="Nobgang,Samar,Haa" class="form-control" readonly>
+                  </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Current Working Agency</label>
+                    <input type="text" placeholder="OVC" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Current Major Occupational Group</label>
+                    <input type="text" placeholder="ICT" class="form-control" readonly>
+                  </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Current Sub Occupational Group</label>
+                    <input type="text" placeholder="Network Administrator" class="form-control" readonly>
+                  </div>
+                        
+                      </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Current Position Category</label>
+                    <input type="text" placeholder="Executive" class="form-control" readonly>
+                  </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Current Position Title</label>
+                    <input type="text" placeholder="ICT Officer" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Current Position Level</label>
+                    <input type="text" placeholder="Grade-6" class="form-control" readonly>
+                  </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Current Pay Scale</label>
+                    <input type="text" placeholder="Nu.30,000" class="form-control" readonly>
+                  </div>
+                      </div>
+                     
+                      </form>
+                  
+          </div>
+        </div>
+                  </div>
+              
+              <?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'New Position ';
+ $this->headTitle($title);
+?>
+              
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                
+                    </ul>
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+                <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Promotion Order No. 
+                    </label>
+                <?php  echo $this->formRow($form->get('promotion_order_no')); ?>
+                </div>
+            
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Promotion Order Date  
+                    </label>
+                <?php  echo $this->formRow($form->get('promotion_order_date')); ?>
+                    </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Promotion Order Type
+                    </label>
+                <?php  echo $this->formRow($form->get('promotion_order_type')); ?>
+                    </div>   
+                  
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Working Agency 
+                    </label>
+                <?php  echo $this->formRow($form->get('working_agency')); ?>
+                    </div>
+                     </div>
+                    
+                     <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Major Occupational Group 
+                    </label>
+                <?php  echo $this->formRow($form->get('major_occupational_group')); ?>
+                    </div>
+                   
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Sub Occupational Group
+                    </label>
+                <?php  echo $this->formRow($form->get('sub_occupational_group')); ?>
+                    </div>
+                     
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position Category
+                    </label>
+                <?php  echo $this->formRow($form->get('position_category')); ?>
+                    </div>
+                      
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position Title 
+                    </label>
+                <?php  echo $this->formRow($form->get('position_title')); ?>
+                    </div>
+                     </div>
+                    
+                     <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position Level
+                    </label>
+                <?php  echo $this->formRow($form->get('position_level')); ?>
+                    </div>
+                    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Pay Scale
+                    </label>
+                <?php  echo $this->formRow($form->get('pay_scale')); ?>
+                    </div>
+                   
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Promotion Effective Date 
+                    </label>
+                <?php  echo $this->formRow($form->get('promotion_effective_date')); ?>
+                    </div>
+                 
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Security Clearance Certificate No. 
+                    </label>
+                <?php  echo $this->formRow($form->get('security_clearance_certificate_no')); ?>
+                    </div>
+                     </div>
+                   
+                   <div class="row">  
+                 <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Audit Clearance Certificate No.
+                    </label>
+                <?php  echo $this->formRow($form->get('audit_clearance_certificate_no')); ?>
+                    </div>
+                   
+                       <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Medical Fitness Certificate No. 
+                    </label>
+                <?php  echo $this->formRow($form->get('medical_fitness_certificate_no')); ?>
+                    </div>
+                     </div>
+                  
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                    <?php
+                        echo $this->formSubmit($form->get('submit')); 
+                        echo $this->formSubmit($form->get('reset'));
+                      ?>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                  
+          </div>
+        </div>
+                  </div>
+          
+          
+          </div></div>
+                
+                 

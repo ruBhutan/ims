@@ -1,0 +1,113 @@
+<?php
+ $title = 'Transfer Approval Form';
+ $this->headTitle($title);
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <div class="clearfix"></div>
+                  </div>
+                 
+                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                        
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Staff Name:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="Dorji Penjor" readonly>
+                        </div>
+                      </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Staff ID:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="RUB201010" readonly>
+                        </div>
+                      </div>
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Requesting Transfer From:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="Samtse College" readonly>
+                        </div>
+                      </div>
+                    
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Requesting Transfer To:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="Sherubtse College" readonly>
+                        </div>
+                      </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="My wife got transfered to Tashigang" readonly>
+                        </div>
+                      </div>
+                    
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Spouse Name:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="Pema" readonly>
+                        </div>
+                      </div>
+                                     
+                     
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Spouse Occupation:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <input type="text" class="form-control" placeholder="Teacher" readonly>
+                        </div>
+                         </div>
+                            
+                        <div class="form-group">     
+                         <label class="control-label col-md-3 col-sm-3 col-xs-12">New Employing Organisation:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Ministry of Education" readonly>
+                        </div>
+                        </div>    
+                              
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Address:</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Kanglung Primary School,Tashigang" readonly>
+                        </div>
+                      </div>
+            
+                      <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Supporting Documents:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <input type="Text" class="form-control" placeholder="View uploaded document" readonly>
+                        </div>
+                      </div>
+                            
+                              <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"> Application Submission Date :</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <input type="Text" class="form-control" placeholder="23/3/2017" readonly>
+                        </div>
+                          </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <textarea class="form-control"></textarea>
+                        </div>
+                      </div>
+                     </br> 
+                    
+                        <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                                <button class="btn btn-success" type="submit">Approve</button>  
+                                <button class="btn btn-danger" type="submit">Reject</button> 
+                    </div>
+                    </div>
+                </div>
+
+                  </form>
+                </div>
+              </div>
+            </div></div></div>

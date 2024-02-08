@@ -1,0 +1,124 @@
+<?php
+ $title = 'Sub Store Details';
+ $this->headTitle($title);
+ 
+ $departmentDetails = array();
+ foreach($this->subStoreDetails as $surrenderGoods)
+ {
+     $departmentDetails['department_name'] = $surrenderGoods['department_name'];
+     $departmentDetails['unit_name'] = $surrenderGoods['unit_name'];
+ }
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+
+                    <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $departmentDetail = $form->get('deptgoodssurrender');
+                    echo $this->form()->openTag($form);
+                    $departmentDetail->get('departments_id')->setValue($this->id);
+                    echo $this->formHidden($departmentDetail->get('id'));
+                    echo $this->formHidden($departmentDetail->get('departments_id'));
+                    
+                  ?>  
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Depatment</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <input type="text" placeholder="<?php echo $departmentDetails['department_name']; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Department Unit</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <input type="text" placeholder="<?php echo $departmentDetails['unit_name']; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>              
+                   
+                    <div class="ln_solid"></div>
+                   <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                  </div>
+                </div>
+                  
+
+                <!-- Start of table listing item to issue -->
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml('Surrender Goods List Details from Sub Store'); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <h5><i>*The following are the list of the item applied for surrender by above particualr selected sub store</i></h5>
+                  <br />
+                  <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">     
+                            <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Item Category </th>
+                            <th class="column-title">Sub Category Type </th>
+                            <th class="column-title">Item Name</th>
+                            <th class="column-title">Quantity Type</th>
+                            <th class="column-title">Quantity</th>
+                            <th class="column-title">Surrender Date</th>
+                            <th class="column-title">Surrender By</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i=1; ?>
+                        <?php foreach ($this->subStoreSurrenderGoods as $surrenderGoodsList) : ?>
+                            <tr>
+                                 <td class=" "><?php echo $i; ?></td>
+                                  <td class=" "><?php echo $this->escapeHtml($surrenderGoodsList['category_type']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($surrenderGoodsList['sub_category_type']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($surrenderGoodsList['item_name']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($surrenderGoodsList['item_quantity_type']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($surrenderGoodsList['surrender_quantity']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($surrenderGoodsList['surrender_date']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($surrenderGoodsList['first_name'].' '.$surrenderGoodsList['middle_name'].' '.$surrenderGoodsList['last_name'].' ('.$surrenderGoodsList['emp_id'].')');?></td>
+                                    <td class=" ">
+                                    <a href="<?php echo $this->url('sub-store-surrender-goods-details', array('id' => my_encrypt($surrenderGoodsList['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-eye"></i> View </a>                                                                      
+                            </tr>
+                            <?php $i++; ?>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+                 </div>
+             </div>
+              </div>
+           </div>
+         </div>

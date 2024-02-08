@@ -1,0 +1,158 @@
+<?php
+$title = "Generate Bulk Payroll for Employees";
+$minYear = (int) date('Y', strtotime($this->minDate));
+$currentYear = (int) date('Y');
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>  
+                    </ul>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>
+                <div class="clearfix"></div>
+                <?php $flashMessenger = $this->flashMessenger(); ?>
+                <?php if ( $this->message_status == 'Success' && $flashMessenger->hasMessages() ): ?>
+                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <?php foreach ( $flashMessenger->getMessages() as $msg ): ?>
+                            <strong>Success!</strong> <?php echo $msg ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <?php if ( $this->message_status == 'Failure' && $flashMessenger->hasMessages() ): ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                        <?php foreach ( $flashMessenger->getMessages() as $msg ): ?>
+                            <strong>Failure!</strong> <?php echo $msg ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <div class="x_content">
+                    <form data-toggle="validator" method="post" action=""  enctype="multipart/form-data">    
+                        <div class="form-group col-lg-3">
+                            <label for="organisation" class="control-label">Organisation</label>
+                            <select class="form-control" name="organisation" id="organisation" data-placeholder="Select">
+                                <?php
+                                  //$organisations = $this->payrollService->getOrganisationData(array('id' => $this->userorg));
+                                  $organisations = $this->payrollService->getOrganisationData();
+                                  foreach ($organisations as $organisation):
+                                  $selected = ($this->organisation_id == $organisation['id']) ? 'selected' : '';
+                                ?>
+                                  <option value="<?php echo $organisation['id']; ?>" <?php echo $selected; ?>><?php echo $organisation['organisation_name']; ?></option>
+                                <?php endforeach; ?>	
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label for="year" class="control-label">Year</label>
+                            <select name="year" id="year" class="form-control">
+                                <?php for ($year = $currentYear; $year >= $minYear; $year--):
+                                  $selected = ($this->year == $year) ? 'selected' : '';
+                                ?>
+                                <option value="<?php echo $year; ?>" <?php echo $selected; ?>> <?php echo $year; ?> </option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label for="month" class="control-label">Month</label>
+                            <select name="month" id="month" class="form-control">
+                                <?php for ($month = 1; $month <= 12; $month++):
+                                  $selected = ($this->month == $month) ? 'selected' : '';
+                                ?>
+                                <option value="<?php echo $month; ?>" <?php echo $selected; ?>><?php echo date("F", strtotime(date("1-$month-$this->year"))); ?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label for="working_days" class="control-label">Working Days</label>
+                            <input type="number" min="0" max="" name="working_days" id="working_days" class="form-control" value="<?php echo cal_days_in_month(CAL_GREGORIAN, $this->month, $this->year); ?>" required="required">
+                        </div>
+                        <div class="form-group col-lg-2" style="margin-top: 23px;">
+                            <button type="submit" class="btn btn-sm btn-success form-control"> Generate</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <?php if(!empty($this->added_payroll_list)) { ?>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml("List of Employee(s)"); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div  class="table-responsive">
+                        <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                                <th class="column-title">Sl No </th>
+                                <th class="column-title">Name</th>
+                                <th class="column-title">Working days</th>
+                                <th class="column-title">Gross amount</th>
+                                <th class="column-title">Total deduction</th>
+                                <th class="column-title">Net pay</th>
+                                <th class="column-title">Status</th>
+                                <th class="column-title">Action</th>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1;
+                                foreach ($this->added_payroll_list as $payroll) : ?>
+                                    <tr class="even pointer">
+                                        <td class=" "><?php echo $i; ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($payroll['first_name']).' '.$this->escapeHtml($payroll['last_name']); ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($payroll['working_days']); ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($payroll['gross']); ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($payroll['total_deduction']); ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($payroll['net_pay']); ?></td>
+                                        <td class=" "><?php echo ($payroll['status'] == '0') ? 'Pending' : 'Paid' ; ?></td>
+                                        <td class=" last">
+                                            <a href="<?php echo $this->url('payroll', array('action' => 'generatePayrollPDF', 'id' => my_encrypt($payroll['id'], $this->keyphrase))); ?>" class="btn btn-primary btn-xs"><i class="ace-icon fa fa-file-pdf-o"></i> Download PDF</a>
+                                        </td>
+                                    </tr>
+                                    <?php $i++;
+                                endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php }?>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#year").change(function() {
+        var month = $('#month').val();
+        var days = new Date(this.value, month, 0).getDate();
+        $('#working_days').val(days);
+        $("#working_days").attr({"max" :days});
+    });
+    $("#month").change(function() {
+        var year = $('#year').val();
+        var days = new Date(year,this.value, 0).getDate();
+        $('#working_days').val(days);
+        $("#working_days").attr({"max" :days});
+    });
+</script>

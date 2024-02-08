@@ -1,0 +1,184 @@
+<?php
+ $title = 'Counseling Record Details';
+ $this->headTitle($title);
+ $appointmentDetails = array();
+ foreach($this->counselingDetails as $details)
+ {
+  if($counselingType == 'Appointment'){
+    $appointmentDetails['id'] = $details['id'];
+   $appointmentDetails['subject'] = $details['subject'];
+   $appointmentDetails['description'] = $details['description'];
+   $appointmentDetails['remarks'] = $details['remarks'];
+   $appointmentDetails['scheduled_time'] = $details['scheduled_time'];
+   $appointmentDetails['scheduled_date'] = $details['scheduled_date'];
+   $appointmentDetails['venue'] = $details['venue'];
+   $appointmentDetails['counselor_remarks'] = $details['counselor_remarks'];
+   $appointmentDetails['applicant_id'] = $details['applicant_id'];
+   $appointmentDetails['applicant_type'] = $details['applicant_type'];
+   $appointmentDetails['date'] = $details['date'];
+   $appointmentDetails['notes'] = $details['notes'];
+  }
+  else if($counselingType == 'Recommended'){
+    $appointmentDetails['id'] = $details['id'];
+   $appointmentDetails['subject'] = $details['subject'];
+   $appointmentDetails['description'] = $details['reason'];
+   $appointmentDetails['remarks'] = $details['counselor_remarks'];
+   $appointmentDetails['scheduled_time'] = $details['scheduled_time'];
+   $appointmentDetails['scheduled_date'] = $details['scheduled_date'];
+   $appointmentDetails['venue'] = $details['venue'];
+   $appointmentDetails['counselor_remarks'] = $details['counselor_remarks'];
+   $appointmentDetails['applicant_id'] = $details['suggested_id'];
+   $appointmentDetails['applicant_type'] = $details['suggested_type'];
+   $appointmentDetails['date'] = $details['date'];
+   $appointmentDetails['notes'] = $details['notes'];
+  }
+ }
+
+ $applicantDetail = array();
+ foreach($this->applicantDetails as $details)
+ {
+  if($this->applicantType == 1){
+    $applicantDetail['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'].' ('.$details['emp_id'].')';
+  }
+  else if($this->applicantType == 2){
+    $applicantDetail['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'].' ('.$details['student_id'].')';
+  }
+ }
+
+$key = $this->cryptKey;
+ function decryptIt($q, $key) {
+  list($encrypted_data, $iv) = explode('::', base64_decode($q), 2);
+  return openssl_decrypt($encrypted_data, 'aes-256-cbc', $key, 0, $iv);
+    //$cryptKey  = 'RUB-IMS@counseling';
+    //$qDecoded      = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $key ), base64_decode( $q ), MCRYPT_MODE_CBC, md5( md5( $key ) ) ), "\0");
+    //return( $qDecoded );
+}
+ 
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                  <?php 
+                  $form->prepare();
+                   echo $this->form()->openTag($form);
+                  ?>
+                <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Applicant:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $applicantDetail['name']?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Subject:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['subject']?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['description']?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" disabled="disabled" rows="3" placeholder='<?php echo $appointmentDetails['remarks']; ?>'></textarea>
+                    </div>
+                </div> 
+                </div> 
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Scheduled Time:</label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo date('h:i A', strtotime($appointmentDetails['scheduled_time'])); ?>">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Scheduled Date:</label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['scheduled_date']; ?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Counselor Remarks:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" disabled="disabled" rows="3" placeholder='<?php echo $appointmentDetails['counselor_remarks']; ?>'></textarea>
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Venue:</label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['venue']; ?>">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Date:</label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['date']; ?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Counselor Notes:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" disabled="disabled" rows="5"><?php echo decryptIt($appointmentDetails['notes'], $key); ?></textarea>
+                    </div>
+                </div> 
+                </div>         
+                       <?php echo $this->form()->closeTag(); ?> 
+                </div>
+              </div>
+            </div>
+       </div>       
+  </div>
+  </div>
+ </div>   
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+    

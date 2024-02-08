@@ -1,0 +1,317 @@
+<?php
+ $title = 'Organisation Configuration & Settings';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                <div class="x_content">
+                  <br />
+               <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                  <li role="presentation" class="active"><a href="#tab_content1" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="true">Organisation/Colleges</a>
+                  </li>
+                  <li role="presentation" class=""><a href="#tab_content2" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="false">Department</a>
+                  </li>
+                  <li role="presentation" class=""><a href="#tab_content3" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="false">Unit</a>
+                  </li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                  <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="profile-tab">
+                   <br/> 
+                   <p> 
+                   <div class="x_panel"> 
+                     <h2>Organisation/Colleges</h2>   
+                    <div class="x_content">
+                  <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $orgForm->setAttribute('action', $this->url('addorganisation', array('action' => 'addOrganisation')));
+					$orgForm->prepare();
+                    echo $this->form()->openTag($orgForm);
+				    $organisation = $orgForm->get('organisation');
+                    echo $this->formHidden($organisation->get('id'));   
+                ?>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation/College Name: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($organisation->get('organisation_name')); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation Address: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($organisation->get('address')); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($orgForm->get('csrf'));
+						   echo $this->formSubmit($organisation->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                
+				<div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="example-datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Organisation/College Name</th>
+                            <th class="column-title">Address</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                        <?php foreach ($this->organisations as $org): ?>
+						  <tr>
+							<td><?php echo $this->escapeHtml($org->getOrganisation_Name());?></td>
+							<td><?php echo $this->escapeHtml($org->getAddress());?></td>
+                            <td><a href="<?php echo $this->url('editorganisation', array('id' => my_encrypt($org->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+						  </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+					</div>
+				</div>
+			</div> 
+                    
+            <div role="tabpane2" class="tab-pane fade " id="tab_content2" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Departments</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $deptForm->setAttribute('action', $this->url('adddepartment', array('action' => 'addDepartment')));
+					$deptForm->prepare();
+                    echo $this->form()->openTag($deptForm);
+				    $dept = $deptForm->get('departments');
+					$dept->get('organisation_id')->setValueOptions($this->organisationList);
+                    echo $this->formHidden($dept->get('id'));   
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation/College Name<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php echo $this->formRow($dept->get('organisation_id')); ?>
+                    </div>
+                </div>
+                </div> 
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Deparment Name: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($dept->get('department_name')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($deptForm->get('csrf'));
+						   echo $this->formSubmit($dept->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Organisation/College Name</th>
+                            <th class="column-title">Department Name</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php foreach ($this->departments as $department): ?>
+                          <tr>
+                            <td><?php echo $this->escapeHtml($organisationList[$department->getOrganisation_Id()]);?></td>
+                            <td><?php echo $this->escapeHtml($department->getDepartment_Name());?></td>
+                            <td><a href="<?php echo $this->url('editdepartment', array('id' => my_encrypt($department->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				  </div>
+				</div>
+                
+                <div role="tabpane3" class="tab-pane fade " id="tab_content3" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Unit</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $unitForm->setAttribute('action', $this->url('addunit', array('action' => 'addUnit')));
+					           $unitForm->prepare();
+                    echo $this->form()->openTag($unitForm);
+					         // $unitForm->get('organisation_id')->setValueOptions($this->organisationList);
+					           // /$unitForm->get('departments_id')->setValueOptions($this->departmentList);
+                    echo $this->formHidden($unitForm->get('id'));   
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation/College Name:<span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($unitForm->get('organisation_id')); ?>
+                    </div>
+                </div>
+                </div> 
+                  
+                 <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">Department Name:<span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($unitForm->get('departments_id')); ?>
+                    </div>
+                </div>
+                </div>   
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Unit Name:<span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($unitForm->get('unit_name')); ?>
+                    </div>
+                </div>
+                </div>
+                       
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($unitForm->get('csrf'));
+						   echo $this->formSubmit($unitForm->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                <div class="x_content">
+                                      <table id="datatable-buttons" class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl No</th>
+                            <th class="column-title">Organisation/College Name</th>
+                            <th class="column-title">Department Name</th>
+                            <th class="column-title">Unit Name</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php  $i=1; foreach ($this->units as $unit): ?>
+                          <tr>
+                            <td class=" "><?php echo $i++;?></td>
+                            <td><?php echo $this->escapeHtml($organisationList[$unit->getOrganisation_Id()]);?></td>
+                            <td><?php echo $this->escapeHtml($departmentList[$unit->getDepartments_Id()]);?></td>
+                            <td><?php echo $this->escapeHtml($unit->getUnit_Name());?></td>
+                            <td><a href="<?php echo $this->url('editunit', array('id' => my_encrypt($unit->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+						            </tbody>
+                      </table>
+                     </div>
+					</div>
+				</div>
+
+      </div>
+				</div>
+                
+   		 </div>
+ 		</div>
+	</div>
+</div>
+</div>
+            

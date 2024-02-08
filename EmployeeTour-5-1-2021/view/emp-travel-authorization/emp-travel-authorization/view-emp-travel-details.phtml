@@ -1,0 +1,175 @@
+<?php
+ $title = 'Travel Authorization';
+ $this->headTitle($title);
+
+ $empDetails = array();
+ foreach($this->empDetails as $details){
+    $empDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'];
+    $empDetails['emp_id'] = $details['emp_id'];
+    $empDetails['employee_details_id'] = $details['employee_details_id'];
+ }
+
+ $authorization_details = array();
+foreach($travelAuthorization as $authorization){
+    $authorization_details = $authorization;
+} //var_dump($authorization_details); die();
+
+?>  
+
+<div class="right_col" role="main">
+     <div class="">
+            
+         <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				  ?>
+                <div class="col-md-6 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table table-bordered">
+                            <tbody>
+                                <tr class="headings">
+                                  <th class="column-title" style="width:50%">Staff Name :</th>
+                                  <td class=" "><?php echo $empDetails['name'].' ('.$empDetails['emp_id'].')';?></td>
+                                </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Travel Authorization No :</th>
+                                  <td><b><?php echo $authorization_details['travel_auth_no']; ?></b></td>
+                                </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Period :</th>
+                                  <td><?php echo 'From: '.$this->fromDate.' to: '.$this->toDate; ?></td>
+                                </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Travel Date :</th>
+                                  <td><?php echo $authorization_details['travel_auth_date']; ?></td>
+                                </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Status :</th>
+                                  <td><?php echo $authorization_details['tour_status']; ?></td>
+                                </tr>
+                              </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table table-bordered">
+                            <tbody>
+                                <tr class="headings">
+                                  <th class="column-title" style="width:50%">Esimated No. of Days :</th>
+                                  <td class=" "><?php echo $authorization_details['no_of_days'].' days'; ?></td>
+                                </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Estimated Travel Expenses (Nu.) :</th>
+                                  <td><?php echo 'Nu. '.$authorization_details['estimated_expenses']; ?></td>
+                                </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Advance Required (Nu.) :</th>
+                                  <td><?php echo 'Nu. '.$authorization_details['advance_required']; ?></td>
+                                </tr>
+                                <?php if($authorization_details['tour_status'] == 'Approved'){?>
+                                    <tr class="headings">
+                                        <th class="column-title">Advance Sanctioned (Nu.) :</th>
+                                        <td><?php if($authorization_details['advance_sanctioned'] == NULL){
+                                            echo "Nu. 0";
+                                        }else{
+                                            echo 'Nu. '.$authorization_details['advance_sanctioned']; 
+                                        }
+                                        ?></td>
+                                    </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Balance (Nu.) :</th>
+                                  <td><?php
+                                  $balance_amount = 0;
+                                  $balance_amount = $authorization_details['estimated_expenses'] - $authorization_details['advance_sanctioned'];
+                                  
+                                    echo 'Nu. '.$balance_amount;
+                                  ?>
+                                   </td>
+                                </tr>
+                                <?php } ?>
+                                <tr class="headings">
+                                  <th class="column-title">Attached Document (s) :</th>
+                                  <td><?php
+                         if(!empty($authorization_details['related_document_file'])){?>
+                            <a href="<?php echo $this->url('downloadrelatedtourdocument', array('filename' => 'related_document_file'.$this->emp_travel_authorization_id));?>"><span class="btn btn-primary  btn-xs"><i class="fa fa-download"></i> Download & View</span></a>
+                    <?php } else {
+                        echo "<i>No File Uploaded</i>";
+                    }
+                        ?></td>
+                                </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Purpose of Tour :</th>
+                                  <td><?php echo $authorization_details['purpose_of_tour']; ?></td>
+                                </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Approving Authority's Remark (s) :</th>
+                                  <td><?php echo $authorization_details['remarks']; ?></td>
+                                </tr>
+                              </tbody>
+                        </table>
+                    </div>
+                </div>
+                <?php
+                     echo $this->form()->closeTag($form);
+                     ?>
+            </div>
+
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml("Travel Details"); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <!-- Travel details table -->
+                
+                <div class="x_content">
+                <h5><i>Following are the list of travel details.</i></h5> 
+                  <div class="table-responsive">
+                      <table class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">     
+                            <th class="column-title" style="width:7%">Sl. No. </th>
+                            <th class="column-title">From</th>
+                            <th class="column-title">From Station</th>
+                        	<th class="column-title">To</th>
+                        	<th class="column-title">To Station</th>
+                            <th class="column-title">Mode of Travel</th>
+                            <th class="column-title">Halt At</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i = 1;
+							foreach ($this->travelDetails as $travel) : ?>
+                            <tr>
+                                <td class=" "><?php echo $this->escapeHtml($i++);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($travel['from_date']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($travel['from_station']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($travel['to_date']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($travel['to_station']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($travel['mode_of_travel']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($travel['halt_at']);?></td>
+                            </tr>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+                     <div class="clearfix"></div>  
+          		</div>
+              </div>
+        </div>   
+     </div>
+</div>
+
+
+            

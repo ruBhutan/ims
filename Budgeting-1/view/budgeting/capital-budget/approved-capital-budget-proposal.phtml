@@ -1,0 +1,101 @@
+<?php
+ $title = 'List of Budget Proposals of Colleges/OVC to RUB';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $proposal = $form->get('capitalbudgetproposal');
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($proposal->get('id')); 
+					$proposal->get('five_year_plan')->setValue('12th Five Year Plan');
+				  ?>   
+                <div class="x_content">
+                 <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Organisation Name</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Department Name</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Programme/ Ledger Name</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Activity</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="form-group">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No. </th>
+                            <th class="column-title">Activity Name</th>
+                            <th class="column-title">Broad Head Name</th>
+                            <th class="column-title">Object Code</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Proposed Amount</th>
+                            <th class="column-title">Actions</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i =1; foreach ($this->budgetProposal as $proposal) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['activity_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['broad_head_name_id']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['object_code_id']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['write_up']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['proposed_budget_amount']);?></td>
+                            <td class=" "><a href="<?php echo $this->url('viewcapitalbudgetproposal', array('id' => $proposal['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                                    </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                 </div>
+             </div>
+    
+          </div>
+        </div> 
+     </div>

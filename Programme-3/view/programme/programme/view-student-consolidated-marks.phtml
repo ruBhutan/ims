@@ -1,0 +1,412 @@
+<?php
+ $title = 'Consolidated Marks';
+ $this->headTitle($title);
+ 
+ $module_name = array();
+ $module_credit = array();
+ $consolidated_marks = array();
+ $assessments = array();
+ $assessments_weightage = array();
+     
+ foreach($this->studentConsolidatedMarks as $consolidate){
+	$assessments[$consolidate['module_code']][$consolidate['assessment_type']] = $consolidate['marks'];
+  $assessments_weightage[$consolidate['module_code']][$consolidate['assessment_type']] = $consolidate['weightage'];
+	$module_name[$consolidate['module_code']] = $consolidate['module_title'];
+	$module_credit[$consolidate['module_code']] = $consolidate['credit'];
+	$consolidated_marks[$consolidate['semester']][$consolidate['module_code']][$consolidate['assessment_type']]['level'] = $consolidate['level'];
+  $consolidated_marks[$consolidate['semester']][$consolidate['module_code']][$consolidate['assessment_type']]['pass_year'] = $consolidate['pass_year'];
+	$consolidated_marks[$consolidate['semester']][$consolidate['module_code']][$consolidate['assessment_type']]['weightage'] = $consolidate['weightage'];
+	$consolidated_marks[$consolidate['semester']][$consolidate['module_code']][$consolidate['assessment_type']]['marks'] = $consolidate['marks'];
+	$consolidated_marks[$consolidate['semester']][$consolidate['module_code']][$consolidate['assessment_type']]['status'] = $consolidate['status'];
+ }
+ 
+ $assessment_types = array();
+ $total_marks = array();
+ foreach($assessments as $key => $value){
+  foreach($value as $key2 => $value2){
+    if(!in_array($value, $assessment_types)){
+      $assessment_types[$key][] = $key2;
+      if(array_key_exists($key, $total_marks)){
+        $total_marks[$key] += $value2;
+      } else {
+        $total_marks[$key] = $value2;
+      }
+    }
+  }
+}
+$assessment_types1 = array();
+ $total_max_mark = array();
+ foreach($assessments_weightage as $key => $value){
+  foreach($value as $key2 => $value2){
+    if(!in_array($value, $assessment_types1)){
+      $assessment_types1[$key][] = $key2;
+      if(array_key_exists($key, $total_max_mark)){
+        $total_max_mark[$key] += $value2;
+      } else {
+        $total_max_mark[$key] = $value2;
+      }
+    }
+  }
+} 
+ 
+?>
+
+ <div class="right_col" role="main">
+  <div id="print-content">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+        <div class="x_title">
+            
+             <div class="clearfix"></div>
+            </div>
+            <br/>
+                <!-- Marks-->
+            <div class="x_content">
+            <form>   
+              <table width=100%>
+                <tr>
+                  <td width="20%" align="center">
+                  <?php 
+                  $image = $this->getOVCLogo; 
+                  if(!empty($image))
+                  {
+                    if($this->document_type == 'Logo')
+                    {
+                      $title = 'Logo';
+                    } else if($this->document_type == 'Banner')
+                    {
+                      $title = 'Banner';
+                    } 
+                  ?>
+                  <img class="img-responsive avatar-view" src="<?php echo '../../'.$image; ?>" alt="Avatar"  title="<?php echo $organisation['organisation_name'].' '.$title; ?>" height="90">
+                  <?php } else{?>
+                    <h4><b><i class="blue">There is no image uploaded. Please upload it!</i></b></h4>
+                  <?php } ?>
+                  </td>
+                  <td width="60%" align="center">
+                    <i>
+                      <h1 class="blue">
+                        <?php echo $this->student_detail['organisation_name'].'<br> '.$this->student_detail['organisation_dzongkha_name'].'<br></h1><h4> '.$this->student_detail['address']; ?></h4>
+                    </i>
+                </td>
+                  <td width="20%">
+                    <?php 
+                    $image = $this->getSelfLogo; 
+                    if(!empty($image))
+                    {
+                      if($this->document_type == 'Logo')
+                      {
+                        $title = 'Logo';
+                      } else if($this->document_type == 'Banner')
+                      {
+                        $title = 'Banner';
+                      } 
+                    ?>
+                    <img class="img-responsive avatar-view" src="<?php echo '../../'.$image; ?>" alt="Avatar"  title="<?php echo $organisation['organisation_name'].' '.$title; ?>" height="90">
+                    <?php } else{?>
+                      <h4><b><i class="blue">There is no image uploaded. Please upload it!</i></b></h4>
+                    <?php } ?>
+                  </td>
+                </tr>
+              </table> 
+              <p class="text-right"><b>Current Date:</b><?php echo (date('F j, Y, g:i a')); ?></p>
+                <div class="row">
+                  <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+              echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+              echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+              $messages = $this->flashMessenger()->getMessages();
+              foreach($messages as $message) {
+                echo '<strong>Success!</strong>'. $message;
+              }
+              echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                  <table class="table table-responsive" width="100%">
+                    <tr>
+                      <td width="30%">
+                        <label>Student ID.:
+                        <i><?php echo $this->student_detail['student_id']; ?></i>
+                      </td>
+                      <td width="30%">
+                        <label>Student Name</label>
+                        <i><?php echo $this->student_detail['first_name'].' '.$this->student_detail['middle_name'].' '.$this->student_detail['last_name']; ?></i>
+                      </td>
+                      <td width="40%"> 
+                        <label>Programme</label>
+                        <i><?php echo $this->student_detail['programme_name']; ?></i>
+                      </td>
+                    </tr>
+
+                  </table>
+                </div>
+             </form>
+              <?php foreach ($consolidated_marks as $key=>$value) : ?>
+              <div class="row">
+                <div class="form-group">  
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <h5 class="black"><?php echo 'Semester : '; ?><i><?php echo $key; ?></i></h5>
+                    </div>
+                </div>
+             </div>
+              <table class="table table-striped jambo_table table-bordered"  border="1">
+                <thead>
+                    <th class="column-title" style="width: 15%">Name of Module </th>
+                    <th class="column-title" style="width: 5%">Module Code</th>
+                    <th class="column-title" style="width: 5%">Credits</th>
+                    <th class="column-title" style="width: 5%">Level </th>
+                    <th class="column-title" style="width: 5%">Type </th>
+                    <th class="column-title" style="width: 5%">Year of Passing </th>
+                    <th class="column-title" style="width: 5%">Max. Marks </th>
+                    <th class="column-title" style="width: 5%">Marks Secured</th>
+                    <th class="column-title" style="width: 8%">Individual Remarks</th>
+                    <th class="column-title" style="width: 5%">Total Marks</th>
+                    <th class="column-title" style="width: 8%">Total CM</th>
+                    <th class="column-title" style="width: 8%">Total CM Max Marks</th>
+                    <th class="column-title" style="width: 8%">Final Remarks</th>
+                </thead>
+                <tbody>
+    						<?php 
+    							//initialise some values
+                  $index = 0 ;
+                  $total_max_ca = 0;
+                  $total_max_se = 0;
+                  $total_secured_ca = 0;
+                  $total_secured_se = 0; 
+                  $total_max_marks = 0;
+                  $total_secured_marks = 0; 
+                  $total_aggregate = 0;
+
+                  $total_max_cca = 0;
+                  $total_max_cse = 0;
+                  $total_secured_cca = 0;
+                  $total_secured_cse = 0; 
+                  $total_max_cmarks = 0;
+                  $total_secured_cmarks = 0; 
+                  $total_caggregate = 0;
+    							foreach($value as $key2 => $value2): 
+    						?>
+                  <tr class="even pointer">
+                    <td class=" " rowspan="<?php echo count($assessment_types[$key2]); ?>"><?php echo $this->escapeHtml($module_name[$key2]);?></td>
+                    <td class=" " rowspan="<?php echo count($assessment_types[$key2]); ?>"><?php echo $this->escapeHtml($key2);?></td>
+                    <td class=" " rowspan="<?php echo count($assessment_types[$key2]); ?>"><?php echo $this->escapeHtml($module_credit[$key2]);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($value2[$assessment_types[$key2][$index]]['level']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($assessment_types[$key2][$index]); ?></td>
+                    <td class=" "><?php echo $this->escapeHtml($value2[$assessment_types[$key2][$index]]['pass_year']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($value2[$assessment_types[$key2][$index]]['weightage']);?></td>
+                    <td class=" ">
+                      <?php 
+                        $total_cm = $module_credit[$key2] * number_format((float) $this->escapeHtml($total_marks[$key2]), 1, '.', ',');; 
+                        $total_cm_max = $this->escapeHtml($module_credit[$key2]) * number_format((float) $this->escapeHtml($total_max_mark[$key2]), 0, '.', ',');; 
+                        $total_cm_percentage = (($total_cm/$total_cm_max)*100);
+                        if ($value2[$assessment_types[$key2][$index]]['level'] == 'Re-assessment'){
+                          if($total_cm_percentage<50) {
+                            echo $this->escapeHtml($value2[$assessment_types[$key2][$index]]['marks']);  
+                          } else {
+                            if((
+                                ($value2[$assessment_types[$key2][$index]]['marks'])
+                                /
+                                ($value2[$assessment_types[$key2][$index]]['weightage'])
+                              )*100 < 40)
+                            {
+                              echo $this->escapeHtml($value2[$assessment_types[$key2][$index]]['marks']);    
+                            }  else {
+                              echo $this->escapeHtml($value2[$assessment_types[$key2][$index]]['weightage']/2);
+                            }
+                            //echo $this->escapeHtml($value2[$assessment_types[$key2][$index]]['weightage']/2);  
+                          }
+                        } else {
+                          echo $this->escapeHtml($value2[$assessment_types[$key2][$index]]['marks']);  
+                        }
+                        
+                      ?>
+                    </td>
+                    <td class=" "><?php echo $status=$this->escapeHtml($value2[$assessment_types[$key2][$index]]['status']);?></td>
+                    <td class=" " rowspan="<?php echo count($assessment_types[$key2]); ?>">
+                      <?php //echo number_format((float) $this->escapeHtml($total_marks[$key2]), 0, '.', ',');?>
+                      <?php 
+                    if($value2[$assessment_types[$key2][$index]]['level'] == 'Re-assessment'){
+                      if($total_cm_percentage<50)
+                      {
+                        echo number_format((float) $this->escapeHtml($total_marks[$key2]), 1, '.', ',');
+                      } else {
+                        echo number_format((float) $this->escapeHtml($total_max_mark[$key2]/2), 1, '.', ',');
+                      }
+                    } else {
+                      echo number_format((float) $this->escapeHtml($total_marks[$key2]), 1, '.', ',');
+                    }
+                    ?>
+                    </td>
+                    <td class=" " rowspan="<?php echo count($assessment_types[$key2]); ?>">
+                      <?php
+                        if ($value2[$assessment_types[$key2][$index]]['level'] == 'Re-assessment'){
+                          if ($total_cm_percentage<50){
+                            echo number_format((float) $this->escapeHtml($total_cm), 1, '.', ',');
+                          } else {
+                            echo number_format((float)($total_cm_max/2), 1, '.', ',');
+                          }
+                        } else {
+                          echo number_format((float) $this->escapeHtml($total_cm), 1, '.', ','); 
+                        }
+                        
+                      ?>
+                    </td>
+                    <td class=" " rowspan="<?php echo count($assessment_types[$key2]); ?>">
+                      <?php echo (number_format((float) $this->escapeHtml($total_max_mark[$key2]), 0, '.', ','))*($module_credit[$key2]);?>
+                    </td>
+                    <td class=" ">
+                      <?php
+                        if ($total_cm_percentage<50){
+                          echo "Re-assessment";
+                        } else {
+                          if($status=='Pass'){
+                            echo "Pass";  
+                          } else {
+                            echo "Re-assessment";
+                          }
+                        }
+
+                      ?>
+                    </td>
+                  </tr>
+                  <?php for($i=1; $i < count($assessment_types[$key2]); $i++): ?>
+                  <tr>
+                  <td class=" "><?php echo $this->escapeHtml($value2[$assessment_types[$key2][$i]]['level']);?></td>
+		  	          <td class=" "><?php echo $this->escapeHtml($assessment_types[$key2][$i]); ?></td>
+                  <td class=" "><?php echo $this->escapeHtml($value2[$assessment_types[$key2][$i]]['pass_year']);?></td>
+                  <td class=" "><?php echo $this->escapeHtml($value2[$assessment_types[$key2][$i]]['weightage']);?></td>
+                  <td class=" ">
+                    <?php 
+                    if($value2[$assessment_types[$key2][$i]]['level'] == 'Re-assessment'){
+                      if($total_cm_percentage<50)
+                      {
+                        echo $this->escapeHtml($value2[$assessment_types[$key2][$i]]['marks']);    
+                      } else {
+                        if((
+                            ($value2[$assessment_types[$key2][$i]]['marks'])
+                            /
+                            ($value2[$assessment_types[$key2][$i]]['weightage'])
+                          )*100 < 40)
+                        {
+                          echo $this->escapeHtml($value2[$assessment_types[$key2][$i]]['marks']);    
+                        }  else {
+                          echo $this->escapeHtml($value2[$assessment_types[$key2][$i]]['weightage']/2);    
+                        }
+                        //echo $this->escapeHtml($value2[$assessment_types[$key2][$i]]['weightage']/2);  
+                      }
+                      
+                    } else {
+                      echo $this->escapeHtml($value2[$assessment_types[$key2][$i]]['marks']);  
+                    }
+                    
+                    ?>
+                  </td>
+                  <td class=" "><?php echo $status=$this->escapeHtml($value2[$assessment_types[$key2][$i]]['status']);?></td>
+                  <td class=" " >
+                      <?php
+                        if ($total_cm_percentage<50){
+                          echo "Re-assessment";
+                        } else {
+                          if($status=='Pass'){
+                            echo "Pass";  
+                          } else {
+                            echo "Re-assessment";
+                          }
+                        }
+
+                      ?>
+                    </td>
+                  </tr>
+                  <?php
+                  $total_max_se += $value2[$assessment_types[$key2][$i]]['weightage'];
+                  $total_secured_se += number_format((float)($value2[$assessment_types[$key2][$i]]['marks']), 0, '.', ',');
+
+                  $total_max_cse += $module_credit[$key2]*$value2[$assessment_types[$key2][$i]]['weightage'];
+                  $total_secured_cse += $module_credit[$key2]*number_format((float)($value2[$assessment_types[$key2][$i]]['marks']), 0, '.', ',');
+                  ?>
+                <?php endfor; ?>
+                <?php
+                  $total_max_ca += $value2[$assessment_types[$key2][$index]]['weightage'];
+                  $total_secured_ca += number_format((float)($value2[$assessment_types[$key2][$index]]['marks']), 0, '.', ',');
+                  
+                  $total_max_cca += ($module_credit[$key2])*$value2[$assessment_types[$key2][$index]]['weightage'];
+                  $total_secured_cca += $total_cm;
+                  ?>
+                <?php endforeach; ?>
+                <?php
+                $total_max_marks = $total_max_se + $total_max_ca;
+                $total_secured_marks = number_format((float)($total_secured_se), 1, '.', ',') + number_format((float)($total_secured_ca), 1, '.', ','); 
+                $total_aggregate = number_format((float)($total_secured_marks/$total_max_marks)*100, 1, '.', ',');
+
+                $total_max_cmarks = $total_max_cse + $total_max_cca;
+                $total_secured_cmarks = $total_secured_cca; 
+                $total_caggregate = number_format((float)($total_secured_cmarks/$total_max_cmarks)*100, 1, '.', ',');
+                ?>
+                
+                <tr style="border-top:1px solid #ddd;border-bottom:1px solid #ddd;">
+                    <th colspan="6" style="font-size:15px"> Grand Total: </th>
+                    <th style="font-size:15px;"><?php  //echo $total_max_marks;?></th>
+                    <th style="font-size:15px;"><?php  //echo number_format((float)($total_secured_marks), 2, '.', ',');?></th>
+                    <th style="font-size:15px;"></th>
+                    <th style="font-size:15px;"></th>
+                    <th style="font-size:15px;"><?php  echo number_format((float)$total_secured_cmarks, 1, '.', ',');?></th>
+                    <th style="font-size:15px;"><?php  echo $total_max_cmarks;?></th>
+                    <th style="font-size:15px;"></th>
+                </tr>
+                <tr style="border-top:1px solid #ddd;border-bottom:1px solid #ddddd;">
+                    <th colspan="7" style="font-size:15px"> Aggregate : </th>
+                    <th colspan="2" style="font-size:15px;"><?php  //echo $total_aggregate.'%';?></th>
+                    <th colspan="2" style="font-size:15px;"></th>
+                    <th style="font-size:15px;"><?php  echo $total_caggregate.'%';?></th>
+                    <th style="font-size:15px;"></th>
+                </tr>
+                <tr style="border-top:1px solid #ddd;border-bottom:1px solid #ddddd;">
+                    <th colspan="7" style="font-size:15px"> Level of Performance : </th>
+                    <th colspan="6" style="font-size:15px;">
+                      <?php  
+                      if($total_aggregate >= 80){
+                        echo "Outstanding Performance";
+                      } else if($total_aggregate<80 && $total_aggregate >= 70) {
+                        echo "Very Good Performance";
+                      } else if($total_aggregate<70 && $total_aggregate>=60){
+                        echo "Good Performance";
+                      } else if($total_aggregate<60 && $total_aggregate>=50){
+                        echo "Satisfactory Performance";
+                      } else if($total_aggregate<50) {
+                        echo "Fail";
+                      }
+                      ?>
+                    </th>
+                </tr>
+                </tbody>
+              </table>
+              <?php endforeach; ?>
+            </div>
+                    
+                <!-- End of Marks-->
+	</div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <b>Assessment of a Module and Progression</b>
+          <ol>
+            <li>To pass a module a student must obtain a minimum of <b>50% (Total Mark)</b> overall including both the continuous assessment and semester end examination.  However, students must obtain a minimum of <b>40% (Marks Secured)</b> each in continuous assessment and semester end examinations.</li>
+          <li>A student will be awarded a mark of zero for non-submission of a component of course work.</li>
+          <li>A student who has been absent from the examination or who has performed badly due to illness or other cause acceptable to the Board of Examiners shall be allowed to take the examination and it shall be treated as a first assessment.</li>
+        </ol>
+          <a href="https://www.rub.edu.bt/regulation/#D1" target="_blank">Please refer or click here - THE WHEEL OF ACADEMIC LAW -> D1 Assessment Regulations for detail information</a>
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+        <p class="text-center"></p>
+
+  <input type="button" class="btn btn-primary" onclick="printDiv('print-content')" value="Print"/>
+  </div>
+</div>
+              

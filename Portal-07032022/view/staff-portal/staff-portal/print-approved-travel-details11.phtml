@@ -1,0 +1,208 @@
+<?php
+ // module/GoodsTransaction/view/goods-transaction/goods-transaction/add-goods-recieved-purchased.phtml:
+
+ $title = 'Travel Authorization';
+ $this->headTitle($title);
+
+ $authDetail = array();
+ foreach ($this->travelAuthDetails as $details) {
+   $authDetail = $details;
+ }
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+			  <div class="x_title">
+				<h2><?php echo $this->escapeHtml($title); ?></h2>
+			  <div class="clearfix"></div>
+			  </div>
+			  <div class="x_content">                
+                <h4><i>Travel Authorization Details</i></h4>
+				<!-- Start of First table -->
+        <div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="x_panel">
+            <div class="x_content">
+                        <table class="table table-striped jambo_table table-bordered" border="1px" width="48%" cellpadding="1" cellspacing="0">
+              <tbody>
+                <tr class="headings">
+                                  <th class="column-title" style="width:50%">Applicant Details :</th>
+                                  <td class=" "><b><?php echo $authDetail['sfirst_name'].' '.$authDetail['smiddle_name'].' '.$authDetail['slast_name'].' ('.$authDetail['semp_id'].')';?></b><br>
+                                    <?php echo $authDetail['sposition_title']; ?><br>
+                                    <?php echo $authDetail['position_level']; ?>
+                                  </td>
+                                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+          </div><br>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+            <div class="x_content">
+                        <table class="table table-striped jambo_table table-bordered" border="1px" width="48%" cellpadding="1" cellspacing="0">
+							<tbody>
+								<tr class="headings">
+                                  <th class="column-title" style="width:50%">Travel Authorization No :</th>
+                                  <td class=" "><b><?php echo $authDetail['travel_auth_no'];?></b></td>
+                                </tr>
+								<tr class="headings">
+                                  <th class="column-title" style="width:50%">Period :</th>
+                                  <td class=" "><?php echo 'From: '.$fromDate.' to: '.$toDate;?></td>
+                                </tr>
+								<tr class="headings">
+                                  <th class="column-title">Travel Date :</th>
+                                  <td class=" "><?php echo $authDetail['travel_auth_date'];?></td>
+                                </tr>
+								<tr class="headings">
+                                  <th class="column-title">Status :</th>
+                                  <td class=" "><?php echo $authDetail['tour_status'];?></td>
+                                </tr>
+							</tbody>
+						</table>
+          </div>
+        </div>
+					</div>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+           <h4><i>Approved/ Rejected By:</i></h4>
+            <?php 
+            $approvedDetail = array();
+            foreach ($this->approvingAuthority as $approval) {
+              $approvedDetail = $approval;
+            }
+            ?>
+            <div class="x_panel">
+            <div class="x_content">
+                        <table class="table table-striped jambo_table table-bordered" border="1px" width="48%" cellpadding="1" cellspacing="0">
+              <tbody>
+                <tr class="headings">
+                                  <th class="column-title" style="width:50%">Name :</th>
+                                  <td class=" "><b><?php echo $approvedDetail['first_name'].' '.$approvedDetail['middle_name'].' '.$approvedDetail['last_name'].' ('.$approvedDetail['emp_id'].')';?></b></td>
+                                </tr>
+                <tr class="headings">
+                                  <th class="column-title" style="width:50%">Designation :</th>
+                                  <td class=" "><?php echo $approvedDetail['position_title'];?></td>
+                                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+          </div>
+
+				
+				<!-- Start of Second table -->
+				<div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+            <div class="x_content">
+                        <table class="table table-striped jambo_table table-bordered" border="1px" width="48%" cellpadding="1" cellspacing="0">
+							<tbody>
+                                <tr class="headings">
+                                  <th class="column-title" style="width:50%">Esimated No. of Days :</th>
+                                  <td class=" "><?php echo $authDetail['no_of_days'].' days'; ?></td>
+                                </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Estimated Travel Expenses (Nu.) :</th>
+                                  <td><?php echo 'Nu. '.$authDetail['estimated_expenses']; ?></td>
+                                </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Advance Required (Nu.) :</th>
+                                  <td><?php echo 'Nu. '.$authDetail['advance_required']; ?></td>
+                                </tr>
+                                <?php if($authDetail['tour_status'] == 'Approved'){?>
+                                    <tr class="headings">
+                                        <th class="column-title">Advance Sanctioned (Nu.) :</th>
+                                        <td><?php if($authDetail['advance_sanctioned'] == NULL){
+                                            echo "Nu. 0";
+                                        }else{
+                                            echo 'Nu. '.$authDetail['advance_sanctioned']; 
+                                        }
+                                        ?></td>
+                                    </tr>
+                                <tr class="headings">
+                                  <th class="column-title">Balance (Nu.) :</th>
+                                  <td><?php
+                                  $balance_amount = 0;
+                                  $balance_amount = $authDetail['estimated_expenses'] - $authDetail['advance_sanctioned'];
+                                  
+                                    echo 'Nu. '.$balance_amount;
+                                  ?>
+                                   </td>
+                                </tr>
+                                <?php } ?>
+                           
+                                <tr class="headings">
+                                  <th class="column-title">Purpose of Tour :</th>
+                                  <td><?php echo $authDetail['purpose_of_tour']; ?></td>
+                                </tr>
+								<?php if($authDetail['tour_status'] != 'Submitted'){ ?>
+                                <tr class="headings">
+                                  <th class="column-title">Approving Authority's Remark (s) :</th>
+                                  <td><?php echo $authDetail['remarks']; ?></td>
+                                </tr>
+								<?php } ?>
+                              </tbody>
+						</table>
+          </div>
+        </div>
+					</div>
+				</div><!-- End of Second table -->
+      </div>
+             
+                
+            
+                <br>               
+			  </div> <!-- End of x-content -->
+ 
+
+            <!-- Start of table listing item to issue -->
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml('Travel Details'); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <h5><i>The following are the list of travel details.</i></h5>
+                  <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped table-bordered" border="1px" width="100%" cellpadding="1" cellspacing="0">
+                        <thead>
+                          <tr class="headings">    
+                            <th class="column-title">Sl.No. </th>
+                            <th class="column-title">From Station</th>
+                          <th class="column-title">From Date</th>
+                            <th class="column-title">To Station</th>
+                            <th class="column-title">To Date</th>
+                            <th class="column-title">Mode of Travel</th>
+                            <th class="column-title">Halt At</th>
+                            <th class="column-title">Purpose</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; ?>
+                                <?php foreach ($this->travelDetails as $tdetails) : ?>
+                                <tr>
+                                  <th scope="row" width="8%"><?php echo $i; ?></th>
+                                  <td><?php echo $this->escapeHtml($tdetails['from_station']); ?></td>
+                                  <td><?php echo $this->escapeHtml($tdetails['from_date']); ?></td>
+                                  <td><?php echo $this->escapeHtml($tdetails['to_station']); ?></td>
+                                  <td><?php echo $this->escapeHtml($tdetails['to_date']); ?></td>
+                                  <td><?php echo $this->escapeHtml($tdetails['mode_of_travel']); ?></td>
+                                  <td><?php echo $this->escapeHtml($tdetails['halt_at']); ?></td>
+                                  <td><?php echo $this->escapeHtml($tdetails['purpose_of_tour']); ?></td>
+                                </tr>
+                                <?php $i++; ?>
+                                <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+                 </div>                 
+             </div>
+        </div> 
+    </div>
+</div>
+</div>
+

@@ -1,0 +1,194 @@
+<?php
+ // module/Inventory/view/goods-requisition/goods-requisition/apply-requisition.phtml:
+
+ $title = 'Apply for Requisition';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <h5><i>***Please fill up the up before you submit your requisition application. You can select your require item name by selecting item sub-category from drop down list. Field (s) with * are compulsory to fill in.</i></h5>
+                    
+                    <br/>
+                    <?php
+                    $form->setAttribute('action', $this->url('apply-goods-requisition', array('action' => 'applyGoodsRequisition')));
+                      $form->prepare();
+
+                          echo $this->form()->openTag($form);
+                          $requisition = $form->get('goodsrequisition');
+                          echo $this->form()->openTag($form);
+                          echo $this->formHidden($requisition->get('id'));   
+                          $requisition->get('employee_details_id')->setValue($this->employee_details_id); 
+                          echo $this->formHidden($requisition->get('employee_details_id'));
+
+                          $date = date("Y-m-d");
+                          $requisition->get('requisition_date')->setValue($date);
+                          echo $this->formHidden($requisition->get('requisition_date'));
+
+                          $requisition->get('requisition_status')->setValue('Not Submitted');
+                          echo $this->formHidden($requisition->get('requisition_status'));
+
+                          $remarks = 'Your requisition is still pending!!!';
+                          $requisition->get('requisition_remarks')->setValue($remarks);
+                          echo $this->formHidden($requisition->get('requisition_remarks'));
+
+                     ?>
+                     
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_sub_category_id">Item Sub-Category<span class="required">*</span></label></label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($form->get('item_sub_category_id')); ?>
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_name_id">Item Name<span class="required">*</span></label></label>
+                                      <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($form->get('item_name_id')); ?>
+                                      </div>
+                            </div>
+                            <div class="form-group">
+                                  <label class="control-label col-md-2 col-sm-2 col-xs-12">Item Quantity in Stock<span class="required">*</span></label></label>
+                                      <div class="col-md-3 col-sm-3 col-xs-12">
+                                          <?php  echo $this->formRow($form->get('item_in_stock')); ?>
+                                      </div>
+                                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Require Item Quantity<span class="required">*</span></label></label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($requisition->get('requisition_item_quantity')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Item Specification <span class="required">*</span></label></label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                        <?php  echo $this->formRow($requisition->get('item_specification')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Purpose<span class="required">*</span></label></label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <?php  echo $this->formRow($requisition->get('purpose')); ?>
+                                    </div>
+                            </div>
+                
+                            <div class="form-group">
+                            <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <?php 
+                                            echo $this->formHidden($form->get('csrf'));
+                                            echo $this->formRow($requisition->get('submit')); ?>
+                                        </div>
+                                </div>
+                                 </div>
+                            <?php
+                                echo $this->form()->closeTag();
+                            ?>
+                      </div>
+
+                      <!-- Start of table listing item to issue -->
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml('Item List For Requisition'); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+                  <h5><i>*The following are the list of the item applied for requisition by you. Click on edit or delete button to either edit or delete your requisition and then click on submit button below to submit your requisition to your concern authority</i></h5>
+                  <br />
+                  <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">     
+                            <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Item Category </th>
+                            <th class="column-title">Sub Category Type </th>
+                          <th class="column-title">Item Name</th>
+                          <th class="column-title">Item Quantity Type</th>
+                            <th class="column-title">Requisition Quantity</th>
+                            <th class="column-title">Action </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i=1; ?>
+                        <?php foreach ($this->indGoodsRequisition as $goodsRequisition) : ?>
+                            <tr>
+                                  <td class=" "><?php echo $i; ?></td>
+                                  <td class=" "><?php echo $this->escapeHtml($goodsRequisition->getCategory_Type());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($goodsRequisition->getSub_Category_Type());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($goodsRequisition->getItem_Name());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($goodsRequisition->getItem_Quantity_Type());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($goodsRequisition->getRequisition_Item_Quantity());?></td>
+                                   <td class=" "><a href="<?php echo $this->url('edit-goods-requisition', array('id' => my_encrypt($goodsRequisition->getId(), $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                    <a href="<?php echo $this->url('delete-goods-requisition', array('id' => my_encrypt($goodsRequisition->getId(), $key))); ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete </a>
+                                              </td>
+                                   
+                                   
+                            </tr>
+                            <?php $i++; ?>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+                 </div>
+                 <?php
+                    // Opening of the form tag
+                    $submitForm->setAttribute('action', $this->url('updateindgoodsrequisition', array('action' => 'updateIndGoodsRequisition', 'id' => '1')));
+                    $submitForm->prepare();
+                    echo $this->form()->openTag($submitForm);
+                    echo $this->formHidden($submitForm->get('csrf'));
+                    echo $this->formSubmit($submitForm->get('submit'));
+                  ?>
+             </div>
+
+                </div><!--end of x-Panel-->
+          </div><!--end of col-md-12 col-xs-12-- >
+      </div><!--end of ""-->
+ </div><!--end of right_col-- >
+ 
+
+ 

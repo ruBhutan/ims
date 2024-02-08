@@ -1,0 +1,251 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"orga",
+				"organisation_id"
+			],
+			[
+				"org",
+				"organisation_id"
+			],
+			[
+				"sel",
+				"selectData"
+			],
+			[
+				"country_",
+				"country_id"
+			],
+			[
+				"country",
+				"country_id"
+			],
+			[
+				"count",
+				"country"
+			],
+			[
+				"perman",
+				"permanentAddr"
+			],
+			[
+				"co",
+				"country_id"
+			],
+			[
+				"coun",
+				"country"
+			],
+			[
+				"studentAd",
+				"studentAdmissionData"
+			],
+			[
+				"var",
+				"var_dump"
+			],
+			[
+				"create",
+				"createProgrammesId"
+			],
+			[
+				"dis",
+				"disable_inarray_validator"
+			],
+			[
+				"em",
+				"empty_option"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Library/WebServer/Documents/phpmyadmin/ajax.php",
+		"/Users/mac/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/mac/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Library/WebServer/Documents/rubims/module/Programme/config/module.config.php",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/src/StudentAdmission/Form/ReportNewStudentForm.php",
+		"/Library/WebServer/Documents/rubims/module/Programme/src/Programme/Controller/ProgrammeController.php",
+		"/Library/WebServer/Documents/rubims/module/Programme/src/Programme/Form/GraduatedStudentForm.php",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/config/module.config.php",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/src/StudentAdmission/Mapper/ZendDbSqlMapper.php",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/src/StudentAdmission/Controller/StudentAdmissionController.php",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/view/student-admission/student-admission/semester-reported-student-list.phtml",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/view/student-admission/student-admission/update-not-reported-student.phtml",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/view/student-admission/student-admission/new-registered-student-list.phtml",
+		"/Library/WebServer/Documents/rubims/module/StudentService/config/module.config.php",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/view/student-admission/student-admission/add-new-student.phtml",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/src/StudentAdmission/Form/AddNewStudentForm.php",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/src/StudentAdmission/Service/StudentAdmissionServiceInterface.php",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/src/StudentAdmission/Service/StudentAdmissionService.php",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/view/student-admission/student-admission/new-registered-student-details.phtml",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/src/StudentAdmission/Model/AddNewStudent.php",
+		"/Library/WebServer/Documents/rubims/public/js/rub-ajax/student_ajax.js",
+		"/Library/WebServer/Documents/rubims/module/StudentAdmission/src/StudentAdmission/Mapper/StudentAdmissionMapperInterface.php",
+		"/Library/WebServer/Documents/rubims/module/Portal/src/StaffPortal/Controller/StaffPortalController.php",
+		"/Library/WebServer/Documents/rubims/public/js/rub-ajax/ajax.js",
+		"/Library/WebServer/Documents/rubims/module/EmployeeLifeCycle/config/module.config.php",
+		"/Library/WebServer/Documents/rubims/module/EmployeeLifeCycle/src/EmpTraining/Controller/EmpTrainingController.php",
+		"/Library/WebServer/Documents/rubims/module/EmployeeLifeCycle/src/EmpTraining/Mapper/ZendDbSqlMapper.php"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "StaffPortalController.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"WebServer/Documents/phpmyadmin/ajax.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 359.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -1,0 +1,152 @@
+<?php
+    $title = 'Student Fees Details';
+    $this->headTitle($title);
+    $key = $this->keyphrase;
+    function my_encrypt($data, $key) {
+        $encryption_key = base64_decode($key);
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+        $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+        return bin2hex(base64_encode($encrypted . '::' . $iv));
+    }
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Student Details</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="x_content">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation ID:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getOrganisation_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getStudent_Id()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getFirst_Name() . ' ' . $this->studentDetails->getMiddle_Name() . ' ' . $this->studentDetails->getLast_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Email:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getEmail()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Contact No:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getContact_No()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getProgramme_Name()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getStudent_Type()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getOrganisation_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="clearfix"></div>
+                </div><!--end of x-content-->
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="x_content">
+                    <br/>
+                    <?php
+                      foreach ($this->studentFeeList as $k => $studentFee) {
+                    ?>
+                      <div class="form-group">
+                          <h2 class="d-inline-block"><?php echo $k+1 . '. ' . $this->escapeHtml($studentFee['fee_category']); ?></h2>
+                          <?php if($studentFee['pending_amount'] > 0) {  ?>  
+                            <div style="float: right;">
+                                <a class="btn btn-success" href="/public/addstudentfees/makepayment/<?php echo my_encrypt($studentFee['id'], $key); ?>"><i class="fa fa-credit-card"></i> Make Payment</a>
+                            </div>
+                          <?php } else { ?>
+                            <div style="float: right;">
+                                <h3 class="badge bg-green m-right-xs">PAID</h3>
+                                <a class="btn btn-primary m-b-0" href="/public/addstudentfees/makepayment/<?php echo my_encrypt($studentFee['id'], $key); ?>" title="Payment Summary"><i class="fa fa-credit-card"></i> </a>
+                            </div>
+                          <?php } ?>
+                          
+                      </div>
+                      <br/>
+                      <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Fee Category:</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->escapeHtml($studentFee['fee_category']); ?>
+                          </div>
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Semester:</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->escapeHtml($studentFee['semester_id']); ?>
+                          </div>
+                      </div>
+                      <br/><br/>
+                      <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Financial Year:</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->escapeHtml($studentFee['financial_year']); ?>
+                          </div>
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Amount:</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->escapeHtml($studentFee['amount']); ?>
+                              <?php if ($studentFee['pending_amount'] > 0): ?>
+                              <div class="FontBig">
+                                <?php echo ' (Due Amount - ' . $this->escapeHtml($studentFee['pending_amount']) . ')'; ?>
+                              </div>
+                              <?php endif ?>
+                          </div>
+                      </div>
+                      <br/><br/>
+                      <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Status:</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->escapeHtml($studentFee['status']); ?>
+                          </div>
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Updated At:</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->escapeHtml($studentFee['updated_at']); ?>
+                          </div>
+                      </div>
+                      <div class="x_title">
+                          <div class="clearfix"></div>
+                      </div><br/>
+                    <?php
+                      }
+                    ?>
+                </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+
+

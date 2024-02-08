@@ -1,0 +1,100 @@
+<?php
+ $title = 'View Your Extra-Curricular Attendance Record';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/> 
+                    <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Search Extra-Curricular Attendance Record by Year</i></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                  
+                        </div>
+                       
+                        <div class="x_content">
+                            <h5><i>*(In order to display your extra-curricular attendance record, please enter the year and click on Search Button to display the attendance record of that particular year).</i></h5><br />
+                            <?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            ?>
+                        
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Year:</label>
+                                    <?php echo $this->formRow($form->get('year')); ?>
+                                </div>
+                            </div>                         
+                            <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>   
+                              
+                          
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Extra-Curricular Attendance Record"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+            
+                            <div class="x_content">
+                              <div  class="table-responsive">
+                                <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                  <thead>
+                                      <th class="column-title">Sl No </th>
+                                      <th class="column-title">Event </th>
+                                      <th class="column-title">Event Date </th>
+                                      <th class="column-title">Attendance </th>
+                                      <th class="column-title">Event Description </th>
+                                  </thead>
+                                  <tbody>
+                                    <?php $i=1; ?>
+                                    <?php foreach ($this->extraCurricularAttendance as $attendanceList) : ?>
+                                    <tr class="even pointer">
+                                      <td class=" " width="5%"><?php echo $i; ?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($attendanceList['event']);?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($attendanceList['date']);?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($attendanceList['attendance']);?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($attendanceList['event_description']);?></td>
+                                    </tr>
+                                    <?php $i++; ?>
+                                    <?php endforeach; ?>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              

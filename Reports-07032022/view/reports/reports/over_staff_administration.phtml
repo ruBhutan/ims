@@ -1,0 +1,44 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('List of Staff on Leave, Tour, Studies etc.'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+               <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Name </th>
+                     <th class="column-title">Department </th>
+                     <th class="column-title">Days of Leave</th>
+                     <th class="column-title">From</th>
+                     <th class="column-title">To</th>
+                     <th class="column-title">Substitution</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php $i=1; foreach ($this->hr_report as $list) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['first_name'].' '.$list['middle_name'].' '.$list['last_name']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['department_name']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['days_of_leave']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['from_date']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['to_date']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['sub_first_name'].' '.$list['sub_middle_name'].' '.$list['sub_last_name']);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

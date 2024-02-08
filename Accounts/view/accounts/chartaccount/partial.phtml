@@ -1,0 +1,25 @@
+<?php // partial.phtml 
+  $index = ($this->active == "index")?"active":"";
+  $class = ($this->active == "class")?"active":"";
+  $group = ($this->active == "group")?"active":"";
+  $head = ($this->active == "head")?"active":"";
+  $journal = ($this->active == "journal")?"active":"";
+  $subhead = ($this->active == "subhead")?"active":"";
+?>
+<br/>
+<!-- Start a tab -->
+<!--<div class="" role="tabpanel" data-example-id="togglable-tabs">-->
+	<ul id="myTab" class="nav nav-tabs bar_tabs">
+		<li class="<?php echo $index; ?>"> <a href="<?php echo $this->url('chartaccount', array('action' => 'index')); ?>"><i class="blue ace-icon fa fa-globe bigger-120"> </i> Chart Of Account </a></li>
+		
+		<li role="presentation" class="<?php echo $class; ?>"><a href="<?php echo $this->url('chartaccount', array('action' => 'class')); ?>" > <i class="blue ace-icon fa fa-sitemap bigger-120"> </i>Class</a></li>
+		
+		<li role="presentation" class="<?php echo $group; ?>"><a href="<?php echo $this->url('chartaccount', array('action' => 'group')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>Group</a></li>
+		
+		<li role="presentation" class="<?php echo $head; ?>"><a href="<?php echo $this->url('chartaccount', array('action' => 'head')); ?>"  ><i class="green ace-icon fa fa-cube bigger-120"></i>Head</a></li>
+		
+		<li role="presentation" class="<?php echo $subhead; ?>"><a href="<?php echo $this->url('chartaccount', array('action' => 'subhead')); ?>" ><i class="orange ace-icon fa fa-cubes bigger-120"> </i>Sub Ledger </a></li>
+		
+		<li role="presentation" class="<?php echo $journal; ?>"><a href="<?php echo $this->url('chartaccount', array('action' => 'journal')); ?>" ><i class="green ace-icon fa fa-credit-card bigger-120"> </i>Voucher Type </a></li>
+	</ul>
+<!--</div>-->

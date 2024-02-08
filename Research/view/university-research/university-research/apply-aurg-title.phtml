@@ -1,0 +1,247 @@
+<?php
+ $title = 'ANNUAL UNIVERSITY  RESEARCH GRANT APPLICATION FORM';
+ $this->headTitle($title);
+ $researcher = array();
+ foreach($this->employee_details as $detail){
+	 $researcher['name'] = $detail['first_name'].' '.$detail['middle_name'].' '.$detail['last_name'];
+	 $researcher['position_level']  = $detail['position_level'];
+	 $researcher['organisation_name']  = $detail['organisation_name'];
+    $researcher['email']  = $detail['email'];
+     $researcher['phone_no']  = $detail['phone_no'];
+ }
+ $announcementDetails = array();
+ foreach($this->grantAnnouncement as $detail){
+	 $announcementDetails = $detail;
+ }
+ //set it to a default value
+ if(empty($announcementDetails))
+  $announcementDetails['end_date'] = '2000-01-01';
+  $compileDateDuration['start_date'] = '2000-01-01';
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  
+                  <div class="x_content">
+                  <?php //if(strtotime($announcementDetails['end_date'])> strtotime(date('Y-m-d'))) { ?>
+                  <?php if(strtotime($announcementDetails['start_date']) <= strtotime(date('Y-m-d')) && strtotime(date('Y-m-d')) <= strtotime($announcementDetails['end_date'])) { ?>
+
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $research = $form->get('aurgtitle');
+                    echo $this->form()->openTag($form);
+          					echo $this->formHidden($research->get('id'));
+          					$research->get('grant_type')->setValueOptions($this->grantList);
+          					$research->get('research_year')->setValue(date('Y-m-d'));
+          					$research->get('employee_details_id')->setValue($this->employee_details_id);
+                    echo $this->formHidden($research->get('research_year'));
+                    echo $this->formHidden($research->get('employee_details_id'));
+                 ?>
+                 <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+                      <div class="clear"></div>
+                        <h2>GRANT TYPE, TITLE AND RESEARCHERS</h2>
+                         <div class="clear"></div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Grant</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($research->get('grant_type')); ?>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Grant applied for</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($research->get('grant_applied_for')); ?>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Title</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($research->get('research_title')); ?>
+                            </div>
+                          </div>
+                    <br />
+                      <div class="clear"></div>
+                      <h2>PRINCIPAL RESEARCHER INFORMATION</h2>
+                      <div class="clear"></div>
+                      <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $researcher['name']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">College:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $researcher['organisation_name']; ?>" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Position level:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $researcher['position_level']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">E-mail:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $researcher['email']; ?>" readonly>
+                        </div>
+                      </div>        
+                      <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Contact No:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $researcher['phone_no']; ?>" readonly>
+                        </div>
+                      </div>                               
+                   
+                 <!-- Dynamically adding rows -->  
+                    <br /><br />
+                    <div class="clear"></div>
+                    <h2>Co-Researcher Details<small> (If there is more than one co-researcher then please click on Add More-Researchers button to add and by mistake if add more one co-researcher then please click on Remove Co-Researchers button to remove.) </small></h2>
+                    <div class="clear"></div>
+                      <?php   echo $this->formCollection($research->get('aurgresearchers')); ?>
+                    <div class="form-horizontal form-label-left">
+                        <div class="col-md-5 col-sm-5 col-xs-12 col-md-offset-8">
+                          <button class="btn btn-success" type="button"  onclick="return add_category()"> Add More Co-Researchers</button>
+                          <button class="btn btn-danger" type="button"  onclick="return remove_addedcategory()"> Remove Co-Researchers</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div><br/><br/>        
+               <!-- End of Dynamically added rows -->
+                      <h2>PROJECT DESCRIPTION AND METHODOLOGY</h2>
+                    <h2>Project Description :</h2>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                          <label>Problem Statement (Between 200 - 250 words)</label>
+                          <?php echo $this->formRow($research->get('problem_statement')); ?>
+                      </div>
+                      <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                          <label>Research Questions and Sub-questions</label>
+                          <?php echo $this->formRow($research->get('research_questions')); ?>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                          <label>Review of Key Literature (Between 400 - 500 words)</label>
+                          <?php echo $this->formRow($research->get('review_key_literature')); ?>
+                      </div>
+                    </div>               
+
+                        <h2>Methodology (1000 words) :</h2>
+                        <div class="row">
+                          <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                              <label>Approach/Paradigm Theory</label>
+                              <?php echo $this->formRow($research->get('approach_paradigm_theory')); ?>
+                          </div>
+                          <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                              <label>Data Collection Procedures</label>
+                              <?php echo $this->formRow($research->get('data_collection_procedures')); ?>
+                          </div>
+                        </div> 
+                        <div class="row">
+                          <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                              <label>Data Analysis Procedures</label>
+                              <?php echo $this->formRow($research->get('data_analysis_procedures')); ?>
+                          </div>
+                          <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                              <label>Data Presentation</label>
+                              <?php echo $this->formRow($research->get('data_presentation')); ?>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                              <label>Ethical Considerations</label>
+                              <?php echo $this->formRow($research->get('ethical_considerations')); ?>
+                          </div>
+                          <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                              <label>Significance of the Study (in relation of knowledge,policy and practice)(200 words)</label>
+                              <?php echo $this->formRow($research->get('significance_of_study')); ?>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                              <label>Research Dissemination (for eg,publication in journals,periodicals,newspapers,etc.)</label>
+                              <?php echo $this->formRow($research->get('research_dissemination')); ?>
+                          </div>
+                          <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                              <label>References</label>
+                              <?php echo $this->formRow($research->get('references')); ?>
+                          </div>
+                        </div> 
+
+
+                   <br /><br />
+                      <h2 class="StepTitle">Confirmation: Please Check to Confirm the Form Submission</h2>
+                        <div class="form-group">
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <input type="checkbox" class="flat" required="required"></div>
+                                <div class="col-md-11 col-sm-11 col-xs-12"><p> 
+                                This is to confirm that the details provided above are true and want to proceed to next form to complete the application. </p>
+                               </div>
+                            </div> 
+                  </div>
+                
+                    <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+              							echo $this->formHidden($form->get('csrf'));
+                            echo $this->formRow($research->get('submit')); 
+              							echo $this->form()->closeTag($form);
+              						 ?>
+                        </div>
+                      </div>
+                      <?php } else { ?> <!-- End of the if loop-->
+                      	<h2>The last date for Applying for University Grant has Passed</h2>
+                      <?php } ?> <!-- End of the else loop-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+   </div>
+ </div>
+
+<script>
+     function add_category() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+
+     function remove_addedcategory(){
+        $('form > fieldset > fieldset').last().remove();
+        return false;
+     } 
+</script>

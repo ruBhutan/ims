@@ -1,0 +1,132 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Student Responsibility';
+ $this->headTitle($title);
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                     <!-- <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                     <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>-->
+                    </ul>
+                  <div class="clearfix"></div>
+                  </div>
+              
+                  <div class="x_content">
+                      
+                    <form>   
+                 <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Programme</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Semester</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Gender</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Responsibility Taken</label>
+                   <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+                        
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <button type="submit" class="btn btn-success">Search</button>
+                        </div>
+                      </div>
+                      </form>
+                </div>
+                  </div>
+              
+               <!--<p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>-->
+             <div class="x_panel"> 
+            <div class="x_content">
+                              
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <div class="form-group">
+                           <div class="col-md-12 col-sm-12 col-xs-12" align="right">
+                            <a href="bulkstdresponsibility"> <button type="submit" class="btn btn-success"><i class="fa fa-upload"></i>Import in Bulk</button></a>
+                                  
+                          </div>      
+                        </div> 
+                         <thead>
+                          <tr class="headings">
+                           <!-- <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>-->
+                            <th class="column-title">SL No </th>
+                            <th class="column-title">Student ID </th>
+                            <th class="column-title">Year </th>
+                            <th class="column-title">Student Name </th>
+                            <th class="column-title">Programme </th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title">Responsibility Taken</th>
+                            <th class="column-title">Date From</th>
+                            <th class="column-title">Date To</th>
+                              <th class="column-title">Remarks</th>
+                            <th class="column-title">View uploaded evidence </th>
+                           
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                    <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td><td></td>
+                                <td></td>
+                                 <td></td>
+                                  <td></td>
+                                <td></td>
+                                <td></td><td></td>
+                                <td></td>
+                                <td><a href="addresponsibilitystdindividual"> <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>Add</button></a></td> 
+                                
+                            </tr>
+                        </tbody>
+                          </table>
+                      
+                    </div>
+           </div></div></div></div></div>
+            
+         
+              
+       
+                

@@ -1,0 +1,58 @@
+<?php
+
+ $title = 'Disciplinary Record Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">
+                        <?php
+                        $recordDetails = array();
+                        foreach ($this->medicalDetails as $details): {
+                            $recordDetails['medical_problem'] = $details['medical_problem'];
+                            $recordDetails['from_date'] = $details['from_date'];
+                            $recordDetails['to_date'] = $details['to_date'];
+                            $recordDetails['remarks'] = $details['remarks'];
+                        }
+                     ?>
+                     <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Medical Problem:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $recordDetails['medical_problem']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">From Date:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $recordDetails['from_date']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">To Date:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $recordDetails['to_date']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $recordDetails['remarks']; ?>
+                                        </div>
+                            </div>
+                            <?php endforeach; ?><br/><br/>                         
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+</div>
+
+
+ 

@@ -1,0 +1,122 @@
+<?php
+ $title = 'List of Budget Proposals of College/Organisation';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+					/*
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $proposal = $form->get('budgetproposal');
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($proposal->get('id')); 
+					$proposal->get('five_year_plan')->setValue('12th Five Year Plan');*/
+				  ?>   
+                <div class="x_content">
+                 <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Organisation Name</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Department Name</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Programme/ Ledger Name</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Activity</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="form-group">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+        	<div class="x_title">
+                  <h2><?php echo $this->escapeHtml('Budget Proposal List'); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <h5><i>*The following are the list of the proposals submitted by the Department. You can view/reject the proposal before submitting
+                  			to the HRO of OVC. Once submitted, then you will not be able to change the proposal</i></h5>
+                  <br />
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No. </th>
+                            <th class="column-title">Activity Name</th>
+                            <th class="column-title">Broad Head Name</th>
+                            <th class="column-title">Object Code</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Proposed Amount</th>
+                            <th class="column-title">Actions</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i =1; foreach ($this->budgetProposal as $proposal) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['activity_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['broad_head_name_id']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['object_code_id']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['write_up']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['proposed_budget_amount']);?></td>
+                            <td class=" "><a href="<?php echo $this->url('viewcapitalbudgetproposal', array('id' => $proposal['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                            			  <a href="<?php echo $this->url('editcapitalbudgetproposal', array('id' => $proposal['id'])); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                          <a href="<?php echo $this->url('deletecapitalbudgetproposal', array('id' => $proposal['id'])); ?>" class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Delete</a>
+                                    </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                   </div>
+                    <?php
+					// Opening of the form tag
+					$submitForm->setAttribute('action', $this->url('updatebudgetproposal', array('action' => 'updateBudgetProposal', 'id' => '2')));
+                    $submitForm->prepare();
+                    echo $this->form()->openTag($submitForm);
+					echo $this->formHidden($submitForm->get('csrf'));
+					echo $this->formSubmit($submitForm->get('submit'));
+				  ?>
+                </div>
+    
+          </div>
+        </div> 
+     </div>

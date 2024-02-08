@@ -1,0 +1,105 @@
+<?php
+ $title = 'Job Vacancy Details';
+ $this->headTitle($title);
+
+   $key = $this->keyphrase;
+   function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+  }
+ ?>
+<div class="right_col" role="main">
+  <div class="">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+       <?php
+         $title = 'Adhoc Vacancy';
+         $this->headTitle($title);
+        ?>     
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                  <h5><i> (Lists of Adhoc Vacancy Lists)</i></h5>
+                  Note: 
+                  <br>1 - You can edit the vacancy announced before the deadline only. 
+                  <br>2 - Please click on the Close Announcement only if the vacancy announced is no more required or if it is complete and you cannot close the vacancy before the deadline.
+
+                </div>
+                <div class="x_content">
+                  <div class="table-responsive">
+                      <table id="datatable-fixed-header" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Place of Posting </th>
+                            <th class="column-title">Area </th>
+                            <th class="column-title">Position Title </th>
+                            <th class="column-title">Position Level </th>
+                            <th class="column-title">Total No. of Slots </th>
+                            <th class="column-title">Minimum Qualification </th>
+                            <th class="column-title">Employee Type </th>
+                            <th class="column-title">Last Date</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                         <?php foreach ($this->vacancyList as $vacancy) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $this->escapeHtml($workingAgency[$vacancy['working_agency']]); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($vacancy['area']); ?></td>
+                            <td class=" ">
+                              <?php
+                              if($vacancy['additional_position_title']){
+                                echo $this->escapeHtml($positionTitle[$vacancy['position_title']].' / '.$vacancy['additional_position_title']);
+                              } else{
+                                echo $this->escapeHtml($positionTitle[$vacancy['position_title']]);
+                              }
+                              ?>
+                              </td>
+                              <td class=" ">
+                                <?php 
+                                if($vacancy['additional_position_level']){
+                                  echo $this->escapeHtml($positionLevel[$vacancy['position_level']].' / '.$vacancy['additional_position_level']);
+                                }else{
+                                  echo $this->escapeHtml($positionLevel[$vacancy['position_level']]);
+                                }
+                                ?>
+                                  
+                                </td>
+                            <td class=" "><?php echo $this->escapeHtml($vacancy['no_of_slots']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($vacancy['study_level']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($empType[$vacancy['employee_type']]);?></td>
+                            <td class=" ">
+                              <?php echo $this->escapeHtml($vacancy['last_date_submission']);?><br>
+                              <?php echo $this->escapeHtml($vacancy['last_time_submission']);?>
+                              <?php if($vacancy['last_date_submission'] <= date('Y-m-d')){ ?>
+                              <a href="<?php echo $this->url('closeannouncedadhocvacancy', array('id' => my_encrypt($vacancy['id'], $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> Close Announcement</a>
+                              <?php } ?>
+
+                            </td>
+                            <td class="last">
+                              <a href="<?php echo $this->url('jobdetails', array('id' => my_encrypt($vacancy['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
+                              <?php if($vacancy['last_date_submission'] >= date('Y-m-d')){ ?>
+                              <a href="<?php echo $this->url('editannouncedadhocvacancy', array('id' => my_encrypt($vacancy['id'], $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> Edit</a>
+                            <?php } ?>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+                </div>
+               </div>
+       </div> 
+     </div>
+   </div>
+  

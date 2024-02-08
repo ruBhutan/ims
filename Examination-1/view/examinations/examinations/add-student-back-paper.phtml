@@ -1,0 +1,80 @@
+<?php
+
+ $title = 'Generation of Backpaper List';
+ $this->headTitle($title);
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+                </div>
+                <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>                  
+                    <div class="x_content">
+                	
+                     <h4><i>*After declaring the results, click on generate to get the list of Backpaper Students.
+                           </i></h4>
+                     <br/>
+                 	<?php
+						// Opening of the form tag
+						$form->prepare();
+						echo $this->form()->openTag($form);
+						$form->get('programmes_id')->setValueOptions($this->programmeList);
+						$form->get('year')->setValueOptions($this->yearList);
+						?>
+					
+					  <div class="row">                  
+						  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+							<label>Programme</label>
+							<?php echo $this->formRow($form->get('programmes_id')); ?>
+						  </div>
+						  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+							<label>Year</label>
+							<?php echo $this->formRow($form->get('year')); ?>
+						  </div>
+					   </div>
+					 
+					 <div class="row">
+						<div class="ln_solid"></div>
+						<div class="form-group">
+							<label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+							  <?php
+							   echo $this->formHidden($form->get('csrf'));
+							   echo $this->formSubmit($form->get('submit')); 
+							   echo $this->form()->closeTag(); 
+							?>
+						</div>
+					</div>
+                </div>
+            </div>
+           </div>  
+          </div>
+        </div> 
+     </div>

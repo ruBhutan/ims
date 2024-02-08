@@ -1,0 +1,122 @@
+<?php
+
+ $title = 'View Your Counseling Appointment Status, Scheduled and Recommended Counseling';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <small><b><i>***Below three tabs display counseling appointment status, scheduled appointment and recommended/ suggested counseling. To view you just click on each tab.</i></b></small><br/><br/>
+                    <!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Appointment Status</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Scheduled Appointment</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Recommended Counseling</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                <div class="table-responsive">
+                                  <table class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Counselor Type</th>
+                                         <th class="column-title">Subject</th>
+                                         <th class="column-title">Appointment Time</th>
+                                         <th class="column-title">Appointment Date</th>
+                                         <th class="column-title">Appointment Status</th>
+                                         <th class="column-title">Action</th>
+                                      </tr>
+                                </thead>
+                                <tbody>
+                                   <?php $i=1; foreach ($this->appointmentStatus as $status) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($status['counselor_type']);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($status['subject']);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($status['appointment_time']);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($status['appointment_date']);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($status['appointment_status']);?></td>
+                                        <td><a href="<?php echo $this->url('counselingappointmentdetail', array('id' => $status['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View Details</a></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                <div class="table-responsive">
+                                  <table class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                        <th class="column-title">Sl.No </th>
+                                        <th class="column-title">Counselor Type</th>
+                                        <th class="column-title">Subject</th>
+                                         <th class="column-title">Scheduled Time</th>
+                                         <th class="column-title">Scheduled Date</th>
+                                         <th class="column-title">Venue</th>
+                                         <th class="column-title">Action </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->scheduledAppointment as $approvedList) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList['counselor']);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList['subject']);?></td>
+                                         <td class=" "><?php echo $this->escapeHtml($approvedList['scheduled_time']);?></td>
+                                          <td class=" "><?php echo $this->escapeHtml($approvedList['scheduled_date']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approvedList['venue']);?></td>
+                                           <td><a href="<?php echo $this->url('counselingscheduleddetail', array('id' => $approvedList['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View Details</a></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                            <div class="table-responsive">
+                              <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                  <tr class="headings">
+                                    <th class="column-title">Sl.No </th>
+                                        <th class="column-title">Subject</th>
+                                        <th class="column-title">Reason</th>
+                                        <th class="column-title">Recommended By</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->recommendedCounseling as $recommended) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($recommended['subject']);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($recommended['reason']);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($recommended['first_name'].' '.$recommended['middle_name'].' '.$recommended['last_name']);?></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>                        
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

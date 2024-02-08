@@ -1,0 +1,81 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/ChartaccountController/editclassAction
+ * 
+ */
+ $title ="Edit Class";
+?>
+<?php 
+    foreach($this->class as $class):
+        extract($class);        
+    endforeach;
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>
+				 <?php echo $this->partial('accounts/chartaccount/partial.phtml', array('active' => 'class')); ?>
+				<div class="x_content">
+					<form method="post" action="<?php echo $this->url('chartaccount', array('action' => 'editclass', 'id' => $id)); ?>"  enctype="multipart/form-data" >                  
+						<div class ="row">
+                            <div class="col-lg-2"></div>	
+                            <div class ="col-xs-8">	
+								<div class="form-group col-lg-6">
+								    <label for="code" class="control-label">Code</label>
+								    <input type="text" class="form-control" name="code" id="code" value="<?php echo $code;?>" size="30" > 
+								</div> 
+					            <div class="form-group col-lg-6">
+									<label for="name" class="control-label">Name</label>
+									<input type="text" id="name" name="name" class="form-control" value="<?php echo $name?>" required>
+								</div> 
+								<div class="col-lg-2"></div>
+						    </div>
+						</div>
+                        <div class ="x_title"></div>
+						<div class ="row">
+						    <div class ="col-lg-2"></div>
+						    <div class ="col-lg-8">
+							    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+								<button type="button" class="btn btn-warning" onclick="javascript:history.back();" ><i class="fa fa-times"></i> Cancel </button>
+							</div>
+						    <div class ="col-lg-2"></div>
+						</div>
+					</form>
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+<script>
+	$('document').ready(function(){
+		$('form').formValidation({
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				code: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide code.'
+						}
+					}
+				},
+				name: {
+					validators: {
+						notEmpty: {
+							message: 'Please select name.'
+						}
+					}
+				},
+			}
+		});
+	});
+</script>               

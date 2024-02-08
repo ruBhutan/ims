@@ -1,0 +1,207 @@
+
+     
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Employee Dashboard';
+ $this->headTitle($title);
+?>
+	<div class="right_col" role="main">
+          <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+                      </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                          
+                      
+                          
+<div class="row">                    
+   <table class="table table-striped jambo_table bulk_action">
+ <div class="row">
+     <div class="form-group">
+         <label class="control-label col-md-1 col-sm-3 col-xs-12" for="second-name">Authority Name: <span class="required">*</span>
+                      </label>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                          <input type="text" id="verified_name" class="form-control col-md-7 col-xs-12"  placeholder="Wangchuk Dorji"readonly="">
+                      </div>
+                      <label class="control-label col-md-1 col-sm-1 col-xs-12" for="first-name">Bank A/C Number <span class="required">*</span>
+                      </label>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                            <select class="form-control">
+                                <option>--Select--</option>
+                                <option>Bank of Bhutan - 201703400</option>
+                                <option>Bhutan National Bank -1231231231</option>
+                                <option>Druk Punjab Nation Bank - 12312312</option>
+                                 <option>T-Bank - 454534515</option>
+                                 <option>BIL - 09876</option>
+                                 <option>RICBL - 09234</option>
+                            </select>
+                        </div>
+         
+         
+                    <label class="control-label col-md-1 col-sm-3 col-xs-12" for="second-name">Entry Date: <span class="required">*</span>
+                      </label>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                          <input type="date" id="verified_name" class="form-control col-md-7 col-xs-12"  placeholder="Wangchuk">
+                      </div>  
+         
+     </div></div><br>
+       <div class="row">
+     <div class="form-group">
+         
+                      <label class="control-label col-md-1 col-sm-3 col-xs-12" for="second-name">Voucher Type: <span class="required">*</span>
+                      </label>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                            <select class="form-control">
+                                <option>--Select Voucher Type--</option>
+                                <option>Payment</option>
+                                <option>Journal</option>
+                                <option>Receipt</option>
+                                <option>Purchase</option>
+                                <option>Purchase order</option>
+                                <option>Sale</option>
+                                <option>Sale order</option>
+                            </select>
+                        </div>
+         
+         <label class="control-label col-md-1 col-sm-3 col-xs-12" for="second-name">Received / Name of the payee <span class="required">*</span>
+                      </label>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                          <input type="text" id="name" class="form-control col-md-7 col-xs-12"  placeholder="Dorji">
+                      </div>
+         <label class="control-label col-md-1 col-sm-3 col-xs-12" for="second-name">Particular: <span class="required">*</span>
+                      </label>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                          <input type="text area" id="particular" class="form-control col-md-7 col-xs-12">
+                      </div>
+     </div></div><br>
+     <div class="row">
+     <div class="form-group">
+                      <label class="control-label col-md-1 col-sm-3 col-xs-12" for="second-name">Income Type: <span class="required">*</span>
+                      </label>
+                      
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                            <select class="form-control">
+                                <option>--Select Income Type--</option>
+                                <option>Rent</option>
+                                <option>1</option>
+                                <option>2</option>
+                            </select>
+                        </div>
+                      
+                <label class="control-label col-md-1 col-sm-3 col-xs-12" for="second-name">Amount: <span class="required">*</span>
+                      </label>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                          <input type="number" id="particular" class="form-control col-md-7 col-xs-12">
+                      </div>
+         <label class="control-label col-md-1 col-sm-3 col-xs-12" for="second-name">TDS Percentage: <span class="required">*</span>
+                      </label>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                            <select class="form-control">
+                                <option>--Select TDS Percentage--</option>
+                                <option>0</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>5</option>
+                                
+                            </select>
+                        </div>
+         
+     </div></div><br>
+     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-success">Cancel</button>
+                      </div>
+     <!--  <div class="col-md-4 form-group">
+    
+</div>
+    
+    <button class="btn btn-primary">Add</button>
+                      
+ 
+</div>!-->
+         
+
+</table></div></div></div>
+
+            
+      <div class="x_panel">
+                               
+                <div class="x_content">
+                    <!--<div>
+                        <a href="applytransfer"> <button type="submit" class="btn btn-primary">Apply for Transfer of Goods</button></a>
+                          <div class="ln_solid"></div>
+                        </div> !-->
+                     <div class="table-responsive">
+                                         
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                              <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                            
+                            <th class="column-title">Bank A/C No </th>
+                            <th class="column-title">Voucher Date </th>
+                            <th class="column-title">Payee Name </th>
+                            <th class="column-title">Received From </th>
+                            <th class="column-title">Voucher Type </th>
+                            <th class="column-title">Particular </th>
+                            <th class="column-title">Amount </th>
+                            <th class="column-title">TDS Percentage </th>
+                             <th class="column-title">Action</th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr class="even pointer">
+                          <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>Bank of Bhutan - 201703400</td>
+                        <td>03/04/2017</td>
+                        <td>Dorji</td>
+                        <td>-</td>
+                        <td>Payment</td>
+                        <td>Paid for testing</td>
+                        <td>30000</td>
+                        <td>2</td>
+                        
+                        <td><a href="">Edit</a> <a href="">Delet</a></td>
+                        
+                        
+                      </tr>
+                      
+                      <tr class="odd pointer">
+                          <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>Bank of Bhutan - 201703400</td>
+                        <td>05/02/2017</td>
+                        <td>-</td>
+                        <td>Norgay</td>
+                        <td>Journal</td>
+                        <td>College Fee</td>
+                        <td>120000</td>
+                        <td>2</td>
+                        <td><a href="">Edit</a> <a href="">Delet</a></td>
+                         
+                      </tr>
+                      
+                      </tbody>
+                                            
+                      </table>
+                     </div></div></div></div></div></div>
+              

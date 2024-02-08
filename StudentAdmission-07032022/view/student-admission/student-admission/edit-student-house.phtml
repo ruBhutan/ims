@@ -1,0 +1,176 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+    $title = 'Student List';
+    $this->headTitle($title);
+
+     //get student list in an array
+ $studentName = array();
+ $semesterName = array();
+ $yearName = array();
+ //$criteriaName = array();
+ $i=1;
+ $j=1;
+ foreach($this->editStudentList as $student){
+    $studentName[$i] = $student['first_name']. ' ' .$student['middle_name'].' '.$student['last_name'].' ('.$student['studentId'].')';
+    $semesterName[$i] = $student['semester'];
+    $houseName[$i] = $student['student_house_id'];
+    $yearName[$i] = $student['year'];
+    $academicYear[$i] = $student['academic_year'];
+    $i++;
+ }
+ 
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div> 
+
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("Search for List of Student to edit house")?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                  
+                        </div>
+                       
+                       <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?> 
+                        
+                        <div class="x_content">
+                            <h5><i>*(In order to search the list of student  and to edit house to them, you have to select programme and semester from drop down list and click on search button to display the list of students with respect to the programme you select.)<br />
+                                        **When list display, select section from drop down list and at once you can submit their house** </i></h5>
+                                  <br />
+                            <?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $form->get('year')->setValueOptions($this->studentYear);
+                            ?>
+                        
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme</label>
+                                    <?php echo $this->formRow($form->get('programmes_id')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Year</label>
+                                    <?php echo $this->formRow($form->get('year')); ?>
+                                </div>
+                            </div>                         
+                            <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("List of student to edit section"); ?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <?php
+                       
+                                // Opening of the form tag
+                               $editStudentHouseForm->setAttribute('action', $this->url('updateeditedstudenthouse', array('action' => 'updateEditedStudentHouse')));
+                                $form->prepare();
+                                echo $this->form()->openTag($editStudentHouseForm);
+                                $editStudentHouseForm->get('studentCount')->setValue($this->studentCount);
+                                $editStudentHouseForm->get('programmes_id')->setValue($this->programmesId);
+                                $editStudentHouseForm->get('year')->setValue($this->yearId);
+                               // $studentSectionForm->get('student_section_id')->setValue($editStudentList['student_section_id']);
+                                echo $this->formHidden($editStudentHouseForm->get('programmes_id'));
+                                echo $this->formHidden($editStudentHouseForm->get('year'));
+                                echo $this->formHidden($editStudentHouseForm->get('id'));  
+                                echo $this->formHidden($editStudentHouseForm->get('studentCount'));                            
+                        ?>      
+                        <div class="x_content">
+                            <div  class="table-responsive">
+                                <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">  
+                                    <thead>
+                                        <tr class="headings">
+                                                                      
+                                            <th class="column-title" width="10%">Sl.No. </th>
+                                            <th class="column-title">Name & Student Id</th>
+                                            <th class="column-title">Year</th>
+                                            <th class="column-title">Semester</th>
+                                            <th class="column-title">Academic Year</th>
+                                            <th class="column-title">House</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php for($i = 1; $i<=$this->studentCount; $i++) {?>
+                                        <tr class="even pointer">
+                                            <td class=" "><?php echo $i; ?></td>
+                                            <td class=" "><?php echo $studentName[$i]; ?></td>
+                                            <td class=" "><?php echo $yearName[$i]; ?></td>
+                                            <td class=" "><?php echo $semesterName[$i]; ?></td>
+                                            <td class=" "><?php echo $academicYear[$i]; ?></td>
+                                            <td class=" "><?php
+                                            $editStudentHouseForm->get('student_house_id'.$i)->setValue($houseName[$i]); 
+                                            echo $this->formRow($editStudentHouseForm->get('student_house_id'.$i)); ?></td>
+                                            
+                                        </tr>
+                                        <?php  }?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <?php
+                            echo $this->formHidden($editStudentHouseForm->get('csrf'));
+                            echo $this->formSubmit($editStudentHouseForm->get('submit'));
+                            echo $this->form()->closeTag();
+                        
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>      
+</div>           
+       
+                

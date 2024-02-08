@@ -1,0 +1,124 @@
+<?php
+ $title = 'External Examiner Details';
+ $this->headTitle($title);
+ 
+ $external_examiner = array();
+ foreach($this->examinerDetails as $detail){
+	 $external_examiner = $detail;
+ }
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <form class="form-horizontal form-label-left input_mask">
+                    <div id="step-1">
+                        <h2 class="StepTitle">Personal Details</h2>
+                        <br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Examiner Name: </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <h4><i><?php echo $external_examiner['examiner_name']; ?></i></h4>
+                            </div>
+                           </div>
+                           <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Contact No:</label>
+                            <div class="col-md-1 col-sm-3 col-xs-12">
+                              <h4><i><?php echo $external_examiner['contact_no']; ?></i></h4>
+                            </div>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Email:</label>
+                            <div class="col-md-1 col-sm-3 col-xs-12">
+                              <h4><i><?php echo $external_examiner['email']; ?></i></h4>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Address:</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <h4><i><?php echo $external_examiner['address']; ?></i></h4>
+                            </div>
+                          </div>
+                    </div>
+                    <br />
+                    <div id="step-2">
+                      <h2 class="StepTitle">Other Information</h2>
+                      <br />
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation: </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <h4><i><?php echo $external_examiner['organisation_name']; ?></i></h4>
+                        </div>
+                       </div>
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Programme:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <h4><i><?php echo $external_examiner['programme_name']; ?></i></h4>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">AB Approval:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <h4><i><?php echo $external_examiner['ab_approval'];; ?></i></h4>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">From:</label>
+                            <div class="col-md-1 col-sm-3 col-xs-12">
+                              <h4><i><?php echo $external_examiner['from_date']; ?></i></h4>
+                            </div>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">To:</label>
+                            <div class="col-md-1 col-sm-3 col-xs-12">
+                              <h4><i><?php echo $external_examiner['to_date']; ?></i></h4>
+                            </div>
+                          </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <h4><i><?php echo $external_examiner['remarks'];; ?></i></h4>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Evidence File:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                          if($external_examiner['evidence_file']){?>
+                             <a href="<?php echo $this->url('downloadexternalexaminerfile', array('id' => my_encrypt($external_examiner['id'], $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-download"></i> Download</a>
+                          <?php } 
+                          else{
+                            echo "<i>File Not Uploaded</i>";
+                          }
+                          ?>
+                        </div>
+                      </div>
+                </div>
+                <br />
+          	</div>
+           </div>
+        </div>
+   	  </div>
+    </div>
+   </div>
+ </div>

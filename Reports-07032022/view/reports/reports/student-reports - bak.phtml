@@ -1,0 +1,236 @@
+<?php
+		
+	// Add a JavaScript file
+	$this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+        
+ $title = 'Student Report';
+ $this->headTitle($title);
+ $organisation_list = array();
+foreach($this->organisationList as $key=>$organisation){
+	if($key != 1){
+		$organisation_list[$key] = $organisation;
+	}
+}
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                	
+                        <!-- Search Employees-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Report")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                </ul>
+                             <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                                    <label>Report Type</label>
+                                    <?php echo $this->formRow($form->get('report_type')); ?>
+                                  </div>
+                               </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                       </div>     
+                          
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                         <!-- Start of Graphs-->
+                          <div class="row">
+                              <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                  <div class="x_title">
+                                    <h2>Student Reports</h2>
+                                    <div class="clearfix"></div>
+                                  </div>
+                                  <div class="col-md-7 col-sm-7 col-xs-12">
+                                      <div class="x_content">
+                                        <canvas id="bar-chart-grouped"></canvas>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-5 col-sm-5 col-xs-12">
+                                      <div class="x_content">
+                                        <h2><?php echo "Table";?></h2>
+                                        <?php if($this->student_report != NULL) {?>
+                                        <table class="table table-striped jambo_table table-bordered">
+                                            <thead>                        
+                                                 <tr>
+                                                    <td rowspan="3">College</td>
+                                                    <td colspan="6">Student Number</td>
+                                                    <td>Total</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td colspan="2">RGOB Scholarship</td>
+                                                    <td colspan="2">Self Financed</td>
+                                                    <td colspan="2">&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Male</td>
+                                                    <td>Female</td>
+                                                    <td>Male</td>
+                                                    <td>Female</td>
+                                                    <td>Male</td>
+                                                    <td>Female</td>
+                                                    <td></td>
+                                                  </tr>
+                                            </thead>
+                                            <tbody>
+                                              <?php $i =2; foreach($this->student_report as $report) : ?>
+                                              <tr class="even pointer">
+                                                <td class=" "><?php echo $organisation_list[$i];?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report)){
+														echo count($this->student_report[$i]['Male']['Full Scholarship']);
+													}
+													 else
+														echo $this->escapeHtml(0);										
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report)){
+														echo count($this->student_report[$i]['Female']['Full Scholarship']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report)){
+														echo count($this->student_report[$i]['Male']['Self Finance']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report)){
+														echo count($this->student_report[$i]['Female']['Self Finance']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report)){
+														echo count($this->student_report[$i]['Male']['Full Scholarship'])+count($this->student_report[$i]['Male']['Self Finance']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report)){
+														echo count($this->student_report[$i]['Female']['Full Scholarship'])+count($this->student_report[$i]['Female']['Self Finance']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report)){	
+														echo count($this->student_report[$i]['Male']['Full Scholarship'])+count($this->student_report[$i]['Male']['Self Finance'])+count($this->student_report[$i]['Female']['Full Scholarship'])+count($this->student_report[$i]['Female']['Self Finance']); 
+													} else
+														echo $this->escapeHtml('0');
+													$i++;
+													?></td>
+                                              </tr>
+                                              <?php endforeach; ?>
+                                            </tbody>
+                                          </table>
+                                         <?php } ?>
+                                      </div>
+                                  </div>
+                                 <br />
+                                 <h5><i>*Generate Report. Please note that the graphs will be not be displayed in the generated pdf report. To use the graphs, 
+                                 		save the graphs from the webpage and paste it to relevant document</i></h5><br />
+                                 <a href="<?php echo $this->url('generatestudentreports', array('reporttype' => $this->report_type));?>" class="btn btn-success">Generate Report</a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="clearfix"></div>
+                          <!-- End of graphs-->
+                          </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+           </div>
+     </div>
+
+<script type="text/javascript">
+
+<?php
+foreach($organisation_list as $key => $value){
+	if(array_key_exists($key, $this->student_report)){
+		$male_rgob[$key]= count($this->student_report[$key]['Male']['Full Scholarship']);
+		$female_rgob[$key] = count($this->student_report[$key]['Female']['Full Scholarship']);
+		$male_sf[$key] = count($this->student_report[$key]['Male']['Self Finance']);
+		$female_sf[$key] = count($this->student_report[$key]['Female']['Self Finance']);
+	} else {
+		$male_rgob[$key]= 0;
+		$female_rgob[$key] = 0;
+		$male_sf[$key] = 0;
+		$female_sf[$key] = 0;
+	}
+	
+}
+
+$this->inlineScript()->captureStart();
+echo <<<JS
+new Chart(document.getElementById("bar-chart-grouped"), {
+    type: 'bar',
+    data: {
+      labels: ["CLCS", "CNR", "CST", "GCBS", "GCIT", "JNEC", "PCE", "SCE", "Sherubtse", "YC" ],
+      datasets: [
+        {
+          label: "Male (Scholarship)",
+          backgroundColor: "#e74c3c",
+          data: [$male_rgob[5], $male_rgob[2], $male_rgob[3], $male_rgob[4], 0, $male_rgob[6], $male_rgob[7], $male_rgob[8], $male_rgob[9], 0]
+        }, {
+          label: "Female (Scholarship)",
+          backgroundColor: "#26b99a",
+          data: [$female_rgob[5], $female_rgob[2], $female_rgob[3], $female_rgob[4], 0, $female_rgob[6], $female_rgob[7], $female_rgob[8], $female_rgob[9], 0]
+        }, {
+          label: "Male (Self Finance)",
+          backgroundColor: "#9b59b6",
+          data: [$male_sf[5], $male_sf[2], $male_sf[3], $male_sf[4], 0, $male_sf[6], $male_sf[7], $male_sf[8], $male_sf[9], 0]
+        }, {
+          label: "Female (Self Finance)",
+          backgroundColor: "#3498db",
+          data: [$female_sf[5], $female_sf[2], $female_sf[3], $female_sf[4], 0, $female_sf[6], $female_sf[7], $female_sf[8], $female_sf[9], 0]
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Total Number (Scholarship & Non-Scholarship)'
+      }
+    }
+});
+JS;
+$this->inlineScript()->captureEnd();

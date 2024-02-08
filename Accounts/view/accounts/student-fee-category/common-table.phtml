@@ -1,0 +1,41 @@
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('List of added student fee category'); ?></h2>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <h5><i>Note: If you have made any mistake then please click on edit button to edit it.</i></h5>
+    <br/>
+    <div class="x_content">
+        <div class="table-responsive">
+            <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                <thead>
+                <tr class="headings">
+                    <th class="column-title">Sl. No</th>
+                    <th class="column-title">Fee Category Name</th>
+                    <th class="column-title">remarks</th>
+                    <th class="column-title">Organisation</th>
+                    <th class="column-title">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $i = 1;
+                foreach ( $this->student_fee_category_lists as $detail ) : ?>
+                    <tr class="even pointer">
+                        <td class=" " width="8%"><?php echo $i++; ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['fee_category']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['remarks']); ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($detail['organisation_name']); ?></td>
+                        <td class=" last" width="10%"><a
+                                    href="<?php echo $this->url('student-fee-category', array('action' => 'edit', 'id' => my_encrypt($detail['id'], $key))); ?>"
+                                    class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,199 @@
+<?php
+ $title = 'Personal Details';
+ $this->headTitle($title);
+ $personal_details = array();
+ foreach($this->personalDetails as $detail){
+	 $personal_details = $detail;
+ }
+
+ $addressDetails = array();
+ foreach($applicantAddress as $address){
+  $addressDetails = $address;
+ }
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $registrant = $form->get('personaldetails');
+                    $registrant->get('id')->setValue($personal_details['id']);
+          					$registrant->get('job_applicant_id')->setValue($personal_details['id']);
+          					$registrant->get('first_name')->setValue($personal_details['first_name']);
+          					$registrant->get('middle_name')->setValue($personal_details['middle_name']);
+          					$registrant->get('last_name')->setValue($personal_details['last_name']);
+                    $registrant->get('email')->setValue($personal_details['email']);
+          					$registrant->get('date_of_birth')->setValue($personal_details['date_of_birth']);
+          					$registrant->get('maritial_status')->setValue($personal_details['maritial_status']);
+                    $registrant->get('maritial_status')->setValueOptions($this->maritial_status);
+          					$registrant->get('gender')->setValue($personal_details['gender']);
+                    $registrant->get('contact_no')->setValue($personal_details['contact_no']);
+                    $registrant->get('gender')->setValueOptions($this->gender);
+          					$registrant->get('cid')->setValue($personal_details['cid']);
+          					$form->get('dzongkhag')->setValue($personal_details['dzongkhag']);
+                    $form->get('gewog')->setValue($personal_details['gewog']);
+                    $form->get('village')->setValue($personal_details['village']);
+                    $registrant->get('nationality')->setValue($personal_details['nationality']);
+                    $registrant->get('nationality')->setValueOptions($this->nationality);
+                    //$form->get('country')->setValue($personal_details['country']);
+                    //$registrant->get('country')->setValueOptions($this->country);
+          					$registrant->get('house_no')->setValue($personal_details['house_no']);
+          					$registrant->get('thram_no')->setValue($personal_details['thram_no']);
+          					
+                    echo $this->formHidden($registrant->get('id'));
+                    echo $this->formHidden($registrant->get('first_name'));
+                    echo $this->formHidden($registrant->get('middle_name'));
+                    echo $this->formHidden($registrant->get('last_name'));
+                    echo $this->formHidden($registrant->get('date_of_birth'));
+                    echo $this->formHidden($registrant->get('cid'));
+                    echo $this->formHidden($registrant->get('email'));
+          					echo $this->formHidden($registrant->get('job_applicant_id'));
+                    $registrant->get('submit')->setValue('Update');
+          				  ?> 
+		<h4><i><font color="red">***When you click on "Update" button, if there is message for Dzongkhag to select then please select country from country drop down list then select your own country from country drop down list. Then list of Dzongkhag will display in dzongkhag drop down list. So you can select your own Dzongkhag then gewog then village and then click on Update button to update your information</font></i></h4>  <br/> 
+                <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">First Name<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <input type="text" value="<?php echo $personal_details['first_name']; ?>" class="form-control" disabled="disabled">
+                        </div>
+                       <label class="control-label col-md-1 col-sm-3 col-xs-12">Middle Name</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <input type="text" value="<?php echo $personal_details['middle_name']; ?>" class="form-control" disabled="disabled">
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Last Name</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <input type="text" value="<?php echo $personal_details['last_name']; ?>" class="form-control" disabled="disabled">
+                        </div>
+                      </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth<span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                          <?php echo $this->formRow($registrant->get('date_of_birth')); ?>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-1 col-xs-12">Email ID:</label>
+                       <div class="col-md-4 col-sm-12 col-xs-12">
+                        <input type="text" value="<?php echo $personal_details['email']; ?>" class="form-control" disabled="disabled">
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Maritial Status:<span class="required">*</span></label>
+                        <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($registrant->get('maritial_status')); ?>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Gender:</label>
+                        <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($registrant->get('gender')); ?>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Contact No:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($registrant->get('contact_no')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">CID<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <input type="text" value="<?php echo $personal_details['cid']; ?>" class="form-control" disabled="disabled">
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Nationality</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($registrant->get('nationality')); ?>
+                        </div>
+                        
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">CID Copy/ Work permit Copy:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if($personal_details['cid_copy'] != NULL){?>
+                          <a href="<?php echo $this->url('downloadjobapplicantcid', array('filename' => 'cid_copy'.$personal_details['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download the uploaded file</a>
+                        <?php }else{?>
+                          <?php echo $this->formRow($registrant->get('cid_copy')); ?>
+                        <?php } ?>
+                        </div>
+
+                         <label class="control-label col-md-2 col-sm-2 col-xs-12">Profile Picture:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php if($personal_details['profile_picture'] != NULL){?>
+                          <a href="<?php echo $this->url('downloadjobapplicantcid', array('filename' => 'profile_picture'.$personal_details['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download the uploaded Profile Picture</a>
+                        <?php }else{?>
+                          <?php echo $this->formRow($registrant->get('profile_picture')); ?>
+                        <?php } ?>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <h2 class="StepTitle">Address Details:</h2>
+                   <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">House No:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($registrant->get('house_no')); ?>
+                        </div>
+                       <label class="control-label col-md-1 col-sm-3 col-xs-12">Thram No:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($registrant->get('thram_no')); ?>
+                        </div>
+			<label class="control-label col-md-1 col-sm-2 col-xs-12">Country:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($form->get('country')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($form->get('dzongkhag')); ?>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-3 col-xs-12">Gewog</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($form->get('gewog')); ?>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Village<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($form->get('village')); ?>
+                       </div>
+                    </div>
+                  </div>
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($registrant->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+             </div>
+          </div>
+        </div> 
+     </div>

@@ -1,0 +1,20 @@
+<?php // partial.phtml 
+  $ledger = ($this->active == "ledger")?"active":"";
+  $trialbalance = ($this->active == "trialbalance")?"active":"";
+  $profitloss = ($this->active == "profitloss")?"active":"";
+  $balancesheet = ($this->active == "balancesheet")?"active":"";
+?>
+<br/>
+<!-- Start a tab -->
+<!--<div class="" role="tabpanel" data-example-id="togglable-tabs">-->
+	<ul id="myTab" class="nav nav-tabs bar_tabs">
+		<li role="presentation" class="<?php echo $ledger; ?>"> <a href="<?php echo $this->url('report', array('action' => 'ledger')); ?>"><i class="blue ace-icon fa fa-globe bigger-120"> </i> Ledger & Sub-Ledger </a></li>
+		
+		<li role="presentation" class="<?php echo $trialbalance; ?>"><a href="<?php echo $this->url('report', array('action' => 'trialbalance')); ?>" > <i class="blue ace-icon fa fa-sitemap bigger-120"> </i>Trail Balance</a></li>
+		
+		<li role="presentation" class="<?php echo $profitloss; ?>"><a href="<?php echo $this->url('report', array('action' => 'profitloss')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>Profit and Loss Statement</a></li>
+		
+		<li role="presentation" class="<?php echo $balancesheet; ?>"><a href="<?php echo $this->url('report', array('action' => 'balancesheet')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>Balance Sheet</a></li>
+				
+	</ul>
+<!--</div>-->	

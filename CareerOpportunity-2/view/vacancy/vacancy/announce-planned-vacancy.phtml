@@ -1,0 +1,281 @@
+<?php
+ $title = 'Job Vacancy Details';
+ $this->headTitle($title);
+ 
+ $hrmProposal = array();
+ foreach($this->proposalDetail as $detail){
+	 $hrmProposal = $detail;
+ }
+ 
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+					<?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $vacancy = $form->get('vacancy');
+                    echo $this->formHidden($vacancy->get('id')); 
+					//$vacancy->get('five_year_plan')->setValue('12th Five Year Plan');
+					$vacancy->get('position_title')->setValueOptions($this->positionTitle);
+					$vacancy->get('position_title')->setValue($hrmProposal['position_title_id']);
+					$vacancy->get('position_category')->setValueOptions($this->positionCategory);
+					$vacancy->get('position_category')->setValue($hrmProposal['position_category_id']);
+					$vacancy->get('position_level')->setValueOptions($this->positionLevel);
+					$vacancy->get('position_level')->setValue($hrmProposal['position_level_id']);
+					$vacancy->get('employee_type')->setValueOptions($this->empType);
+					$vacancy->get('position_category')->setValueOptions($this->positionCategory);
+					$vacancy->get('working_agency')->setValueOptions($this->workingAgency);
+					$vacancy->get('working_agency')->setValue($hrmProposal['working_agency']);
+          $vacancy->get('organisation_id')->setValue($this->organisation_id);
+          $vacancy->get('minimum_study_level_id')->setValueOptions($this->studyLevel);
+					$vacancy->get('no_of_slots')->setValue($hrmProposal['required_no']);
+					$vacancy->get('general_responsibilities')->setValue('Required to Enter');
+					$vacancy->get('specific_responsibilities')->setValue('Please enter specific responsibilities');
+					$vacancy->get('education_qualification')->setValue('Required to Enter');
+          $vacancy->get('experience')->setValue('Required to Enter');
+					$vacancy->get('knowledge_skills')->setValue('Required to Enter');
+          $vacancy->get('vacancy_type')->setValue('Planned');
+          //echo $this->formHidden($vacancy->get('id')); 
+                    echo $this->formHidden($vacancy->get('vacancy_type'));
+                    echo $this->formHidden($vacancy->get('organisation_id')); 
+				  ?>  
+
+           <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+              echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+              echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+              $messages = $this->flashMessenger()->getMessages();
+              foreach($messages as $message) {
+                echo '<strong>Success!</strong>'. $message;
+              }
+              echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+
+                     <div class="row">
+                        <div class="form-group">
+                          <label class="control-label col-md-1 col-sm-1 col-xs-12">Position Title:<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">      
+                               <?php echo $this->formRow($vacancy->get('position_title')); ?>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-12">      
+                               <?php echo $this->formRow($vacancy->get('additional_position_title')); ?>
+                            </div>
+                          <label class="control-label col-md-1 col-sm-1 col-xs-12">Position Category:<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">      
+                               <?php echo $this->formRow($vacancy->get('position_category')); ?>
+                            </div>   
+                         </div>
+                     </div>
+
+                     <div class="row">
+                        <div class="form-group">
+                          <label class="control-label col-md-1 col-sm-1 col-xs-12">Position Level:<span class="required">*</span> </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">  
+                            <?php echo $this->formRow($vacancy->get('position_level')); ?>
+                          </div>
+                          <div class="col-md-3 col-sm-3 col-xs-12">  
+                            <?php echo $this->formRow($vacancy->get('additional_position_level')); ?>
+                          </div>
+                          <label class="control-label col-md-1 col-sm-1 col-xs-12">Number of Slot:<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                             <?php echo $this->formRow($vacancy->get('no_of_slots')); ?>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Employee Type:<span class="required">*</span> </label>
+                           <div class="col-md-4 col-sm-4 col-xs-12">
+                           <?php echo $this->formRow($vacancy->get('employee_type')); ?>
+                           </div>
+                           <label class="control-label col-md-1 col-sm-1 col-xs-12">Place of Posting:<span class="required">*</span></label>
+                           <div class="col-md-4 col-sm-4 col-xs-12">
+                           <?php echo $this->formRow($vacancy->get('working_agency')); ?>
+                           </div>
+                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Area:<span class="required">*</span></label>
+                           <div class="col-md-4 col-sm-4 col-xs-12">
+                           <?php echo $this->formRow($vacancy->get('area')); ?>
+                           </div>
+                           <label class="control-label col-md-1 col-sm-1 col-xs-12">Minimum Qualification Required:<span class="required">*</span></label>
+                           <div class="col-md-4 col-sm-4 col-xs-12">
+                           <?php echo $this->formRow($vacancy->get('minimum_study_level_id')); ?>
+                           </div>
+                         </div>
+                    </div>
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Main Purpose of the Position: </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <i><?php echo $this->formRow($vacancy->get('main_purpose_of_the_position')); ?></i>
+                      </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Requirements : General Responsibility </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <i><?php echo $this->formRow($vacancy->get('general_responsibilities')); ?></i>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Specific Roles and Responsibility:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <?php echo $this->formRow($vacancy->get('specific_responsibilities')); ?>
+                      </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Education & Qualification</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <i><?php echo $this->formRow($vacancy->get('education_qualification')); ?></i>
+                      </div>
+                      </div>
+                    </div>
+                     <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Experience</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <i><?php echo $this->formRow($vacancy->get('experience')); ?></i>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Knowledge,Skills & Ability</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <i><?php echo $this->formRow($vacancy->get('knowledge_skills')); ?></i>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Advertisement</label>
+                        <div class="col-md-2 col-sm-4 col-xs-12">  
+                          <?php echo $this->formRow($vacancy->get('date_of_advertisement')); ?>
+                        </div>
+                        <label class="control-label col-md-3 col-sm-1 col-xs-12">Last Time and Date of Submission</label>
+                        <div class="col-md-2 col-sm-12 col-xs-12">  
+                          <?php echo $this->formRow($vacancy->get('last_time_submission')); ?>
+                        </div>
+                        <div class="col-md-2 col-sm-12 col-xs-12">  
+                          <?php echo $this->formRow($vacancy->get('last_date_submission')); ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($vacancy->get('submit'));
+						   echo $this->form()->closeTag();
+                    	?>
+                    	</div>
+                     </div>
+                   </div> 
+					   
+                       
+                    
+                  </div>
+              </div>
+              <?php
+         $title = 'Adhoc Vacancy';
+         $this->headTitle($title);
+        ?>     
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                  <h5><i> (Lists of Adhoc Vacancy Lists)</i></h5>
+                </div>
+                <div class="x_content">
+                  <div class="table-responsive">
+                      <table id="datatable-fixed-header" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Place of Posting </th>
+                            <th class="column-title">Area </th>
+                            <th class="column-title">Position Title </th>
+                            <th class="column-title">Position Level </th>
+                            <th class="column-title">Total No. of Slots </th>
+                            <th class="column-title">Minimum Qualification </th>
+                            <th class="column-title">Employee Type </th>
+                            <th class="column-title">Last Date</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                         <?php foreach ($this->vacancyList as $plannedVacancy) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $this->escapeHtml($workingAgency[$plannedVacancy['working_agency']]); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($plannedVacancy['area']); ?></td>
+                            <td class=" ">
+                              <?php
+                              if($plannedVacancy['additional_position_title']){
+                                echo $this->escapeHtml($positionTitle[$plannedVacancy['position_title']].' / '.$plannedVacancy['additional_position_title']);
+                              } else{
+                                echo $this->escapeHtml($positionTitle[$plannedVacancy['position_title']]);
+                              }
+                              ?>
+                              </td>
+                              <td class=" ">
+                                <?php 
+                                if($plannedVacancy['additional_position_level']){
+                                  echo $this->escapeHtml($positionLevel[$plannedVacancy['position_level']].' / '.$plannedVacancy['additional_position_level']);
+                                }else{
+                                  echo $this->escapeHtml($positionLevel[$plannedVacancy['position_level']]);
+                                }
+                                ?>
+                                  
+                                </td>
+                            <td class=" "><?php echo $this->escapeHtml($plannedVacancy['no_of_slots']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($plannedVacancy['study_level']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($empType[$plannedVacancy['employee_type']]);?></td>
+                            <td class=" ">
+                              <?php echo $this->escapeHtml($plannedVacancy['last_date_submission']);?><br>
+                              <?php echo $this->escapeHtml($plannedVacancy['last_time_submission']);?>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+                </div>
+               </div>
+          </div>
+       </div> 
+     </div>
+  

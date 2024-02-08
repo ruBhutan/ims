@@ -1,0 +1,105 @@
+<?php
+ $title = 'Add Employee Position Title';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+					<?php
+					// Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $title = $form->get('employeetitle');
+					$title->get('employee_details_id')->setValue($this->id);
+					$title->get('position_title_id')->setValueOptions($this->positionTitle);
+                    echo $this->formHidden($title->get('id')); 
+					echo $this->formHidden($title->get('employee_details_id'));
+                    ?>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Staff Name <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $this->employees->getFirst_Name(). ' '.$this->employees->getMiddle_Name(). ' '.$this->employees->getLast_Name(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Staff ID <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $this->employees->getEmp_Id(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row"> 
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Date of Appointment<span class="required">*</span></label>
+                         <div class="col-md-3 col-sm-3 col-xs-12">
+                         <?php echo $this->formRow($title->get('date')); ?>
+                         </div>
+                       </div>
+                    </div>
+                    <div class="row"> 
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Title<span class="required">*</span></label>
+                         <div class="col-md-3 col-sm-3 col-xs-12">
+                         <?php echo $this->formRow($title->get('position_title_id')); ?>
+                         </div>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+							   echo $this->formSubmit($title->get('submit'));
+                               echo $this->form()->closeTag();
+                            ?>
+                      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $(window).on('beforeunload', function () {
+                                $("input[type=submit], input[type=button]").prop("disabled", "disabled");
+                            });
+                        </script>
+			    </div>
+                    	  </div>
+                     </div>
+                 
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+            
+         
+              
+       
+                

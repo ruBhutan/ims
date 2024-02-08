@@ -1,0 +1,203 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+    $title = 'Student List';
+    $this->headTitle($title);
+
+    //get student list in an array
+ $studentName = array();
+ $semesterName = array();
+// $programmeName = array();
+ //$criteriaName = array();
+ $i=1;
+ $j=1;
+ /*foreach($this->semesterStudentList as $student){
+    $studentName[$i] = $student['first_name']. ' ' .$student['middle_name'].' '.$student['last_name'].' ('.$student['student_id'].')';
+    $programmeName[$i] = $student['programme_name'];
+    $semesterName[$i] = $student['semester'];
+    $academicYears[$i] = $student['academic_year'];
+    $enrollmentYear[$i] = $student['enrollment_year'];
+    $i++;
+ }*/
+
+  $announcementDetails = array();
+ $personal_details = array();
+ foreach($this->semesterRegistrationAnnouncement as $detail){
+     $announcementDetails = $detail;
+ }
+ 
+ //set it to a default value
+ if(empty($announcementDetails))
+    $announcementDetails['to_date'] = '2000-01-01';
+    $announcementDetails['from_date'] = '2000-01-01';
+ 
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <?php if(strtotime($announcementDetails['from_date']) <= strtotime(date('Y-m-d')) && strtotime(date('Y-m-d')) <= strtotime($announcementDetails['to_date'])) { ?>
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("Search for List of Student for semester registration")?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                  
+                        </div>
+                       <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                        <div class="x_content">
+                            <h5><i>*(In order to search the list of student  and to register semester to them, you have to compulsory select programme and year from drop down list (whereas name and student id is optionally) and click on search button to display the list of students with respect to the programme and year you select.)<br />
+                                        *** For student name you can search with first name and for student id you have to type correct ID. When list display, check student from list those who reported and at once you can submit their registered semester** </i></h5>
+                                  <br />
+                            <?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $form->get('year')->setValueOptions($this->studentYear);
+                           // $form->get('academic_year')->setValueOptions($this->stdAcademicYear);
+                            ?>
+                        
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme</label>
+                                    <?php echo $this->formRow($form->get('programmes_id')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Year <small> (Choose Previous Semester Registration Year)</small></label>
+                                    <?php echo $this->formRow($form->get('year')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Student Name</label>
+                                    <?php echo $this->formRow($form->get('student_name')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Student ID</label>
+                                    <?php echo $this->formRow($form->get('student_id')); ?>
+                                </div>
+                            </div>                         
+                            <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("List of student for semester registration"); ?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <?php
+                        $updateStudentSemesterForm->setAttribute('action', $this->url('update-student-semester', array('action' => 'updateStudentSemester')));
+                        $form->prepare();
+                        echo $this->form()->openTag($updateStudentSemesterForm);
+                        $updateStudentSemesterForm->get('studentCount')->setValue($this->studentCount);
+                        $updateStudentSemesterForm->get('semester_id')->setValue($this->semesterId);
+                        $updateStudentSemesterForm->get('academic_year')->setValue($this->academicYear);
+                        $updateStudentSemesterForm->get('programmes_id')->setValue($this->programmesId);
+                        $updateStudentSemesterForm->get('year')->setValue($this->yearId);
+                        echo $this->formHidden($updateStudentSemesterForm->get('semester_id'));
+                        echo $this->formHidden($updateStudentSemesterForm->get('academic_year'));
+                        echo $this->formHidden($updateStudentSemesterForm->get('programmes_id'));
+                         echo $this->formHidden($updateStudentSemesterForm->get('year'));
+                        echo $this->formHidden($updateStudentSemesterForm->get('id'));  
+                        echo $this->formHidden($updateStudentSemesterForm->get('studentCount')); 
+                        ?>     
+                        <div class="x_content">
+                            <div  class="table-responsive">
+                                <table class="table table-striped jambo_table bulk_action">  
+                                    <thead>
+                                        <tr class="headings">    
+                                            <th class="column-title" width="5%">Sl.No. </th>
+                                            <th class="column-title">Name & Student Id</th>
+                                            <th class="column-title">Programme</th>
+                                            <th class="column-title">Year</th>
+                                            <th class="column-title">Current Semester</th>
+                                            <th class="column-title">Academic Year</th>
+                                            <th class="column-title">Enrollment Year</th>
+                                            <th class="column-title">Action <small>(Please un-check the student who have failed from previous semester)</small></th>        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($semesterStudentList as $key=>$value) {?>
+                                        <tr class="even pointer">
+                                            <td class=" "><?php echo $i; ?></td>
+                                            <td class=" "><?php echo $value['name'].' ('.$key.')';?></td>
+                                            <td class=" "><?php echo $value['programme_name']; ?></td>
+                                            <td class=" "><?php echo $value['year']; ?></td>
+                                            <td class=" "><?php echo $value['semester']; ?></td>
+                                            <td class=" "><?php echo $value['academic_year']; ?></td>
+                                            <td class=" "><?php echo $value['enrollment_year']; ?></td>
+                                            <td class="a-center"><?php echo $this->formRow($updateStudentSemesterForm->get('student_'.$i++)); ?></td>
+                                            
+                                        </tr>
+                                        <?php  }?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <?php if(!empty($semesterStudentList)){
+                            echo $this->formHidden($updateStudentSemesterForm->get('csrf'));
+                            echo $this->formSubmit($updateStudentSemesterForm->get('submit'));
+                            echo $this->form()->closeTag();
+                        }else{
+                            echo "There is no student list!";
+                        }
+                        ?>
+                    </div>
+                </div>
+            <?php } else { ?>
+                <h2 class="StepTitle">Semester Registration has been closed or not yet opened! Please refer your academic calendar for the confirmation.</h2>
+            <?php } ?>
+            </div>
+        </div>
+    </div>      
+</div>
+</div> 
+         
+       
+                

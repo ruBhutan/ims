@@ -1,0 +1,270 @@
+<?php
+
+ $title = 'List of Peer/Subordinates/Beneficiaries for Feedback';
+ $this->headTitle($title);
+ 
+ //need to store employee details in an array
+ $employeeName = array();
+ $employeeID = array();
+ $end_date = NULL;
+ foreach($this->nominatedEmployee as $nominated){
+	 $employeeName[$nominated['id']] = $nominated['first_name'];
+	 $employeeName[$nominated['id']] .= ' '. $nominated['middle_name'];
+	 $employeeName[$nominated['id']] .= ' '. $nominated['last_name'];
+	 $employeeID[$nominated['id']] = $nominated['emp_id'];
+ }
+ 
+ foreach($this->iwp_deadline as $date){
+	 $end_date = $date['end_date'];
+ }
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+              	
+                 <!-- Adding Activities-->
+         <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                     <br/>
+                     
+                	<!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class=""><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">List of Peers</a></li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">List of Subordinates</a> </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">List of Beneficiaries</a></li>
+                        <li role="presentation" class="active"><a href="#tab_content4" role="tab" id="profile-tab3" data-toggle="tab" aria-expanded="false">Add Nominee</a></li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content1" aria-labelledby="home-tab">
+                        <br />
+                        <h5><i>*A minimum of 10 Nominations have to be made for each catgory to be used for the overall evaluation. If the minimum number is not fulfilled, then
+                  		  the feedbacks will not be taken into account</i></h5>
+                 			 <br />
+                                <div class="table-responsive">
+                                  <table class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Employee Name</th>
+                                         <th class="column-title">Employee ID</th>
+                                         <th class="column-title">Designation</th>
+                                         <th class="column-title">Action </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->peerList as $peer) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($employeeName[$peer['nominee']]);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($employeeID[$peer['nominee']]);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml('');?></td>
+                                        <td class=" last"> 
+                                            	<?php if(strtotime($end_date) > strtotime(date('Y-m-d'))) {?>
+                                                <a href="<?php echo $this->url('deletepeer', array('id' => my_encrypt($peer['id'], $key)));?>" class="btn btn-danger btn-xs"><i class="fa fa-success"></i>Delete Nomination</a> <?php } else { 
+												echo $this->escapeHtml("Last Date for Nominations has passed"); }?>
+                                                </td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                        <br />
+                        <h5><i>*A minimum of 10 Nominations have to be made for each catgory to be used for the overall evaluation. If the minimum number is not fulfilled, then
+                  		  the feedbacks will not be taken into account</i></h5>
+                 			 <br />
+                                <div class="table-responsive">
+                                  <table class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Employee Name</th>
+                                         <th class="column-title">Employee ID</th>
+                                         <th class="column-title">Designation</th>
+                                         <th class="column-title">Action </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->subordinateList as $subordinate) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($employeeName[$subordinate['nominee']]);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($employeeID[$subordinate['nominee']]);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml('');?></td>
+                                        <td class=" last"> 
+                                            	<?php if(strtotime($end_date) > strtotime(date('Y-m-d'))){?>
+                                                <a href="<?php echo $this->url('deletesubordinate', array('id' => my_encrypt($subordinate['id'], $key)));?>" class="btn btn-danger btn-xs"><i class="fa fa-success"></i>Delete Nomination</a> <?php } else { 
+												echo $this->escapeHtml("Last Date for Nominations has passed"); }?>
+                                                </td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                        <br />
+                        <h5><i>*A minimum of 10 Nominations have to be made for each catgory to be used for the overall evaluation. If the minimum number is not fulfilled, then
+                  		  the feedbacks will not be taken into account</i></h5>
+                 			 <br />
+                            <div class="table-responsive">
+                              <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                  <tr class="headings">
+                                     <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Employee Name</th>
+                                         <th class="column-title">Employee ID</th>
+                                         <th class="column-title">Designation</th>
+                                         <th class="column-title">Action </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                   <?php $i=1; foreach ($this->beneficiaryList as $beneficiary) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $i++;?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($employeeName[$beneficiary['nominee']]);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($employeeID[$beneficiary['nominee']]);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml('');?></td>
+                                    <td class=" last"> 
+                                            	<?php if(strtotime($end_date) > strtotime(date('Y-m-d'))) {?>
+                                                <a href="<?php echo $this->url('deletebeneficiary', array('id' => my_encrypt($beneficiary['id'], $key)));?>" class="btn btn-danger btn-xs"><i class="fa fa-success"></i>Delete Nomination</a> <?php } else { 
+												echo $this->escapeHtml("Last Date for Nominations has passed"); }?>
+                                                </td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Tab to add nominee-->
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content4" aria-labelledby="profile-tab">
+                            <div class="col-md-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Search for Employee")?></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                          </li>
+                                    
+                                        </ul>
+                                     <div class="clearfix"></div>
+                                  
+                                    </div>
+                                       
+                                    <div class="x_content">
+                                    <h5><i>*(In order to add nominations, first search for the employee and then select the employee to
+                                    		be a nominee. Input as many fields as possible to narrow the search.)<br />
+                                            **Also note, search by name is done by "First Name" only</i></h5>
+                                      <br />
+                                       <?php
+                                        // Opening of the form tag
+										$form->prepare();
+										echo $this->form()->openTag($form);
+                                        $form->get('organisation')->setValueOptions($this->organisationList);
+                                      ?>
+                                    
+                                      <div class="row">
+                                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                            <label>Staff Name</label>
+                                            <?php echo $this->formRow($form->get('employee_name')); ?>
+                                          </div>
+                                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                            <label>Position Title</label>
+                                            <?php echo $this->formRow($form->get('position_title')); ?>
+                                          </div>
+                                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                            <label>Organisation</label>
+                                            <?php echo $this->formRow($form->get('organisation')); ?>
+                                          </div>
+                                       </div>
+                                     
+                                     <div class="row">
+                                        <div class="ln_solid"></div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                              <?php
+                                               echo $this->formHidden($form->get('csrf'));
+                                               echo $this->formSubmit($form->get('submit')); 
+                                               echo $this->form()->closeTag(); 
+                                            ?>
+                                        </div>
+                                    </div>
+                                      
+                                  </div>
+                                </div>
+                               </div>     
+                                      
+                                  
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("List of Employee(s)"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                    </div>
+                    
+                                    <div class="x_content">
+                                      <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                        <thead>
+                                         <th class="column-title">Sl. No. </th>
+                                            <th class="column-title"> Employee ID </th>
+                                            <th class="column-title"> Name </th>
+                                            <th class="column-title">Position Title </th>
+                                            <th class="column-title">College/OVC</th>
+                                            <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                                        </thead>
+                    
+                                        <tbody>
+                                          <?php $i =1; foreach ($this->employeeList as $employee) : ?>
+                                          <tr class="even pointer">
+                                            <td class=" "><?php echo $this->escapeHtml($i++);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($employee['emp_id']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($employee['first_name']) . ' ';
+                                                                echo $this->escapeHtml($employee['middle_name']) . ' ';
+                                                                echo $this->escapeHtml($employee['last_name']);
+                                                          ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($employee['position_title']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($employee['organisation_name']);?></td>
+                                            <td class=" last"> 
+                                            	<?php if(strtotime($end_date) > strtotime(date('Y-m-d'))) {?>
+                                                <a href="<?php echo $this->url('addnominations', array('id' =>my_encrypt($employee['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-success"></i>Add Nomination</a> <?php } else { 
+												echo $this->escapeHtml("Last Date for Nominations has passed"); }?>
+                                                </td>
+                                          </tr>
+                                          <?php endforeach; ?>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                       </div>
+                     </div>
+                  </div>
+                </div>
+               
+   

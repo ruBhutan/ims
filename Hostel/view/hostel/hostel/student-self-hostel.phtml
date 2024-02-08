@@ -1,0 +1,74 @@
+<?php
+
+ $title = 'Room Inventory';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+
+<div class="right_col" role="main">
+  <div class="">
+    <?php
+      $title = 'Hostel Inventory List';
+      $this->headTitle($title);
+    ?>
+    <div class="col-md-12 col-xs-12"> 
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><?php echo $this->escapeHtml($title); ?></h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="table-responsive">
+            <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+              <thead>
+                <tr class="headings"> 
+                  <th class="column-title">Your Detail</th>
+                  <th class="column-title">You Hostel Detail</th>
+                  <th class="column-title">Your Provost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $i=1; foreach ($this->selfhostelsdetail as $shdetail) : ?>
+                <tr class="even pointer">
+                  <td class=" ">
+                    <b>Student Id: </b><?php echo $this->escapeHtml($shdetail['stu_id']);?><br>
+                    <b>Name: </b><?php echo $this->escapeHtml($shdetail['first_name'].' '.$shdetail['middle_name'].' '.$shdetail['last_name']);?><br>
+                  </td>
+                  <td class=" ">
+                    <b>Hostel Name:</b> <?php echo $this->escapeHtml($shdetail['hostel_name']);?><br>
+                    <b>Hostel Type:</b> <?php echo $this->escapeHtml($shdetail['student_category']);?><br>
+                    <b>Room Capicity:</b> <?php echo $this->escapeHtml($shdetail['room_capacity']);?> Student/s<br>
+                    <b>Your Room No:</b> <?php echo $this->escapeHtml($shdetail['room_no']);?>
+                  </td>
+                  <td class=" ">
+                    <b>Name: </b><?php echo $this->escapeHtml($shdetail['f_name'].' '.$shdetail['m_name'].' '.$shdetail['l_name']);?><br>
+                    <b>email: </b><?php echo $this->escapeHtml($shdetail['email']);?><br> 
+                    <b>Contact No: </b><?php echo $this->escapeHtml($shdetail['phone_no']);?>
+                  </td>
+                </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+                

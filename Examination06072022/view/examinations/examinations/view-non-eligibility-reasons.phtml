@@ -1,0 +1,89 @@
+<?php
+ $title = 'Examination Non-Eligibility : Details';
+ $this->headTitle($title);
+ $student_name =NULL;
+ $student_id = NULL;
+ $programme_name = NULL;
+ foreach($this->studentDetails as $detail){
+	 $student_name = $detail['first_name'].' '.$detail['middle_name'].' '.$detail['last_name'];
+	 $student_id = $detail['student_id'];
+	 $programme_name = $detail['programme_name'];
+ }
+ 
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                 ?> 
+                  <!-- Student Details Information-->
+                  <h2 class="StepTitle">Student Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $student_name; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $student_id; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $programme_name; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Student Details Information-->
+ 
+                  <!-- Details-->
+                  <h2 class="StepTitle">Reasons</h2>
+                  <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" width="30%">Module</th>
+                            <th class="column-title" width="50%">Reasons</th>
+                            <th class="column-title" width="20%">Action</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+						  <?php foreach($this->nonEligibilityReasons as $reasons):?>
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($reasons['module_title']); ?></td>
+                              <td><?php echo $this->escapeHtml($reasons['reasons']); ?></td>
+                              <td><a href="<?php echo $this->url('changestudenteligibility', array('id' => $reasons['id']));?>" class="btn btn-primary btn-xs">Make Eligible</a></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                  </div>
+                  <br />
+                  <!-- Details-->
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

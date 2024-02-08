@@ -1,0 +1,165 @@
+<?php
+ $title = 'Edit Staff Position Title and Level';
+ $this->headTitle($title);
+ 
+ $personal = array();
+ foreach($this->personalDetails as $detail){
+   $personal = $detail;
+ } 
+
+ $department = array();
+ foreach ($this->departmentDetails as $det) {
+   $department = $det;
+ }
+
+ $position = array();
+ foreach ($this->positionDetails as $details) {
+   $position = $details;
+ }// var_dump($position); die();
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+          <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    //$form->get('new_working_agency')->setValueOptions($this->organisationList);
+                    $form->get('employee_details_id')->setValue($this->employee_details_id);
+                    $form->get('occupational_group')->setValue($position['major_occupational_group_id']);
+                    $form->get('emp_category')->setValue($position['position_category_id']);
+                    $form->get('emp_position_title')->setValue($position['position_title_id']);
+                    $form->get('emp_position_level')->setValue($position['position_level_id']);
+                    $form->get('submit')->setValue('Update');
+                    echo $this->formHidden($form->get('employee_details_id'));
+                 ?> 
+                  <div class="clearfix"></div>
+                  <!-- Personal Details Information-->
+                  <h2 class="StepTitle">Personal Details</h2>
+                  <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['first_name'].' '.$personal['middle_name'].' '.$personal['last_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['emp_id']; ?></i></h4>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Department:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $department['department_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Department Unit/ Section:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $department['unit_name']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Personal Details Information-->
+                  <!-- Present Job Details Information-->
+                  <h2 class="StepTitle">Job Identification</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['position_title']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['position_level']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Pay Scale:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['position_title']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Category:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['category']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Major Occupational Group:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $this->employmentDetails['major_occupational_group']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- End of Employee Details Information-->
+
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h2><i>Job Position Details</i></h2>
+                       </div>
+                    </div>
+                  </div>
+                  
+                  
+                  <h5><i><font color="red">***If you want to edit/ change the position title/ level under displayed occupational groupt, first please select another occupational group from the occupational group drop down list and then select again the same occupational group in order to display the list of category then title then level under that particular displayed occupational group.</font></i></h5><br />
+                  <div class="row">
+                    <div class="form-group">  
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupational Group: <span class="required">*</span></label>
+                     <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($form->get('occupational_group')); ?>
+                      </div>
+                      <label class="control-label col-md-1 col-sm-3 col-xs-12">Category: <span class="required">*</span></label>
+                     <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($form->get('emp_category')); ?>
+                      </div>
+                      <label class="control-label col-md-1 col-sm-2 col-xs-12">Position Title: <span class="required">*</span></label>
+                     <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($form->get('emp_position_title')); ?>
+                      </div>
+                     
+                    </div>
+                  </div>
+
+                  <div class="row">
+                            <div class="form-group">  
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level: <span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($form->get('emp_position_level')); ?>
+                                </div>                                
+                            </div>
+                                     
+                <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+                            echo $this->formRow($form->get('submit'));
+                            echo $this->form()->closeTag($form);
+                         ?>
+                         <a href="<?php echo $this->url('editstaffpositiontitlelevel');?>"><span class="btn btn-primary"><i class="fa fa-angle-double-left"></i> Back</span></a>
+                        </div>
+                      </div>
+
+             </div> <!-- End of x_content-->
+            </div> <!-- End of x_panel-->
+        </div> 
+        </div>
+     </div>
+   </div>
+ </div>
+</div>
+ 

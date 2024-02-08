@@ -1,0 +1,183 @@
+<?php
+ $title = 'Counseling Appointment';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                 <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+                   $counseling = $form->get('counselingappointment');
+                   echo $this->form()->openTag($form);
+                   $counseling->get('id')->setValue($this->CounselingAppointmentDetails->getId());
+                   $counseling->get('counselor_id')->setValueOptions($this->selectCounselor);
+                   $counseling->get('counselor_id')->setValue($this->CounselingAppointmentDetails->getCounselor_Id());
+                   $counseling->get('subject')->setValue($this->CounselingAppointmentDetails->getSubject());
+                   $counseling->get('description')->setValue($this->CounselingAppointmentDetails->getDescription());
+                   $counseling->get('appointment_time')->setValue($this->CounselingAppointmentDetails->getAppointment_Time());
+                   $appointment_date = explode("-",$this->CounselingAppointmentDetails->getAppointment_Date());
+                   $counseling->get('appointment_date')->setValue($appointment_date[01].'/'.$appointment_date[02].'/'.$appointment_date[00]);
+                   $counseling->get('remarks')->setValue($this->CounselingAppointmentDetails->getRemarks());
+                   $counseling->get('applicant_id')->setValue($this->CounselingAppointmentDetails->getApplicant_Id());
+        				   $counseling->get('organisation_id')->setValue($this->CounselingAppointmentDetails->getOrganisation_Id());
+                   $counseling->get('applicant_type')->setValue($this->CounselingAppointmentDetails->getApplicant_Type());
+                   $counseling->get('consent_detail')->setValue($this->CounselingAppointmentDetails->getConsent_Detail());
+        				   $counseling->get('appointment_status')->setValue($this->CounselingAppointmentDetails->getAppointment_Status());
+                   $counseling->get('applied_date')->setValue($this->CounselingAppointmentDetails->getApplied_Date());
+                   echo $this->formHidden($counseling->get('applicant_id'));
+                   echo $this->formHidden($counseling->get('applicant_type'));
+                   echo $this->formHidden($counseling->get('consent_detail'));
+                    echo $this->formHidden($counseling->get('organisation_id'));
+                     echo $this->formHidden($counseling->get('appointment_status'));
+                     echo $this->formHidden($counseling->get('applied_date'));
+                   $counseling->get('submit')->setValue('Update');
+                   echo $this->formHidden($counseling->get('id'));
+                ?>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">To: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counseling->get('counselor_id')); ?>
+                    </div>
+                </div>
+                </div> 
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Subject: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counseling->get('subject')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counseling->get('description')); ?>
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Appointment Time:<br /><small>(e.g. 04:30 PM)</small> <span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counseling->get('appointment_time')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Appointment Date:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counseling->get('appointment_date')); ?>
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Other Preferable Time:<br /><i><small>(Please suggest other times that would 
+                    		be preferable if the suggested appointment time and date are not available)</small></i></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counseling->get('remarks')); ?>
+                    </div>
+                </div> 
+                </div>
+           
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                   		<?php 
+        						  echo $this->formHidden($form->get('csrf'));
+        						  echo $this->formSubmit($counseling->get('submit')); 
+                      echo $this->form()->closeTag();
+        						?>
+                    	</div>
+                    </div>
+                </div>
+                       
+                </div>
+              </div>
+              <?php 
+               $title = 'Counseling Appointment Application List';
+               $this->headTitle($title);
+              ?>
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                  <h5><i>***Following are the lists of counseling appointment application. You can edit before counselor approve it. Once counselor approve your counseling appointment then you can't edit it.</i></h5>
+                </div>
+                <div class="x_content">
+                  <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Counselor</th>
+                            <th class="column-title">Subject</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Applied Date</th>
+                            <th class="column-title">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php $i=1; foreach($this->indcounselingapplication as $list): ?>
+                          <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><?php echo $list['first_name'].' '.$list['middle_name'].' '.$list['last_name']; ?></td>
+                            <td><?php echo $list['subject']; ?></td>
+                            <td><?php echo $list['description']; ?></td>
+                            <td><?php echo $list['applied_date']; ?></td>
+                            <td><?php echo $list['appointment_status']; ?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
+              </div>
+
+            </div>
+       </div>       
+ 	</div>
+ 
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+    

@@ -1,0 +1,348 @@
+<?php
+ $title = 'Employee Work Experience';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+        							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+        							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+        							$messages = $this->flashMessenger()->getMessages();
+        							foreach($messages as $message) {
+        								echo '<strong>Success!</strong>'. $message;
+        							}
+							       echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Staff Name <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $this->employees->getFirst_Name(). ' '.$this->employees->getMiddle_Name(). ' '.$this->employees->getLast_Name(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      <label class="control-label col-md-3 col-sm-2 col-xs-12">Staff ID <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $this->employees->getEmp_Id(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="ln_solid"></div>
+                    <br />
+                    <div class="x_title">
+                      <h2><?php echo $this->escapeHtml("RUB Work Experience"); ?></h2>
+                      <div class="clearfix"></div>
+                    </div>
+                    <!-- start work detail -->
+                            <table class="data table table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Working Agency</th>
+                                  <th>Occupational Group</th>
+                                  <th>Position Category</th>
+                                  <th>Position Title</th>
+                                  <th>Position Level</th>
+                                  <th>From </th>
+                                  <th>To</th>
+                                  <th>Remarks</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php $i= 1; foreach($this->employeeDetails as $detail): ?>
+                                <tr>
+                                  <td><?php echo $i++; ?></td>
+                                  <td><?php echo $detail['organisation_name']; ?></td>
+                                  <td><?php echo $detail['occupational_group']; ?></td>
+                                  <td><?php echo $detail['category']; ?></td>
+                                  <td><?php echo $detail['position_title_name']; ?></td>
+                                  <td><?php echo $detail['position_level_name']; ?></td>
+                                  <td><?php echo $detail['start_period']; ?></td>
+                                  <td><?php echo $detail['end_period']; ?></td>
+                                  <td><?php echo $detail['remarks']; ?></td>
+                                </tr>
+                               <?php endforeach; ?>
+                              </tbody>
+                            </table>
+
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("NON-RUB Work Experience"); ?></h2>
+                              <div class="clearfix"></div>
+                            </div>
+
+                            <table class="data table table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Working Agency</th>
+                                  <th>Occupational Group</th>
+                                  <th>Position Category</th>
+                                  <th>Position Title</th>
+                                  <th>Position Level</th>
+                                  <th>From </th>
+                                  <th>To</th>
+                                  <th>Remarks</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php $i= 1; foreach($this->nonRUBDetails as $detail): ?>
+                                <tr>
+                                  <td><?php echo $i++; ?></td>
+                                  <td><?php echo $detail['working_agency']; ?></td>
+                                  <td><?php echo $detail['occupational_group']; ?></td>
+                                  <td><?php echo $detail['position_category']; ?></td>
+                                  <td><?php echo $detail['position_title']; ?></td>
+                                  <td><?php echo $detail['position_level']; ?></td>
+                                  <td><?php echo $detail['start_period']; ?></td>
+                                  <td><?php echo $detail['end_period']; ?></td>
+                                  <td><?php echo $detail['remarks']; ?></td>
+                                </tr>
+                               <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                            <!-- end work detail -->  
+                    <div class="ln_solid"></div>
+                    <br /><br /><br />
+                   
+              </div>
+              <!-- New Accordian -->
+              <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml("Add RUB Work Experience"); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <?php
+					         // Opening of the form tag
+					         $rubForm->setAttribute('action', $this->url('addemprubworkexperience', array('action' => 'addEmployeeRubWorkExperience', 'id' => my_encrypt($this->id, $key))));
+                    $rubForm->prepare();
+                    echo $this->form()->openTag($rubForm);
+				            $rubExperience = $rubForm->get('employeerubworkexperience');
+                    $rubExperience->get('employee_details_id')->setValue($this->id);
+          					$rubExperience->get('working_agency')->setValueOptions($this->organisationList);
+                    $rubExperience->get('working_agency_type')->setValue('RUB');
+                    echo $this->formHidden($rubExperience->get('working_agency_type'));
+                    echo $this->formHidden($rubExperience->get('id')); 
+					           echo $this->formHidden($rubExperience->get('employee_details_id'));
+                    ?>
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Working Agency</label>
+						              <?php echo $this->formRow($rubExperience->get('working_agency')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Occupational Group</label>
+						                <?php echo $this->formRow($rubForm->get('occupational_group')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Position Category</label>
+						                <?php echo $this->formRow($rubForm->get('position_category')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Position Title</label>
+						                <?php echo $this->formRow($rubForm->get('position_title')); ?>
+                        </div>
+                     </div>
+                    </div>
+
+                     <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Position Level</label>
+						                <?php echo $this->formRow($rubForm->get('position_level')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>From and To Date</label>
+						                <?php echo $this->formRow($rubExperience->get('date_range')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Office Order No:</label>
+						                <?php echo $this->formRow($rubExperience->get('office_order_no')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Office Order Date:</label>
+						                <?php echo $this->formRow($rubExperience->get('office_order_date')); ?>
+                        </div>
+                     </div>
+                    </div>
+
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Document (s):</label>
+                           <?php echo $this->formRow($rubExperience->get('evidence_file')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Remarks:</label>
+                            <?php echo $this->formRow($rubExperience->get('remarks')); ?>
+                        </div>
+                     </div>
+                    </div>
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($rubForm->get('csrf')); 
+							                 echo $this->formSubmit($rubExperience->get('submit'));
+                               echo $this->form()->closeTag();
+                            ?>
+                            <a href="<?php echo $this->url('empworkexperience');?>"><span class="btn btn-primary">Done</span></a>
+                            </div>
+                    	  </div>
+                     </div>
+                   
+              </div>
+           </div>
+              <!-- End of Accordian-->
+              <!-- Add Non-RUB Work Experience -->
+              <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml("Add Non-RUB Work Experience"); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                   <?php
+					// Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $experience = $form->get('employeeworkexperience');
+                    $experience->get('employee_details_id')->setValue($this->id);
+                    $experience->get('working_agency_type')->setValue('NON-RUB');
+                    echo $this->formHidden($experience->get('working_agency_type'));
+                    echo $this->formHidden($experience->get('id')); 
+					           echo $this->formHidden($experience->get('employee_details_id'));
+                    ?>
+                    <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Working Agency</label>
+						                <?php echo $this->formRow($experience->get('working_agency')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Occupational Group</label>
+						                <?php echo $this->formRow($experience->get('occupational_group')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Position Category</label>
+						                <?php echo $this->formRow($experience->get('position_category')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Position Title</label>
+						                <?php echo $this->formRow($experience->get('position_title')); ?>
+                        </div>
+                     </div>
+                    </div>
+                     <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Position Level</label>
+                            <?php echo $this->formRow($experience->get('position_level')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>From and To Date</label>
+                            <?php echo $this->formRow($experience->get('date_range')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Office Order No:</label>
+                            <?php echo $this->formRow($experience->get('office_order_no')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Office Order Date:</label>
+                            <?php echo $this->formRow($experience->get('office_order_date')); ?>
+                        </div>
+                     </div>
+                    </div>
+
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Document (s):</label>
+                           <?php echo $this->formRow($experience->get('evidence_file')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Remarks:</label>
+                            <?php echo $this->formRow($experience->get('remarks')); ?>
+                        </div>
+                     </div>
+                    </div>
+
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+							   echo $this->formSubmit($experience->get('submit'));
+                               echo $this->form()->closeTag();
+                            ?>
+                            <a href="<?php echo $this->url('empworkexperience');?>"><span class="btn btn-primary">Done</span></a>
+                            </div>
+                    	  </div>
+                     </div>
+                   
+              </div>
+           </div>
+              <!-- End of Non RUB Work Experience-->              
+           </div>
+        </div>
+     </div>
+   </div>
+           
+            
+         
+              
+       
+                

@@ -1,0 +1,83 @@
+<?php
+/**
+ * 
+ * View -- of Hr/EmployeeController/indexAction
+ * 
+ */
+$title = 'Employee and Pay Structure';
+?>
+<div class="right_col" role="main">
+	<div class=" ">
+		<div class="col-md-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2><?php echo $this->escapeHtml($title);?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+				</div>
+				<form method="post" action="<?php echo $this->url('employee'); ?>"  enctype="multipart/form-data" >
+					<div class="form-group col-lg-3">
+						<label class="control-label" for="organisation">Organisation</label>
+						<select class="form-control" id="organisation" name="organisation" data-placeholder="Select" onchange='this.form.submit()'>
+							<?php foreach($this->OOBJ->get(array('id'=>$userorg)) as $organisation):
+								$sel_org = ($organisation['id'] == $userorg)?'selected':'';
+							?>
+							<option value="<?php echo $organisation['id'];?>" <?php echo $sel_org;?>>
+								<?php echo $organisation['organisation_name'];?>
+							</option>
+							<?php endforeach;?>
+						</select>
+					</div>
+				</form>
+				<div class="x_content">
+						<div class="table-responsive">
+							<table id="datatable" class="table table-striped jambo_table bulk_action">
+								<thead>
+									<tr class="headings">
+									<th>SL. No. </th>
+									<th>Name</th>
+									<th>Employee_id</th>
+									<th>CID</th>
+									<th>Department</th>
+									<th>Category</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+									$i = 1; 
+									foreach ($this->employee as $rows):
+								?>
+									<tr data-href="<?php echo $this->url('payroll', array('action'=>'viewpayrollemployee', 'id'=>$rows['id']));?>">
+										<td><?php echo $i++; ?> </td>
+										<td><b><?php echo $rows['first_name']." ".$rows['middle_name']." ".$rows['last_name']; ?></b></td>
+										<td><?php echo $rows['emp_id']; ?></td>
+										<td><?php echo $rows['cid']; ?></td>
+										<td><?php echo $rows['department_name']; ?></td>
+										<td><strong><?php echo $this->employeetypeObj->getColumn($rows['emp_category'],"employee_type"); ?></td>
+									</tr>
+								<?php 
+								$i++;
+								endforeach;  
+								?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+		    </div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("tr[data-href]").each(function(){ 
+		if($(this).attr('data-href')!='#'){
+			$(this).css('cursor','pointer');
+			$(this).bind('click',function() {
+				window.document.location = $(this).attr("data-href");
+			});
+		}
+	});
+</script>
+
+

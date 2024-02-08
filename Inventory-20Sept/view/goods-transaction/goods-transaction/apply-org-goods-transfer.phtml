@@ -1,0 +1,124 @@
+
+<!--book gest house -->
+  <?php
+ 
+ $title = 'Apply For Transfer of Goods/ Item to another organisation';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }else{?>
+                   <h5><i>In order to transfer the below particular item to another organisation, You have to select organisation from drop down list to transfer item. <br/><br/>
+                    <b>***Note: Quantity to transfer, you can input your own quantity to transfer but it should not be more than the quantity display below.</b>
+                   </i></h5>
+                    
+                        <div class="x_content">
+                  
+                    <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $orgTransfer = $form->get('orggoodstransfer');
+                    echo $this->form()->openTag($form);
+
+                    $orgTransfer->get('id')->setValue($this->orgGoodsTransfer->getId());
+                    $orgTransfer->get('organisation_goods_id')->setValue($this->orgGoodsTransfer->getId());
+                    echo $this->formHidden($orgTransfer->get('organisation_goods_id'));
+
+                    $orgTransfer->get('organisation_to_id')->setValueOptions($this->organisation);
+                    
+                    $orgTransfer->get('organisation_from_id')->setValue($this->organisation_id);
+                    echo $this->formHidden($orgTransfer->get('organisation_from_id'));                    
+                    $orgTransfer->get('employee_details_from_id')->setValue($this->employee_details_id);
+                    echo $this->formHidden($orgTransfer->get('employee_details_from_id'));
+                    $orgTransfer->get('transfer_quantity')->setValue($this->orgGoodsTransfer->getItem_In_Stock());
+
+                    $orgTransfer->get('transfer_date')->setValue(date('Y-m-d'));
+                    echo $this->formHidden($orgTransfer->get('transfer_date'));
+
+                    $orgTransfer->get('item_name')->setValue($this->orgGoodsTransfer->getItem_Name());
+                    $orgTransfer->get('item_name_id')->setValue($this->orgGoodsTransfer->getItem_Name_Id());
+                    echo $this->formHidden($orgTransfer->get('item_name_id'));
+
+                    //$transfer_status = 'Pending';
+                    $orgTransfer ->get('transfer_status')->setValue('Pending');
+                    echo $this->formHidden($orgTransfer->get('transfer_status'));
+
+                    $orgTransfer->get('submit')->setValue('Apply Transfer');
+                    echo $this->formHidden($orgTransfer->get('id'));
+
+                    ?>   
+                        <br>
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="organisation_to_id">Organistion To </label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                              <?php echo $this->formRow($orgTransfer->get('organisation_to_id')); ?>
+                            </div>                            
+                          </div> 
+
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_name">Item Name</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($orgTransfer->get('item_name'));?>
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="transfer_quantity">Transfer Quantity</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($orgTransfer->get('transfer_quantity'));?>
+                            </div>                           
+                          </div>
+
+                          <div class="form-group">                     
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="transfer_remarks">Remarks</label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                              <?php echo $this->formRow($orgTransfer->get('transfer_remarks'));?>
+                            </div>
+                          </div>                                  
+                                               
+                         <div class="row">
+                          <div class="ln_solid"></div>
+                            <div class="form-group">
+                              <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                                <?php
+                                echo $this->formHidden($form->get('csrf'));  
+                                echo $this->formSubmit($orgTransfer->get('submit')); 
+                                echo $this->form()->closeTag();
+                                ?>
+                                    
+                              </div>
+                            </div>
+                       </div>
+                  </div>
+                      <?php } ?>                  
+              </div>
+          </div>
+      </div>
+  </div>
+
+ 

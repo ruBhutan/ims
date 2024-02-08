@@ -1,0 +1,56 @@
+<?php
+
+ $title = 'Disciplinary Record Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">
+                        <?php
+                        $recordDetails = array();
+                        foreach ($this->disciplinaryRecordDetails as $details): {
+                            $recordDetails['discipline_category'] = $details['discipline_category'];
+                            $recordDetails['disciplinary_details'] = $details['disciplinary_details'];
+                            $recordDetails['record_date'] = $details['record_date'];
+                            $recordDetails['description'] = $details['description'];
+                        }
+                     ?>
+                     <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Disciplinary Category:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $recordDetails['discipline_category']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Disciplinary Details:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $recordDetails['disciplinary_details']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Recorded Date:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $recordDetails['record_date']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Description:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $recordDetails['description']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <?php endforeach; ?><br/><br/>                         
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+</div>
+
+
+ 

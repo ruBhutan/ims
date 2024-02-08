@@ -1,0 +1,114 @@
+<?php
+
+ $title = 'Assigned Parent Access to Portal';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">
+                        <?php
+                       // echo $this->parentType;
+                        $accessDetails = array();
+                        foreach ($this->parentAccessDetails as $details) {
+                            $accessDetails['parent_name'] = $details['parent_name'];
+                            $accessDetails['parent_occupation'] = $details['parent_occupation'];
+                            $accessDetails['parent_cid'] = $details['parent_cid'];
+                            $accessDetails['relation'] = $details['relation'];
+                            $accessDetails['parent_contact_no'] = $details['parent_contact_no'];
+                            $accessDetails['parent_address'] = $details['parent_address'];
+                        }
+
+                        $nationality = array();
+                        foreach ($this->parentAccessNationality as $ndetails) {
+                            $nationality['nationality'] = $ndetails['nationality'];
+                        }
+
+                        $dzongkhag = array();
+                        foreach ($this->parentAccessDzongkhag as $ddetails) {
+                            $dzongkhag['dzongkhag_name'] = $ddetails['dzongkhag_name'];
+                        }
+                     ?>
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Assigned Access Name:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <i><?php echo $accessDetails['parent_name']; ?></i>
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Relation:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <i><?php echo $accessDetails['relation']; ?></i>
+                            </div>
+                        </div>
+                     </div><br/>
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">CID/ Passport No:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <i><?php echo $accessDetails['parent_cid']; ?></i>
+                            </div>
+                        </div>
+                     </div><br/>
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupation:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <i><?php echo $accessDetails['parent_occupation']; ?></i>
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Contact No:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <i><?php echo $accessDetails['parent_contact_no']; ?></i>
+                            </div>
+                        </div>
+                    </div><br/>
+                    <div class="row">
+                        <div class="form-group">
+                            <?php if(empty($nationality['nationality'])){?>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <i><?php echo "No Data Entered"; ?></i>
+                            </div>
+                        <?php }else{?>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <i><?php echo $nationality['nationality']; ?></i>
+                            </div>
+                        <?php } ?>
+                        <?php if(empty($dzongkhag['dzongkhag_name'])){?>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <i><?php echo "No data Entered"; ?></i>
+                            </div>
+                            <?php }else{?>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <i><?php echo $dzongkhag['dzongkhag_name']; ?></i>
+                            </div>
+                            <?php } ?>
+                        </div>
+                    </div><br/>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Present Address:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <?php echo $accessDetails['parent_address']; ?>
+                            </div>
+                        </div>
+                    </div>                       
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+</div>
+
+
+ 

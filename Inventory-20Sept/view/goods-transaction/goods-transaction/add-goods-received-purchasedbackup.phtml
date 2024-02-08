@@ -1,0 +1,192 @@
+<?php
+ // module/GoodsTransaction/view/goods-transaction/goods-transaction/add-goods-recieved-purchased.phtml:
+
+ $title = 'Add Goods Received Purchased';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><?php echo $this->escapeHtml($title); ?></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+              <div class="clearfix"></div>
+              </div>
+          
+              <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $goodspurchasedentry = $form->get('goodsreceivedpurchased');
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($goodspurchasedentry->get('id'));
+                    $goodspurchasedentry->get('item_sub_category_id')->setValueOptions($itemSubCategory);
+                    $goodspurchasedentry->get('item_name_id')->setValueOptions($itemName);
+                    $goodspurchasedentry->get('item_quantity_type_id')->setValueOptions($itemQuantityType);
+                    $goodspurchasedentry->get('supplier_details_id')->setValueOptions($itemSupplier);
+
+                    
+                    $received_type = 'Purchased';
+                    $goodspurchasedentry->get('item_received_type')->setValue($received_type);
+
+                    $goods_entry_date = date('Y-m-d');
+                    $goodspurchasedentry->get('item_entry_date')->setValue($goods_entry_date);
+                 ?> 
+
+                 <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_received_type">Item Received Type</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <?php  echo $this->formRow($goodspurchasedentry->get('item_received_type')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="supplier_details_id">Supplier</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($goodspurchasedentry->get('supplier_details_id')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="reference_no">Reference Number</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($goodspurchasedentry->get('reference_no')); ?>
+                    </div>
+                </div>              
+                
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="reference_date">Reference Date</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($goodspurchasedentry->get('reference_date')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="supplier_order_no">Supplier Order Number</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($goodspurchasedentry->get('supplier_order_no')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_received_date">Item Received Date</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($goodspurchasedentry->get('item_received_date')); ?>
+                    </div>           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_entry_date">Item Entry Date</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($goodspurchasedentry->get('item_entry_date')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_received_by">Item Received By</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($goodspurchasedentry->get('item_received_by')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_updated_by">Item Updated By</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($goodspurchasedentry->get('item_updated_by')); ?>
+                    </div>
+                </div><br/><br/>
+
+                <div class="clear"></div>
+                    <h2><?php echo $this->escapeHtml("Item Purchased Details"); ?></h2>
+                    <div class="clear"></div>
+                    <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Item Category</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_category_id')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Item Sub Category</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_sub_category_id')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Item Name</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_name_id')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Item Quantity Type</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_quantity_type_id')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Quantity</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_quantity')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Purchasing Rate</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_purchasing_rate')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Amount</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_amount')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Item In Stock</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_in_stock')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Item Specification</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_specification')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Item Status</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_status')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Item Stock Status</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('item_stock_status')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                    <label>Remarks</label>
+                        <?php echo $this->formRow($goodspurchasedentry->get('remarks')); ?>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                       <label class="control-label col-md-12 col-sm-12 col-xs-12"></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                           <?php  
+                            //echo $this->formHidden($form->get('csrf'));
+                            echo $this->formRow($goodspurchasedentry->get('submit')); ?>
+                        </div>
+                    </div>
+                </div> 
+
+                    <?php 
+                //closing the form tag  
+                 echo $this->form()->closeTag();
+                 ?>
+
+              </div> <!-- End of x-content -->
+            </div> 
+        </div> 
+    </div>
+</div>
+
+
+ <script>
+     function add_goodsreceived() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+
+     function remove_addsreceived(){
+        $('form > fieldset > fieldset').last().remove();
+        return false;
+     }
+ </script>

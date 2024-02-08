@@ -1,0 +1,188 @@
+<?php
+
+ $title = 'Assign Academic Module to Module Tutor';
+ $this->headTitle($title);
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+                </div>
+                  <div class="x_content">
+                      <div class="col-md-12 col-sm-12 col-xs-12">
+                        <h4><i>*Please assign Academic Modules to Module Tutors depending on which modules they teach. This will be considered the default<br /><br />
+                           </i></h4>
+                    </div> 
+                    <br /><br />
+                	<br/>
+                 	<?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $form->get('programmes_id')->setValueOptions($this->programmeList);
+                            $form->get('academic_modules_id')->setValueOptions($this->moduleList);
+                            $form->get('module_tutor_4')->setValueOptions($this->tutorList);
+                            //$form->get('section')->setValueOptions($this->sectionList);
+                            $form->get('module_tutor')->setValueOptions($this->tutorList);
+                            $form->get('module_tutor_2')->setValueOptions($this->tutorList);
+                            $form->get('module_tutor_3')->setValueOptions($this->tutorList);
+                            $form->get('module_tutor_4')->setValue('0');
+                            $form->get('module_tutor')->setValue('0');
+                            $form->get('module_tutor_2')->setValue('0');
+                            $form->get('module_tutor_3')->setValue('0');
+                            $form->get('year')->setValue(date('Y'));
+                            echo $this->formHidden($form->get('id'));
+                    ?>
+                        <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                    	    } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                    <div class="row">
+                        <div class="form-group">  
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme Name <span class="required">*</span></label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($form->get('programmes_id')); ?>
+                           </div>
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Name <span class="required">*</span></label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($form->get('academic_modules_id')); ?>
+                           </div>
+                        </div>
+                     </div>
+                     <br />
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Tutor<span class="required">*</span><br /></label>
+                            <div class="col-md-3 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('module_tutor_4')); ?>
+                            </div>
+                            <label class="control-label col-md-2 col-sm-1 col-xs-12">Module Tutor (2)<span class="required">*</span><br />
+                                <small><i>(If more than one module tutor for a subject)</i></small></label>
+                            <div class="col-md-3 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('module_tutor')); ?>
+                            </div>
+                        </div>
+                     </div>
+                     <br />
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Tutor (3)<span class="required">*</span><br />
+                            	<small><i>(If more than one module tutor for a subject)</i></small></label>
+                            <div class="col-md-3 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('module_tutor_2')); ?>
+                            </div>
+                            <label class="control-label col-md-2 col-sm-1 col-xs-12">Module Tutor (4)<span class="required">*</span><br />
+                            	<small><i>(If more than one module tutor for a subject)</i></small></label>
+                            <div class="col-md-3 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('module_tutor_3')); ?>
+                            </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <?php
+                                   echo $this->formHidden($form->get('csrf'));
+                                   echo $this->formSubmit($form->get('submit')); 
+                                ?>
+                                </div>
+                            </div>
+                       </div>
+                            <?php
+                            echo $this->form()->closeTag();
+                            ?>
+                        </div>
+                      </div>
+                </div>
+               <?php
+				 $title = 'Academic Modules Assigned to Module Tutors';
+				 $this->headTitle($title);
+			  ?>
+              <div class="col-md-12 col-xs-12">
+                  
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                        <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Module Tutor</th>
+                            <th class="column-title">Emp ID</th>
+                            <th class="column-title">Programme Name</th>
+                            <th class="column-title">Module Title</th>
+                            <th class="column-title">Module Code</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach ($this->moduleAllocated as $module) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php 
+                                               echo $this->escapeHtml($module['first_name']).' '.$this->escapeHtml($module['middle_name']).' '.$this->escapeHtml($module['last_name']);
+										?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['emp_id']); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['programme_name']); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_title']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_code']);?></td>
+                            <td>
+                                <a href="<?php echo $this->url('deletemoduletutor', array('id' => my_encrypt($module['id'], $key)));?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</a>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                
+                </div>
+              </div>
+            </div>
+           </div>  
+          </div>
+        </div> 
+     </div>

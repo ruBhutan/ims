@@ -1,0 +1,130 @@
+
+<!--book gest house -->
+
+
+  <?php
+ 
+ $title = 'Updating Goods Transfer Status';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                  
+                    <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $updateGoodsTransferDetails = $form->get('transfergoods');
+                    echo $this->form()->openTag($form);
+                    $updateGoodsTransferDetails->get('id')->setValue($this->updateGoodsTransferDetails->getId());
+                    echo $this->formHidden($updateGoodsTransferDetails->get('id'));
+                    
+                    //$updateGoodsTransferDetails->get('id')->setValue($this->updateGoodsTransferDetails->getId());
+
+                    //$updateGoodsTransferDetails ->get('department_goods_id')->setValue($this->getDepartment_Goods_Id());
+                    //echo $this->formHidden($updateGoodsTransferDetails->get('department_goods_id'));
+
+                   
+                    $updateGoodsTransferDetails->get('department_id')->setValue($this->updateGoodsTransferDetails->getDepartment_Id());
+                    //$updateGoodsTransferDetails->get('department_to_id')->setValue($this->updateGoodsTransferDetails->getDepartment_To_Id());
+                    //$updateGoodsTransferDetails->get('department_to_id')->setValueOptions($selectData);
+
+                   $updateGoodsTransferDetails->get('item_name_id')->setValue($this->updateGoodsTransferDetails->getItem_Name_Id());
+                    $updateGoodsTransferDetails->get('quantity')->setValue($this->updateGoodsTransferDetails->getQuantity());
+                    
+                    $updateGoodsTransferDetails->get('goods_transfer_date')->setValue($this->updateGoodsTransferDetails->getGoods_Transfer_Date());
+
+                               
+                    $updateGoodsTransferDetails->get('applied_by')->setValue($this->username);
+
+                    $updateGoodsTransferDetails->get('approved_by')->setValue($this->username);   
+
+                    $date = date('Y-m-d');
+                    $updateGoodsTransferDetails->get('approved_date')->setValue($date);
+
+                    $approval_status = 'Pending';
+                    $updateGoodsTransferDetails ->get('approval_status')->setValue($approval_status);
+                    echo $this->formHidden($updateGoodsTransferDetails->get('approval_status'));
+
+                    ?>   
+                        <br>
+                          <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="applied_by">Approval Name </label>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($updateGoodsTransferDetails->get('applied_by')); ?>
+                          </div>
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="goods_transfer_date">Goods Transfer Date </label>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($updateGoodsTransferDetails->get('goods_transfer_date')); ?>
+                          </div>                            
+                          </div>
+
+                          <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="department_id">Department Unit From </label>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($updateGoodsTransferDetails->get('department_id')); ?>
+                          </div>
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_name_id">Item Name</label>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($updateGoodsTransferDetails->get('item_name_id'));?>
+                          </div>                            
+                          </div>   
+
+                          <div class="form-group">                          
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="quantity">Quantity</label>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($updateGoodsTransferDetails->get('quantity'));?>
+                          </div> 
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="approved_date">Approval Date</label>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($updateGoodsTransferDetails->get('approved_date'));?>
+                          </div>                         
+                          </div>
+
+                          <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="approval_status">Approval Status</label>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($updateGoodsTransferDetails->get('approval_status'));?>
+                          </div>                          
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="applied_remarks">Remarks</label>
+                          <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($updateGoodsTransferDetails->get('applied_remarks'));?>
+                          </div>                          
+                          </div>                                                   
+                                               
+                       <div class="row">
+                        <div class="ln_solid"></div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <div class="col-md-4 col-sm-4 col-xs-12 col-md-offset-4">
+                                  <?php  
+                                  echo $this->formRow($updateGoodsTransferDetails->get('submit')); 
+                                  ?>
+                                  
+                                  </div>
+                              </div>
+                          </div>
+                     </div>
+                    
+                       <?php   //closing the form tag  
+                        echo $this->form()->closeTag();
+                      ?>
+                    
+                  </div>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+
+ 

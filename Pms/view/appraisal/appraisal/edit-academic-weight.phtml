@@ -1,0 +1,98 @@
+<?php
+ $title = 'Edit Academic Weight';
+ $this->headTitle($title);
+ $academic_weight_details = array();
+ foreach($this->academicWeightDetails as $detail){
+	 $academic_weight_details = $detail;
+ }
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   
+                <?php
+					// Opening of the form tag
+					$academicForm->prepare();
+					echo $this->form()->openTag($academicForm);
+					$academic = $academicForm->get('academicweight');
+					$academic->get('id')->setValue($academic_weight_details['id']);
+					$academic->get('category')->setValue($academic_weight_details['category']);
+					$academic->get('weight')->setValue($academic_weight_details['weight']);
+					$academic->get('remarks')->setValue($academic_weight_details['remarks']);
+					echo $this->formHidden($academic->get('id'));
+				  ?>
+				
+				  <div class="form-group">
+					<label class="control-label col-md-3 col-sm-3 col-xs-12" >Category<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+					  <?php  echo $this->formRow($academic->get('category')); ?>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="control-label col-md-3 col-sm-3 col-xs-12">Weight<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+					  <?php echo $this->formRow($academic->get('weight')); ?>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks<span class="required">*</span></label>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+					  <?php echo $this->formRow($academic->get('remarks')); ?>
+					</div>
+				  </div>
+				  
+				 <div class="row">
+					<div class="ln_solid"></div>
+					<div class="form-group">
+						<label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+						  <?php
+						   echo $this->formHidden($academicForm->get('csrf'));
+						   echo $this->formSubmit($academic->get('submitacademic')); 
+						   echo $this->form()->closeTag(); 
+						?>
+					</div>
+				</div>
+                <br /><br />
+				<div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                          <tr class="headings">
+                             <th class="column-title">Sl.No.</th>
+                             <th class="column-title">Category</th>
+                             <th class="column-title">Weight</th>
+                             <th class="column-title">Remarks</th>
+                             <th class="column-title">Action</th>
+                          </tr>
+                        </thead>
+    
+                        <tbody>
+                          <?php
+                          $i=1;  foreach($this->academicWeight as $academic): ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $academic['category'];?></td>
+                            <td class=" "><?php echo $academic['weight'];?></td>
+                            <td class=" "><?php echo $academic['remarks'];?></td>
+                            <td><a href="<?php echo $this->url('editacademicweight', array('id' => $academic['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+				</div>
+			</div> 
+   		 </div>
+       </div>
+ 	</div>
+   </div>
+  </div>

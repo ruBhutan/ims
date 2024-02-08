@@ -1,0 +1,102 @@
+<?php
+ $title = 'Allocate Hostel Room';
+ $this->headTitle($title);
+
+ $hostel_details = array();
+ foreach($this->hostelDetails as $details){
+   $hostel_details = $details;
+ } 
+ ?>
+
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <p><i>(Please allocate unallocated hostel room to unallocated student based on the display in drop down list)</i></p>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $hostel = $form->get('allocatehostelroom');
+                    echo $this->form()->openTag($form);
+                    $hostel->get('hostel_rooms_id')->setValueOptions($this->hostelRoom);
+                    $hostel->get('student_id')->setValueOptions($this->hostelStudent);
+                    $hostel->get('submit')->setValue('Allocate');
+                    echo $this->formHidden($hostel->get('id')); 
+                    ?> 
+                    
+                  <!-- Personal Details Information-->
+                  <h2 class="StepTitle">Hostel Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Hostel Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><font color="blue"><?php echo $hostel_details['hostel_name'] ?></font></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Number of Rooms:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                       <h4><i><font color="blue"><?php echo $hostel_details['hostel_room_no'] ?></font></i></h4>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Default Room Capacity:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><font color="blue"><?php echo $hostel_details['room_capacity'] ?></font></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Service Officer Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                       <h4><i><font color="blue"><?php echo $hostel_details['first_name'].' '.$hostel_details['middle_name'].' '.$hostel_details['last_name'].' ('.$hostel_details['emp_id'].')'; ?></font></i></h4>
+                        </div>
+                        </div>
+                    </div>
+
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Hostel Room: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php echo $this->formRow($hostel->get('hostel_rooms_id')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Unallocated Student: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php echo $this->formRow($hostel->get('student_id')); ?>
+                    </div>
+                </div>
+                </div> 
+
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formRow($hostel->get('submit'));
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+        

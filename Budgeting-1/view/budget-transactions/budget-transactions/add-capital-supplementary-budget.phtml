@@ -1,0 +1,115 @@
+<?php
+ $title = 'Capital Budget Withdrawal (College Finance Officer)';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                  <?php
+					// Opening of the form tag
+                    $budgetForm->setAttribute('action', $this->url('insertcapitalsupplementarybudget', array('action' => 'insertCapitalSupplementaryBudget')));
+					$budgetForm->prepare();
+                    echo $this->form()->openTag($budgetForm);
+					$budgetForm->get('organisation_id')->setValue($this->organisation_id);
+					$budgetForm->get('budget_type')->setValue('Capital Budget');
+					echo $this->formHidden($budgetForm->get('organisation_id'));
+					echo $this->formHidden($budgetForm->get('budget_type'));
+				  ?>
+                  <div class="row">    
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Reference No<span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <?php  echo $this->formRow($budgetForm->get('reference_no')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Reference Date<span class="required">*</span></label>
+                        <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                        <?php  echo $this->formRow($budgetForm->get('reference_date')); ?>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons<span class="required">*</span></label>
+                        <div class="col-md-7 col-sm-6 col-xs-12">
+                          <?php  echo $this->formRow($budgetForm->get('reasons')); ?>
+                        </div>
+                      </div>
+                 </div>
+                 <br />
+                <!--start of supplementary details -->
+                <div class="x_panel">
+                <div class="x_title">
+                  <h2><i><?php echo $this->escapeHtml('Budget Withdrawal Details: '); ?></i></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <h5><i>**Please note that any empty or zero values will be ignored.</i></h5>
+                  <br />
+                    <table class="table table-bordered">
+                            <thead>
+                              <tr class="headings">
+                                <th class="column-title">Activity Name</th>
+                                <th class="column-title">Broad Head Name</th>
+                                <th class="column-title">Object Code</th>
+                                <th class="column-title">Budget</th>
+                                <th class="column-title">Expenditure</th>
+                                <th class="column-title">Balance</th>
+                                <th class="column-title">Withdrawal Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                          <tr>
+                             <?php $i =0; foreach ($this->fromDataDetails as $data) : ?>
+                              <tr class="even pointer">
+                              	<?php echo $this->formHidden($budgetForm->get('from_proposal_id')->setValue($data['id'])); ?>
+                                <td class=" "><?php echo $this->escapeHtml($data['activity_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['broad_head_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['object_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['budget_amount_approved']);?></td>
+                                <td class=" "><?php echo "expenditure"; ?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['balance']);?></td>
+                                <td class=" "><?php echo $this->formRow($budgetForm->get('amount')); ?></td>
+                              </tr>
+                              <?php endforeach; ?>
+                          </tr>
+                         </tbody>
+                       </table>
+                </div>
+              </div>
+              <br />
+              <!-- End of Reappropriation From Details box-->
+              
+                   <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						   //echo $this->formHidden($budgetForm->get('organisation_id'));
+						   echo $this->formHidden($budgetForm->get('csrf'));
+						   echo $this->formSubmit($budgetForm->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+              
+              <!-- End of Reappropriation To Details-->
+             </div>
+        </div>
+       
+              	
+    
+          </div>
+        </div> 
+     </div>

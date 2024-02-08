@@ -1,0 +1,229 @@
+<?php
+ $title = 'Edit Student Assessment Marks';
+ $this->headTitle($title);
+ 
+ //get student list in an array
+ $studentName = array();
+ $studentId = array();
+ $criteriaName = array();
+ $i=1;
+ $j=1;
+/* foreach($this->studentList as $student){
+	 $studentName[$i] = $student['first_name']. ' ' .$student['middle_name'].' '.$student['last_name'];
+	 $studentId[$i] = $student['student_id'];
+	 $i++;
+ }*/
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ 
+?>
+
+<div class="right_col" role="main">
+  <div class="">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><?php echo $this->escapeHtml($title); ?></h2>
+          <div class="clearfix"></div>
+        </div>
+        <br/>
+        <?php 
+        if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+          $messages = $this->flashMessenger()->getMessages();
+          foreach($messages as $message) {
+            echo $message;
+          }
+          echo '</div>';
+        } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+          $messages = $this->flashMessenger()->getMessages();
+          foreach($messages as $message) {
+            echo '<strong>Warning!</strong>'. $message;
+          }
+          echo '</div>';
+        } 
+        ?>
+        <!-- Adding Achievements-->
+        <div class="col-md-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><?php echo $this->escapeHtml("Search for Students by Module")?></h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <h5><i>*(In order to add the students' mark, search by Module Name. Please note that the search is only done by Module Name. However, both Module Name and Assessment Type has to be selected inorder to enter the marks)</i></h5><br />
+              <?php
+              // Opening of the form tag
+              $form->prepare();
+              echo $this->form()->openTag($form);
+              $form->get('section')->setValueOptions($this->sectionList);
+              ?>
+              <div class="row">
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                  <label>Module</label>
+                  <?php echo $this->formRow($form->get('assessment_component_id')); ?>
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                  <label>Section</label>
+                  <?php echo $this->formRow($form->get('section')); ?>
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                  <label>Assessment Type</label>
+                  <?php echo $this->formRow($form->get('assessment_type')); ?>
+                </div>
+              </div>
+              <div class="row">
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                  <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                  <?php
+                  echo $this->formHidden($form->get('csrf'));
+                  echo $this->formSubmit($form->get('submit')); 
+                  echo $this->form()->closeTag(); 
+                  ?>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div id="print-content">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><?php echo $this->escapeHtml("List of Student(s)"); ?></h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <?php
+            // Opening of the form tag
+            $marksForm->setAttribute('action', $this->url('updateassessmentmarks', array('action' => 'updateAssessmentMarks')));
+            $form->prepare();
+            echo $this->form()->openTag($marksForm);
+            //not used. set for form validation
+            $marksForm->get('assessment_component_id')->setValue($this->programmesId);
+            $marksForm->get('assessment_type')->setValue($this->assessment);
+            $marksForm->get('studentCount')->setValue($this->studentCount);
+            $marksForm->get('batch')->setValue($this->batch);
+            $marksForm->get('section')->setValue($this->section);
+            $marksForm->get('programmes_id')->setValue($this->programmesId);
+            $marksForm->get('continuous_assessment_id')->setValue($this->continuous_assessment_id);
+            echo $this->formHidden($marksForm->get('id'));
+            echo $this->formHidden($marksForm->get('programmes_id'));
+            echo $this->formHidden($marksForm->get('continuous_assessment_id'));
+            echo $this->formHidden($marksForm->get('batch'));
+            echo $this->formHidden($marksForm->get('section'));
+            echo $this->formHidden($marksForm->get('studentCount'));
+            echo $this->formHidden($marksForm->get('assessment_type'));
+            ?>
+            <div class="x_content">
+              <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered" width="100%">
+                <thead>
+                  <th style="width: 5%" class="column-title">Sl No</th>
+                  <th style="width: 25%" class="column-title">Student Name </th>
+                  <th style="width: 25%" class="column-title">SID </th>
+                  <th style="width: 10%" class="column-title">Assessment Weightage</th>
+                  <th style="width: 10%" class="column-title">Assessment Marks</th>
+                  <th style="width: 20%" class="column-title">Marks Obtained</th>
+                </thead>
+                <tbody>
+                  <?php foreach($studentList as $key=>$value) {?>
+                    <tr class="even pointer">
+                      <td class=" "><?php echo $i++; ?></td>
+                      <td class=" "><?php echo $value; ?></td>
+                      <td class=" "><?php echo $key; ?></td>
+                      <td class=" "><?php echo $this->weightage; ?></td>
+                      <td class=" "><?php echo $this->assessment_marks; ?></td>
+                      <td style="width: 12%">
+                        <?php 
+                        $marksForm->get('marks_'.$key)->setValue($this->studentMarks[$key]);
+                        echo $this->formRow($marksForm->get('marks_'.$key)); 
+                        ?>
+                      </td>
+                  </tr>
+                  <?php  }?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <label class="control-label col-md-6 col-sm-6 col-xs-12">
+              Please Search the module and its assessment type before clicking on Submit Marks.
+            </label>
+            <?php
+            if ($studentList){
+              echo $this->formHidden($marksForm->get('csrf'));
+              echo $this->formSubmit($marksForm->get('submit'));  
+              ?>
+              <input type="button" class="btn btn-primary" onclick="printDiv('print-content')" value="Print this Page"/>
+              <?php 
+            }
+            echo $this->form()->closeTag(); 
+            ?>
+            <!-- End of display-->
+            </div>
+          </div>
+        </div>
+        <!-- End of Achievements-->
+        <div class="row">
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <label class="control-label col-md-12 col-sm-12 col-xs-12">You can also delete the marks. To delete the assessment marks, first you need to delete the compiled marks and than only you can delete the marks. To activate the dalate button you need to search first.</label>
+            <?php
+            if ($studentList){
+              // Opening of the form tag
+              $marksForm->setAttribute('action', $this->url('deleteassessmentmarks', array('action' => 'deleteAssessmentMarks')));
+              $form->prepare();
+              echo $this->form()->openTag($marksForm);
+              //not used. set for form validation
+              $marksForm->get('assessment_component_id')->setValue($this->programmesId);
+              $marksForm->get('assessment_type')->setValue($this->assessment);
+              $marksForm->get('studentCount')->setValue($this->studentCount);
+              $marksForm->get('batch')->setValue($this->batch);
+              $marksForm->get('section')->setValue($this->section);
+              $marksForm->get('programmes_id')->setValue($this->programmesId);
+              $marksForm->get('continuous_assessment_id')->setValue($this->continuous_assessment_id);
+              echo $this->formHidden($marksForm->get('id'));
+              echo $this->formHidden($marksForm->get('programmes_id'));
+              echo $this->formHidden($marksForm->get('continuous_assessment_id'));
+              echo $this->formHidden($marksForm->get('batch'));
+              echo $this->formHidden($marksForm->get('section'));
+              echo $this->formHidden($marksForm->get('assessment_type'));
+              echo $this->formHidden($marksForm->get('csrf'));
+              echo $this->formSubmit($marksForm->get('delete')); 
+            }
+            echo $this->form()->closeTag(); 
+            ?>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+              

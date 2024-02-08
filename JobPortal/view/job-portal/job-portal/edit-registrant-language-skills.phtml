@@ -1,0 +1,90 @@
+<?php
+ $title = 'Edit Language Skills';
+ $this->headTitle($title);
+
+ $language_details = array();
+ foreach($this->languageDetails as $details){
+  $language_details = $details;
+ }
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content"><br/>
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $registrant = $form->get('language');
+                    $registrant->get('id')->setValue($this->id);
+                    $registrant->get('job_applicant_id')->setValue($language_details['job_applicant_id']);
+                    $registrant->get('language')->setValue($language_details['language']);
+                    $registrant->get('spoken')->setValue($language_details['spoken']);
+                    $registrant->get('reading')->setValue($language_details['reading']);
+                    $registrant->get('writing')->setValue($language_details['writing']);
+                    date_default_timezone_set("Asia/Thimphu");
+                    $registrant->get('last_updated')->setValue(date("Y-m-d h:i:s"));
+                    $registrant->get('submit')->setValue('Update');
+                    echo $this->formHidden($registrant->get('id'));
+                    echo $this->formHidden($registrant->get('last_updated'));
+                    echo $this->formHidden($registrant->get('job_applicant_id'));
+                    ?>  
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Language<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('language')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Speaking<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('spoken')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reading<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('reading')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Writing<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('writing')); ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php
+                           echo $this->formHidden($form->get('csrf'));
+                           echo $this->formSubmit($registrant->get('submit')); 
+                        ?>
+                      </div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+        <!-- Start of table listing budget ledgers -->
+             </div>
+        
+        
+    
+          </div>
+        </div> 
+     </div>

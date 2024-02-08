@@ -1,0 +1,170 @@
+<?php
+ $title = 'Promotion Applicant Status Update';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+                ?>
+                <div class="x_content">
+                  <br />
+                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Promotion Approval List</a></li>
+                      <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Approved Promotion List</a></li>
+                      <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Rejected Promotion List</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                    <br/>
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action" width="100%">
+                        <thead>
+                          <tr class="headings">
+                             <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Promotion Type</th>
+                             <th class="column-title">Staff Name </th>
+                             <th class="column-title">Staff ID </th>
+                             <th class="column-title">Application Date </th>
+                             <th class="column-title">Status</th>
+                             <th class="column-title">Email </th>
+                             <th class="column-title">Contact No </th>
+			     <th class="column-title">Remarks </th>
+                             <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                             <?php $i=1; foreach($this->pendingApplicantList as $pending):?>
+                             <tr>
+                             	<td><?php echo $this->escapeHtml($i++);?></td>
+                                <td><?php echo $this->escapeHtml($pending['promotion_type']);?></td>
+                                <td><?php echo $this->escapeHtml($pending['first_name'].' '.$pending['middle_name'].' '.$pending['last_name']);?></td>
+                                <td><?php echo $this->escapeHtml($pending['emp_id']);?></td>
+                                <td><?php echo $this->escapeHtml($pending['created_at']);?></td>
+                                <td><?php echo $this->escapeHtml($pending['promotion_status']); ?></td>
+                                <td><?php echo $this->escapeHtml($pending['email']); ?></td>
+                                <td><?php echo $this->escapeHtml($pending['phone_no']); ?></td>  
+				<td>
+                                <?php
+                                  if($pending['promotion_remarks'] != NULL){
+                                    echo $this->escapeHtml($pending['promotion_status']);
+                                  } 
+                                  else { ?>
+                                  <p><i>No Remarks!</i></p>
+                                  <?php } ?>
+                                </td>
+                                <td><a href="<?php echo $this->url('viewdetailsforpromotion', array('id' => my_encrypt($pending['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                                    <a href="<?php echo $this->url('emppromotionapproval', array('id' => my_encrypt($pending['id'], $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i>Approve</a>
+                                    <a href="<?php echo $this->url('emppromotionreject', array('id' => my_encrypt($pending['id'], $key)));?>" class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Reject</a></td>
+                             </tr>
+							 <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                    <br/>
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                             <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Promotion Type </th>
+                             <th class="column-title">Staff Name </th>
+                             <th class="column-title">Staff ID </th>
+                             <th class="column-title">Application Date </th>
+                             <th class="column-title">Email </th>
+                             <th class="column-title">Contact No </th>
+                             <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                             <?php $i=1; foreach($this->approvedApplicantList as $approved):?>
+                             <tr>
+                             	<td><?php echo $this->escapeHtml($i++);?></td>
+                               <td><?php echo $this->escapeHtml($approved['promotion_type']);?></td>
+                                <td><?php echo $this->escapeHtml($approved['first_name'].' '.$approved['middle_name'].' '.$approved['last_name']);?></td>
+                                <td><?php echo $this->escapeHtml($approved['emp_id']);?></td>
+                                <td><?php echo $this->escapeHtml($approved['created_at']);?></td>
+                                <td><?php echo $this->escapeHtml($approved['email']); ?></td>
+                                <td><?php echo $this->escapeHtml($approved['phone_no']); ?></td>  
+                                <td><a href="<?php echo $this->url('viewupdatedemployeepost', array('id' => my_encrypt($approved['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View Updated Post </a></td>
+                             </tr>
+							 <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                    <br/>
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                             <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Promotion Type </th>
+                             <th class="column-title">Staff Name </th>
+                             <th class="column-title">Staff ID </th>
+                             <th class="column-title">Application Date </th>
+                             <th class="column-title">Email </th>
+                             <th class="column-title">Contact No </th>
+                             <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                             <?php $i=1; foreach($this->rejectedApplicantList as $rejected):?>
+                             <tr>
+                             	<td><?php echo $this->escapeHtml($i++);?></td>
+                               <td><?php echo $this->escapeHtml($approved['promotion_type']);?></td>
+                                <td><?php echo $this->escapeHtml($rejected['first_name'].' '.$rejected['middle_name'].' '.$rejected['last_name']);?></td>
+                                <td><?php echo $this->escapeHtml($rejected['emp_id']);?></td>
+                                <td><?php echo $this->escapeHtml($rejected['created_at']);?></td>
+                                <td><?php echo $this->escapeHtml($approved['email']); ?></td>
+                                <td><?php echo $this->escapeHtml($approved['phone_no']); ?></td>  
+                                <td><a href="<?php echo $this->url('viewrejectedreasons', array('id' => my_encrypt($rejected['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View Reasons </a></td>
+                             </tr>
+							 <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                 </div>
+                </div>
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+               
+              
+                
+            
+

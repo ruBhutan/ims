@@ -1,0 +1,205 @@
+<?php
+ $title = 'Add Attendance of Students(Daily & Module wise)';
+ $this->headTitle($title);
+ $dates = array();
+ $day = array();
+ $flash_message = NULL;
+ foreach($this->timetable_dates as $key=>$value){
+	 $dates[] = $key;
+	 $day[] = $value;
+ }
+ if($this->flashMessenger()->hasMessages()){
+	$messages = $this->flashMessenger()->getMessages();
+	$flash_message = $messages[0]; 
+ }
+ 
+ 
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <br/>
+                        <!-- Adding Attendance Record-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Add Attendance for Student")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+                               
+                            <div class="x_content">
+                            <h5><i>*(Add "attendance" for Students in a module.)<br />
+                            *(Please make sure you select the dates that you want to enter the attendance. Do not select the dates that you don't want to enter the attendance now.)</i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                                $form->get('year')->setValueOptions($this->yearList);
+                                                //$form->get('section')->setValueOptions($this->sectionList);
+                                $form->get('year')->setValue('1');
+                                $form->get('class_type')->setValue('Scheduled');
+                                              ?>
+                                      <?php 
+                                        if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                            echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                            $messages = $this->flashMessenger()->getMessages();
+                                            foreach($messages as $message) {
+                                                echo '<strong>Success!</strong>'. $message;
+                                            }
+                                            echo '</div>';
+                                        }
+
+                                        else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                            $messages = $this->flashMessenger()->getMessages();
+                                            foreach($messages as $message) {
+                                                echo '<strong>Failure!</strong>'. $message;
+                                            }
+                                            echo '</div>';
+                                        }
+
+                                    ?>  
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Module</label>
+                                    <?php echo $this->formRow($form->get('module')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                      <label>Section <small><i>(if no section, use 'A')</i></small></label>
+                                    <?php echo $this->formRow($form->get('section')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>From Date</label>
+                                    <?php echo $this->formRow($form->get('from_date')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>To Date</label>
+                                    <?php echo $this->formRow($form->get('to_date')); ?>
+                                  </div>
+                               </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('class_type'));
+                                        echo $this->formHidden($form->get('year'));
+                                        echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>
+                            
+                          
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("List of Student(s)"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <?php
+                                    if($this->attendanceForm != NULL){
+                                    // Opening of the form tag
+                                     $attendanceForm->setAttribute('action', $this->url('recordstudentattendance', array('action' => 'recordStudentAttendance')));
+                                     $form->prepare();
+                                     echo $this->form()->openTag($attendanceForm);
+                                     $attendanceForm->get('employee_details_id')->setValue($this->employee_details_id);
+                                     $attendanceForm->get('programme_id')->setValue($this->programme_id);
+                                     $attendanceForm->get('academic_modules_id')->setValue($this->academic_modules_id);
+                                     $attendanceForm->get('from_date')->setValue($this->from_date);
+                                     $attendanceForm->get('to_date')->setValue($this->to_date);
+                                     $attendanceForm->get('year')->setValue($this->year);
+									                   $attendanceForm->get('section')->setValue($this->section);
+                                     echo $this->formHidden($attendanceForm->get('employee_details_id'));
+                                     echo $this->formHidden($attendanceForm->get('programme_id'));
+                                     echo $this->formHidden($attendanceForm->get('academic_modules_id'));
+                                     echo $this->formHidden($attendanceForm->get('from_date'));
+                                     echo $this->formHidden($attendanceForm->get('to_date'));
+                                     echo $this->formHidden($attendanceForm->get('year'));
+									                    echo $this->formHidden($attendanceForm->get('section'));
+                            ?>
+                            <div class="x_content">
+                            <h4><i class="green">You are Entering Attendance for</i>&nbsp;&nbsp;
+                            <b>	&nbsp;&nbsp;<i class="blue">Programme: <?php echo $this->programme_name?></i>&nbsp;&nbsp;
+                            	&nbsp;&nbsp;<i class="blue">Module: <?php echo $this->module_code?></i>
+                            </b></h4>
+                            <br /><br />
+                            <div class="table-responsive">
+                              <table data-page-length='-1' class="table table-fixed table-striped responsive-utilities jambo_table bulk_action table-bordered" >
+                                <thead>
+                                <tr>
+                                    <th class="column-title" style="width:15%">Date/Day </th>
+                                    <?php for($i=0; $i< count($dates); $i++) {?>
+                                    <th style="width: 2%" class="column-title"><?php echo substr($dates[$i],5,5)."<br>"; echo substr($day[$i],0,3)."<br>"; echo substr($dates[$i],11,11);?></th>
+                                    <?php }?>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  <?php foreach ($this->studentList as $id => $name) : ?>
+                                  <tr class="even pointer">
+                                  	<td><?php echo $name.' ('.$id.')'; ?></td>
+                                    <?php foreach($this->timetable_dates as $key=>$value):?>
+                                    <td><?php echo $this->formRow($attendanceForm->get('attendance_'.$id.'_'.$key)); ?></td>
+                                    <?php endforeach; ?>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="row">
+                              <?php if(!empty($this->timetable_dates)){ ?>
+                                <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($attendanceForm->get('csrf'));
+                                       echo $this->formSubmit($attendanceForm->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                       
+                                    }//closing of if loop
+                                    ?>
+                              <?php } ?>
+                                    </div>
+                                </div>
+                          </div>
+                        </div>
+                        
+                            
+                           		<!-- End of Attendance-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              
+<script>
+$(function(){
+    $('.datepicker').datepicker({
+        format: 'mm-dd-yyyy',
+        //startDate: '+0d',
+		endDate: '+0d',
+        autoclose: true
+    });
+});
+</script>

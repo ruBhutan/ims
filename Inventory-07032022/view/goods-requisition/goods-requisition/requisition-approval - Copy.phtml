@@ -1,0 +1,136 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+ $title = 'Goods Requisition Approval Form';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+  <div class=" ">              
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><?php echo $this->escapeHtml($title); ?></h2>
+          <div class="clearfix"></div>
+        </div> <!--end of x-title-->      
+        <?php
+        // Opening of the form tag
+         $form->prepare();
+          echo $this->form()->openTag($form);
+          $details = $form->get('goodsrequisitionapproval');
+          echo $this->form()->openTag($form);
+          $details->get('id')->setValue($this->approvals->getId());
+          $details->get('requisition_date')->setValue($this->approvals->getRequisition_Date());
+          $details->get('item_name_id')->setValue($this->approvals->getItem_Name_Id());
+          echo $this->formHidden($details->get('item_name_id'));
+          $details->get('item_name')->setValue($this->approvals->getItem_Name());
+          $details->get('requisition_item_quantity')->setValue($this->approvals->getRequisition_Item_Quantity());
+          $details->get('item_specification')->setValue($this->approvals->getItem_Specification());
+          $details->get('purpose')->setValue($this->approvals->getPurpose());
+          $details->get('approval_date')->setValue($this->approvals->getApproval_Date());
+          $details->get('requisition_remarks')->setValue($this->approvals->getRequisition_Remarks());
+          $details->get('requisition_status')->setValue($this->approvals->getRequisition_Status());
+
+          $details->get('goods_requisition_details_id')->setValue($this->approvals->getId());
+          echo $this->formHidden($details->get('goods_requisition_details_id'));
+
+          $details->get('requisition_forwarded_by')->setValue($this->employee_details_id); 
+          echo $this->formHidden($details->get('requisition_forwarded_by'));
+
+          $requisition_forward_stat = 'Pending';
+          $details->get('requisition_forward_status')->setValue($requisition_forward_stat);
+          echo $this->formHidden($details->get('requisition_forward_status'));
+
+          $approval_date = date('Y-m-d');
+          $details->get('approval_date')->setValue($approval_date);
+
+          $forward_date = date('Y-m-d');
+          $details->get('requisition_forward_date')->setValue($forward_date);
+          echo $this->formHidden($details->get('requisition_forward_date')); 
+
+          $details->get('submit')->setValue('Update');
+          echo $this->formRow($details->get('id'));
+        ?>
+                              
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Requisition Date</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+            <?php  echo $this->formRow($details->get('requisition_date')); ?>
+          </div>
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Approval Date</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+            <?php  echo $this->formRow($details->get('approval_date')); ?>
+          </div>
+        </div><br>
+										              
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_name_id">Item Name</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+              <?php echo $this->formRow($details->get('item_name')); ?>
+          </div>
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Requisition Quantity</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+              <?php  echo $this->formRow($details->get('requisition_item_quantity')); ?> 
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Item Specification</label>
+          <div class="col-md-8 col-sm-8 col-xs-12">
+              <?php  echo $this->formRow($details->get('item_specification')); ?>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Purpose</label>
+          <div class="col-md-8 col-sm-8 col-xs-12">
+              <?php  echo $this->formRow($details->get('purpose')); ?>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Approval Status: <i>(If there is no quantity in stock of requested item and still want to approve requisition then please select Forward option)</i></label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+              <?php  echo $this->formRow($details->get('requisition_status')); ?>
+          </div>
+
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Approve Quantity: <i>(Approve item quantity should not be more than requisition quantity)</i></label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+              <?php  echo $this->formRow($details->get('approved_item_quantity')); ?>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks</label>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <?php  echo $this->formRow($details->get('requisition_remarks')); ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Forward Quantity: <i>(**This field should be filled if you select requisition status "Forwarded". Forward quantity should be equal or less than Approve Quantity**)</i></label>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <?php  echo $this->formRow($details->get('requisition_forward_quantity')); ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Forward Remarks: <i>(Optional - If necessary when requistion status is forward and forward requistion to higher authority)</i></label>
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <?php  echo $this->formRow($details->get('requisition_forward_remarks')); ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+          <div class="ln_solid"></div>
+          <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+          <div class="col-md-5 col-sm-5 col-xs-12">
+              <?php
+                echo $this->formRow($form->get('csrf'));   
+                echo $this->formRow($details->get('submit')); 
+              ?>
+          </div>
+          </div>
+        </div>
+        <?php echo $this->form()->closeTag(); ?> <!--//closing the form tag -->
+      </div><!--end of table-responsive-->
+    </div><!--end of x-panel -->
+  </div><!--end of col-md-12 col-sm-12 col-xs-12 -->
+</div><!--end of nav_menu-->

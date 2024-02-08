@@ -1,0 +1,142 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Add Individual Student Disciplinary Problem';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $discipline = $form->get('discipline');
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($discipline->get('id'));
+					//get the objectives with their id
+					$data = $this->selectData;
+					$discipline->get('discipline_category_id')->setValueOptions($data);
+					
+					//getting the student details
+					$studentName;
+					$studentId; //this is the student id
+					$stdId; //this is the auto generated id
+					$studentDetail = $this->studentDetail;
+					foreach($studentDetail as $student){
+						$studentName = $student['first_name'];
+						$studentName .= ' ';
+						$studentName .= $student['middle_name'];
+						$studentName .= ' ';
+						$studentName .= $student['last_name'];
+						$studentId = $student['student_id'];
+						$stdId = $student['id'];
+					}
+					
+					//setting the value of the std id
+					$discipline->get('student_id')->setValue($stdId);
+				  ?>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $studentName; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $studentId; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Date<span class="required">*</span>
+                        </label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($discipline->get('record_date'));
+                        ?>
+                        </div>
+                    </div>
+                    </div>
+                     <div class="row">
+                    <div class="form-group"> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Disciplinary Category <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <?php
+                        echo $this->formRow($discipline->get('discipline_category_id'));
+                        ?>
+                        
+                      </div>
+                  </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Disciplinary Details <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <?php
+                         echo $this->formRow($discipline->get('disciplinary_details'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <h2>Staff Details(Who has added the disciplinary details of the student)</h2>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Employee<span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php echo $this->formRow($discipline->get('record_by')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Employee ID <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php echo $this->formRow($discipline->get('record_by')); ?>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="ln_solid"></div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <?php
+                         echo $this->formSubmit($discipline->get('submit')); 
+                        ?>
+                        </div>
+                    </div>
+                    </div>
+                   <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                  </div>
+               </div>
+            </div>
+          </div>
+        </div>
+                        
+                   
+                    
+                 
+                 
+            
+         
+              
+       
+                

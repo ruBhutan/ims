@@ -1,0 +1,64 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+        <h3><?php $userRole=$this->layout()->userRole; echo $userRole; $userRegion=$this->layout()->userRegion; echo ", $userRegion"; ?></h3>
+        <ul class="nav side-menu">
+            
+	 <!-- Admission,Academic and Examination Module--> 
+	   
+			<li><a><i class="fa fa-user-plus"></i>Admission,Academic & Examination Module<span class="fa fa-chevron-down"></span></a>
+				<ul class="nav child_menu">
+					
+                  <li><a><i class=""></i>Academic<span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                          <li><a>Recheck of Marks<span class="fa fa-chevron-down"></span></a>
+                              <ul class="nav child_menu">
+                                <li><a href="<?php echo $this->url('applyforrecheck') ?>"><?php echo $this->translate('Apply for Recheck') ?></a></li>
+                              </ul>
+                          </li>
+                          <li><a>Reassessment of Modules<span class="fa fa-chevron-down"></span></a>
+                              <ul class="nav child_menu">
+                                <li><a href="<?php echo $this->url('applyreassessment') ?>"><?php echo $this->translate('Apply for Reassessment') ?></a></li>
+                              </ul>
+                          </li>
+                          <li><a>Repeat Modules<span class="fa fa-chevron-down"></span></a>
+                              <ul class="nav child_menu">
+                              	<li><a href="<?php echo $this->url('applyrepeatmodule') ?>"><?php echo $this->translate('Apply for Backlog Module') ?></a></li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </li>
+            </ul>
+        </li>           
+           <!-- Student module: Student Service Management Module--> 
+            
+                   <li><a><i class="fa fa-thumbs-o-up"></i>Student Services<span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                          <li><a>Counseling Service<span class="fa fa-chevron-down"></span></a>
+                              <ul class="nav child_menu">
+                                   <li><a href="<?php echo $this->url('counselingappointment') ?>"><?php echo $this->translate('Seek Appointment') ?></a></li>
+                                   
+                              </ul>
+                       </li>
+                         
+                       <li><a>Hostel Management<span class="fa fa-chevron-down"></span></a>
+                             <ul class="nav child_menu">
+                                <li><a href="<?php echo $this->url('hostelchangeapplication') ?>"><?php echo $this->translate('Apply for Hostel Change') ?></a></li>
+                             </ul>
+                        </li>
+                             <li><a>Student Suggestion<span class="fa fa-chevron-down"></span></a>
+                              <ul class="nav child_menu">
+                                <li><a href="<?php echo $this->url('poststdsuggestions') ?>"><?php echo $this->translate('Post Suggestion') ?></a></li>
+                                </ul>
+                          </li>
+                       
+                        <li><a>Club and Units<span class="fa fa-chevron-down"></span></a><!--Modules:elective-module-allocation-->
+                              <ul class="nav child_menu">
+                                <li><a href="<?php echo $this->url('applymembership') ?>"><?php echo $this->translate('Apply Club Membership') ?></a></li>
+                                <li><a href="<?php echo $this->url('clubmembershipstatus') ?>"><?php echo $this->translate('Club Membership Status') ?></a></li>
+                                <li><a href="<?php echo $this->url('clubmembers') ?>"><?php echo $this->translate('Club Members') ?></a></li>
+                              </ul>
+                        </li>
+                      </ul>
+                  </li>
+                </div>
+</div>

@@ -1,0 +1,174 @@
+<?php
+
+ $title = 'Edit Module';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+                </div>
+                  <div class="x_content">
+                	<br/>
+                 	<?php
+						// Opening of the form tag
+						$form->prepare();
+						echo $this->form()->openTag($form);
+						$module = $form->get('module');
+						echo $this->form()->openTag($form);
+						//need to set all preset values
+						$module->get('id')->setValue($this->moduleDetails->getId());
+						$module->get('module_title')->setValue($this->moduleDetails->getModule_Title());
+						$form->get('year')->setValue($this->moduleDetails->getModule_Year());
+						$form->get('semester')->setValue($this->moduleDetails->getModule_Semester());
+						$module->get('module_code')->setValue($this->moduleDetails->getModule_Code());
+						$module->get('module_credit')->setValue($this->moduleDetails->getModule_Credit());
+                        $module->get('contact_hours')->setValue($this->moduleDetails->getContact_Hours());
+						$module->get('module_description')->setValue($this->moduleDetails->getModule_Description());
+						$module->get('programmes_id')->setValueOptions($this->programmeList);
+						$module->get('programmes_id')->setValue($this->moduleDetails->getProgrammes_Id());
+						$module->get('status')->setValue($this->moduleDetails->getStatus());
+						echo $this->formHidden($module->get('id'));
+						echo $this->formHidden($module->get('programmes_id'));
+						echo $this->formHidden($module->get('module_title'));
+						echo $this->formHidden($module->get('module_code'));
+					?>
+                    <div class="row">
+                        <div class="form-group"> 
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Title<span class="required">*</span></label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->moduleDetails->getModule_Title();?>">
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Code<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->moduleDetails->getModule_Code();?>">
+                            </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-1 col-xs-12">Module Credit<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($module->get('module_credit')); ?>
+                            </div>
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">Module Type<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($module->get('module_type')); ?>
+                            </div>
+                        </div>
+                     </div>
+                        <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Year<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('year')); ?>
+                            </div>
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">Module Semester<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('semester')); ?>
+                            </div>
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">Contact Hours<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($module->get('contact_hours')); ?>
+                            </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="form-group"> 
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Status<span class="required">*</span> </label>
+                            <div class="col-md-2 col-sm-2 col-xs-12">
+                              <?php echo $this->formRow($module->get('status')); ?>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="form-group"> 
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Description (Brief)<span class="required">*</span> </label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                              <?php echo $this->formRow($module->get('module_description')); ?>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <?php
+                                   
+                                   echo $this->formHidden($form->get('csrf'));
+                                   echo $this->formSubmit($module->get('update')); 
+                                ?>
+                                </div>
+                            </div>
+                       </div>
+                            <?php
+                            echo $this->form()->closeTag();
+                            ?>
+                        </div>
+                      </div>
+                </div>
+               <?php
+				 $title = 'Programme';
+				 $this->headTitle($title);
+			  ?>
+              <div class="col-md-12 col-xs-12">
+                  
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                        <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Programme Name</th>
+                            <th class="column-title">Module Title</th>
+                            <th class="column-title">Module Code</th>
+                            <th class="column-title">Credits</th>
+                            <th class="column-title">Year</th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach ($this->modules as $module) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($this->programmeList[$module['programmes_id']]); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_title']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_code']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_credit']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_year']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_semester']);?></td>
+                            <td><a href="<?php echo $this->url('viewmodule', array('id' => $module['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                            	<a href="<?php echo $this->url('editmodule', array('id' => $module['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                             	</td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                
+                </div></div></div></div>
+             
+          </div>
+        </div> 
+     </div>

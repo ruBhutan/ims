@@ -1,0 +1,29 @@
+<?php
+ $title = 'Delete Category';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Delete Category</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br />
+                    <p><h3>Are you sure that you want to delete</h3>
+                        '<?php echo $this->escapeHtml($this->id->getStudent_Category()); ?>' 
+                        '<?php echo $this->escapeHtml($this->id->getDescription()); ?>'? 
+                    </p>
+                    <form action="<?php echo $this->url('delete-student-category', array(), true) ?>" method="post">
+                        <div>
+                            <button type="submit" class="btn btn-danger" name="delete_confirmation" value="yes">Yes</button>
+                            <button type="submit" class="btn btn-primary" name="delete_confirmation" value="no">No</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

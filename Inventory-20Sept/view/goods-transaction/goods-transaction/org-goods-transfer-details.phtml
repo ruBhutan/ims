@@ -1,0 +1,165 @@
+
+<!--book gest house -->
+  <?php
+ 
+ $title = 'Goods Transfer from other organisation';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                   <h5><i>Details of item transfer from another college/ organisation. <br/><br/>
+                    <b>***Note: If you find there is any changes in quantity then you can change the quantity based on what you received and accept it.</b>
+                   </i></h5>
+
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $update = $form->get('updateorggoodstransfer');
+                    echo $this->form()->openTag($form);
+                    $update->get('id')->setValue($this->orgTransferDetails->getId());
+                    $update->get('organisation_goods_id')->setValue($this->orgTransferDetails->getOrganisation_Goods_Id());               
+                    $update->get('organisation_name')->setValue($this->orgTransferDetails->getOrganisation_Name()); 
+                    $update->get('organisation_from_id')->setValue($this->orgTransferDetails->getOrganisation_From_Id());            
+                    $update->get('employee_details_from_id')->setValue($this->orgTransferDetails->getEmployee_Details_From_Id());
+                    $update->get('transfer_quantity')->setValue($this->orgTransferDetails->getTransfer_Quantity());
+                    $update->get('organisation_to_id')->setValue($this->orgTransferDetails->getOrganisation_To_Id());
+                    $update->get('employee_details_to_id')->setValue($this->employee_details_id);
+                    $update->get('item_received_type')->setValue('Transfered');
+                    $update->get('item_purchasing_rate')->setValue($this->orgTransferDetails->getItem_Purchasing_Rate());
+                    $update->get('transfer_date')->setValue($this->orgTransferDetails->getTransfer_Date());
+                    $update->get('transfer_remarks')->setValue($this->orgTransferDetails->getTransfer_Remarks());
+                    $update->get('approve_date')->setValue(date('Y-m-d'));         
+                    $update->get('item_name')->setValue($this->orgTransferDetails->getItem_Name());
+                    $update->get('item_specification')->setValue($this->orgTransferDetails->getItem_Specification());
+                    $update ->get('transfer_status')->setValue('Approved');
+                    $update ->get('item_received_transfered_id')->setValue($this->item_received_transfered_id);
+                    echo $this->formHidden($update->get('organisation_goods_id'));
+                    echo $this->formHidden($update->get('organisation_from_id'));   
+                    echo $this->formHidden($update->get('employee_details_from_id'));
+                    echo $this->formHidden($update->get('organisation_to_id'));
+                    echo $this->formHidden($update->get('employee_details_to_id'));
+                    echo $this->formHidden($update->get('item_received_type'));
+                    echo $this->formHidden($update->get('item_purchasing_rate'));
+                    echo $this->formHidden($update->get('approve_date'));
+                    echo $this->formHidden($update->get('transfer_status'));
+                    echo $this->formHidden($update->get('item_received_transfered_id'));
+                    $update->get('submit')->setValue('Update Transfer');
+                    echo $this->formHidden($update->get('id'));
+                    ?>
+                    
+                  <div class="x_content">
+                    <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                      
+                        <br>
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="organisation_from_id">Organisation From </label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($update->get('organisation_name')); ?>
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="transfer_date">Transfered Date</label> 
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($update->get('transfer_date')); ?>
+                            </div>                            
+                          </div> 
+
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_name">Transfered Item</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($update->get('item_name'));?>
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="transfer_quantity">Transfered Quantity<small> <br>(You can edit the quantity as per your approval but it should not exceed the transfered quantity.)</small></label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($update->get('transfer_quantity'));?>
+                            </div>                           
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_specification">Item Specification<br />
+                              <small>(Here you can enter the details of item when received at first time)</small></label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($update->get('item_specification'));?>
+                            </div>                     
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="transfer_remarks">Transfered Remarks<br />
+                              <small>(Here you can enter the details of item when when applied for transfer)</small></label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($update->get('transfer_remarks'));?>
+                            </div>
+                          </div> 
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="approve_remarks">Remarks*<br />
+                              <small>(Please enter the details of item when you received. You can also enter how many quantity you are approving and how many quantity you are rejecting here.)</small></label>
+                            <div class="col-md-10 col-sm-10 col-xs-12">
+                              <?php echo $this->formRow($update->get('approve_remarks'));?>
+                            </div>                     
+                          </div>  <br>
+                          <i><b>NOTE: Please select below category, sub-category and item name before you click on update transfer button to add this particular item to your organisation item category, sub-category and ite name.</b></i><br><br>
+
+                         <div class="form-group">
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <label>Item Category<span class="required">*</span></label>
+                                    <?php echo $this->formRow($form->get('item_category_id')); ?>
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <label>Item Sub Category<span class="required">*</span></label>
+                                <?php echo $this->formRow($form->get('item_sub_category_id')); ?>
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <label>Item Name<span class="required">*</span></label>
+                                <?php echo $this->formRow($form->get('item_name_id')); ?>
+                            </div>
+                        </div>                              
+                                               
+                         <div class="row">
+                          <div class="ln_solid"></div>
+                            <div class="form-group">
+                              <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                                <?php
+                                echo $this->formHidden($form->get('csrf'));  
+                                echo $this->formSubmit($update->get('submit')); 
+                                ?>
+                                    
+                              </div>
+                            </div>
+                       </div>
+
+                       <?php 
+                        echo $this->form()->closeTag();
+                        ?>
+                    
+                  </div>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+
+ 

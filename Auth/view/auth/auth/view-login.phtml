@@ -1,0 +1,81 @@
+<?php
+$basepath = $this->basePath();
+$this->headScript()
+        ->appendFile($basepath . '/js/jquery/dist/jquery.min.js')
+        ->appendFile($basepath .'/js/jquery-validation/dist/jquery.validate.js')
+        ->appendFile($basepath . '/js/user/login.js');
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Royal University of Bhutan - Information Management System | </title> 
+</head>
+<body class="login">
+  <div class="container-fluid">
+    
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div>
+        <a class="hiddenanchor" id="signup"></a>
+        <a class="hiddenanchor" id="signin"></a>
+        <div class="login_wrapper"></div>
+      </div>
+    </div><br><br><br>
+    <div class="row">
+      <div class="col-sm-2">
+      </div>
+      <div class="col-sm-3">
+        <div class="animate form login_form">
+          <img src="../../data/user_manual/1200px_rub_logo.png" alt="Simply Easy Learning" width="100%">
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <div class="well">
+          <div class="animate form login_form">
+            <section class="login_content">
+              <form role="form" name="f" method="post" id="loginForm" data-url="<?= $this->basePath(); ?>">
+                <div class="form-row align-items-center">
+                  <h1> <center> <i class="fa fa-university"></i>RUB-IMS</center></h1>
+                  <div class="form-group has-feedback">
+                    <input type='text' placeholder='Username' id="username" class="email_input form-control" value="" name="username" tabindex="1">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <input id="password" class="email_input form-control" type="password" placeholder="Password" name="password" tabindex="2">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                  </div>
+                  <div>
+                    <div>
+                      <button type="submit" id='signIn' tabindex="3" class="btn btn-default submit" data-spinner="right"><i class="fa fa-arrow-circle-right"></i> Login</button>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="separator">
+                    <p class="change_link">
+                      <a href="<?= $this->url('auth') . '/view-register'; ?>" tabindex="3" class="to_register" data-spinner="right"><i class="fa fa-user-plus"></i> Register Job Applicant</a>
+                      <a href="<?= $this->url('auth') . '/forgot-password'; ?>" tabindex="3" class="to_register" data-spinner="right"><i class="fa fa-key"></i> Forgot Password?</a>
+                    </p>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+              </form>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+      </div>
+      <div class="col-sm-10">
+      </div>
+    </div>
+  </div>
+</body>
+</html>

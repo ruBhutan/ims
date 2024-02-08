@@ -1,0 +1,148 @@
+<?php
+ $title = 'Issue Goods to Departments';
+ $this->headTitle($title);
+
+ $deptDetail = array();
+ foreach($this->department as $detail)
+ {
+   $deptDetail['department_id'] = $detail['department_name'];
+ }
+ 
+ $departments = array();
+ $goodsReceiverNames = array();
+ foreach($this->departmentList as $key=>$value)
+ {
+   $departments[$key] = $value;
+ }
+ 
+ foreach($this->goodsReceiverDetails as $name)
+ {
+   $goodsReceiverNames[$name['id']] = $name['first_name'] .' '.$name['middle_name'].' '.$name['last_name'].' '.$name[('emp_id')];
+ }
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <h5><i>***In order to issue goods to department, you have to select particular staff/ Head of Department from below listed department. He or she will have right to issue goods to other staffs. Issued goods will be in department goods lists under particular staff.</i></h5>
+                    
+                  <div class="x_content">
+                    <br/>
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $deptIssueGoods = $form->get('deptgoods');
+                    echo $this->form()->openTag($form);
+                    $deptIssueGoods->get('id')->setValue($this->id);
+          					$deptIssueGoods->get('goods_received_id')->setValueOptions($this->itemName);
+                    $deptIssueGoods->get('goods_received_by')->setValueOptions($this->deptStaffList);
+          					echo $this->formHidden($deptIssueGoods->get('id'));
+          					//echo $this->formHidden($deptIssueGoods->get('emp_id'));
+                    $deptIssueGoods->get('issue_goods_status')->setValue('Not Issued'); 
+                    echo $this->formHidden($deptIssueGoods->get('issue_goods_status'));
+
+                    $issue_date = date('Y-m-d');
+                    $deptIssueGoods->get('date_of_issue')->setValue($issue_date);
+					
+				  ?>  
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Department Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $deptDetail['department_id']; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="goods_received_by">Staff Name<span class="required">*</span></label>
+                      <div class="col-md-3 col-sm-3 cold-xs-12">
+                        <?php echo $this->formRow($deptIssueGoods->get('goods_received_by')); ?>
+                      </div>
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_name_id">Item Name<span class="required">*</span></label>
+                      <div class="col-md-3 col-sm-3 cold-xs-12">
+                        <?php echo $this->formRow($deptIssueGoods->get('goods_received_id')); ?>
+                      </div>
+                    </div>                
+                   
+                    <div class="ln_solid"></div>
+                      <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?php
+                    						echo $this->formHidden($form->get('csrf'));
+                    						echo $this->formSubmit($deptIssueGoods->get('submit')); 
+                              ?>
+                            </div>
+                        </div>
+                      </div>
+                   <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                  </div>
+                </div>
+
+                <!-- Start of table listing item to issue -->
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml('Item List to Issue'); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <h5><i>*The following are the list of the item to issue to particualr selected department staff. You can view/edit/delete the item before you issue.</i></h5>
+                  <br />
+                  <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">     
+                            <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Item Category </th>
+                            <th class="column-title">Sub Category Type </th>
+                          <th class="column-title">Item Name</th>
+                          <th class="column-title">Item Quantity Type</th>
+                          <th class="column-title">Item In Stock</th>
+                            <th class="column-title">Quantity</th>
+                            <th class="column-title">Action </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i=1; ?>
+                        <?php foreach ($this->submitDeptIssueGoods as $submitDept) : ?>
+                            <tr>
+                                  <td class=" "><?php echo $i; ?></td>
+                                  <td class=" "><?php echo $this->escapeHtml($submitDept->getItem_Category_Type());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($submitDept->getSub_Category_Type());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($submitDept->getItem_Name());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($submitDept->getItem_Quantity_Type());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($submitDept->getItem_In_Stock());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($submitDept->getQuantity());?></td>
+                                   
+                                   
+                            </tr>
+                            <?php $i++; ?>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+                 </div>
+                 <?php
+          // Opening of the form tag
+          $submitForm->setAttribute('action', $this->url('updatedeptissuegoods', array('action' => 'updateDeptIssueGoods', 'id' => $id)));
+                    $submitForm->prepare();
+                    echo $this->form()->openTag($submitForm);
+          echo $this->formHidden($submitForm->get('csrf'));
+          echo $this->formSubmit($submitForm->get('submit'));
+          ?>
+             </div>
+              </div>
+           </div>
+         </div>

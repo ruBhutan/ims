@@ -1,0 +1,55 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/AssetController/addassetAction
+ * 
+ */
+	$this->headTitle($this->title);
+?>
+<?php 
+    foreach($this->cheque as $cheque):
+        extract($cheque);
+    endforeach;
+?>
+<form id="form" method="post" action="<?php echo $this->url('cheque', array('action' => 'editcheque', 'id' => $id)); ?>" enctype="multipart/form-data" >
+	<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-pencil-square-o"></i> Edit Fund</h4>
+    </div><!-- /modal-header -->
+    <div class="modal-body">
+		<div class="panel panel-default">
+			<div class="panel-body">    
+				<div class="form-group">
+					<label for="cheque_no" class="control-label">Cheque No. </label>
+					<input type="text" class="form-control" name="cheque_no" id="cheque_no" value="<?php echo $cheque_no;?>" required>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+		<button type="button" class="btn btn-warning" data-dismiss="modal" ><i class="fa fa-times"></i> Cancel </button> 
+	</div><!-- /modal-footer -->
+</form>
+<script>
+	$('#fund_date').datepicker();
+	$('document').ready(function(){
+		$('form').formValidation({
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				cheque_no: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide code.'
+						}
+					}
+				},
+			}
+		});
+		$('#fund_date').on('changeDate', function(){
+			$('form').formValidation('revalidateField','fund_date');
+		});
+	});
+</script>
+	

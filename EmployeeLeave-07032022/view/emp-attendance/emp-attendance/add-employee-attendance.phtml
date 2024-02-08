@@ -1,0 +1,301 @@
+<?php
+ $title = 'Staff Attendance';
+ $this->headTitle($title);
+ 
+ $staffs = array();
+ $i = 1;
+ foreach($this->staffList as $detail){
+	 $staffs[$i]['name'] = $detail['first_name'].' '.$detail['middle_name'].' '.$detail['last_name'];
+	 $staffs[$i]['id'] = $detail['id'];
+	 $i++;
+ }
+ if($this->staffAttendance != NULL){
+	 $staffAttendance = array();
+	 foreach($this->staffAttendance as $key=>$value){
+		 foreach($value as $key1=>$value1){
+			 $staffAttendance[$key][$key1] = $value1;
+		 }
+ 	}
+ }
+ $absent_data = array();
+ $absentee_data = array();
+ if($attendanceRecordDate != NULL){
+	 $index = 1;
+	 foreach($this->attendanceRecordDate as $key=>$value){
+		 foreach($value as $key1=>$value1){
+			 if(array_key_exists('from_date', $absent_data)){
+				 if(strtotime($absent_data['from_date']) > strtotime($value1)){
+					  $absent_data['from_date'] = $value1;
+				 }
+			 } else {
+				 $absent_data[$key1] = $value1;
+			 }
+			 if(array_key_exists('to_date', $absent_data)){
+				 if(strtotime($absent_data['to_date']) < strtotime($value1)){
+					  $absent_data['to_date'] = $value1;
+				 }
+			 } else {
+				 $absent_data[$key1] = $value1;
+			 }
+		 }
+	 }
+	 $index = 1;
+	 foreach($this->absentData as $key => $value){
+		 foreach($value as $key1=>$value1){
+			 $absentee_data[$key][$key1] = $value1;
+		 }
+	 }
+ }
+
+ //calculate the no of days between the two selected dates
+ $start = strtotime($this->from_date);
+ $end =strtotime($to_date);
+ $date_diff = $end-$start;
+ $no_days = floor($date_diff/(60*60*24)) + 1;
+ $day = (int) substr($this->from_date,8,2);
+ 
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }?>
+                        <!-- Adding Attendance-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Add Attendance by Unit/Section")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+                               
+                            <div class="x_content">
+                            <h5><i>*(Add "attendance" for a unit/section. You need to only enter the "Absentee". By default, it is considered present)<br /></i>
+                            	<i>*(Please enter the start date. Attendance can be done for a maximum of 1 month at a time. If choice overlaps multiple months, 
+                                     the end date will be truncated to match the month of the "From Date")<br /></i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+								$form->get('unit_name')->setValueOptions($this->unitsList);
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Units/Section</label>
+                                    <?php echo $this->formRow($form->get('unit_name')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>From Date - To Date</label>
+                                    <?php echo $this->formRow($form->get('from_date')); ?>
+                                  </div>
+                             </div>
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>     
+                              
+                          
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("List of Staff"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+            
+                            <div class="x_content">
+                                <div class="table-responsive">
+                              <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <?php                      
+									if($attendanceForm != NULL)
+									{ ?>
+                                <thead>
+                                    <th style="width: 10%" class="column-title">Name </th>
+                                    <?php for($i=1; $i<= $no_days; $i++) {?>
+                                    <th style="width: 2%" class="column-title"><?php echo $day+$i-1; ?></th>
+                                    <?php }?>
+                                </thead>
+            
+                                <tbody>
+                                 <?php  
+									 $i = 1;
+									 // Opening of the form tag
+									 $attendanceForm->setAttribute('action', $this->url('recordempattendance', array('action' => 'recordEmployeeAttendance')));
+									 $form->prepare();
+									 echo $this->form()->openTag($attendanceForm);
+									 $attendanceForm->get('departments_units_id')->setValue($this->unitName);
+									 $attendanceForm->get('from_date')->setValue($this->from_date);
+									 $attendanceForm->get('to_date')->setValue($this->to_date);
+									 echo $this->formHidden($attendanceForm->get('departments_units_id'));
+									 echo $this->formHidden($attendanceForm->get('from_date'));
+									 echo $this->formHidden($attendanceForm->get('to_date'));
+                                  for($i = 1; $i<=count($this->staffList); $i++) {?>
+                                  <tr class="even pointer">
+                                  	<td class=" "><?php echo $staffs[$i]['name']; ?></td>
+                                  	<?php for($j=$day; $j< ($no_days+$day); $j++) {?>
+                                    <td style="width: 12%">
+										<?php 
+											$table_date = strtotime("+".$j." day", strtotime($this->from_date));
+											if($absent_data != NULL){
+												if(in_array($j, $this->weekends)){
+													?><span class="label label-warning">S</span><?php
+												}
+												else if(($table_date >= strtotime($absent_data['from_date'])) && ($table_date <= strtotime($absent_data['to_date']))){
+													if(array_key_exists($staffs[$i]['id'], $staffAttendance)){
+														if(($table_date >= strtotime($staffAttendance[$staffs[$i]['id']]['from_date'])) && ($table_date <= strtotime($staffAttendance[$staffs[$i]['id']]['to_date']))){
+															if(array_key_exists('emp_leave_category_id', $staffAttendance[$staffs[$i]['id']])){
+																?><span class="label label-info">L</span><?php
+															}
+															else{
+																?><span class="label label-info">T</span><?php
+															}
+														}
+														elseif($absentee_data != NULL){
+																foreach($absentee_data as $key => $value){
+																	if(strtotime($value['absent_date']) == $table_date && $staffs[$i]['id'] == $value['employee_details_id']){
+																		?><span class="label label-danger">A</span><?php
+																		unset($absentee_data[$key]);
+																		break;
+																	} else{
+																		?><span class="label label-success">P</span><?php
+																		break;
+																	}
+																}
+														} else{
+															?><span class="label label-success">P</span><?php
+														}
+													}
+													elseif($absentee_data != NULL){
+														foreach($absentee_data as $key => $value){
+															if(strtotime($value['absent_date']) == $table_date && $staffs[$i]['id'] == $value['employee_details_id']){
+																 ?><span class="label label-danger">A</span><?php
+																unset($absentee_data[$key]);
+																break;
+															} else{
+																?><span class="label label-success">P</span><?php
+																break;
+															}
+														}
+													} else{
+														?><span class="label label-success">P</span><?php
+													}
+												} 
+												
+												else{
+													if(array_key_exists($staffs[$i]['id'], $staffAttendance)){
+														if(($table_date >= strtotime($staffAttendance[$staffs[$i]['id']]['from_date'])) && ($table_date <= strtotime($staffAttendance[$staffs[$i]['id']]['to_date']))){
+															if(array_key_exists('emp_leave_category_id', $staffAttendance[$staffs[$i]['id']])){
+																?><span class="label label-info">L</span><?php
+															}
+															else{
+																?><span class="label label-info">T</span><?php
+															}
+														} else
+															echo $this->formRow($attendanceForm->get('attendance_'.$i.'_'.$j));
+													} 
+													else 
+														echo $this->formRow($attendanceForm->get('attendance_'.$i.'_'.$j));
+												} 
+											} //end of first if loop
+											else{
+												if(in_array($j, $this->weekends)){
+													?><span class="label label-warning">S</span><?php
+												}
+												else if(array_key_exists($staffs[$i]['id'], $staffAttendance)){
+														if(($table_date >= strtotime($staffAttendance[$staffs[$i]['id']]['from_date'])) && ($table_date <= strtotime($staffAttendance[$staffs[$i]['id']]['to_date']))){
+															if(array_key_exists('emp_leave_category_id', $staffAttendance[$staffs[$i]['id']])){
+																?><span class="label label-info">L</span><?php
+															}
+															else{
+																?><span class="label label-info">T</span><?php
+															}
+														} else
+															echo $this->formRow($attendanceForm->get('attendance_'.$i.'_'.$j));
+													} 
+													else 
+														echo $this->formRow($attendanceForm->get('attendance_'.$i.'_'.$j));
+											} 
+										?>
+                                    </td>
+                                    <?php } ?>
+                                  </tr>
+                                  <?php }?>
+                                </tbody>
+                              </table>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="row">
+                                    <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($attendanceForm->get('csrf'));
+                                       echo $this->formSubmit($attendanceForm->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                       
+                                      //closing of if loop
+                                    }
+                                    ?>
+                      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $(window).on('beforeunload', function () {
+                                $("input[type=submit], input[type=button]").prop("disabled", "disabled");
+                            });
+                        </script>
+				    </div>
+                                </div>
+                                
+                                    <!-- End of Attendance-->
+                            </div>
+                          </div>
+                          
+                        </div>
+                        
+                      </div>
+                  </div>
+                </div>
+              

@@ -1,0 +1,167 @@
+<?php
+ $title = 'Final Performance Assessment';
+ $this->headTitle($title);
+ 
+ $api_output = array();
+ $academic_activities = array();
+ $api = array();
+ $remarks_data = array();
+ $index = 1;
+ if($this->academicKpi !=NULL){
+	 foreach($this->academicKpi as $kpi){
+		 $academic_activities[$kpi['category']][$kpi['activity_name']][]= $kpi;
+		 $api_output[$kpi['category']][] = $kpi['activity_name'];
+		 $api[$kpi['pms_nature_activity_id']] = $kpi['nature_of_activity'];
+		 $api[$kpi['performance_rating']] = $kpi['performance_rating'];
+		 $remarks_data[$index++] = $kpi['id'];
+	 }
+ }
+ if($this->feedbackScore == 0){
+	 $performance_score = $this->performanceScore * (80/100);
+	 $final_score = $performance_score * (100/80);
+ }
+ 
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+                  ?>
+               <div class="row">
+                  <div class="x_content">
+                    <!-- blockquote -->
+                      <blockquote>
+                        <h4><i>Evaluation for the activities that were proposed</i></h4>
+                      </blockquote>
+                      <br />
+                    <!-- start evaluation list -->
+                    <?php if($this->evaluation == "administrative") {?>
+                    <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                      <thead>
+                        <tr>
+                          <th style="width: 1%">#</th>
+                          <th style="width: 15%">Activity Name</th>
+                          <th style="width: 10%">Excellent</th>
+                          <th style="width: 10%">Very Good</th>
+                          <th style="width: 10%">Good</th>
+                          <th style="width: 10%">Needs Improvement</th>
+                          <th style="width: 9%">Self Rating</th>
+                          <th style="width: 9%">Supervisor Rating</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+						  $i=1;  foreach($this->administrativeKpi as $administrative): ?>
+						  <tr class="even pointer">
+							<td class=" ">#</td>
+                            <td class=" "><?php echo $administrative['subactivity_name'];?></td>
+							<td class=" "><?php echo $administrative['outstanding_description'];?></td>
+							<td class=" "><?php echo $administrative['very_good_description'];?></td>
+							<td class=" "><?php echo $administrative['good_description'];?></td>
+							<td class=" "><?php echo $administrative['needs_improvement_description'];?></td>
+							<td class=" "><?php echo $administrative['self_evaluation']; ?></td>
+                            <td class=" "><?php echo $administrative['supervisor_evaluation']; ?></td>
+						  </tr>
+                      <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    <br />
+                    <div class="ln_solid"></div>
+                    <?php } else { ?>
+                    <br />
+                    <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                          <tr class="headings">
+                             <th style="width:25%" class="column-title">College/Department Output</th>
+                             <th style="width:25%" class="column-title">Activities</th>
+                             <th style="width:15%" class="column-title">Maximum API </th>
+                             <th style="width:15%" class="column-title">Minimum API</th>
+                             <th style="width:10%" class="column-title">Status/Remarks</th>
+                             <th style="width:10%" class="column-title">Supervisor Rating</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php 
+                            $i=1;
+                            $activity=NULL;
+                            foreach($academic_activities as $key=>$value){
+                          ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php  $j=1;?></td>
+                            <td class="blue"><i><b><?php echo $key; ?></b></i></td>
+                            <td class=" "></td>
+                            <td class=" "></td>
+                            <td class=" "></td>
+                            <td class=" "></td>
+                          </tr>
+                          <?php 
+                            foreach($value as $key1=>$value1){
+                                foreach($value1 as $key2=>$value2){
+                          ?>
+                          <tr>
+                            <td class=" "><?php echo $key1; ?></td>
+                            <td class=" "><?php echo $api[$value2['pms_nature_activity_id']];?></td>
+                            <td class=" "><?php echo $value2['maximum_api'];?></td>
+                            <td class=" "><?php echo $value2['minimum_api'];?></td>
+                            <td class=" "><?php echo $value2['remarks']; ?></td>
+                            <td class=" "><?php echo $value2['performance_rating'];  ?></td> 
+                          </tr>
+                          <?php  } } } ?>
+                        </tbody>
+                      </table>
+                     <?php } ?>
+                    <!-- end evaluation list -->
+                    <div class="row">
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Performance Score (80%) : </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $performance_score; ?>">
+                        </div>
+                      </div>
+                     </div>
+                     <br/>
+                     <div class="row">
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Feedback Score (20%) : </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $this->feedbackScore; ?>">
+                        </div>
+                      </div>
+                     </div>
+                     <br/>
+                     <div class="row">
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Final Total Score : </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $final_score; ?> ">
+                        </div>
+                      </div>
+                     </div>
+                     <br/>
+                    <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                          <?php
+						   echo $this->form()->closeTag(); 
+                        ?>
+                    </div>
+                </div>
+                    
+                </div>
+              </div>
+            </div>
+           </div>
+          </div>
+        </div>
+      </div>
+     </div>
+  

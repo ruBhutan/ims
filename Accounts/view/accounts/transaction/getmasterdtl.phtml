@@ -1,0 +1,25 @@
+<?php 
+/**
+ * 
+ * View -- of Accounts/TransactionController/getmasterdtl
+ * ajax resonse
+ * 
+ */
+?>
+<?php if($this->type_ID == '8'):?>
+    <option value=""></option>
+    <?php foreach ($this->masterDtls as $mastDtl): ?>
+            <option value="<?php echo $mastDtl['id'].'|'.$mastDtl['sub_head'].'|'.$mastDtl['type']; ?>">
+                    <?php echo $mastDtl['name'];?>
+            </option>
+    <?php endforeach; ?>
+<?php else: ?>
+    <option value=""></option>
+    <?php foreach ($this->masterDtls as $mastDtl):
+        $sub_head_name = $this->service->getDatabyParam('accounts_sub_head',array('id' => $mastDtl['sub_head']),'name');
+        ?>
+            <option value="<?php echo $mastDtl['id'].'|'.$mastDtl['sub_head'].'|'.$mastDtl['type']; ?>">
+                    <?php echo $sub_head_name[0]['name'];?>
+            </option>
+    <?php endforeach; ?>
+<?php endif; ?>

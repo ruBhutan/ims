@@ -1,0 +1,260 @@
+<?php
+ $title = 'Personal Details';
+ $this->headTitle($title);
+ $personal_details = array();
+ foreach($this->personalDetails as $detail){
+	 $personal_details = $detail;
+ }
+
+ $addressDetails = array();
+ foreach($applicantAddress as $address){
+  $addressDetails = $address;
+ }
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $registrant = $form->get('personaldetails');
+          				  ?>  
+
+                    <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                <p><i>***If there is any mistake or not yet entered the details, please click on edit button to edit or enter.</i></p>
+                <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">First Name:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal_details['first_name']; ?></i></h4>
+                        </div>
+                       <label class="control-label col-md-1 col-sm-3 col-xs-12">Middle Name:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal_details['middle_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Last Name:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal_details['last_name']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal_details['date_of_birth']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-1 col-xs-12">Email ID:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal_details['email']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Marital Status:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php 
+                          if($addressDetails['maritial_status'] != NULL){
+                             echo $addressDetails['maritial_status']; 
+                          }else{
+                            echo 'Nill';
+                          }
+                          ?></i></h4>
+                        </div>
+                       <label class="control-label col-md-1 col-sm-3 col-xs-12">Gender:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php 
+                          if($addressDetails['gender'] != NULL){
+                             echo $addressDetails['gender']; 
+                          }else{
+                            echo 'Nill';
+                          } ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Contact No:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php 
+                          if($personal_details['contact_no'] != NULL){
+                             echo $personal_details['contact_no']; 
+                          }else{
+                            echo 'Nill';
+                          } ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Citizenship ID Number:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal_details['cid']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Nationality:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php 
+                          if($addressDetails['nationality'] != NULL){
+                             echo $addressDetails['nationality']; 
+                          }else{
+                            echo 'Nill';
+                          }
+                          ?></i></h4>
+                        </div>
+                         <label class="control-label col-md-1 col-sm-2 col-xs-12">Country:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php 
+                          if($addressDetails['country'] != NULL){
+                             echo $addressDetails['country']; 
+                          }else{
+                            echo 'Nill';
+                          }
+                           ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">CID Copy/ Work permit Copy:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php if($personal_details['cid_copy'] != NULL){?>
+                          <a href="<?php echo $this->url('downloadjobapplicantcid', array('filename' => 'cid_copy'.$personal_details['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download the uploaded file</a>
+                        <?php }else{?>
+                          <h4 class="blue"><i>CID Copy/ Work Permit Copy Not Uploaded </i></h4>
+                        <?php } ?>
+                        </div>
+
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Profile Picture:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php if($personal_details['profile_picture'] != NULL){?>
+                          <a href="<?php echo $this->url('downloadjobapplicantcid', array('filename' => 'profile_picture'.$personal_details['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download the uploaded Profile Picture</a>
+                        <?php }else{?>
+                          <h4 class="blue"><i>Profile Picture Not Uploaded - Please click edit to upload </i></h4>
+                        <?php } ?>
+                        </div>
+                    </div>
+                  </div>
+                  <h2 class="StepTitle">Address Details:</h2>
+                   <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">House No:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php 
+                          if($personal_details['house_no'] != NULL){
+                             echo $personal_details['house_no']; 
+                          }else{
+                            echo 'Nill';
+                          }
+                           ?></i></h4>
+                        </div>
+                       <label class="control-label col-md-1 col-sm-3 col-xs-12">Thram No:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php 
+                          if($personal_details['thram_no'] != NULL){
+                             echo $personal_details['thram_no']; 
+                          }else{
+                            echo 'Nill';
+                          }
+                           ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Village:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php 
+                          if($addressDetails['village_name'] != NULL){
+                             echo $addressDetails['village_name']; 
+                          }else{
+                            echo 'Nill';
+                          }
+                           ?></i></h4>
+                        </div>
+                       <label class="control-label col-md-1 col-sm-3 col-xs-12">Gewog:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php 
+                          if($addressDetails['gewog_name'] != NULL){
+                             echo $addressDetails['gewog_name']; 
+                          }else{
+                            echo 'Nill';
+                          }
+                          ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Dzongkhag:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php
+                          if($addressDetails['dzongkhag_name'] != NULL){
+                             echo $addressDetails['dzongkhag_name']; 
+                          }else{
+                            echo 'Nill';
+                          } 
+                          ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+							           <a href="<?php echo $this->url('editregistrantpersonaldetails', array('id' => my_encrypt($personal_details['id'], $key)));?>" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+             </div>
+          </div>
+        </div> 
+     </div>

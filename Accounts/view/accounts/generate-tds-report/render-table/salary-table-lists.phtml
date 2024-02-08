@@ -1,0 +1,159 @@
+<div class="x_panel">
+    <?php if ( empty($employeePayrollData) ) : ?>
+
+        <div class="x_content">
+            <h2>No Record Found</h2>
+        </div>
+
+    <?php else: ?>
+        <style>
+            .borderless {
+                border: none !important;
+            }
+        </style>
+
+        <?php
+
+        $employeeName = $employeePayrollData[0]['first_name'] . " " . $employeePayrollData[0]['middle_name'] . " " . $employeePayrollData[0]['last_name'];
+        $employeeCID = $employeePayrollData[0]['cid'];
+        $employeeTPN = "";
+        ?>
+
+        <div class="x_content">
+            <div class="row printable" style="background-color: #ffffff; color: #000000; padding: 30px;">
+                <div class="col-md-12 ">
+                    <h3 class="text-bold text-center text-uppercase">
+                        TDS Certificate On Salary Income For The Year:<span
+                                class="tds-year"><?php echo $this->year; ?></span>
+                    </h3>
+
+                    <h5 class="text-bold text-center">
+                        Period:January to December
+                    </h5>
+
+                    <div class="x_content">
+
+                        <div class="table-responsive">
+
+                            <table id="generated_tds_report_list" class="table table-bordered">
+
+                                <thead>
+                                <tr>
+                                    <th colspan="4" class="borderless">Name of the
+                                        Employee: <span class="tds-emp-name"><?php echo $employeeName; ?></span></th>
+                                    <th colspan="4" class="borderless">CID NO: <?php echo $employeeCID; ?></th>
+                                    <th colspan="4" class="borderless">TPN: <?php echo $employeeTPN; ?></th>
+                                </tr>
+
+                                <tr id="generated_tds_report_thead">
+                                    <th>Month</th>
+                                    <th>Basic Salary/<br/>LE</th>
+                                    <th>Allowance</th>
+                                    <th>Arrears</th>
+                                    <th>Gross Salary</th>
+                                    <th>TDS Amount</th>
+                                    <th>Cheque No./<br/>Receipt No</th>
+                                    <th>Deposit<br/>Date</th>
+                                    <th>HC</th>
+                                    <th>GPF</th>
+                                    <th>GIS</th>
+                                    <th>Remark</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <?php foreach ( $employeePayrollData as $list ): ?>
+                                    <tr class="ROW_GTR">
+                                        <td><?php echo date('M', strtotime($this->year . '-' . $list['month'])); ?></td>
+                                        <td><?php echo $list['bs_amount'] ?? "0.00"; ?></td>
+                                        <td><?php echo $list['month']; ?></td>
+                                        <td><?php echo '0.00'; ?></td>
+                                        <td><?php echo $list['gross'] ?? "0.00"; ?></td>
+                                        <td><?php echo $list['tds_amount'] ?? "0.00"; ?></td>
+                                        <td><?php echo ''; ?></td>
+                                        <td><?php echo $list['created']; ?></td>
+                                        <td><?php echo $list['hc_amount'] ?? "0.00"; ?></td>
+                                        <td><?php echo $list['pf_amount'] ?? "0.00"; ?></td>
+                                        <td><?php echo $list['gis_amount'] ?? "0.00"; ?></td>
+                                        <td><?php echo ''; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+
+                                <tfoot>
+                                <tr>
+                                    <th class="borderless">Total</th>
+                                    <th class="borderless">0.00</th>
+                                    <th class="borderless">0.00</th>
+                                    <th class="borderless">0.00</th>
+                                    <th class="borderless">0.00</th>
+                                    <th class="borderless">0.00</th>
+                                    <th class="borderless"></th>
+                                    <th class="borderless"></th>
+                                    <th class="borderless">0.00</th>
+                                    <th class="borderless">0.00</th>
+                                    <th class="borderless">0.00</th>
+                                    <th class="borderless"></th>
+                                </tr>
+                                </tfoot>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <p>I hereby certify that the information given in this certificate is true and correct to the
+                            best
+                            of my
+                            knowledge. In case any information is found untrue and false, I shall ne liable for fines
+                            and
+                            penalties
+                            as
+                            per chapter 5, General Provisions of the Income Tax acy of the Kingdom of Bhutan, 2001</p>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <h4><b>Agency Name:</b></h4>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h4 class="text-center pull-right"><b>Name & Signature of Disbursing Officer <br/>Office
+                                    Seal</b>
+                            </h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="text-center">
+            <!--<button type="submit" class="btn btn-success" id="GeneratePDF">Generate PDF</button>-->
+            <a href="<?php
+
+            echo $this->url(
+                'generate-tds-report',
+                array('action' => 'generateTdsSalaryPdf'),
+                array('query' => array(
+                    'tds_group' => $this->tdsGroup,
+                    'tds_report' => $this->tdsReport,
+                    'organisation_id' => $this->organisation_id,
+                    'department_id' => $this->department_id,
+                    'employee_id' => $this->employee_id,
+                    'year' => $this->year,
+                    'start' => $this->start_month,
+                    'end' => $this->end_month,
+                ))
+            );
+            ?>"
+               class="btn btn-success">
+                Generate Report
+            </a>
+        </div>
+
+    <?php endif ?>
+</div>

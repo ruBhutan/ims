@@ -1,0 +1,207 @@
+<?php
+ $title = 'Definition of Success Indicators';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+$apa_date = array();
+foreach($this->apa_deadline as $date){
+  $apa_date = $date;
+}
+
+if(empty($apa_date))
+$apa_date['end_date'] = '2000-01-01';
+
+
+?>
+<div class="right_col" role="main">
+          <div class=""> 
+         <!-- Adding Activities-->
+         <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                 <div class="clearfix"></div>
+              
+                </div>
+                  <?php if((strtotime($apa_date['end_date']) >= strtotime(date('Y-m-d'))) && (strtotime(date('Y-m-d')) >= strtotime($apa_date['start_date']))){?>   
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $indicators = $form->get('successindicatordefinition');
+					//get the objectives with their id
+					$data = $this->selectData;
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($indicators->get('id')); 
+					$indicators->get('awpa_activities_id')->setValueOptions($data);
+                                        $indicators->get('employee_details_id')->setValueOptions($this->supervisorRoles);
+				  ?>
+                
+                  <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                     <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Activity Definition For<span class="required">*</span></label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                      <?php  echo $this->formRow($indicators->get('employee_details_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" >Success Indicator<span class="required">*</span></label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                      <?php  echo $this->formRow($indicators->get('awpa_activities_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Description<span class="required">*</span></label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                      <?php  echo $this->formRow($indicators->get('description')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Data Collection Methodology<span class="required">*</span></label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                      <?php  echo $this->formRow($indicators->get('data_collection_methodology')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Data Collection</label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                      <?php  echo $this->formRow($indicators->get('data_collection')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Data Source</label>
+                    <div class="col-md-10 col-sm-10 col-xs-12">
+                      <?php  echo $this->formRow($indicators->get('data_source')); ?>
+                    </div>
+                  </div>
+                  
+                 <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                          <?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($indicators->get('submit')); 
+						   echo $this->form()->closeTag(); 
+                        ?>
+                    </div>
+                </div>
+              </div>
+        </div> 
+                  
+          <!-- Start of table listing Activities -->
+        <div class="x_panel">
+        	<div class="x_title">
+                  <h2><?php echo $this->escapeHtml('Table Displaying the '.$title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" style="width: 6%">Sl No</th>
+                            <th class="column-title">Success Indicator</th>
+			    <th class="column-title">Description</th>
+			    <th class="column-title">Data Collection Methodology</th>
+			    <th class="column-title">Data Collection</th>
+			    <th class="column-title">Data Source</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i =1; foreach ($this->successIndicatorDefinitions as $definitions) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $this->escapeHtml($i++);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($definitions['activity_name']);?></td>
+			    <td class=" "><?php echo $this->escapeHtml($definitions['description']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($definitions['data_collection_methodology']);?></td>
+			    <td class=" "><?php echo $this->escapeHtml($definitions['data_collection']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($definitions['data_source']);?></td>
+                            <td><a href="<?php echo $this->url('editsuccessindicatordefinition', array('id' => my_encrypt($definitions['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                   </div>
+                </div>
+                <?php } else {?>
+            <div class="x_content">
+           <p>You are not allowed to add the Executive success indicator since APA deadline is not yet opened or has been closed! or activies were not added. </p>
+           <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" style="width: 6%">Sl No</th>
+                            <th class="column-title">Success Indicator</th>
+          <th class="column-title">Description</th>
+          <th class="column-title">Data Collection Methodology</th>
+          <th class="column-title">Data Collection</th>
+          <th class="column-title">Data Source</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i =1; foreach ($this->successIndicatorDefinitions as $definitions) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $this->escapeHtml($i++);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($definitions['activity_name']);?></td>
+          <td class=" "><?php echo $this->escapeHtml($definitions['description']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($definitions['data_collection_methodology']);?></td>
+          <td class=" "><?php echo $this->escapeHtml($definitions['data_collection']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($definitions['data_source']);?></td>
+                            <td>
+                              <p><i>You are not allow to take any action</i></p>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+           </div>
+           <?php } ?>
+          </div>
+        </div>
+     </div>
+

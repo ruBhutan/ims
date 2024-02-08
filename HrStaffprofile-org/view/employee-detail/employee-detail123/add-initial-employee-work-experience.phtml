@@ -1,0 +1,112 @@
+<?php
+ $title = 'Add Work Experience';
+ $this->headTitle($title);
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  
+                     <!-- Smart Wizard -->
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                      <ul class="wizard_steps">
+                          <li>
+                          <a href="#step-1" class="done">
+                            <span class="step_no">1</span>
+                            <span class="step_descr">
+                                      Step 1<br />
+                                      <small>PERSONAL DETAILS</small>
+                                  </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-2" class="disabled">
+                            <span class="step_no">2</span>
+                            <span class="step_descr">
+                                      Step 2<br />
+                                      <small>EMPLOYMENT<br/>RECORD</small>
+                                  </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-3" class="disabled">
+                            <span class="step_no">3</span>
+                            <span class="step_descr">
+                                      Step 3<br />
+                                      <small>EDUCATION</small> <br/>
+                                      <small>DETAILS</small>
+                                  </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-4" class="disabled">
+                            <span class="step_no">4</span>
+                            <span class="step_descr">
+                                      Step 3<br />
+                                      <small>TRAININGS and</small> <br/>
+                                      <small>WORKSHOPS</small>
+                                  </span>
+                          </a>
+                        </li>
+                      </ul>
+                      <?php
+						// Opening of the form tag
+						$form->prepare();
+						echo $this->form()->openTag($form);
+						$employee = $form->get('workexperience');
+						echo $this->formHidden($employee->get('id'));
+					 ?> 
+                     <div id="step-1">
+                        <h2 class="StepTitle">Step 1: Employee Details</h2>
+                          <!-- Dynamically adding rows -->  
+                    
+                        <br /><br />
+                        <div class="clear"></div>
+                        <h2><?php echo $this->escapeHtml("Travel Details"); ?></h2>
+                        <div class="clear"></div>
+                        <div class="ln_solid"></div>
+                           <?php   echo $this->formCollection($employee->get('empworkexperience')); ?>
+                            <button class="btn btn-success" type="button"  onclick="return add_category()"> Add More</button>
+    
+                     <!-- End of Dynamically added rows --> 
+                    </div>
+                    <br />
+                
+          		<div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf'));
+                            //echo $this->formRow($employee->get('submit')); 
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 
+
+<script>
+     function add_category() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+ </script>

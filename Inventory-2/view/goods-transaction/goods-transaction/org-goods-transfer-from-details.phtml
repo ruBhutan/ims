@@ -1,0 +1,107 @@
+
+<!--book gest house -->
+  <?php
+ 
+ $title = 'Goods Transfer From other Organisation Details';
+ $this->headTitle($title);
+
+  $transferFromDetails = array();
+ foreach($this->transferFromDetails as $details){
+  $transferFromDetails['id'] = $details['id'];
+  $transferFromDetails['organisation_name'] = $details['organisation_name'];
+  $transferFromDetails['transfer_date'] = $details['transfer_date'];
+  $transferFromDetails['item_name'] = $details['item_name'];
+  $transferFromDetails['transfer_quantity'] = $details['transfer_quantity'];
+  $transferFromDetails['item_specification'] = $details['item_specification'];
+  $transferFromDetails['transfer_remarks'] = $details['transfer_remarks'];
+  $transferFromDetails['approve_remarks'] = $details['approve_remarks'];
+  $transferFromDetails['approve_date'] = $details['approve_date'];
+  $transferFromDetails['transfer_status'] = $details['transfer_status'];
+ }
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                   <h5><i>Details of From Organisation Goods Transfer Details to Your Organisation</b>
+                   </i></h5>
+                    
+                  <div class="x_content">
+                    <br/>
+                        <div class="row">
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="organisation_from_id">To Organisation </label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                             <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $transferFromDetails['organisation_name']; ?>">
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="transfer_date">Transfered Date</label> 
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $transferFromDetails['transfer_date']; ?>">
+                            </div>                            
+                          </div> 
+                        </div><br/>
+
+                        <div class="row">
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_name">Transfered Item</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $transferFromDetails['item_name']; ?>">
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="transfer_quantity">Transfered Quantity</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $transferFromDetails['transfer_quantity']; ?>">
+                            </div>                           
+                          </div>
+                        </div><br>
+
+                        <div class="row">
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_specification">Item Specification</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <textarea class="form-control" disabled="disabled"><?php echo $transferFromDetails['item_specification']; ?></textarea>
+                            </div>                     
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="transfer_remarks">Transfered Remarks</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <textarea class="form-control" disabled="disabled"><?php echo $transferFromDetails['transfer_remarks']; ?></textarea>
+                            </div>
+                          </div>
+                        </div><br>
+
+                        <?php if($transferFromDetails['transfer_status'] == 'Approved') {?>
+                          <div class="row">
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_specification">Approved Remarks</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                             <textarea class="form-control" disabled="disabled"><?php echo $transferFromDetails['approve_remarks']; ?></textarea>
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="approve_date">Approved Date</label> 
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $transferFromDetails['approve_date']; ?>">
+                            </div>
+                            </div>
+                        </div><br>
+
+                        <?php }?>                        
+
+                        <div class="row">
+                          <div class="form-group">                      
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="transfer_status">Status</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                             <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $transferFromDetails['transfer_status']; ?>">
+                            </div>
+                          </div>
+                        </div>                                                             
+                                                             
+                  </div>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+
+ 

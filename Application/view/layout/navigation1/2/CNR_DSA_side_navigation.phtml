@@ -1,0 +1,124 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+<div class="menu_section">
+<br><br><br>
+<ul class="nav side-menu">
+	<li><a><i class="fa fa-home"></i>Home<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?php echo $this->url('index') ?>">Dashboard</a></li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-users"></i>Human Resource<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>HR Planning<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>HRD Planning<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('hrdapprovedlist') ?>">HRD Plan Approved List</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>HRM Planning<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('hrmapprovedlist') ?>">Work Force Approved List</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>HR Administration<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Leave<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('leavestatus') ?>">Apply Leave</a></li>
+						<li><a href="<?php echo $this->url('empleaveapproval') ?>">Leave Approval</a></li>
+						<li><a href="<?php echo $this->url('staffleavestatus') ?>">My Leave Status</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Leave Encashment<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('empleaveencashmentapplication') ?>">Leave Encashment</a></li>
+					</ul>
+					</li>
+					<li><a href="<?php echo $this->url('empassignofficiatingsupervisor') ?>">Assign Officiating Supervisor</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>PMS<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Appraisals<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('appraisalapprovallist') ?>">Appraisal Approval Lists</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Review<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('feedbacks') ?>">Feedbacks</a></li>
+						<li><a href="<?php echo $this->url('performancereviewlist') ?>">Performance Review Lists</a></li>
+					</ul>
+					</li>
+					<li><a href="<?php echo $this->url('listnominations') ?>">Nominations</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Recruitment<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('listvacancy') ?>">List Job Vacancies</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Employee Management<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('employeelist') ?>">Employee List</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-calendar"></i>Planning<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Create APA<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>APA Activities<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('activities') ?>">Executive Activities</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Success Indicator<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('successindicator') ?>">Executive Indicator</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>APA Evaluation<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('evaluateapa') ?>">Executive APA Evaluation</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>RUB Vision and Mission<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('viewfiveyearplan') ?>">View Vision and Mission</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-bar-chart"></i>Budgeting<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Budget Proposal<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Captial Budget<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('approvedcapitalbudgetproposal') ?>">Approved Budget</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Current Budget<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('approvedbudgetproposal') ?>">Approved Budget</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-user"></i>Student Service<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?php echo $this->url('studentlists') ?>">Student Lists</a></li>
+		</ul>
+	</li>
+</ul>
+</div>
+</div>

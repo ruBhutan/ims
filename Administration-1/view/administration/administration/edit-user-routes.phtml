@@ -1,0 +1,158 @@
+<?php
+ $title = 'Edit User Routes';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+             <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <h5><i>Note:- This is to edit the user route </i></h5>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $form->get('id')->setValue($this->editUserRoute->getId());
+                    $form->get('menu')->setValue($this->editUserRoute->getUser_Menu_Level());
+                    $form->get('route_name')->setValue($this->editUserRoute->getRoute_Name());
+                    $form->get('route_category')->setValue($this->editUserRoute->getRoute_Category());
+                    $form->get('route_details')->setValue($this->editUserRoute->getRoute_Details());
+                    $form->get('route_remarks')->setValue($this->editUserRoute->getRoute_Remarks());
+                    $form->get('submit')->setValue('Update User Route');
+                    echo $this->formHidden($form->get('id'));
+                    ?>  
+                <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+                ?> 
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Menu Level<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('menu')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Parent Menu<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('parent_module')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Sub Menu<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('user_sub_menu_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Route Name<span class="required">*</span><br />
+                              <small>(Name to identify the route in the menu)</small></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('route_name')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Broad Route Category<span class="required">*</span><br/>
+                            <small>(Main module or module at level zero)</small></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('route_category')); ?>
+                    </div>
+                   </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Route Details<span class="required">*</span><br />
+                              <small>(actual "route name" as defined in the module file)</small></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('route_details')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Route Remarks<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('route_remarks')); ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                    <?php
+                       echo $this->formHidden($form->get('csrf'));
+                       echo $this->formSubmit($form->get('submit')); 
+                    ?>
+                      </div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+            </div>
+        
+        <!-- Start of table listing budget ledgers -->
+         <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+                  <h2><?php echo $this->escapeHtml('List of Added User Routes'); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Route Category</th>
+                            <th class="column-title">Route Name</th>
+                            <th class="column-title">Route Details</th>
+                            <th class="column-title">Remarks</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                         <?php $i = 1; foreach ($this->routes as $detail) : ?>
+                          <tr class="even pointer">
+                            <td class=" " width="8%"><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['menu_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['route_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['route_details']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['route_remarks']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+                  </div>
+               </div>
+             </div>
+          </div>
+        </div> 
+  </div>
+
+

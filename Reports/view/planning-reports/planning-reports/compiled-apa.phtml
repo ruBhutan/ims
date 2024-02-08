@@ -1,0 +1,320 @@
+ <?php
+  $five_year_plan = array();
+ foreach($this->five_year as $set){
+      $start_year = $set['from_date'];
+      $end_year = $set['to_date'];
+    }
+for($i=0; $i<5; $i++){
+  $five_year_plan[] = substr($start_year, 0, 4)+$i;
+}
+
+ ?>
+  <!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Staff Detail'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+           <div class="table-responsive">
+               <table  class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Staff ID</th>
+                     <th class="column-title">Staff Name</th>
+                     <th class="column-title">Position Title</th>
+                     <th class="column-title">Department</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php $i=1; foreach ($this->staffDetail as $list) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['emp_id']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['first_name']).' '.$this->escapeHtml($list['middle_name']).' '.$this->escapeHtml($list['last_name']); ?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['position_title']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['department_name']);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Objectives & Weightage'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+           <div class="table-responsive">
+               <table  class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Objective</th>
+                     <th class="column-title">Weightage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php $i=1; foreach ($this->objectiveWeight as $list) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['objectives']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['weightage']);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+
+
+
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Section: 2 A: Key Aspiration'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+           <div class="table-responsive">
+               <table  class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Key Performance Indicator</th>
+                     <th class="column-title">Unit</th>
+                     <th class="column-title">outstanding</th>
+                     <th class="column-title">very_good</th>
+                     <th class="column-title">Good</th>
+                     <th class="column-title">need_improvement</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php $i=1; foreach ($this->keyAspiration as $list) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['key_performance_indicator']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['unit']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['outstanding']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['very_good']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['good']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['need_improvement']);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Section 2 B: Objectives, Success Indicators, Weights and Targets'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        
+           <div class="table-responsive">
+               <table class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">RUB Objectives</th>
+                     <th class="column-title">RUB Action</th>
+                     <th class="column-title">Success Indicators</th>
+                     <th class="column-title">Unit</th>
+                     <th class="column-title">Weight</th>
+                     <th class="column-title">Excellent</th>
+                     <th class="column-title">Very Good</th>
+                     <th class="column-title">Good</th>
+                     <th class="column-title">Fair</th>
+                     <th class="column-title">Poor</th>
+                    
+                  </tr>
+                </thead>
+                <tbody> 
+                   <?php $i=1; foreach ($this->successIndicator as $list) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['objectives']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['rub_activity']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['activity_name']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['unit']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['weight']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['excellent_rating']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['very_good_rating']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['good_rating']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['fair_rating']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['poor_rating']);?></td>
+
+
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Section: 3 B: Trend values of Success Indicators'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        
+           <div class="table-responsive">
+               <table class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title">Sl.No </th>
+                    <th class="column-title">RUB Objectives</th>
+                    <th class="column-title">RUB Action</th>
+                    <th class="column-title">Success Indicators</th>
+                    <th class="column-title">Unit</th>
+                    <th class="column-title">Actual Values<br /><i><small>(Year <?php echo $five_year_plan[0].'-'.$five_year_plan[1]; ?>)</small></i></th>
+                    <th class="column-title">Actual Value <br /><i><small>(Year <?php echo $five_year_plan[1].'-'.$five_year_plan[2]; ?>)</small></i></th>
+                    <th class="column-title">Actual Value <br /><i><small>(Year <?php echo $five_year_plan[2].'-'.$five_year_plan[3]; ?>)</small></i></th>
+                    <th class="column-title">Actual Value <br /><i><small>(Year <?php echo $five_year_plan[3].'-'.$five_year_plan[4]; ?>)</small></i></th>
+                    <th class="column-title">Actual Values<br /><i><small>(Year <?php echo $five_year_plan[4].'-'.($five_year_plan[4]+1); ?>)</small></i></th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php $i=1; foreach ($this->trendsuccessIndicator as $list) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['objectives']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['rub_activity']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['activity_name']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['unit']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['year_one_projected']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['year_two_projected']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['year_three_projected']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['year_four_projected']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['year_five_projected']);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Section: 4: Definition of Success Indicators'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        
+           <div class="table-responsive">
+               <table class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Success Indicators</th>
+                     <th class="column-title">Description</th>
+                     <th class="column-title">Data Collection Methodology</th>
+                     <th class="column-title">Data Collection Frequency</th>
+                     <th class="column-title">Data Source</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php $i=1; foreach ($this->definitionsuccessIndicator as $list) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['activity_name']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['description']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['data_collection_methodology']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['data_collection']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['data_source']);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Section: 5: Requirements from other Department, Ministries, Agencies and Dzongkhags'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        
+           <div class="table-responsive">
+               <table class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Organization Name</th>
+                     <th class="column-title">Relevant Success Indicatior</th>
+                     <th class="column-title">Requirement from the Organization</th>
+                     <th class="column-title">Justification for the Requirement</th>
+                     <th class="column-title">Impact (if not met)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php $i=1; foreach ($this->requirementssuccessindicator as $list) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['organisation_name']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['activity_name']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['requirement']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['requirement_detail']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['impact']);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->  

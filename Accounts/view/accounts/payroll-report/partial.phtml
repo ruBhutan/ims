@@ -1,0 +1,25 @@
+<?php // partial.phtml 
+	$payregister = ($this->active == "payregister")?"active":"";
+	$phreport = ($this->active == "phreport")?"active":"";
+	$loanreport = ($this->active == "loanreport")?"active":"";
+	$gis = ($this->active == "gis")?"active":"";
+	$pfreport = ($this->active == "pfreport")?"active":"";
+	$htpitreport = ($this->active == "htpitreport")?"active":"";
+?>
+<br/>
+<!-- Start a tab -->
+<!--<div class="" role="tabpanel" data-example-id="togglable-tabs">-->
+	<ul id="myTab" class="nav nav-tabs bar_tabs">
+		<li role="presentation" class="<?php echo $payregister; ?>"> <a href="<?php echo $this->url('preport', array('action' => 'payregister')); ?>"><i class="blue ace-icon fa fa-globe bigger-120"> </i> Payregister Report </a></li>
+		
+		<li role="presentation" class="<?php echo $phreport; ?>"><a href="<?php echo $this->url('preport', array('action' => 'phreport')); ?>" > <i class="blue ace-icon fa fa-sitemap bigger-120"> </i>Payhead Report</a></li>
+		
+		<li role="presentation" class="<?php echo $gis; ?>"><a href="<?php echo $this->url('preport', array('action' => 'gis')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>GIS Report</a></li>
+		
+		<li role="presentation" class="<?php echo $pfreport; ?>"><a href="<?php echo $this->url('preport', array('action' => 'pfreport')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>PF Report</a></li>
+		
+		<li role="presentation" class="<?php echo $htpitreport; ?>"><a href="<?php echo $this->url('preport', array('action' => 'htpitreport')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>HT & PIT Report</a></li>
+		
+	</ul>
+<!--</div>-->
+

@@ -1,0 +1,194 @@
+<?php
+ $title = 'Suggest/Recommend Students/ Staffs for Counseling Service';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                        <!-- Adding Achievements-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Search for Student/ Staff")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+
+                            <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                               
+                            <div class="x_content">
+                            <h5><i>*(In order to "suggest" a student/ staff for counseling, first search for the student/ staff and then select the student/ staff from the table below to 
+                                    forward his/her name to counselor. Input as many fields as possible to narrow the search.)<br />
+                                    **Also note, search by name is done by "First Name" only</i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                              ?>
+                            
+                              <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Suggestion Type <span class="required">*</span></label>
+                                    <?php echo $this->formRow($form->get('suggestion_type')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Student Name/ Staff Name</label>
+                                    <?php echo $this->formRow($form->get('name')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Student ID/ Staff ID</label>
+                                    <?php echo $this->formRow($form->get('suggestion_id')); ?>
+                                  </div>
+                               </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>     
+                              
+                          <?php if($suggestionType == 1) {?>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("List of Staff(s)"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+            
+                            <div class="x_content">
+                              <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <thead>
+                                    <th class="column-title">Staff ID </th>
+                                    <th class="column-title">Name </th>
+                                    <th class="column-title">Department Unit </th>
+                                    <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                                </thead>
+            
+                                <tbody>
+                                  <?php foreach ($this->suggestionList as $list) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $this->escapeHtml($list['emp_id']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($list['first_name']) . ' '.
+                                														 $this->escapeHtml($list['middle_name']) . ' '.
+                                														 $this->escapeHtml($list['last_name']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($list['unit_name']); ?></td>
+                                    <td class=" last"> <a href="<?php echo $this->url('recommendstaffcounseling', array('id' => my_encrypt($list['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Recommend Staff for Counseling</a></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      <?php } else if($suggestionType == 2){?>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("List of Student(s)"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+            
+                            <div class="x_content">
+                              <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <thead>
+                                    <th class="column-title">Student ID </th>
+                                    <th class="column-title">Name </th>
+                                    <th class="column-title">Programme </th>
+                                    <th class="column-title">Year </th>
+                                    <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                                </thead>
+            
+                                <tbody>
+                                  <?php foreach ($this->suggestionList as $list) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $this->escapeHtml($list['student_id']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($list['first_name']) . ' '.
+                                                             $this->escapeHtml($list['middle_name']) . ' '.
+                                                             $this->escapeHtml($list['last_name']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($list['programme_name']); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($list['enrollment_year']);?></td></td>
+                                    <td class=" last"> <a href="<?php echo $this->url('recommendstdcounseling', array('id' => my_encrypt($list['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Recommend Student for Counseling</a></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      <?php } ?>
+                            
+                           		<!-- End of Achievements-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              

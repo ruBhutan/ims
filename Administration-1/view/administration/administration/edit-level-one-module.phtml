@@ -1,0 +1,134 @@
+<?php
+ $title = 'Edit First Level Menu';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <h5><i>Note: This is to edit a module that appear at level one.</i></h5>
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $module = $form->get('submodule');
+                    echo $this->formHidden($module->get('id'));
+                    echo $this->form()->openTag($form);
+                    $module->get('id')->setValue($this->editLevelOneModule->getId());
+                    $module->get('submodule_name')->setValue($this->editLevelOneModule->getSubmodule_Name());
+                    $module->get('submodule_description')->setValue($this->editLevelOneModule->getSubmodule_Description());
+                    $module->get('menu_weight')->setValue($this->editLevelOneModule->getMenu_Weight());
+          					$module->get('user_level_one_module_id')->setValue(1);
+          					$module->get('user_level_two_module_id')->setValue(1);
+          					$module->get('user_module_id')->setValueOptions($this->menuList);
+                    $module->get('user_module_id')->setValue($this->editLevelOneModule->getUser_Module_Id());
+                    $module->get('submit')->setValue('Update Sub-Module');
+                    echo $this->formHidden($module->get('id'));
+          					echo $this->formHidden($module->get('user_level_one_module_id'));
+          					echo $this->formHidden($module->get('user_level_two_module_id'));
+				  ?>  
+          <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()){?>
+                <div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <strong>Success!</strong> <?=$this->flashMessenger()->setAutoEscape(false)->render(); ?>
+                </div>
+                <?php } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {?>
+                <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <strong>Failure!</strong> <?=$this->flashMessenger()->setAutoEscape(false)->render(); ?>
+                </div>
+                <?php } ?>
+                <div class="row">    
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Menu<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($module->get('user_module_id')); ?>
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Sub-Module Name<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($module->get('submodule_name')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Sub-Module Description<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($module->get('submodule_description')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Menu Weight<span class="required">*</span></label>
+                    <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($module->get('menu_weight')); ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+						<?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($module->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+          <div class="x_title">
+                  <h2><?php echo $this->escapeHtml('List of added sub-module'); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <h5><i>Note: If you have made any mistake then please click on edit button to edit it.</i></h5>
+                  <br />
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Module Name</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Weight</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i = 1; foreach ($this->menus as $detail) : ?>
+                          <tr class="even pointer">
+                            <td class=" " width="8%"><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['submodule_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['submodule_description']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['menu_weight']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                  </div>
+               </div>
+             </div>
+        
+        
+    
+          </div>
+        </div> 
+     </div>

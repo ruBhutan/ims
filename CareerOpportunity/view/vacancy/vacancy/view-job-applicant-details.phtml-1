@@ -1,0 +1,757 @@
+<?php
+ $title = 'Job Applicant Details';
+ $this->headTitle($title);
+ $personal = array();
+ foreach($this->personalDetails as $detail){
+	 $personal = $detail;
+ } 
+
+ $vacancy = array();
+ foreach($this->vacancyDetail as $detail){
+   $vacancy = $detail;
+ }
+ 
+   $addressDetails = array();
+ foreach($applicantAddress as $address){
+  $addressDetails = $address;
+ }
+ 
+ $documents = array();
+ foreach($this->applicantDocuments as $docs){
+	 $documents = $docs;
+ } //var_dump($documents); die();
+ //var_dump($organisation); die();
+$key = $this->keyphrase;
+function my_encrypt($data, $key) {
+	// Remove the base64 encoding from our key
+	$encryption_key = base64_decode($key);
+	// Generate an initialization vector
+	$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+	// Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+	$encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+	// The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+	return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+                 ?>
+					<div class="row">
+                    <div class="form-group">  
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Post Applied For:</label>
+                       <div class="col-md-4 col-sm-4 col-xs-12">
+                          <h4 class="blue"><i><?php echo $vacancy['position_title']; ?></i></h4>
+                        </div>
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Area:</label>
+                       <div class="col-md-4 col-sm-4 col-xs-12">
+                          <h4 class="blue"><i><?php echo $vacancy['area']; ?></i></h4>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">College/ Office Applied For:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $organisations[$vacancy['working_agency']]; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br/>
+				  
+                  <!-- Personal Details Information-->
+                  <h2 class="StepTitle">1. Personal Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['first_name'].' '.$personal['middle_name'].' '.$personal['last_name']; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">CID Number:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['cid']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['gender']; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['date_of_birth']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Marital Status:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['maritial_status']; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['nationality']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Permanent Address:</label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">House No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['house_no']; ?>"readonly>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Thram No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['thram_no']; ?>"readonly>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Village:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['village_name']; ?>"readonly>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Gewog:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['gewog_name']; ?>"readonly>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Dzongkhag:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['dzongkhag_name']; ?>"readonly>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Country:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['country']; ?>"readonly>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Contact Number:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['contact_no']; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Email ID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['email']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <br/>
+				  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Profile Picture:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php
+								if(!empty($personal['profile_picture'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $personal['id'], 'column' => 'profile_picture')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php }
+								else{?>
+									<p><i><font color="red">Profile Picture Not Uploaded.</font></i></p>
+								<?php }
+							?>
+                       </div>
+                    </div>
+                  </div>
+                  <br />
+				  <h2 class="StepTitle">2. Current Position/ Latest employment record. if employed</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php 
+                          if(!empty($this->presentJobDescription['position_title'])){
+                            echo $this->presentJobDescription['position_title']; 
+                          }else{
+                            echo "No Record Found";
+                          }
+                      
+                          ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php
+                          if(!empty($this->presentJobDescription['position_level'])){
+                            echo $this->presentJobDescription['position_level'];
+                          }else{
+                            echo "No Record Found";
+                          }
+                           
+                          ?> "readonly>
+                        </div>
+                    </div>
+                  </div>
+				  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php 
+                          if(!empty($this->presentJobDescription['working_agency'])){
+                            echo $this->presentJobDescription['working_agency'];
+                          }else{
+                            echo "No Record Found";
+                          }
+                         
+                           ?>" readonly>
+                        </div>
+                    </div>
+                  </div>
+				  
+				  <!-- End of Research Details Information-->
+                  <!-- Work Details Information-->
+                   <h2 class="StepTitle">3. Employment Record <small>(Most recent employment first)</small></h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Working Agency</th>
+                            <th style="width:20%" class="column-title">Occupational Group</th>
+                            <th style="width:15%" class="column-title">Category</th>
+                            <th style="width:15%" class="column-title">Title</th>
+                            <th style="width:15%" class="column-title">Level</th>
+                            <th style="width:15%" class="column-title">From</th>
+                            <th style="width:15%" class="column-title">To</th>
+							<th style="width:15%" class="column-title">Evidence File</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->employmentDetails as $detail): ?>                      
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($detail['working_agency']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['occupational_group']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['position_category']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['position_title']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['position_level']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['start_period']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['end_period']); ?></td>
+							  <td><?php
+								if(!empty($detail['employment_record_file'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $detail['id'], 'column' => 'employment_record_file')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php } else { ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							  ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+					
+                  <!-- End of Personal Details Information-->
+                  <!-- Education Details Information-->
+                   <h2 class="StepTitle">4. Education Details <small>(Most recent education first)</small></h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Name of School/College</th>
+                            <th class="column-title">Location and Country</th>
+                            <th class="column-title">Field of Study</th>
+                            <th class="column-title">Start</th>
+                            <th class="column-title">End</th>
+                            <th class="column-title">Degree/Certificate Obtained</th>
+                            <th class="column-title">Aggregate Marks Obtained</th>
+							<th class="column-title">Pass Certificate</th>
+							<th class="column-title">Academic Transcript</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->educationDetails as $detail):?>
+                             <tr class="even pointer">
+                              <td><?php echo $detail['college_name']; ?></td>
+                              <td><?php echo $detail['college_location']; ?></td>
+                              <td><?php echo $detail['field_study']; ?></td>
+                              <td><?php echo $detail['start_date']; ?></td>
+                              <td><?php echo $detail['end_date']; ?></td>
+                              <td><?php echo $detail['study_level']; ?></td>
+                              <td><?php echo $detail['marks_obtained']; ?></td>
+							  <td><?php
+								if(!empty($detail['education_evidence_file'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $detail['id'], 'column' => 'education_evidence_file')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php } else { ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							  ?></td>
+							  <td><?php
+								if(!empty($detail['academic_transcript'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $detail['id'], 'column' => 'academic_transcript')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php } else { ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							  ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+				  
+				  <h2 class="StepTitle">5. Marks Detail <small>(If Updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" colspan="6" style="text-align:center">Class 10 Marks</th>
+							<th class="column-title" colspan="5" style="text-align:center">Class 12 Marks</th>
+                          </tr>
+						  <tr>
+							<th>English</th>
+							<th>Best 1</th>
+							<th>Best 2</th>
+							<th>Best 3</th>
+							<th>Best 4</th>
+							<th>Aggregate Marks Obtained</th>
+							<th>English</th>
+							<th>Best 1</th>
+							<th>Best 2</th>
+							<th>Best 3</th>
+							<th>Aggregate Marks Obtained</th>
+						</tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->marksDetail as $marks):?>
+                             <tr class="even pointer">
+								<td class=" "><?php echo $marks['x_english']; ?></td>
+								<td class=" "><?php echo $marks['x_sub1_mark']; ?></td>
+								<td class=" "><?php echo $marks['x_sub2_mark']; ?></td>
+								<td class=" "><?php echo $marks['x_sub3_mark']; ?></td>
+								<td class=" "><?php echo $marks['x_sub4_mark']; ?></td>
+								<td class=" "><?php echo (($marks['x_english']+$marks['x_sub1_mark']+$marks['x_sub2_mark']+$marks['x_sub3_mark']+$marks['x_sub4_mark'])/500*100)?></td>
+								<td class=" "><?php echo $marks['xll_english']; ?></td>
+								<td class=" "><?php echo $marks['xll_sub1_mark']; ?></td>
+								<td class=" "><?php echo $marks['xll_sub2_mark']; ?></td>
+								<td class=" "><?php echo $marks['xll_sub3_mark']; ?></td>
+								<td class=" "><?php echo (($marks['xll_english']+$marks['xll_sub1_mark']+$marks['xll_sub2_mark']+$marks['xll_sub3_mark'])/400*100)?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+					
+					<h2 class="StepTitle">6. Language Skills of Relevance to the Assignment <small>(Competency that you updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Language</th>
+                            <th class="column-title">Speaking</th>
+                            <th class="column-title">Reading</th>
+                            <th class="column-title">Writing</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->languageDetails as $detail):?>
+                             <tr class="even pointer">
+                              <td><?php echo $detail['language']; ?></td>
+                              <td><?php echo $detail['spoken']; ?></td>
+                              <td><?php echo $detail['reading']; ?></td>
+                              <td><?php echo $detail['writing']; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+					
+                  <!-- End of Education Details Information-->
+                  <!-- Training Details Information-->
+                   <h2 class="StepTitle">7. Training/ Seminar/ Workshop/ Conference <small>(If Updated)</small></h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Name of School/College</th>
+                            <th class="column-title">Location and Country</th>
+                            <th class="column-title">Field of Study</th>
+                            <th class="column-title">Start</th>
+                            <th class="column-title">End</th>
+                            <th class="column-title">Degree/Certificate Obtained</th>
+							<th class="column-title">Training Certificate</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->trainingDetails as $detail):
+						  		foreach($detail as $value): 
+						  ?>
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($value['institute_name']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['institute_location']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['start_date']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['end_date']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+							  <td><?php
+								if(!empty($value['training_report'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $value['id'], 'column' => 'training_report')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php } else { ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							  ?></td>
+                            </tr>
+                          <?php endforeach; 
+						  		endforeach;
+						  ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+                  <!-- End of Training Details Information-->
+                  <!-- Research Details Information-->
+                   <h2 class="StepTitle">8. Research Publications <small>(If Updated)</small></h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Year</th>
+                            <th style="width:30%" class="column-title">Title</th>
+                            <th style="width:15%" class="column-title">Type</th>
+                            <th style="width:55%" class="column-title">Publisher</th>
+                            <th style="width:55%" class="column-title">ISSN/ISBN</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->researchDetails as $detail):
+								  foreach($detail as $value):
+							  ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($value['year']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['type']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['publisher']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['publication_no']); ?></td>
+                            </tr>
+                          <?php endforeach; 
+                  endforeach;
+              ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+				  
+				  <h2 class="StepTitle">9. References: <small>(Based on your updated)</small></h2>
+                  <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Name</th>
+                            <th class="column-title">Title</th>
+                            <th class="column-title">Position</th>
+                            <th class="column-title">Organisation</th>
+                            <th class="column-title">Relation</th>
+                            <th class="column-title">Telephone</th>
+                            <th class="column-title">Mobile</th>
+                            <th class="column-title">Email</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->referenceDetails as $key=>$value): 
+                            ?> 
+                             <tr class="even pointer">
+                              <td><?php echo $value['name'];  ?></td>
+                              <td><?php echo $value['title']; ?></td>
+                              <td><?php echo $value['position']; ?></td>
+                              <td><?php echo $value['organisation']; ?></td>
+                              <td><?php echo $value['relation_applicant']; ?></td>
+                              <td><?php echo $value['telephone']; ?></td>
+                              <td><?php echo $value['mobile']; ?></td>
+                              <td><?php echo $value['email']; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                  </div>
+				  <br/>
+				  <h2 class="StepTitle">10.Community Services  <small>(If Updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:50%" class="column-title">Community Service Name</th>
+                            <th style="width:30%" class="column-title">Date</th>
+							<th style="width:20%" class="column-title">File</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->communityServices as $detail): ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $detail['service_name']; ?></td>
+                              <td><?php echo $detail['service_date']; ?></td>
+							  <td><?php
+								if(!empty($detail['service_supporting_file'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $detail['id'], 'column' => 'service_supporting_file')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a>
+								<?php } else { ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							  ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+					
+					<h2 class="StepTitle">11.Awards <small>(If Updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Award Name</th>
+                            <th style="width:30%" class="column-title">Date</th>
+                            <th style="width:20%" class="column-title">Award Presented By</th>
+							<th style="width:20%" class="column-title">File</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->awardDetails as $award): ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($award['award_name']); ?></td>
+                              <td><?php echo $this->escapeHtml($award['award_date']); ?></td>
+							  <td><?php echo $this->escapeHtml($award['award_given_by']); ?></td>
+							  <td><?php
+								if(!empty($award['award_supporting_file'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $award['id'], 'column' => 'award_supporting_file')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php } else { ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							  ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+					
+					<h2 class="StepTitle">12.Board/Committee Members <small>(If Updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Agency</th>
+                            <th style="width:30%" class="column-title">Position</th>
+                            <th style="width:10%" class="column-title">Start Date</th>
+                            <th style="width:10%" class="column-title">End Date</th>
+							<th style="width:20%" class="column-title">File</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->membershipDetails as $member): ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($member['agency']); ?></td>
+                              <td><?php echo $this->escapeHtml($member['position']); ?></td>
+							  <td><?php echo $this->escapeHtml($member['start_period']); ?></td>
+							  <td><?php echo $this->escapeHtml($member['end_period']); ?></td>
+							  <td><?php
+								if(!empty($member['member_supporting_file'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $member['id'], 'column' => 'member_supporting_file')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php } else { ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							  ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+
+                             
+
+                  <br />
+					<h2 class="StepTitle">Other Necessary Document (s)</h2>
+					<div class="row">
+						<div class="form-group">  
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">CID/ Passport Copy:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							<?php
+								if(!empty($documents['cid'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $documents['id'], 'column' => 'cid')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php }
+								else{ ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							?>
+							</div>
+						</div>
+					</div>
+						<div class="row">
+						<div class="form-group">  
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">Security Clearance No:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							    <input type="text" class="form-control" placeholder=<?php
+								if(!empty($documents['security_clearance_no'])){
+									echo $documents['security_clearance_no'];
+								}
+								else{ 
+									echo "NA";
+								 }
+							?> readonly>
+							</div>
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">Security Clearance File:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							<?php
+								if(!empty($documents['security_clearance_file'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $documents['id'], 'column' => 'security_clearance_file')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php }
+								else{ ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							?>
+							</div>
+						</div>
+					</div> 
+
+					<div class="row">
+						<div class="form-group">
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">Medical Clearance No:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							    <input type="text" class="form-control" placeholder=<?php
+								if(!empty($documents['medical_clearance_no'])){
+									echo $documents['medical_clearance_no'];
+								}
+								else{ 
+									echo "NA";
+								 }
+							?> readonly>
+							</div>
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">Medical Clearance:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							<?php
+								if(!empty($documents['medical_clearance_file'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $documents['id'], 'column' => 'medical_clearance_file')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php }
+								else{ ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							?>
+							</div>
+							</div>
+						</div>
+						<div class="row">
+						<div class="form-group">
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">Audit Clearance No:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							    <input type="text" class="form-control" placeholder=<?php
+								if(!empty($documents['audit_clearance_no'])){
+									echo $documents['audit_clearance_no'];
+								}
+								else{ 
+									echo "NA";
+								 }
+							?> readonly>
+							</div>
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">Audit Clearance:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							<?php
+								if(!empty($documents['audit_clearance_file'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $documents['id'], 'column' => 'audit_clearance_file')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php }
+								else{ ?>
+									<p><i><font color="red">File Not Uploaded.</font></i></p>
+								<?php }
+							?>
+							</div>
+						</div>
+					</div> 
+
+					<div class="row">
+						<div class="form-group">
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">Tax Clearance No:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							    <input type="text" class="form-control" placeholder=<?php
+								if(!empty($documents['tax_clearance_no'])){
+									echo $documents['tax_clearance_no'];
+								}
+								else{ 
+									echo "NA";
+								 }
+							?> readonly>
+							</div>						
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">Tax Clearance:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							<?php
+								if(!empty($documents['tax_clearance_file'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $documents['id'], 'column' => 'tax_clearance_file')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php }
+								else{ ?>
+									<p><i><font color="red">File Not Uploaded</font></i></p>
+								<?php }
+							?>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="form-group">
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">Other Certificate Description:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							    <input type="text" class="form-control" placeholder=<?php
+								if(!empty($documents['other_certificate_description'])){
+									echo $documents['other_certificate_description'];
+								}
+								else{ 
+									echo "NA";
+								 }
+							?> readonly>
+							</div>						
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">Other Certificate:</label>
+							<div class="col-md-3 col-sm-2 col-xs-12">
+							<?php
+								if(!empty($documents['other_certificate_file'])){?>
+									<a href="<?php echo $this->url('downloaduploadeddocuments', array('id' => $documents['id'], 'column' => 'other_certificate_file')); ?>" class="btn btn-primary btn-xs"><span class="fa fa-download"></span> Download</a> 
+								<?php }
+								else{ ?>
+									<p><i><font color="red">File Not Uploaded</font></i></p>
+								<?php }
+							?>
+							</div>
+						</div>
+					</div>
+					<br/>
+					
+					
+					
+					
+					 <br/>
+                  <!-- End of Job Details Information-->
+                  <div class="clearfix"></div>
+                  <br />
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+				 <!--<a href="<?php echo $this->url('generatejobapplicationpdf', array('action' => 'generateJobApplicationPdf', 'id' => my_encrypt($this->id, $key))); ?>" class="btn btn-success btn-md"><i class="fa fa-download"></i> Download PDF</a>-->
+        	  </div> <!-- End of x_panel-->
+			  
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

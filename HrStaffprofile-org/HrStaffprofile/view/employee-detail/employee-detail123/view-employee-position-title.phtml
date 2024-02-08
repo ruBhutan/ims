@@ -1,0 +1,74 @@
+<?php
+ $title = 'Employee Position Title';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+					<?php
+					// Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $title = $form->get('employeetitle');
+                    ?>
+                     <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Staff Name <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $this->employees->getFirst_Name(). ' '.$this->employees->getMiddle_Name(). ' '.$this->employees->getLast_Name(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      <label class="control-label col-md-3 col-sm-2 col-xs-12">Staff ID <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $this->employees->getEmp_Id(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="ln_solid"></div>
+                    <br />
+                     <!-- start work experience -->
+                            <table class="data table table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Position Title</th>
+                                  <th class="hidden-phone">Date</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              <?php $i= 1; foreach($this->employeeDetails as $detail): ?>
+                                <tr>
+                                  <td><?php echo $i++; ?></td>
+                                  <td><?php echo $detail['description']; ?></td>
+                                  <td class="hidden-phone"><?php echo $detail['date']; ?></td>
+                                </tr>
+                               <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                            <!-- end work experience -->            
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+                               echo $this->form()->closeTag();
+                            ?>
+                            </div>
+                    	  </div>
+                     </div>
+                 
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>

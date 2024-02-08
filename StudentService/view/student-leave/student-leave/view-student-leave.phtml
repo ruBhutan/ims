@@ -1,0 +1,80 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Applied Leave Details';
+ $this->headTitle($title);
+
+ foreach($this->leave as $detail){
+     $leave_details = $detail;
+ }
+ 
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <div class="clearfix"></div>
+                  </div>
+
+                    <p><i>***Applied Leave Details: </i></p>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Date:</label>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['from_date']; ?> to <?php echo $leave_details['to_date']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Outing Timing: </label>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                          <?php if($leave_details['leave_category'] == 'Day Outing') {?>
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['outing_category']; ?>" readonly>
+                        <?php } else { ?>
+                          <input type="text" class="form-control" placeholder="No detail found." readonly>
+                        <?php }?>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Type of leave:</label>
+                        <div class="col-md-4 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder='<?php echo $leave_details['leave_category']; ?>' readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Leave Status:</label>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                          <input type="text" class="form-control" placeholder='<?php echo $leave_details['leave_status']; ?>' readonly>
+                        </div>
+                      </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Your Reasons:</label>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                          <textarea class="form-control"  placeholder='<?php echo $leave_details['reasons']; ?>' readonly></textarea>
+                        </div>
+                        
+                        <?php if($leave_details['leave_status'] == 'Pending'){?>
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Approval Remarks:</label>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                          <textarea class="form-control"  placeholder='Your Leave is still Pending for Approval' readonly></textarea>
+                        </div>
+                        <?php } else{?>
+                    
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Approval Remarks:</label>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                          <textarea class="form-control"  placeholder='<?php echo $leave_details['remarks']; ?>' readonly></textarea>
+                        </div>
+                    <?php } ?>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">View Attacheds Documents:</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <?php if($leave_details['evidence_file'] != NULL){?>
+                                        <a href="<?php echo $this->url('downloadstdleavefile', array('filename' => $leave_details['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download Uploaded File</a><?php } 
+											  else 
+												echo "Documents Not Uploaded";  
+											?>
+                        </div>
+                      </div>  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

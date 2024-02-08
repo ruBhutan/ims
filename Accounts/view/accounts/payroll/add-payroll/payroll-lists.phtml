@@ -1,0 +1,46 @@
+<div class="x_content">
+    <div class="table-responsive">
+        <table id="datatable-buttons"
+               class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+            <thead>
+            <th class="column-title">Sl No</th>
+            <th class="column-title">Year</th>
+            <th class="column-title">Month</th>
+            <th class="column-title">Working days</th>
+            <th class="column-title">Gross amount</th>
+            <th class="column-title">Total deduction</th>
+            <th class="column-title">Net pay</th>
+            <th class="column-title">Status</th>
+            <th class="column-title">Action</th>
+            </thead>
+            <tbody>
+            <?php $i = 1;
+            foreach ( $this->payrollDetail as $payroll ) : ?>
+                <tr class="even pointer">
+                    <td class=" "><?php echo $i; ?></td>
+                    <td class=" "><?php echo $this->escapeHtml($payroll['year']); ?></td>
+                    <td class=" "><?php echo date('F', strtotime($this->escapeHtml($payroll['year']) . "-" . $this->escapeHtml($payroll['month']))); ?></td>
+                    <td class=" "><?php echo $this->escapeHtml($payroll['working_days']); ?></td>
+                    <td class=" "><?php echo $this->escapeHtml($payroll['gross']); ?></td>
+                    <td class=" "><?php echo $this->escapeHtml($payroll['total_deduction']); ?></td>
+                    <td class=" "><?php echo $this->escapeHtml($payroll['net_pay']); ?></td>
+                    <td class=" "><?php echo ($payroll['status'] == '0') ? 'Pending' : 'Paid'; ?></td>
+                    <td class=" ">
+                        <?php if ( $payroll['status'] == '0' ) : ?>
+                            <a href="<?php echo $this->url('payroll', array('action' => 'editpayroll', 'id' => my_encrypt($payroll['id'], $this->keyphrase))); ?>"
+                               class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Edit</a>
+                        <?php endif; ?>
+                        <button data-url="<?php echo $this->url('payroll', array('action' => 'deletepayroll', 'id' => my_encrypt($payroll['id'], $this->keyphrase))); ?>"
+                                class="btn btn-danger btn-xs deletePayroll">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                        <a href="<?php echo $this->url('payroll', array('action' => 'generatePayrollPDF', 'id' => my_encrypt($payroll['id'], $this->keyphrase))); ?>"
+                           class="btn btn-primary btn-xs"><i class="ace-icon fa fa-file-pdf-o"></i> Download PDF</a>
+                    </td>
+                </tr>
+                <?php $i++;
+            endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

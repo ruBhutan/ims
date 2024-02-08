@@ -1,0 +1,281 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+ $title = 'Add Self APA/Task/Project Activities';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+  }
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <br><br>
+                    <a href="../data/user_manual/HRM-StaffTask-User-Manual.pdf" target="_blank">Click Here To Download User Manual</a>
+                    <div class="clearfix"></div>
+
+                  </div>
+                  <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                    
+                  <div class="x_content">
+                    <br/>
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $employeetask = $form->get('employeetask');
+                    //echo $this->form()->openTag($form);
+                    echo $this->formHidden($employeetask->get('id'));
+                    //get the objectives with their id
+                    $data = $this->selectData;
+                    $employeetask->get('employeetask_category_id')->setValueOptions($data);
+                    
+                    //getting the staff details
+                    $staffName;
+                    $staffId; //this is the staff id
+                    $empId; //this is the auto generated id
+                    $staffDetail = $this->staffDetail;
+                    foreach($staffDetail as $staff){
+                      $staffName = $staff['first_name'];
+                      $staffName .= ' ';
+                      $staffName .= $staff['middle_name'];
+                      $staffName .= ' ';
+                      $staffName .= $staff['last_name'];
+                      $staffId = $staff['emp_id'];
+                      $empId = $staff['id'];
+                      $recordedBy = $staff['id'];
+                    }
+                    
+                    //setting the value of the std id
+                    $employeetask->get('staff_id')->setValue($empId);
+                    $employeetask->get('recorded_by')->setValue($recordedBy);
+                    echo $this->formHidden($employeetask->get('staff_id'));
+                    echo $this->formHidden($employeetask->get('recorded_by'));
+                    ?>
+                    <div class="row">
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Staff Name <span class="required">:</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" placeholder="<?php echo $staffName; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID <span class="required">:</span>
+                        </label>
+                        <div class="col-md-4 col-sm-3 col-xs-12">
+                          <input type="text" placeholder="<?php echo $staffId; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group"> 
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Working Type <span class="required">:*</span></label>
+                        <div class="col-md-9 col-sm-2 col-xs-12">
+                          <?php 
+                          echo $this->formRow($employeetask->get('employeetask_type'));
+                          ?>    
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group"> 
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">APA/Task/Project Category <span class="required">:*</span></label>
+                        <div class="col-md-9 col-sm-2 col-xs-12">
+                          <?php 
+                          echo $this->formRow($employeetask->get('employeetask_category_id')); 
+                          ?>    
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">From Date<span class="required">:*</span></label>
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php
+                          echo $this->formRow($employeetask->get('from_date'));
+                          ?>
+                        </div>
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">To Date<span class="required">:</span></label>
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php
+                          echo $this->formRow($employeetask->get('to_date'));
+                          ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">From Time<span class="required">:</span></label>
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php
+                          echo $this->formRow($employeetask->get('from_time'));
+                          ?>
+                        </div>
+                        <label class="control-label col-md-3  col-sm-2 col-xs-12">To Time<span class="required">:</span></label>
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php
+                          echo $this->formRow($employeetask->get('to_time'));
+                          ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Task/Project Activity Details <span class="required">:*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-10 col-xs-12">
+                          <?php
+                         echo $this->formRow($employeetask->get('employeetask_details'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Status<span class="required">:*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-8 col-xs-12">
+                          <?php
+                         echo $this->formRow($employeetask->get('status'));
+                        ?>
+                        </div>
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Evidence File <span class="required">:(Optional)</span>
+                        </label>
+                        <div class="col-md-3 col-sm-8 col-xs-12">
+                          <?php
+                         echo $this->formRow($employeetask->get('evidence_file'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-10 col-sm-6 col-xs-12">
+                        <?php
+                          echo $this->formRow($form->get('csrf'));
+                          echo $this->formSubmit($employeetask->get('submit')); 
+                        ?>
+                        </div>
+                    </div>
+                    </div>
+                   <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                  </div>
+               </div>
+            </div>
+              
+       
+                
+            <?php
+         $title = 'Individual Activities';
+         $this->headTitle($title);
+      ?>
+      <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2><?php echo $this->escapeHtml($title); ?></h2>
+            <div class="clearfix">
+            </div>
+          </div>
+          <div class="x_content">
+            <div class="table-responsive">
+              <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">  
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title">Sl. No</th>
+                    <th class="column-title">Working Type </th>
+                    <th class="column-title">APA/Task/Project Gategory </th>
+                    <th class="column-title">Task Details </th>
+                    <th class="column-title">Details</th>
+                    <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                    <th class="bulk-actions" colspan="7">
+                      <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <?php $i=1; foreach ($this->activityRecords as $activityRecords) : ?>
+                    <tr class="even pointer">
+                      <td class=" "><?php echo $i++;?></td>
+                      <td class=" "><?php echo $this->escapeHtml($activityRecords['employeetask_type']);?></td>
+                      <td class=" "><?php echo $this->escapeHtml($activityRecords['employee_task_category']);?></td>
+                      <td class=" "><?php echo $this->escapeHtml($activityRecords['employeetask_details']);?></td>
+                      <td class=" ">
+                        <b>Date: </b><?php echo $this->escapeHtml($activityRecords['from_date']);?> to
+                        <?php echo $this->escapeHtml($activityRecords['to_date']);?><br>
+                        <b>Time: </b><?php echo $this->escapeHtml($activityRecords['from_time']);?> - 
+                        <?php echo $this->escapeHtml($activityRecords['to_time']);?><br>
+                        <b>Status:</b> <?php echo $this->escapeHtml($activityRecords['status']);?><br>
+                        <b>Recorded By:</b> <?php echo $activityRecords['staff_first_name'].' '.$activityRecords['staff_last_name'].' ('.$activityRecords['emp_id'].')';?></td>                    
+                      <td>
+                        <?php if($activityRecords['evidence_file'] == NULL){?>
+                                <p><i>No Evidence File Uploaded</i></p>
+                              <?php } else{?>
+                                <a href="<?php echo $this->url('downloademployeetaskfile', array('id' => my_encrypt($activityRecords['id'], $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-download"></i> Download</a>
+                              <?php }?>
+                        <?php
+                        if ($activityRecords['emp_id'] == $staffId ){ ?>
+                          <a href="<?php echo $this->url('editempemployeetaskrecord', array('id' => my_encrypt($activityRecords['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit (<?php echo $this->escapeHtml($activityRecords['id']);?>)
+                        <?php } ?>
+                      </a>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+                        
+                   
+                    
+                 
+                 
+            
+         
+              
+       
+                

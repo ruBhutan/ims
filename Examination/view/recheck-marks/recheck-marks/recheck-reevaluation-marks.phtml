@@ -1,0 +1,162 @@
+<?php
+ $title = 'Enter Student Rechck/ Re-evaluation marks';
+ $this->headTitle($title);
+ 
+ //get student list in an array
+ /*$studentId = array();
+ $criteriaName = array();*/
+$i=1;
+$j=1;
+ /*foreach($this->studentList as $student){
+	 $studentId[$i] = $student['student_id'];
+	 $i++;
+ }
+*/
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                        <!-- Adding Achievements-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Search for Students by Module and Type")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                            </div>
+                            <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                              echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                              echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                              $messages = $this->flashMessenger()->getMessages();
+                              foreach($messages as $message) {
+                                echo '<strong>Success!</strong>'. $message;
+                              }
+                              echo '</div>';
+                                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                            $messages = $this->flashMessenger()->getMessages();
+                                            foreach($messages as $message) {
+                                                echo '<strong>Warning!</strong>'. $message;
+                                            }
+                                            echo '</div>';
+                                     } ?>
+                            <div class="x_content">
+                            <h5><i>*(In order to add the students' recheck/ re-evaluation mark, search by Module Name.)</i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                                $form->get('academic_module')->setValueOptions($this->academic_module_list);
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Module</label>
+                                    <?php echo $this->formRow($form->get('academic_module')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Type</label>
+                                    <?php echo $this->formRow($form->get('type')); ?>
+                                  </div>
+                              </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>     
+                              
+                          
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("List of Student(s)"); ?></h2><br><br>
+                              <p color="red">Enter the converted marks as per the module weightage only</p>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <?php
+                                // Opening of the form tag
+				                $recheckMarksForm->setAttribute('action', $this->url('updatechangedmarks', array('action' => 'updateChangedMarks')));
+                                $form->prepare();
+                                echo $this->form()->openTag($recheckMarksForm);
+                                $recheckMarksForm->get('academic_module')->setValue($this->academic_module);
+                                $recheckMarksForm->get('type')->setValue($this->type);
+                                $recheckMarksForm->get('studentCount')->setValue($this->studentCount);
+                                echo $this->formHidden($recheckMarksForm->get('academic_module'));
+                                echo $this->formHidden($recheckMarksForm->get('type'));
+                                echo $this->formHidden($recheckMarksForm->get('studentCount'));
+                              ?>
+                            <div class="x_content">
+                              <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered" width="100%">
+                                <thead>
+                                    <th style="width: 5%" class="column-title">Sl No</th>
+                                    <th style="width: 40%" class="column-title">Student</th>
+                                    <th style="width: 35%" class="column-title">Module </th>
+                                    <th style="width: 20%" class="column-title">Rechecked/ Re-evaluated Marks</th>
+                                </thead>
+            
+                                <tbody>
+                                     <?php 
+                                     //$i = 1;
+                                     foreach($this->student_list as $key=>$list){ ?>
+                                        <tr class="even pointer">
+                                            <td class=" "><?php echo $i; ?></td>
+                                            <td class=" "><?php echo $list['first_name'].' '.$list['middle_name'].' '.$list['last_name'].' ('.$list['student_id'].')';?></td>
+                                            <td class=" "><?php echo $list['module_title'].' ('.$list['module_code'].')';?></td>
+                                            <td style="width: 12%"><?php echo $this->formRow($recheckMarksForm->get('marks_'.$i++)); ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php 
+                                      if (!empty($student_list)) {
+                                        echo $this->formHidden($recheckMarksForm->get('csrf'));
+                                        echo $this->formSubmit($recheckMarksForm->get('submit'));
+                                      }
+                                      echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                            
+                           		<!-- End of Achievements-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              

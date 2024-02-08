@@ -1,0 +1,108 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Goods Surrender Details to Sub Store';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class="">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><?php echo $this->escapeHtml($title); ?></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+                </div>
+                <h5><i>*Details of particular item/ goods surrendered by particular staff to sub store.</i></h5>
+                <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $details = $form->get('goodssurrender');
+                    echo $this->form()->openTag($form);
+                    $details->get('id')->setValue($this->subStoreSurrender->getId());
+
+                   $details->get('employee_details_id')->setValue($this->subStoreSurrender->getEmployee_Details_Id());
+                   echo $this->formHidden($details->get('employee_details_id'));
+
+                    $details->get('emp_goods_id')->setValue($this->subStoreSurrender->getId());
+                    echo $this->formHidden($details->get('emp_goods_id'));
+
+                    $details->get('surrender_quantity')->setValue($this->subStoreSurrender->getEmp_Quantity());
+                    $details->get('sub_category_type')->setValue($this->subStoreSurrender->getSub_Category_Type());
+                    $details->get('category_type')->setValue($this->subStoreSurrender->getCategory_Type());
+                    $details->get('item_name')->setValue($this->subStoreSurrender->getItem_Name());
+                    $details->get('goods_code')->setValue($this->subStoreSurrender->getGoods_Code());
+                    $details->get('item_quantity_type')->setValue($this->subStoreSurrender->getItem_Quantity_Type());
+                    $details->get('goods_surrender_date')->setValue($subStoreSurrender->getGoods_Surrender_Date());
+                    $details->get('remarks')->setValue($subStoreSurrender->getRemarks());
+                    $details->get('surrender_quantity')->setValue($subStoreSurrender->getSurrender_Quantity());
+
+                    $details->get('goods_surrender_status')->setValue($subStoreSurrender->getGoods_Surrender_Status());
+
+                    $details->get('goods_issued_remarks')->setValue($subStoreSurrender->getGoods_Issued_Remarks());
+
+                    echo $this->formHidden($details->get('id'));
+                 ?>               
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="category_type">Category Type</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($details->get('category_type')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="sub_category_type">Sub Category Type</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($details->get('sub_category_type')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_name">Item Name</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($details->get('item_name')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_quantity_type">Quantity Type</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($details->get('item_quantity_type')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="surrender_quantity">Quantity</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <?php  echo $this->formRow($details->get('surrender_quantity')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="goods_code">Issued Item Code (s)</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <?php  echo $this->formRow($details->get('goods_code')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="goods_issued_remarks">Issued Remarks</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <?php  echo $this->formRow($details->get('goods_issued_remarks')); ?>
+                    </div>
+                </div>
+                
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="remarks">Surrendered Remarks</label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                            <?php  echo $this->formRow($details->get('remarks')); ?>
+                    </div>
+                </div>
+                <?php 
+                //closing the form tag  
+                 echo $this->form()->closeTag();
+                 ?>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>

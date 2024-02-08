@@ -1,0 +1,65 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Performance Review Lists (Supervisor)';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                     <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            
+                            <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Employee Name</th>
+                              <th class="column-title">EID</th>
+                            <th class="column-title">Department </th>
+                            <th class="column-title">Position Title </th>
+                            <th class="column-title">Position Category </th>
+                            <th class="column-title">Review Type</th>
+                            <th class="column-title">Review</th>
+                            </th>
+                           
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                 <td>Doji</td>
+                                  <td>r2</td>
+                                <td>Finance</td>
+                                <td>FO</td>
+                                <td>Finance</td>
+                                <td>Administrative</td>
+                                <td><a href="administrativereviewform"><u> Click here</u></a></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                 <td>Doji</td>
+                                  <td>r2</td>
+                                <td>Finance</td>
+                                <td>FO</td>
+                                <td>Finance</td>
+                                <td>Academic</td>
+                                <td><a href="academicreviewform"><u> Click here</u></a></td>
+                            </tr>
+                        </tbody>
+                      </table>
+                        <br/><h7>**notes:Administrative/executive and technical form are same .</h7>
+                    </div>
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

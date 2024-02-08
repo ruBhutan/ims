@@ -1,0 +1,59 @@
+<?php
+
+ $title = 'Posted Suggestion(s)';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+<div class="right_col" role="main">
+  <div class="">
+    <div class="col-md-12 col-xs-12">                  
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><?php echo $this->escapeHtml($title); ?></h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="table-responsive">
+            <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered"> 
+              <thead>
+                <tr class="headings">
+                  <th class="column-title">Sl. No</th>
+                  <th class="column-title">Suggestion Category </th>
+                  <th class="column-title">Subject </th>
+                  <th class="column-title">Organisation </th>
+                  <th class="column-title">Posted Date</th>
+                  <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $i=1; foreach($this->committedSuggestionList as $list): ?>
+                <tr class="headings">
+                  <td><?php echo $i++; ?></td>
+                  <td><?php echo $list['suggestion_category']; ?></td>
+                  <td><?php echo $list['subject'] ?></td>
+                  <td><?php echo $list['organisation_name'] ?></td>
+                  <td><?php echo $list['suggested_date']; ?></td>
+                  <td class="last">
+                    <a href="<?php echo $this->url('viewpostedsuggestiondetails', array('id' => my_encrypt($list['id'], $key))); ?>" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View Details</a>
+                  </td>                              
+                </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

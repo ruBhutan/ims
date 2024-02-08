@@ -1,0 +1,86 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Staff Rejected Leave Details';
+ $this->headTitle($title);
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <div class="clearfix"></div>
+                  </div>
+                  <?php
+                    // Opening of the form tag
+                    $leaveDetails = array();
+                    foreach ($this->rejectedLeaveDetails as $details): {
+                      $leaveDetails['id'] = $details['id'];
+                      $leaveDetails['from_date'] = $details['from_date'];
+                      $leaveDetails['to_date'] = $details['to_date'];
+                      $leaveDetails['reason'] = $details['reason'];
+                      $leaveDetails['remarks'] = $details['remarks'];
+                      $leaveDetails['leave_category'] = $details['leave_category'];
+                      $leaveDetails['days_of_leave'] = $details['days_of_leave'];
+                      $leaveDetails['first_name'] = $details['first_name'];
+                      $leaveDetails['middle_name'] = $details['middle_name'];
+                      $leaveDetails['last_name'] = $details['last_name'];
+                      $leaveDetails['emp_id'] = $details['emp_id'];
+
+                    }
+				              ?>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date From: </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leaveDetails['from_date'] ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date To: </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leaveDetails['to_date']; ?>" readonly>
+                        </div>
+                      </div><br/><br/><br/>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">No. of Days: </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leaveDetails['days_of_leave']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Type of leave:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" rows="5" placeholder='<?php echo $leaveDetails['leave_category']; ?>' readonly>
+                        </div>
+                      </div><br/><br/><br/>
+                        
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Substitution of self:</label>
+                        <div class="col-md-10 col-sm-10 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leaveDetails['first_name'].' '; 
+                                                                                     echo $leaveDetails['middle_name'].' ';
+                                                                                     echo $leaveDetails['last_name'].' (';
+                                                                                     echo $leaveDetails['emp_id'].' )';?>" readonly>
+                        </div>
+                      </div><br/><br/><br/>
+                     
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Reasons:
+                        </label>
+                        <div class="col-md-10 col-sm-10 col-xs-12">
+                          <textarea class="form-control"  placeholder='<?php echo $leaveDetails['reason']; ?>' readonly></textarea>
+                        </div>
+                      </div><br/><br/><br/>
+  
+                        <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks:<small> (Remarks for rejecting your application)</small>
+                        </label>
+                        <div class="col-md-10 col-sm-10 col-xs-12">
+                          <textarea class="form-control" readonly="readonly" rows="5"><?php echo $leaveDetails['remarks']; ?></textarea>
+                        </div>
+                      </div> 
+                    
+                  <?php endforeach; ?>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

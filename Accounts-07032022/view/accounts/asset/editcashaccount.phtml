@@ -1,0 +1,143 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/AssetController/editbankaccountAction
+ * 
+ */
+ $title = 'Edit Cash Account';
+ $this->headTitle($title);
+?>
+<?php 
+foreach($this->cashaccounts as $cashaccount):
+	extract($cashaccount);
+endforeach;?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>			
+                <?php echo $this->partial('accounts/asset/partial.phtml', array('active' => 'cashaccount')); ?>
+				<div class="x_content">
+					<form id="form" method="post" action="<?php echo $this->url('asset', array('action' => 'editcashaccount', 'id' => $id)); ?>" enctype="multipart/form-data" >
+						<div class ="row">
+                            <div class="col-lg-2"></div>	
+                            <div class ="col-xs-8">	
+								<div class="form-group col-lg-6">
+									<label for="cash_account" class="control-label">Cash Account</label>
+									<input type="text" class="form-control" name="cash_account" id="cash_account" value="<?php echo $cash_account;?>" placeholder="Cash Account" required>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="organisation" class="control-label">Organisation</label>
+									<select class="form-control" id="organisation" name="organisation" data-placeholder="Select" required >
+										<option value=""></option>
+										<?php 
+										foreach ($this->orgObj->get(array('id'=>$userorg)) as $row):
+											$selected=($organisation_id==$row['id'])?"selected":"";
+										?>
+											<option value="<?php echo $row['id'];?>"<?php echo $selected;?>>
+												<?php echo $row['organisation_name'];?>
+											</option>
+										<?php
+										endforeach;
+										?>
+									</select>
+								</div>
+								<?php 
+								$count=sizeof($master_details);
+								if($count > 0):
+									foreach($master_details as $master_details):?>
+									<div class="col-lg-6 form-group">
+										<label for="head" class="control-label">Select Ledger</label>
+										<input type="hidden" class="form-control" name="subhead_id[]" id="subhead_id" value="<?php echo $master_details['subhead_id']; ?>" required>
+										<input type="hidden" class="form-control" name="masterdetail_id[]" id="masterdetail_id" value="<?php echo $master_details['id']; ?>" required>
+										<select class="form-control head" id="head" name="head[]" data-placeholder="Select" >
+											<option value=""></option>
+											<?php 																	
+											foreach ($this->headObj->get($this->subheadObj->getColumn(array('id'=>$master_details['subhead_id']),'head')) as $headrow):
+												$selected = ($this->subheadObj->getColumn(array('id'=>$master_details['subhead_id']),'head') == $headrow['id'])? "selected":"";
+											?>
+												<option value="<?php echo $headrow['id'];?>" <?php echo $selected	?>>
+													<?php echo $headrow['code'];?>
+												</option>
+											<?php endforeach;?>
+										</select>
+									</div>
+									<?php endforeach;?>
+								<?php else:	?>
+									<div class="form-group col-lg-6">
+										<label for="head" class="control-label">Select Ledger</label>
+										<select class="form-control head" id="head" name="head[]" data-placeholder="Select" >
+											<option value=""></option>
+											<?php foreach ($this->headObj->getAll() as $row):?>
+												<option value="<?php echo $row['id'];?>">
+													<?php echo $row['name'];?>
+												</option>
+											<?php endforeach;?>
+										</select>
+									</div>
+								<?php endif;?>
+						    </div>  
+						    <div class="col-lg-2"></div>
+						</div>
+                        <div class ="x_title"></div>
+						<div class ="row">
+						    <div class ="col-lg-2"></div>
+						    <div class ="col-lg-8">
+							    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+								<button type="button" class="btn btn-warning" onclick="javascript:history.back();" ><i class="fa fa-times"></i> Cancel </button>
+							</div>
+						    <div class ="col-lg-2"></div>
+						</div>
+					</form>
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+<script>
+	$(function() {		
+		/****** dynamic insertion of table row*******/	
+		$('form').formValidation({
+			framework: 'bootstrap',
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				cash_account: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide cash account.'
+						}
+					}
+				},
+				location: {
+					validators: {
+						notEmpty: {
+							message: 'Please select location.'
+						}
+					}
+				},
+				'head_type[]': {
+	                validators: {
+	                    notEmpty: {
+	                        message: 'Please select Head Type'
+	                    }
+	                }
+	            },
+	            'head[]': {
+	                validators: {
+	                    notEmpty: {
+	                        message: 'Please select Head'
+	                    }
+	                }
+	            }, 
+			}
+		});
+	});
+</script>

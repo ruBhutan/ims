@@ -1,0 +1,87 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Accounts Group Head';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($form->get('id'));
+				  ?>  
+                <div class="x_content">
+                 <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Group Head</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Group Code</label>
+                    <select class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                  </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="form-group">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Group Head</th>
+                            <th class="column-title">Group Code</th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i = 1; foreach ($this->groupHeads as $groupHead) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($groupHead['group_head']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($groupHead['group_code']);?></td>
+                            <td class=" last"> <a href="<?php echo $this->url('viewaurgapplication', array('id' => $groupHead['id']));?>">View Details</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                  </div>
+               </div>
+    
+          </div>
+        </div> 
+     </div>
+              
+   
+            
+    

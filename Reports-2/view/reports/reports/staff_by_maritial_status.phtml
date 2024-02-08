@@ -1,0 +1,67 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">       
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('List of Staff By Maritial Status'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+               <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Organisation </th>
+                     <th class="column-title">Maritial Status</th>
+                     <th class="column-title">Male</th>
+                     <th class="column-title">Female</th>
+                     <th class="column-title">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php $i=1; $organisation_name = 'Default';
+				  	foreach ($this->hr_report as $key => $value) : ?>
+                  <?php foreach ($value as $key2 => $value2) : 
+				  		$male = 0;
+						$female = 0;
+						if($organisation_name == 'Default'){
+							$organisation_name = $key;
+						} else if($organisation_name != $key){
+							$organisation_name = $key;
+						} else if($organisation_name == $key){
+							$organisation_name = NULL;
+						}
+				  ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($organisation_name);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($key2);?></td>
+                    <td class=" "><?php 
+										if(array_key_exists('Male', $this->hr_report[$key][$key2])){
+											$male = $value2['Male'];
+											echo $this->escapeHtml($male);
+										}
+										else 
+											echo $this->escapeHtml(0);?></td>
+                    <td class=" "><?php 
+										if(array_key_exists('Female', $this->hr_report[$key][$key2])){
+											$female = $value2['Female'];
+											echo $this->escapeHtml($female);
+										}
+										else 
+											echo $this->escapeHtml(0);?></td>
+                    <td class=" "><?php 
+										echo $this->escapeHtml($male + $female);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

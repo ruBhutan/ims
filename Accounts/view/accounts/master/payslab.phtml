@@ -1,0 +1,132 @@
+<?php
+
+/**
+ *
+ * View -- of Hr/MasterController/payslabAction
+ *
+ */
+$title = "Pay Slab";
+$this->headTitle($this->title);
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="pull-right"></div>
+                <a class="pull-right btn btn-primary"
+                   href="<?php echo $this->url('master', array('action' => 'addpayslab')); ?>">
+                    <span class="white"><i class="fa fa-plus"></i> <span
+                                class="hidden-sm hidden-xs">&nbsp;Add Pay Slab</span></span>
+                </a>
+                <?php echo $this->partial('accounts/master/partial.phtml', array('active' => 'payslab')); ?>
+                <?php $flashMessenger = $this->flashMessenger('error'); ?>
+                <?php if ( $flashMessenger->hasMessages() ): ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <?php foreach ( $flashMessenger->getMessages() as $message ): ?>
+                            <?php echo $message ?>
+                        <?php endforeach ?>
+                    </div>
+                <?php endif; ?>
+                <?php $flashMessenger->setNamespace('success'); ?>
+                <?php if ( $flashMessenger->hasMessages() ): ?>
+                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <?php foreach ( $flashMessenger->getMessages() as $message ): ?>
+                            <?php echo $message ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped jambo_table bulk_action">
+                            <thead>
+                            <tr class="headings">
+                            <tr>
+                                <th class="column-title">Sl No</th>
+                                <th class="column-title">Pay Head</th>
+                                <th class="column-title">From</th>
+                                <th class="column-title">To</th>
+                                <th class="column-title">Formula</th>
+                                <th class="column-title">Rate(r) and Base(b)</th>
+                                <th class="column-title">Value</th>
+                                <th class="column-title">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+
+                            $i = 1;
+                            foreach ( $this->rowset as $rows ):
+                                $class = ($i % 2 == 0) ? "even gradeC" : "odd gradeX";
+                                if ( $rows['formula'] == 1 ):
+                                    $formula = "yes";
+                                    if ( $rows['from_range'] > 150200 ):
+                                        $val = "((Basic Salary - 83338) / 100) * r + b";
+                                    else:
+                                        $val = "IntergerValue((Basic Salary - a) / 100) * r + b";
+                                    endif;
+                                    $rate = $rows['rate'];
+                                    $base = $rows['base'];
+                                else:
+                                    $formula = "no";
+                                    $val = $rows['value'];
+                                    $rate = "null";
+                                    $base = "null";
+                                endif;
+
+                                $payhead_data = $this->service->getDatabyParam($this->payheadObj, array('id' => $rows['pay_head']), 'pay_head');
+                                $payhead = $payhead_data[0]['pay_head']; ?>
+                                <tr class="<?php echo $class; ?>">
+                                    <td><?php echo $i; ?> </td>
+                                    <td><b><?php echo $payhead; ?></b></td>
+                                    <td><?php echo $rows['from_range']; ?></td>
+                                    <td><?php echo $rows['to_range']; ?></td>
+                                    <td><?php echo $formula; ?></td>
+                                    <td><?php echo $rate; ?>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $base; ?></td>
+                                    <td><?php echo $val; ?></td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info "
+                                           href="<?php echo $this->url('master', array('action' => 'editpayslab', 'id' => my_encrypt($rows['id'], $key))); ?>">
+                                            <i class="fa fa-pencil"> </i> Edit
+                                            <span class="hidden-lg hidden-xs"></span>
+                                        </a
+                                    </td>
+                                </tr>
+                                <?php
+
+                                $i++;
+                            endforeach;
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--for modal -->
+<div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>

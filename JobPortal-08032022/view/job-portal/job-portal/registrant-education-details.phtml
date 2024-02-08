@@ -1,0 +1,200 @@
+<?php
+ $title = 'Education';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+          					$registrant = $form->get('education');
+          					$registrant->get('job_applicant_id')->setValue($this->job_applicant_id);
+                    $registrant->get('college_country')->setValueOptions($this->country);
+                    $registrant->get('study_level')->setValueOptions($this->studyLevel);
+                    $registrant->get('funding')->setValueOptions($this->fundingCategory);
+                    echo $this->formHidden($registrant->get('id'));
+          					echo $this->formHidden($registrant->get('job_applicant_id'));
+          				  ?>
+
+		<h4>
+<i><font color="green">(Please start with Institute/College/School last attended and include information as mentioned in the vacancy announcement)
+<br>Note:<br> Agg. Marks Obtained for class XII (English plus best three subjects)<br>
+Agg. Marks Obtained for class X (English plus best four subjects)
+</font></i></br></br>
+
+<i><font color="red">***Please fill up the form to update your education details. All star marks are mandatory field (s). Please don't make mistake while uploading file.</font></i></h4>  <br/>
+                <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                $messages = $this->flashMessenger()->getMessages();
+                foreach($messages as $message) {
+                echo '<strong>Success!</strong>'. $message;
+                }
+               echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }?>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">School/College Name<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('college_name')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">School/College City Address<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('college_location')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Country<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('college_country')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Start Date<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('start_date')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">End Date<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('end_date')); ?>
+                    </div>
+                   </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Field of Study<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('field_study')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Mode of Study<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('study_mode')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Study Level<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('study_level')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Funding<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('funding')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Agg. Marks Obtained<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('marks_obtained')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Scanned Copy of Academic Transcript<span class="required"> * (Please attach both consolidated and break-up mark sheets, if any)</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('academic_transcript')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Scanned Copy of Degree Certificate/Pass Certificate<span class="required"> *</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('pass_certificate')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Note: 
+                      <ul>
+                        <li>Grade conversion of the mark sheet MUST also be submitted if the marks are awarded in CGPA</li>
+                        <li>In the event degree certificate is yet to be awarded, provisional degree certificate MUST be submitted </li>
+                      </ul>
+                    </label>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+            						<?php
+            						   echo $this->formHidden($form->get('csrf'));
+            						   echo $this->formSubmit($registrant->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+                <div class="x_content">
+                  <p><i><font color="red">List (s) of Education Details</font></i></p>  
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">College Name</th>
+                            <th class="column-title">College Address</th>
+                            <th class="column-title">Country</th>
+                            <th class="column-title">Study Level</th>
+                            <th class="column-title">Field of Study</th>
+                            <th class="column-title">Start Date</th>
+                            <th class="column-title">End Date</th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                         <?php $i = 1; foreach ($this->educationDetails as $detail) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['college_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['college_location']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['country']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['study_level']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['field_study']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['start_date']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['end_date']);?></td>
+                            <td class=" last"><a href="<?php echo $this->url('editregistranteducationdetails', array('id' => my_encrypt($detail['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> View/ Edit</a> <a href="<?php echo $this->url('deleteregistranteducationdetails', array('id' => my_encrypt($detail['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Delete</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+                  </div>
+               </div>
+             </div>
+        
+        
+    
+          </div>
+        </div> 
+     </div>

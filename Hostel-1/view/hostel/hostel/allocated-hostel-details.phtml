@@ -1,0 +1,54 @@
+<?php
+ $title = 'Hostel Allocation for Students';
+ $this->headTitle($title);
+ $roomDetails = array();
+ foreach ($this->hostelAllocationDetails as $details)
+ {
+	if(empty($roomDetails[$details['room_no']])){
+		$roomDetails[$details['room_no']][] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name']. ' (Student ID: ' .$details['student_id'].')';
+	} else{
+		$roomDetails[$details['room_no']][] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name']. ' (Student ID: ' .$details['student_id'].')';
+	}
+ }
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>  
+                      <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:20%" class="column-title">Room No.</th>
+                            <th style="width:50%" class="column-title">Students</th>
+                            <th style="width:30%" class="column-title no-link last"><span class="nobr">Action</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                          <?php for($i=1; $i<=count($roomDetails); $i++) { ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo "ROOM NO:  ".$this->escapeHtml($i);?></td>
+                            <td class=" "><?php foreach($roomDetails[$i] as $roommate){
+													echo $roommate. '<br />'; } ?></td>
+                            <td class=" "><a href="<?php echo $this->url('edithosteldetail', array('id' => $i));?>" class="btn btn-info btn-xs"><i class="fa fa-search"></i>View Room Allocation Details</a></td>
+                          </tr>
+                          <?php } ?>
+                          </tr>
+                        </tbody>
+                      </table>         
+                    </div>
+                 </div>
+              </div>
+            </div>
+         </div>
+      </div>
+            
+   

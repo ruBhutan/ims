@@ -1,0 +1,289 @@
+<?php
+    $title = 'Add Student Fees';
+    $this->headTitle($title);
+    $key = $this->keyphrase;
+    function my_encrypt($data, $key) {
+        $encryption_key = base64_decode($key);
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+        $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+        return bin2hex(base64_encode($encrypted . '::' . $iv));
+    }
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Student Details</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="x_content">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation ID:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getOrganisation_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getStudent_Id()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getFirst_Name() . ' ' . $this->studentDetails->getMiddle_Name() . ' ' . $this->studentDetails->getLast_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Email:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getEmail()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Contact No:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getContact_No()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getProgramme_Name()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getStudent_Type()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getOrganisation_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="clearfix"></div>
+                </div><!--end of x-content-->
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <?php
+                  if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach ($messages as $message) {
+                      echo '<strong>Success!</strong>' . $message;
+                    }
+                    echo '</div>';
+                  } else if ($this->message == 'Failure' && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach ($messages as $message) {
+                      echo '<strong>Failure!</strong>' . $message;
+                    }
+                    echo '</div>';
+                  }
+                ?>
+                <div class="x_content">
+                    <h5><i>Instructions goes here.</i></h5><br/>
+                    <?php
+                        // Opening of the form tag
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $register = $form->get('addstudentfeedetails');
+
+                        // Set the values of hiddden fields
+                        $register->get('organisation_id')->setValue($this->organisation_id);
+                        echo $this->formHidden($register->get('organisation_id'));
+                        $register->get('student_id')->setValue($this->student_id);
+                        echo $this->formHidden($register->get('student_id'));
+                        echo $this->formHidden($register->get('student_fee_structure_id'));
+
+                        // Set form fields value
+                        $register->get('financial_year')->setValueOptions($this->academicYear);
+                        $register->get('semester_id')->setValueOptions($this->studentSemesterList);
+                        $register->get('financial_year')->setValue((date('Y')) ."-". (date('Y')+1));
+                        $register->get('student_fee_category_id')->setValueOptions($this->feeCategories);
+                    ?>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="student_fee_category_id">Fee Category<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('student_fee_category_id')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="financial_year">Financial Year<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('financial_year')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="semester_id">Semester<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('semester_id')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="amount">Amount<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('amount')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="due_date">Due Date<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('due_date')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Status<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('status')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="ln_solid"></div>
+                        <div class="form-group text-center">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?php
+                              echo $this->formHidden($register->get('csrf'));
+                              echo $this->formSubmit($register->get('submit'));
+                              ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                        //closing the form tag
+                        echo $this->form()->closeTag();
+                    ?>
+                </div> <!-- End of x-content -->
+            </div>
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Student Previous Fees</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <h5><i>Following are the list of student previous fees data</i></h5>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Sl. No</th>
+                                    <th class="column-title">Fee Category </th>
+                                    <th class="column-title">Semester </th>
+                                    <th class="column-title">Financial Year </th>
+                                    <th class="column-title">Amount </th>
+                                    <th class="column-title">Status </th>
+                                    <th class="column-title">Updated At </th>
+                                    <th class="column-title">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                  <?php $i = 1; ?>
+                                  <?php foreach ($this->studentFeeList as $studentFee) : ?>
+                                  <tr class="even pointer">
+                                      <td class=" " width="5%"><?php echo $i; ?></td>
+                                      <td class=" " width="15%"><?php echo $this->escapeHtml($studentFee['fee_category']); ?></td>
+                                      <td class=" " width="10%"><?php echo $this->escapeHtml($studentFee['semester_id']); ?></td>
+                                      <td class=" " width="15%"><?php echo $this->escapeHtml($studentFee['financial_year']); ?></td>
+                                      <td class=" " width="10%"><?php echo $this->escapeHtml($studentFee['amount']); ?></td>
+                                      <td class=" " width="10%"><?php echo $this->escapeHtml($studentFee['status']); ?></td>
+                                      <td class=" " width="15%"><?php echo $this->escapeHtml($studentFee['updated_at']); ?></td>
+                                      <td class=" last" width="15%">
+                                          <?php if($studentFee['pending_amount'] > 0): ?>
+                                          <a href="/public/addstudentfees/makepayment/<?php echo my_encrypt($studentFee['id'], $key); ?>" class="btn btn-success btn-xs">
+                                              <i class="fa fa-credit-card"></i> Make Payment
+                                          </a>
+                                          <?php else: ?>
+                                          <a href="/public/addstudentfees/makepayment/<?php echo my_encrypt($studentFee['id'], $key); ?>" class="btn btn-primary btn-xs">
+                                              <i class="fa fa-list"></i> Show Payments
+                                          </a>
+                                          <?php endif ?>
+                                          <a href="/public/addstudentfees/editFees/<?php echo my_encrypt($studentFee['id'], $key); ?>" class="btn btn-info btn-xs">
+                                              <i class="fa fa-pencil"></i> Edit
+                                          </a>
+                                          <button data-id="<?php echo my_encrypt($studentFee['id'], $key); ?>" class="btn btn-danger btn-xs deleteFeeDetails">
+                                              <i class="fa fa-trash"></i> Delete
+                                          </button>
+                                      </td>
+                                  </tr>
+                                  <?php $i++; ?>
+                                  <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+  function getFeesStructure() {
+      var student_id = $('#student_id').val();
+      var fee_category = $('#StudentFeeCategory').val();
+      var financial_year = $('#FinancialYear').val();
+      $.ajax({
+          type: 'POST',
+          url:  '/public/addstudentfees/ajaxfetchfeedetails',
+          method: 'POST',
+          dataType: 'json',
+          data: {
+              student_id: student_id,
+              fee_category: fee_category,
+              financial_year: financial_year
+          }
+      }).done(function(ajaxResponse) {
+          if (ajaxResponse.status === 'success') {
+              $("#amount").val(ajaxResponse.data.total_fee);
+              $("#student_fee_structure_id").val(ajaxResponse.data.student_fee_structure_id);
+              $("#submitbutton").removeAttr('disabled');
+          } else {
+              $("#amount").val('');
+              $("#student_fee_structure_id").val('');
+              $("#submitbutton").attr('disabled', 'disabled');
+              alert(ajaxResponse.message);
+          }
+      });
+  }
+
+  $(document).ready(function () {
+      $('input[name="addstudentfeedetails[due_date]"]').daterangepicker({
+          singleDatePicker: true,
+          showDropdowns: true,
+          minDate: moment().format('YYYY-MM-DD'),
+          startDate: moment().add(15,'d').format('YYYY-MM-DD'),
+          locale: {format: 'YYYY-MM-DD'}
+      });
+
+      $('#StudentFeeCategory, #FinancialYear').on('change', function () {
+          getFeesStructure();
+      });
+      
+      $(".deleteFeeDetails").on('click', function () {
+          if (confirm('Are you sure you want to delete this record?')) {
+              window.location = "/public/addstudentfees/deleteFees/"+$(this).data('id');
+          }
+      });
+  });
+
+</script>

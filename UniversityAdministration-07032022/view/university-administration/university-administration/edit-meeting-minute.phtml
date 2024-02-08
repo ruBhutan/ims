@@ -1,0 +1,128 @@
+<?php
+
+ $title = 'Edit Meeting Minute Details';
+ $this->headTitle($title);
+ $meetingminutesRecord['meeting_date']='';
+ $meetingminutesRecord = array();
+ foreach($this->meetingminutes as $meetingminutes)
+ {
+  $meetingminutesRecord['id'] = $meetingminutes['id'];
+  $meetingminutesRecord['meeting_details'] = $meetingminutes['meeting_details'];
+  $meetingminutesRecord['meeting_type_id'] = $meetingminutes['meeting_type_id'];
+  $meetingminutesRecord['meeting_date'] = date("m-d-Y", strtotime(substr($meetingminutes['meeting_date'],0,10))); 
+  $meetingminutesRecord['recorded_by'] = $meetingminutes['recorded_by']; 
+  $meetingminutesRecord['evidence_file'] = $meetingminutes['evidence_file']; 
+ }
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                    
+                  <div class="x_content">
+                    <br/>
+                       <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $meetingminutes = $form->get('meetingminutes');
+                        echo $this->form()->openTag($form);
+                        $meetingminutes->get('id')->setValue($this->id);
+                        echo $this->formHidden($meetingminutes->get('id')); 
+                        $meetingminutes->get('meeting_details')->setValue($meetingminutesRecord['meeting_details']);
+                        $meetingminutes->get('meeting_type_id')->setValue($meetingminutesRecord['meeting_type_id']);
+                        echo $this->formHidden($meetingminutes->get('meeting_type_id'));
+                        $meetingminutes->get('meeting_date')->setValue($meetingminutesRecord['meeting_date']);
+                        $meetingminutes->get('recorded_by')->setValue($meetingminutesRecord['recorded_by']);
+                        echo $this->formHidden($meetingminutes->get('recorded_by'));  
+                      ?>
+
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Meeting Details (Number) <span class="required">*</span>
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <?php 
+                         echo $this->formRow($meetingminutes->get('meeting_details'));
+                        ?>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Meeting Date (mm/dd/yyyy)<span class="required">*</span></label>
+                        <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php
+                          echo $this->formRow($meetingminutes->get('meeting_date'));
+                          ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group">
+                        <?php
+                          if($meetingminutesRecord['evidence_file']) {
+                            $meetingminutes->get('evidence_file')->setValue($meetingminutesRecord['evidence_file']);
+                            echo $this->formHidden($meetingminutes->get('evidence_file'));
+                          }
+                          else{ ?>
+                          <label class="control-label col-md-2 col-sm-3 col-xs-12">Scanned Copy of Pass Certificate<span class="required">*</span></label>
+                          <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                          <?php
+                           echo $this->formRow($meetingminutes->get('evidence_file'));
+                          }
+                          ?>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    <div class="ln_solid"></div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php
+                          echo $this->formRow($form->get('csrf'));
+                          echo $this->formSubmit($meetingminutes->get('submit')); 
+                        ?>
+                        </div>
+                    </div>
+                    </div>  
+                            <?php
+                            echo $this->form()->closeTag();
+                            ?>
+                        </div>
+                      </div>
+                </div>
+              
+                
+                 </div>
+            </div>
+          </div>
+        </div> 
+     </div>

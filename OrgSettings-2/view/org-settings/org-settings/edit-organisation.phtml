@@ -1,0 +1,90 @@
+<?php
+ $title = 'Organisation Configuration & Settings';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Edit Organisation")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                   
+                <?php
+                   // Opening of the form tag
+					        $form->prepare();
+                  echo $this->form()->openTag($form);
+      				    $organisation = $form->get('organisation');
+        					$organisation->get('id')->setValue($this->organisationDetail->getId());
+        					$organisation->get('organisation_name')->setValue($this->organisationDetail->getOrganisation_Name());
+                  $organisation->get('organisation_code')->setValue($this->organisationDetail->getOrganisation_Code());
+                  $organisation->get('abbr')->setValue($this->organisationDetail->getAbbr());
+        					$organisation->get('address')->setValue($this->organisationDetail->getAddress());
+                    echo $this->formHidden($organisation->get('id'));   
+                ?>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation/College Name: <span class="required">*</span></label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                      <?php  echo $this->formRow($organisation->get('organisation_name')); ?>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation Code: <span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                      <?php  echo $this->formRow($organisation->get('organisation_code')); ?>
+                    </div>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation Abbreviation: <span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-2 col-xs-12">
+                      <?php  echo $this->formRow($organisation->get('abbr')); ?>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation Address: <span class="required">*</span></label>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                      <?php  echo $this->formRow($organisation->get('address')); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+        						    echo $this->formHidden($form->get('csrf'));
+        						    echo $this->formSubmit($organisation->get('submit')); 
+                        echo $this->form()->closeTag();
+						            ?>
+                        </div>
+                    </div>
+                </div>                    
+              </div>
+            </div> 
+			    </div>
+          </div>
+          </div>
+          </div>
+          </div>
+           
+
+            

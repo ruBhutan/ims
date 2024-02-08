@@ -1,0 +1,132 @@
+<?php
+ $title = 'Add Employee Contribution';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+					<?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $contribution = $form->get('employeecontribution');
+            $contribution->get('id')->setValue($this->employeeContributionDetail->getId());
+                    $contribution->get('employee_details_id')->setValue($this->employeeContributionDetail->getEmployee_Details_Id());
+                     $contribution->get('contribution_category_id')->setValue($this->employeeContributionDetail->getContribution_Category_Id());
+                      $contribution->get('contribution_type')->setValue($this->employeeContributionDetail->getContribution_Type());
+                       $contribution->get('contribution_date')->setValue(date("m/d/y", strtotime($this->employeeContributionDetail->getContribution_Date())));
+                       $contribution->get('remarks')->setValue($this->employeeContributionDetail->getRemarks());
+                       $contribution->get('evidence_file')->setValue($this->employeeContributionDetail->getEvidence_File());
+                    $contribution->get('contribution_category_id')->setValueOptions($this->contribution_category);
+                    echo $this->formHidden($contribution->get('id')); 
+					echo $this->formHidden($contribution->get('employee_details_id'));
+                    ?>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Staff Name <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $this->employeeContributionDetail->getFirst_Name(). ' '.$this->employeeContributionDetail->getMiddle_Name(). ' '.$this->employeeContributionDetail->getLast_Name(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      <label class="control-label col-md-3 col-sm-2 col-xs-12">Staff ID <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $this->employeeContributionDetail->getEmp_Id(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="ln_solid"></div>
+                    <br />
+                    <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Contribution Category</label>
+              <?php echo $this->formRow($contribution->get('contribution_category_id')); ?>
+                        </div>
+                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Contribution Type</label>
+              <?php echo $this->formRow($contribution->get('contribution_type')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Contribution Date</label>
+						  <?php echo $this->formRow($contribution->get('contribution_date')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Evidence File:</label>
+              <?php echo $this->formRow($contribution->get('evidence_file')); ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Remarks</label>
+						  <?php echo $this->formRow($contribution->get('remarks')); ?>
+                        </div>
+                     </div>
+                    </div>
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+							   echo $this->formSubmit($contribution->get('submit'));
+                               echo $this->form()->closeTag();
+                            ?>
+                            <a href="<?php echo $this->url('empresponsibility');?>"><span class="btn btn-primary">Done</span></a>
+                            </div>
+                    	  </div>
+                     </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+            

@@ -1,0 +1,69 @@
+<?php
+ $title = 'Activate HR Proposal (RUB HRO)';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+                  
+                <div class="row"> 
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">HR Proposal Type
+                    </label>
+               <select class="form-control"><option>HRD Planning</option><option>HRM Planning</option></select>
+                    </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Five Year Plan
+                    </label>
+                <select class="form-control"><option>11th Five Year Plan</option><option>12th Five Year Plan</option></select>
+                </div>
+            
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Start Date 
+                    </label>
+                 <input type="date" class="form-control">
+                    </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">End Date
+                    </label>
+                        <input type="date" class="form-control">
+                </div>   
+                </div>      
+               
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                     <button class="btn btn-success">Submit</button>
+                      <button class="btn btn-danger">Cancel</button>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        </div>
+          </div>
+        </div> 
+
+              
+              
+   
+            
+    

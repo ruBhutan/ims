@@ -1,0 +1,256 @@
+<?php
+ $title = 'Applied Job Applicants';
+ $this->headTitle($title);
+ 
+ 
+  $key = $this->keyphrase;
+	 function my_encrypt($data, $key) {
+		// Remove the base64 encoding from our key
+		$encryption_key = base64_decode($key);
+		// Generate an initialization vector
+		$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+		// Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+		$encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+		// The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+		return bin2hex(base64_encode($encrypted . '::' . $iv));
+	}
+
+?>
+	<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+     		 <div class="x_panel">
+              <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+                  </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("Search for Applied Job Applicant List")?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                  
+                        </div>
+                       <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>  
+                        <div class="x_content">
+                            <h5><i>*(In order to search the list of job applicant, please select the Vacancy Title from Drop Down list or either click on Search Button without selecting.** </i></h5>
+                                  <br />
+                            <?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $form->get('position_title')->setValueOptions($this->announcedVacancy);
+                            ?>
+                        
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Position Title:</label>
+                                    <?php echo $this->formRow($form->get('position_title')); ?>
+                                </div>
+                            </div>                         
+                            <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+                            <div class="x_title">
+                                <h2><?php echo $this->escapeHtml("List of Applicant with their class 10 and 12 entered marks"); ?></h2><br/><br/>
+                                <small>(Applicant list will display if he/ she have updated his/ her marks only. If there is any changes need to do then please click on "Edit" button to click their marks details)</small>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="x_content">
+                                <div class="table-responsive">
+                                <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                    <tr class="bordered">
+                                        <th>Sl No </th>
+                                        <th>Action</th>
+                                        <th>Name </th>
+                                        <th>Applied Post </th>
+					<th>Area</th>  
+					<th>Location</th>
+                                        <th>CID</th>
+                                        <th>Contact Number</th>
+                                        <th>X English</th>
+                                        <th>X Best 1</th>
+                                        <th>X Best 2</th>
+                                        <th>X Best 3</th>
+                                        <th>X Best 4</th>
+                                        <th>X % </th>
+                                        <th>X 15% </th>
+                                        <th>XII English</th>
+                                        <th>XII Best 1</th>
+                                        <th>XII Best 2</th>
+                                        <th>XII Best 3</th>
+                                        <th>XII % </th>
+                                        <th>XII 25% </th>
+                                        <th>Bachelor </th>
+                                        <th>Bachelor 100% </th>
+                                        <th>Bachelor 60% </th>
+                                        <th>Masters </th>
+                                        <th>Details of Work Experience </th>
+                                        <th>Bonus for Masters </th>
+                                        <th>Bonus for Experience </th>
+                                        <th>Total </th>
+
+                                        
+                                    </tr>
+                                    </thead>  
+                                    <tbody>
+                                    <?php
+                                    $i = 1; 
+									foreach($this->outsiderApplicant as $outsider):?>
+                                        <td class=" "><?php echo $i++; ?></td>
+                                        <td class="last"><a href="<?php echo $this->url('editjobapplicantmarkdetails', array('applicant_id' => my_encrypt($outsider['job_applicant_id'], $key), 'category' => my_encrypt('Outsider', $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Edit</a>
+                                        </td>
+                                        <td class=" "><?php echo $outsider['first_name'].' '.$outsider['middle_name'].' '.$outsider['last_name']; ?></td>
+                                        <td class=" "><?php
+                                        if($outsider['additional_position_title']){
+                                            echo $outsider['position_title'].' / '.$outsider['additional_position_title'];
+                                        }else{
+                                            echo $outsider['position_title']; 
+                                        }
+                                        ?>
+					</td>
+                                        <td class=" "><?php echo $outsider['area']; ?></td>
+                                        <td class=" "><?php echo $outsider['abbr']; ?></td>
+                                        <td class=" "><?php echo $outsider['cid']; ?></td>
+                                        <td class=" "><?php echo $outsider['contact_no']; ?></td>
+                                        <td class=" "><?php echo $outsider['x_english']; ?></td>
+                                        <td class=" "><?php echo $outsider['x_sub1_mark']; ?></td>
+                                        <td class=" "><?php echo $outsider['x_sub2_mark']; ?></td>
+                                        <td class=" "><?php echo $outsider['x_sub3_mark']; ?></td>
+                                        <td class=" "><?php echo $outsider['x_sub4_mark']; ?></td>
+                                        <td class=" "><?php echo (($outsider['x_english']+
+                                            $outsider['x_sub1_mark']+
+                                            $outsider['x_sub2_mark']+
+                                            $outsider['x_sub3_mark']+
+                                            $outsider['x_sub4_mark']
+                                                              )/5); ?>
+                                        </td>
+                                        <td class=" "><?php echo (((($outsider['x_english']+
+                                            $outsider['x_sub1_mark']+
+                                            $outsider['x_sub2_mark']+
+                                            $outsider['x_sub3_mark']+
+                                            $outsider['x_sub4_mark']
+                                                              )/5)*15)/100); ?>
+                                        </td>
+                                        <td class=" "><?php echo $outsider['xll_english']; ?></td>
+                                        <td class=" "><?php echo $outsider['xll_sub1_mark']; ?></td>
+                                        <td class=" "><?php echo $outsider['xll_sub2_mark']; ?></td>
+                                        <td class=" "><?php echo $outsider['xll_sub3_mark']; ?></td>
+                                        <td class=" "><?php echo (($outsider['xll_english']+
+                                            $outsider['xll_sub1_mark']+
+                                            $outsider['xll_sub2_mark']+
+                                            $outsider['xll_sub3_mark']
+                                                              )/4); ?>
+                                        </td>
+                                        <td class=" "><?php echo (((($outsider['xll_english']+
+                                            $outsider['xll_sub1_mark']+
+                                            $outsider['xll_sub2_mark']+
+                                            $outsider['xll_sub3_mark']
+                                                              )/4)*25)/100); ?>
+                                        </td> 
+										<?php
+										if(!empty($this->degreeMarks)){
+										foreach($this->degreeMarks as $key => $value) : ?>
+										<?php if($outsider['job_applicant_id'] == $key) { ?>
+										<td><?php echo $value['study_level'];  ?></td>
+                                        <td><?php echo $value['marks_obtained']; ?></td>
+                                        <td><?php echo $value['marks_obtained']*0.6; ?></td>
+										<?php } 
+										 ?>
+										<?php endforeach; ?>
+										<?php } else { ?>
+										<td><?php echo "NA"; ?></td>
+										<td><?php echo "NA"; ?></td>
+										<td><?php echo "NA"; ?></td>
+										<?php } ?>
+										<td>
+										<?php if(!empty($this->masterDetail)) { 
+										foreach($this->masterDetail as $value1) : ?>
+										<?php if($outsider['job_applicant_id'] == $value1['job_applicant_id']) {?>
+                                        <?php echo $value1['study_level']; ?>
+										<?php } ?>
+										<?php endforeach; ?>
+										<?php } else {?>
+										<td><?php echo "NA"; ?></td>
+										<?php } ?>
+										</td>
+										<td>
+										<?php if(!empty($this->employmentDetails)) { 
+										foreach($this->employmentDetails as $emp) : 	
+										?>
+										<?php if($outsider['job_applicant_id'] == $emp['job_applicant_id']) {
+											?>
+                                        <?php echo $emp['position_title'].' - ('.$emp['start_period'].' to '.$emp['end_period'].')'; echo '<br>'; ?>
+										<?php } 
+										endforeach;
+										?>
+										<?php } else {?>
+										<td><?php echo "NA"; ?></td>
+										<?php } ?>
+										</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+									<?php endforeach; ?>
+                                </tbody>
+                                </table>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+              

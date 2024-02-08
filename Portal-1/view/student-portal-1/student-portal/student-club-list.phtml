@@ -1,0 +1,57 @@
+<?php
+
+ $title = 'Student Club Lists';
+ $this->headTitle($title);
+?>
+		<div class="right_col" role="main">
+          <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                    <div class="row">
+                      <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                        <div class="title_left">
+                            <h3>Clubs and Units</h3>
+                            <small><b>Following are the list(s) of club that are approved and you are member of it (From there you can view your club & unit attendance and club members).</b></small>
+                            <div class="ln_solid"></div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                      <!-- start of display-->
+                      <?php $i=1; foreach ($this->clubList as $club) : ?>
+                      <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                        <div class="well profile_view">
+                          <div class="col-sm-12">
+                          <h2><?php echo $this->escapeHtml($club['club_name']);?></h2>
+                            <div class="left col-xs-12">
+                              <p><strong>Advisor Name: </strong> <?php echo $this->escapeHtml($club['advisor_name']);?></p>
+                              <p><strong>Co-Ordinator Name: </strong> <?php echo $this->escapeHtml($club['coordinator_name']);?></p>
+                              <p><strong>Description: </strong><?php echo $this->escapeHtml($club['description']);?></p>
+                            </div>
+                          </div>
+                          <div class="col-xs-12 bottom text-center">
+                            <div class="col-xs-12 col-sm-6 emphasis">
+                              <a href="<?php echo $this->url('viewstudentclubmemberlist', array('id' => $club['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-users"></i> View Club Members</a>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 emphasis">
+                                <a href="<?php echo $this->url('viewstudentclubattendance', array('id' => $club['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-user"></i> View Club Attendance</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <?php endforeach; ?>
+                      <!-- end of display-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+              
+             

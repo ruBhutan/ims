@@ -1,0 +1,128 @@
+
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Wel Come Yuevaan Subba - Ist Semester - 2017';
+ $this->headTitle($title);
+?>
+
+  <div class="right_col" role="main">
+          <div class=""> 
+          <div class="page-title">
+              <div class="title_left">
+                <h3><?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $staff = $form->get('staffdetail');
+                        echo $this->form()->openTag($form);
+                        $staff->get('id')->setValue($this->personalDetails->getId());
+                        echo $this->formRow($staff->get('id'));
+                      ?>
+
+                      <h4>WELCOME &nbsp;&nbsp;<?php echo $this->personalDetails->getFirst_Name().' ';
+                                echo $this->personalDetails->getMiddle_Name().' ';
+                                echo $this->personalDetails->getLast_Name();?></h4>
+              
+                            <?php
+                    echo $this->form()->closeTag();
+                    ?></h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                      <i class="fa fa-align-left"></i><small><a href="#"> Leave History</a></small>&nbsp;&nbsp;&nbsp;
+                      <i class="fa fa-align-left"></i><small><a href="#"> My Salary</a></small> 
+                  </div>
+                </div>
+              </div>
+            </div>         
+      <div class="clearfix"></div>
+            <div class="">
+              <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Calendar</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Last Leave Taken</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2> Program</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <article class="media event">
+                      <a class="pull-left date">
+                        <p class="month"></p>
+                        <p class="day"></p>
+                      </a>
+                      <div class="media-body">
+
+                        <a class="title" href="#"></a>
+                        <p></p>
+                      </div>
+                    </article>
+                    
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Assigned Supervisor</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+              <div id="custom_notifications" class="custom-notifications dsp_none">
+    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+    </ul>
+    <div class="clearfix"></div>
+    <div id="notif-group" class="tabbed_notifications"></div>
+  </div>
+  
+ 

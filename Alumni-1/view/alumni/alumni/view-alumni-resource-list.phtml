@@ -1,0 +1,137 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Alumni Resource List';
+ $this->headTitle($title);
+
+  $alumni_subscription = array();
+ foreach($this->check_subscribtion as $subscription){
+  $alumni_subscription[] = $subscription;
+ }
+ $StaringDate = $subscription['updated_date'];
+
+ $newEndingDate = date("Y-m-d", strtotime(date("Y-m-d", strtotime($StaringDate)) . " + 365 day"));
+ 
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+              <?php if($this->alumni_id){?> 
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <div class="clearfix"></div>
+                  </div>
+                  <?php if(!empty($alumni_subscription)){?>
+                    <?php if($subscription['subscription_type'] == "Yearly"){?>
+                      <?php if(date('Y-m-d') <= $newEndingDate){ ?>
+            <div class="x_content">
+                    <div class="table-responsive">
+                      <table id="datatable-responsive" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered"> 
+                         <thead>
+                          <tr class="headings">
+                      <!--  <th>
+                          <input type="checkbox" id="check-all" class="flat" disabled>
+                        </th>-->                          
+                          <th class="column-title">Sl.No. </th>
+                          <th class="column-title">Description</th>
+                          <th class="column-title">Link</th>
+						  <th class="column-title">Remarks</th>
+                          
+                         </tr>
+                        </thead>
+                        <?php $i=1; ?>
+                         <?php foreach ($this->resource as $resource) : ?>
+                          <tr class="even pointer">
+                           <!--  <td class="a-center ">
+                              <input type="checkbox" class="flat" name="table_records">
+                            </td>-->
+                             <td class=" "><?php echo $i; ?></td>
+                                                  <td class=" "><?php echo $this->escapeHtml($resource->getDescription());?></td>
+                                                  <td class=" "><?php echo $this->escapeHtml($resource->getLink());?></td>
+												  <td class=" "><?php echo $this->escapeHtml($resource->getAlumni_Remarks());?></td>
+                                                                                                    
+                          </tr>
+                           <?php $i++; ?>
+                          <?php endforeach; ?>
+                          </table>
+                    </div>
+            </div>
+            <?php } else {?>
+              <div class="x_content">
+          <?php 
+                            
+                     echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                    echo '<strong>Alert! Your yearly subscription has been expired on '.$newEndingDate.'. Please contact your alumni manager to RENEW your subscription.</strong>';
+                    echo '</div>';
+            ?>
+            <?php } ?>
+          <?php } else {?>
+            <div class="x_content">
+                    <div class="table-responsive">
+                      <table id="datatable-responsive" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered"> 
+                         <thead>
+                          <tr class="headings">
+                      <!--  <th>
+                          <input type="checkbox" id="check-all" class="flat" disabled>
+                        </th>-->                          
+                          <th class="column-title">Sl.No. </th>
+                          <th class="column-title">Description</th>
+                          <th class="column-title">Link</th>
+              <th class="column-title">Remarks</th>
+                          
+                         </tr>
+                        </thead>
+                        <?php $i=1; ?>
+                         <?php foreach ($this->resource as $resource) : ?>
+                          <tr class="even pointer">
+                           <!--  <td class="a-center ">
+                              <input type="checkbox" class="flat" name="table_records">
+                            </td>-->
+                             <td class=" "><?php echo $i; ?></td>
+                                                  <td class=" "><?php echo $this->escapeHtml($resource->getDescription());?></td>
+                                                  <td class=" "><?php echo $this->escapeHtml($resource->getLink());?></td>
+                          <td class=" "><?php echo $this->escapeHtml($resource->getAlumni_Remarks());?></td>
+                                                                                                    
+                          </tr>
+                           <?php $i++; ?>
+                          <?php endforeach; ?>
+                          </table>
+                    </div>
+            </div>
+          <?php } ?>
+          <?php } else {?>
+            <div class="x_content">
+          <?php 
+                            
+                     echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                    echo '<strong>Alert! You are not registered for alumni subscription. If you need this service then please get register in alumni subscription</strong>';
+                    echo '</div>';
+            ?>
+          </div>
+          <?php } ?>
+          <?php } else{?>
+            <div class="x_content">
+      <?php 
+                            
+                     echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                    echo '<strong>Alert! You are not eligible to view this resource and it is only for alumni who have registered for subscription.</strong>';
+                    echo '</div>';
+            ?>
+    </div>
+          <?php } ?>
+		</div>
+	</div>
+</div>
+
+</div>
+</div>
+</div>
+            
+         
+              
+       
+                

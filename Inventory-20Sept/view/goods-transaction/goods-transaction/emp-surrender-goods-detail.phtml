@@ -1,0 +1,140 @@
+<?php
+
+ $title = 'Goods Surrender Approval Form';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $plan = $form->get('hrdplanapproval');
+                    echo $this->form()->openTag($form);
+                    $plan->get('id')->setValue($this->hrdProposal->getId());
+                    echo $this->formHidden($plan->get('id'));
+                    echo $this->formHidden($plan->get('approval_status'));
+                    $plan->get('approval_date')->setValue(date('Y-m-d'));
+                    echo $this->formHidden($plan->get('approval_date'));
+                  ?>   
+                 <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Five Year Plan</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getFive_Year_Plan(); ?>" class="form-control" readonly="readonly"/>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Course Title </label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getCourse_Title(); ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Total No.Of Slots.  </label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getTotal_No_Slots(); ?>" class="form-control" readonly>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Training Type</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getTraining_Type(); ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Source Of Funding</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getSource_Of_Funding(); ?>" class="form-control" readonly>
+                    </div>
+               
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Duration</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getDuration(); ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Target Group</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getTarget_Group(); ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Tuition Fees</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getTuition_Fees(); ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>DSA / TA</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getDsa_Tada(); ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Air Fare</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getAir_Fare(); ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Total</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getTotal_Amount(); ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Priority</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getPriority(); ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Location</label>
+                    <input type="text" placeholder="<?php echo $this->hrdProposal->getLocation_Of_Training(); ?>" class="form-control" readonly>
+                    </div>
+            </div>
+                    <div class="row">
+                    <h2>Implementation Plan (breakdown of total no. of slots mentioned above ):</h2>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year 1</label>
+                  <input type="text" placeholder="<?php echo $this->hrdProposal->getAmount_Year_1(); ?>" class="form-control" readonly>                    
+                    </div> 
+                  <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year 2</label>
+                  <input type="text" placeholder="<?php echo $this->hrdProposal->getAmount_Year_2(); ?>" class="form-control" readonly>
+                  </div>
+            
+                  <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year 3</label>
+                  <input type="text" placeholder="<?php echo $this->hrdProposal->getAmount_Year_3(); ?>" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year 4 </label>
+                  <input type="text" placeholder="<?php echo $this->hrdProposal->getAmount_Year_4(); ?>" class="form-control" readonly>
+                    </div>   
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year 5 </label>
+                  <input type="text" placeholder="<?php echo $this->hrdProposal->getAmount_Year_5(); ?>" class="form-control" readonly>
+                    </div> 
+                </div>
+                <br  /> 
+                 <div class="row" > 
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Remarks <i>(Please insert remarks for the training proposal)</i></label>
+                    <?php echo $this->hrdProposal->getRemarks(); ?>
+                    </div>
+                 </div>
+                 <div class="row" > 
+                 <div class="ln_solid"></div>
+                 <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                   <?php
+            echo $this->formRow($plan->get('approve'));
+          echo $this->formRow($plan->get('reject'));
+          echo $this->formRow($form->get('csrf'));
+          echo $this->form()->closeTag($form);
+           ?>
+                  </div>
+                </div>  
+             </div>
+          </div>
+      </div>
+   </div>
+              
+    
+          </div>
+        </div> 
+
+              
+              
+   
+            
+    

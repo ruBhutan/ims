@@ -1,0 +1,233 @@
+<?php
+ $title = 'Alumni Subscriber List (s)';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+          							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+          							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+          							$messages = $this->flashMessenger()->getMessages();
+          							foreach($messages as $message) {
+          								echo '<strong>Success!</strong>'. $message;
+          							}
+          							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }?>
+<!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Approved Subscription</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Pending Subscription</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Rejected Subscription</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab3" data-toggle="tab" aria-expanded="false">Expired Subscription</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                        	<div class="row">
+                            </div>
+                            <br/>
+                                <div class="table-responsive">
+                                  <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                        <th class="column-title">Sl No </th>
+                                        <th class="column-title">Alumni Name </th>
+                                        <th class="column-title">Subscription Id </th>
+                                        <th class="column-title">Subscription Type </th>
+                                        <th class="column-title">Applied Date</th>
+                                        <th class="column-title">Approved Date</th>
+                                        <th class="column-title">Batch</th>
+                                        <th class="column-title">Programme</th>
+                                        <th class="column-title">Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 1; foreach ($this->approvedSubscriber as $approved) : ?>
+                                          <tr>
+                                            <td class=" "><?php echo $i++; ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($approved['first_name'].' '.$approved['middle_name'].' '.$approved['last_name']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($approved['subscriber_id']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($approved['subscription_type']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($approved['application_date']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($approved['updated_date']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($approved['graduation_year']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($approved['programme_name']);?></td>
+                                            <td class=" ">
+                                              <a href="<?php echo $this->url('viewalumnisubscriberdetails', array('id' => my_encrypt($approved['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a></td>
+                                            </td>
+                                          </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                        	<div class="row">
+                             </div>
+                                <br/>
+                                <div class="table-responsive">
+                                  <table id="datatable" class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                        <th class="column-title">Sl No </th>
+                                        <th class="column-title">Alumni Name </th>
+                                        <th class="column-title">Subscription Type </th>
+                                        <th class="column-title">Applied Date</th>
+                                        <th class="column-title">Batch</th>
+                                        <th class="column-title">Programme</th>
+                                        <th class="column-title">Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 1; foreach ($this->pendingSubscriber as $pending) : ?>
+                                          <tr>
+                                            <td class=" "><?php echo $i++; ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($pending['first_name'].' '.$pending['middle_name'].' '.$pending['last_name']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($pending['subscription_type']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($pending['application_date']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($pending['graduation_year']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($pending['programme_name']);?></td>
+                                            <td class=" ">
+                                               <a href="<?php echo $this->url('updatealumnisubscription', array('id' => my_encrypt($pending['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View/ Update</a></td>
+                                            </td>
+                                          </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                          <div class="row">
+                          </div>
+                            <br/>
+                            <div class="table-responsive">
+                              <table id="datatable-keytable" class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                  <tr class="headings">
+                                        <th class="column-title">Sl No </th>
+                                        <th class="column-title">Alumni Name </th>
+                                        <th class="column-title">Subscription Type </th>
+                                        <th class="column-title">Applied Date</th>
+                                        <th class="column-title">Updated Date</th>
+                                        <th class="column-title">Batch</th>
+                                        <th class="column-title">Programme</th>
+                                        <th class="column-title">Action</th>
+                                      </tr>
+                                </thead>
+                                <tbody>
+                                      <?php $i = 1; foreach ($this->rejectedSubscriber as $rejected) : ?>
+                                          <tr>
+                                            <td class=" "><?php echo $i++; ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($rejected['first_name'].' '.$rejected['middle_name'].' '.$rejected['last_name']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($rejected['subscription_type']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($rejected['application_date']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($rejected['updated_date']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($rejected['graduation_year']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($rejected['programme_name']);?></td>
+                                            <td class=" ">
+                                              <a href="<?php echo $this->url('viewalumnisubscriberdetails', array('id' => my_encrypt($rejected['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a></td>
+                                            </td>
+                                          </tr>
+                                        <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                          <div class="row">
+                          </div>
+                            <br/>
+                            <div class="table-responsive">
+                              <table id="datatable-keytable" class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                  <tr class="headings">
+                                        <th class="column-title">Sl No </th>
+                                        <th class="column-title">Alumni Name </th>
+                                        <th class="column-title">Subscription Type </th>
+                                        <th class="column-title">Applied Date</th>
+                                        <th class="column-title">Updated Date</th>
+                                        <th class="column-title">Expired Date</th>
+                                        <th class="column-title">Batch</th>
+                                        <th class="column-title">Programme</th>
+                                        <th class="column-title">Action</th>
+                                      </tr>
+                                </thead>
+                                <tbody>
+                                      <?php $i = 1; foreach ($this->expiredSubscriber as $expired) : ?>
+                                      <?php 
+
+                                      $StaringDate = $expired['updated_date'];
+
+                                      $newEndingDate = date("Y-m-d", strtotime(date("Y-m-d", strtotime($StaringDate)) . " + 365 day"));
+
+                                       if(date('Y-m-d') > $newEndingDate){
+                                       ?>
+                                          <tr>
+                                            <td class=" "><?php echo $i++; ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($expired['first_name'].' '.$expired['middle_name'].' '.$expired['last_name']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($expired['subscription_type']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($expired['application_date']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($expired['updated_date']);?></td>
+                                            <td class=" "><?php echo $newEndingDate; ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($expired['graduation_year']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($expired['programme_name']);?></td>
+                                            <td class=" ">
+                                              <a href="<?php echo $this->url('viewalumnisubscriberdetails', array('id' => my_encrypt($expired['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
+                                              <a href="<?php echo $this->url('renewlumniexpireddate', array('id' => my_encrypt($expired['id'], $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> RENEW</a>
+                                            </td>
+                                          </tr>
+                                        <?php } ?>
+                                        <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

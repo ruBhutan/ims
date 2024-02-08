@@ -1,0 +1,69 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+
+$title = 'Journal Voucher';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+                   
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            
+                            <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Staff Name</th>
+                            <th class="column-title">StaffID</th>
+                            <th class="column-title">Type of goods </th>
+                            <th class="column-title no-link last"><span class="nobr">Quantity</span>
+                            </th>
+                            <th class="column-title no-link last"><span class="nobr">Remarks</span></th> 
+                             <th class="column-title no-link last"><span class="nobr">View Details</span></th> 
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Pema Choden</td>
+                                <td>e12346</td>
+                                <td>Table</td>
+                                <td>1</td>
+                                <td>20/11/2016</td>
+                                <td><a href="leavestatus">View Details</a></td>
+                            </tr>
+                             <tr>
+                                <td>2</td>
+                                <td>Pema Choden</td>
+                                <td>e12347</td>
+                                <td>Chair</td>
+                                <td>3</td>
+                                <td>20/11/2016</td>
+                                <td><a href="leavestatus">View Details</a></td>
+                            </tr>
+                             <tr>
+                                <td>3</td>
+                                <td>Pema Choden</td>
+                                <td>e12348</td>
+                                <td>Laptop</td>
+                                <td>1</td>
+                                <td>20/11/2016</td>
+                                <td><a href="leavestatus">View Details</a></td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          

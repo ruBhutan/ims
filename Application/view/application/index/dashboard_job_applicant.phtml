@@ -1,0 +1,217 @@
+<?php 
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/bootstrap/dist/css/bootstrap.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/font-awesome/css/font-awesome.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/Ionicons/css/ionicons.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('dist/css/AdminLTE.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('dist/css/skins/_all-skins.min.css'));
+    
+    // Add a JavaScript file
+    $this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+
+    $key1 = $this->keyphrase; 
+    function my_encrypt($data, $key1) { 
+        // Remove the base64 encoding from our key
+        $encryption_key = base64_decode($key1);
+        // Generate an initialization vector
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+        // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+        $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+        // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+        return bin2hex(base64_encode($encrypted . '::' . $iv));
+    }
+        
+?>
+
+<!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              <marquee>
+                <b>Basic protective measures against the new coronavirus</b> - Stay aware of the latest information on the COVID-19 outbreak, available on the WHO website and through your national and local public health authority. Most people who become infected experience mild illness and recover, but it can be more severe for others. Take care of your health and protect others by doing the following steps: 
+                |Step1: Wash your hands frequently|
+                |Step2: Maintain social distancing|
+                |Step3: Avoid touching eyes, nose and mouth|
+                |Step4: Practice respiratory hygiene|
+                |Step5: If you have fever, cough and difficulty breathing, seek medical care early|
+                |Step5: Stay informed and follow advice given by your healthcare provider|
+              </marquee>
+              <h2>Welcome to Royal University of Bhutan Information Management System - Job Portal.</h2>
+              <div class="row">
+                <!--Start of Left Row -->
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                 <!-- Your Profile Details -->
+                  <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                    <div class="well profile_view">
+                      <div class="col-sm-12">
+                        <h4 class="brief"><i>Personal Information in Brief</i></h4>
+                        <div class="left col-xs-7">
+                          <?php
+                      $applicant_details = array();
+                      foreach ($this->applicantDetails as $sdetail) { 
+                        $applicant_details['name'] = $sdetail['first_name'].' '.$sdetail['middle_name'].' '.$sdetail['last_name'];
+                        $applicant_details['date_of_birth'] = $sdetail['date_of_birth'];
+                       $applicant_details['cid'] = $sdetail['cid'];
+                        $applicant_details['email'] = $sdetail['email'];
+                        $applicant_details['house_no'] = $sdetail['house_no'];
+                        $applicant_details['thram_no'] = $sdetail['thram_no'];
+                        $applicant_details['role'] = $sdetail['role'];
+                        $applicant_img_location = $sdetail['profile_picture'];
+                      }
+                      ?>
+
+                      <?php
+                      $applicant_address = array();
+                      foreach ($this->applicantAddress as $details) { 
+                        $applicant_address['nationality'] = $details['nationality'];
+                        $applicant_address['village_name'] = $details['village_name'];
+                       $applicant_address['gewog_name'] = $details['gewog_name'];
+                        $applicant_address['dzongkhag_name'] = $details['dzongkhag_name'];
+                        $applicant_address['country'] = $details['country'];
+                      }
+                      ?>
+                          <h2>Name: <?php echo $applicant_details['name']; ?></h2>
+                          <p><strong>Date of Birth: </strong><?php echo $applicant_details['date_of_birth']; ?></p>
+                          <p><strong>Citizenship ID No: </strong><?php echo $applicant_details['cid']; ?></p>
+                          <p><strong>Nationality: </strong><?php echo $applicant_address['nationality']; ?></p>
+                          <p><strong>Village: </strong><?php echo $applicant_address['village_name']; ?>
+                            <strong>Gewog: </strong><?php echo $applicant_address['gewog_name']; ?>
+                            <strong>Dzongkhag: </strong><?php echo $applicant_address['dzongkhag_name']; ?>
+                            <strong>Country: </strong><?php echo $applicant_address['country']; ?></p>
+                          <p><strong>Email: </strong><?php echo $applicant_details['email']; ?></p>
+                          <p><strong>House No: </strong><?php echo $applicant_details['house_no']; ?></p>
+                          <p><strong>Tharm No: </strong><?php echo $applicant_details['thram_no']; ?></p>
+			  <p><strong>Role: </strong><?php echo $applicant_details['role']; ?></i>
+                          <p><strong>Contact: </strong>For further information, please contact HR Division during office hours as follows</i>
+				<br>1 - Office of the Vice Chancellor - 02-336523/02-336454.
+				<br>2 - Samtse College of Education  - 05-365274.
+				<br>3 - College of Science and Technology  - 17160538.
+				<br>3 - Jigme Namgyel Engineering College  - 07-260302.</p>
+<br><br>				<p><a href="https://www.rub.edu.bt/index.php/en/vacancy-announcements/812-announcement-for-rub-job-applicants.html" target="_BLANK"> Announcement for Job Applicants</a></p>
+                        </div>
+
+                        <div class="right col-xs-5 text-center">
+                          <?php if(!empty($applicant_img_location)){?>
+                            <img src="<?php echo '../'.$applicant_img_location; ?>" alt="..." class="img-circle profile_img">
+                          <?php } else{?>
+                            <p><i>Notice: No profile image uploaded!</i></p>
+                          <?php }?>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom">
+                        <div class="col-xs-12 col-sm-12 emphasis">
+                			  <p>
+                        <font color="blue"><i>
+                        <b>Note:</b> This is to inform the Job Applicant that you need to fill all the required details and upload the documents. </p>
+                         <p>Please <a href="jobapplicanthelp"> Click Here</a> for Help</P>
+                         </i></font>   
+                			</div>
+                      </div>
+                      <div class="col-xs-12 bottom">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To add your personal details, click on the Personal Detail button.</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="registrantpersonaldetails" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Personal Detail </a>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To add your education details,click on the Education Detail and Marks Detail button.</i><br> Note - (First Add the Education Details to add the Marks)</p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="registranteducationdetails" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Education Detail </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="addapplicantmarks" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Marks Detail </a>
+                        </div>
+		      </div>
+                      <div class="col-xs-12 bottom">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To add details of any training you have attended in the past, click on the Training Detail button.</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="registranttrainingdetails" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Training Detail </a>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To add employment detail (if any), click on the Employment Detail button.</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="registrantemploymentrecord" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Employment Detail </a>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom">
+                       <!-- <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To add Board/Committee member detail (if any), click on the Board/Committee Member Detail button.</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="registrantmembershipdetails" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Board/Committee Member Detail </a>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom text-center">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To add committee services detail (if any), click on the Committee Services Detail button.</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="registrantcommunityservice" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Committee Services Detail </a>
+                        </div>
+                      </div>-->
+                      <div class="col-xs-12 bottom">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To add language skills, click on the Language Detail button.</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="registrantlanguageskills" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Language Detail </a>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To add publication (if any), click on the publication detail button.</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="registrantpublicationdetails" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Publication Detail </a>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To add Referee detail, click on the refree detail button.</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="registrantreferences" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Referee Detail </a>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To apply for vacancies, click on the apply button.</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="listvacancy" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Apply </a>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 bottom">
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <p><i>To View your application status, click on the application status button.</i></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 emphasis">
+                          <a href="appliedjobapplicationstatus" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Application Status </a>
+                        </div>
+                      </div>
+
+
+                  </div>
+                </div>
+                <!--Start Job Vacancy Announement -->
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                    </div>
+                  </div>
+                </div>
+                <!--End of Job Vacancy Announcement -->
+              </div>
+              <!--End of Left Row -->
+            </div><!-- /.row (main row) -->
+          </section>
+            <!-- /.content -->
+          </div>

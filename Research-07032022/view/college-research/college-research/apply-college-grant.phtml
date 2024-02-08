@@ -1,0 +1,180 @@
+<?php
+ $title = 'COLLEGE ANNUAL RESEARCH GRANT APPLICATION FORM';
+ $this->headTitle($title);
+ 
+ $announcementDetails = array();
+ $personal_details = array();
+ foreach($this->grantAnnouncement as $detail){
+	 $announcementDetails = $detail;
+ }
+ foreach($this->employee_details as $detail){
+	 $personal_details['name'] = $detail['first_name'].' '.$detail['middle_name'].' '.$detail['last_name'];
+	 $personal_details['position_level']  = $detail['position_level'];
+	 $personal_details['organisation_name']  = $detail['organisation_name'];
+   $personal_details['email']  = $detail['email'];
+   $personal_details['phone_no']  = $detail['phone_no'];
+ }
+ 
+ //set it to a default value
+ if(empty($announcementDetails))
+ 	$announcementDetails['end_date'] = '2000-01-01';
+  $compileDateDuration['start_date'] = '2000-01-01';
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <?php if(strtotime($announcementDetails['start_date']) <= strtotime(date('Y-m-d')) && strtotime(date('Y-m-d')) <= strtotime($announcementDetails['end_date'])) { ?>
+                      
+                      <?php
+                    // Opening of the form tag
+							     $form->prepare();
+							     echo $this->form()->openTag($form);
+				            $research = $form->get('carggrant');
+							       echo $this->form()->openTag($form);
+							     echo $this->formHidden($research->get('id'));
+          					$research->get('grant_type')->setValueOptions($this->grantList);
+          					$research->get('research_year')->setValue(date('Y-m-d'));
+          					$research->get('application_step_status')->setValue('Incomplete');
+          					$research->get('employee_details_id')->setValue($this->employee_details_id);
+          					$research->get('application_step_status')->setValue('Step 1'); 
+          					$research->get('application_status')->setValue('Pending');
+                 ?>
+                      <div class="clear"></div>
+                        <h2>GRANT TYPE AND RESEARCH TITLE</h2>
+                         <div class="clear"></div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Grant:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($research->get('grant_type')); ?>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Grant applied for:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($research->get('grant_applied_for')); ?>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Title:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($research->get('research_title')); ?>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">CARG Category:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php echo $this->formRow($research->get('carg_category_type')); ?>
+                            </div>
+                          </div>
+                    
+                      <br /><br />
+                      <div class="clear"></div>
+                      <h2>PRINCIPAL RESEARCHER</h2>
+                      <div class="clear"></div>
+                      <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-1 col-xs-12">Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal_details['name']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-1 col-xs-12">College:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal_details['organisation_name']; ?>" readonly>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-1 col-xs-12">Position level:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal_details['position_level']; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-1 col-xs-12">E-mail:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal_details['email']; ?>" readonly>
+                        </div>
+                      </div>       
+       
+                      <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-1 col-xs-12">Contact No:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal_details['phone_no']; ?>" readonly>
+                        </div>
+                      </div>                               
+                   
+                 <!-- Dynamically adding rows --> 
+                  
+                            <br /><br />
+                            <div class="clear"></div>
+                            <h2>CO-RESEARCHER(S)</h2> <small>(If there is more than one co-researcher then please click on Add More-Researchers button to add and by mistake if add more one co-researcher then please click on Remove Co-Researchers button to remove.) </small><br/>
+                            <font color="red">***In this Co-Researcher Details first field is co-researcher name followed by his/her qualification, his/ her position level, appointment date (format: YYYY-MM-DD), email, contact number, co-researcher type and CARG Category</font>
+                            <br /><br/>
+                            <div class="clear"></div>
+                               <?php   echo $this->formCollection($research->get('coresearchers')); ?>
+                             <br />
+                             <div class="form-horizontal form-label-left">
+                                <div class="col-md-5 col-sm-5 col-xs-12 col-md-offset-7">
+                                  <button class="btn btn-success" type="button"  onclick="return add_category()"> Add More Co-Researchers</button>
+                                  <button class="btn btn-danger" type="button"  onclick="return remove_addedcategory()"> Remove Co-Researchers</button>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+        
+                 <!-- End of Dynamically added rows -->
+                      <br /><br />
+                      <h2>Confirmation: Please Check to Confirm the Form Submission</h2>
+                        <div class="form-group">
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <input type="checkbox" class="flat" required="required"></div>
+                                <div class="col-md-11 col-sm-11 col-xs-12"><p> 
+                                This is to confirm that the details provided above are true and want to proceed to next form to complete the application. </p>
+                               </div>
+                            </div>
+
+                    <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($research->get('application_status'));
+              							echo $this->formHidden($research->get('research_year'));
+              							echo $this->formHidden($research->get('application_step_status'));
+              							echo $this->formHidden($form->get('csrf'));
+              							echo $this->formHidden($research->get('employee_details_id'));
+                            echo $this->formRow($research->get('submit')); 
+              							echo $this->form()->closeTag($form);
+              						 ?>
+                        </div>
+                      </div>
+                      <?php } else { ?> <!-- End of the if loop-->
+                      	<h2 class="StepTitle">All Applications for College Grants are closed!</h2>
+                      <?php } ?> <!-- End of the else loop-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+   </div>
+ </div>
+
+
+<script>
+     function add_category() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+
+     function remove_addedcategory(){
+        $('form > fieldset > fieldset').last().remove();
+        return false;
+     } 
+ </script>
+

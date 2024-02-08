@@ -1,0 +1,294 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'My Appraisal Form (Executive/Administrative and  Technical Staff)';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <form>   
+                 <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Appraisal Period</label>
+                    <input type="text" placeholder="2017-2018" class="form-control" readonly>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee Name</label>
+                    <input type="text" placeholder="Dorjee  Wangmo Wangda" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee ID No.</label>
+                    <input type="text" placeholder="RUB2345" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Title</label>
+                    <input type="text" placeholder="Finance Officer" class="form-control" readonly>
+                  </div>
+                </div>
+                    <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Level</label>
+                    <input type="text" placeholder="Grade 8" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>OVC / College</label>
+                    <input type="text" placeholder="OVC" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Department/Division</label>
+                    <input type="text" placeholder="IT Division" class="form-control" readonly>
+                  </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Objectives</label>
+                    <input type="text" placeholder="Excellence Service " class="form-control" readonly>
+                  </div>
+                      </div>
+                     
+                      </form>
+                  
+          </div>
+              </div>
+        </div>
+              
+     <?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Activity:......................................';
+ $this->headTitle($title);
+?>     
+              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                     <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Sl.No </th>
+                        <th class="column-title">Activities </th>
+                        <th class="column-title">Outstanding </th>
+                        <th class="column-title">Very Good </th>
+                         <th class="column-title">Good </th>
+                        <th class="column-title">Needs Improvement</th>
+                        
+                        <th class="bulk-actions" colspan="7">
+                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr class="even pointer">
+                       <td class=" ">1</td>
+                       <td class=" ">Network</td>
+                       <td><textarea class="form-control">12months network up</textarea></td>
+                       <td><textarea class="form-control">1month network disruption</textarea></td>
+                       <td><textarea class="form-control">3months network disruptions</textarea></td>
+                       <td><textarea class="form-control">more than six months network disruptions</textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                
+                  
+                </div>
+             
+                <div class="x_title">
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                  <div class="x_content">
+                  <br />
+                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Peer</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Subordinate</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Beneficiary</a>
+                      </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                        <p>
+                         
+                        <div class="x_panel"> 
+            <div class="x_content">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                           <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                             <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Employee Name</th>
+                            <th class="column-title">Employee ID No. </th>
+                            <th class="column-title">Position Title</th>
+                            <th class="column-title">Position Level</th>
+                            <th class="column-title">Division</th>
+                            <th class="column-title">OVC / College</th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                          <tr>
+                           <td><input type="checkbox" id="check-all" class="flat"></td>
+                            <td>1</td>
+                            <td>Dorjii</td>
+                            <td>RUB34</td>
+                            <td>Network Administrator</td>
+                             <td>Grade 8</td>
+                            <td>ICT</td>
+                             <td>OVC</td>
+                          </tr>
+                        </tbody>
+                          </table>    
+            </div></div>
+                </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                        <p>
+                         
+                        <div class="x_panel"> 
+            <div class="x_content">
+                 <br/> 
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                           <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                             <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Employee Name</th>
+                            <th class="column-title">Employee ID No. </th>
+                            <th class="column-title">Position Title</th>
+                            <th class="column-title">Position Level</th>
+                            <th class="column-title">Division</th>
+                            <th class="column-title">OVC / College</th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                          <tr>
+                           <td><input type="checkbox" id="check-all" class="flat"></td>
+                            <td>1</td>
+                            <td>Dorjii</td>
+                            <td>RUB34</td>
+                            <td>Network Administrator</td>
+                             <td>Grade 8</td>
+                            <td>ICT</td>
+                             <td>OVC</td>
+                          </tr>
+                        </tbody>
+                          </table>
+                           
+            </div></div>
+                </div>
+                        
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                        <p>
+                          <div class="x_panel">  
+                        <div class="x_content">
+                 <br/> 
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                           <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                             <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Employee Name</th>
+                            <th class="column-title">Employee ID No. </th>
+                            <th class="column-title">Position Title</th>
+                            <th class="column-title">Position Level</th>
+                            <th class="column-title">Division</th>
+                            <th class="column-title">OVC / College</th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                          <tr>
+                           <td><input type="checkbox" id="check-all" class="flat"></td>
+                            <td>1</td>
+                            <td>Dorjii</td>
+                            <td>RUB34</td>
+                            <td>Network Administrator</td>
+                             <td>Grade 8</td>
+                            <td>ICT</td>
+                             <td>OVC</td>
+                          </tr>
+                        </tbody>
+                          </table>
+                           
+            </div></div>
+                </div>
+                </div>
+              </p>
+             </div>
+          </div>
+                  <div class="x_content">
+                   <div class="row"><div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Date of appraisal Submision</label>
+                    <input type="text" placeholder="31/12/2017" class="form-control" readonly>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Approval</label>
+                    <select class="form-control">
+                                 <option>--Select--</option>
+                                <option>Approved</option>
+                                <option>Reject</option>
+                            </select>
+                  </div>
+                      </div>      
+                 <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                    <button class="btn btn-success">Submit</button>
+                 </div>
+                </div>
+               </div>
+                </div>
+              
+              </div>
+                </div>
+            </div>
+            </div>      
+          
+              
+              
+   
+            
+    

@@ -1,0 +1,59 @@
+<?php
+
+ $title = 'Assign Module Tutor';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+               <?php
+				 $title = 'Academic Modules Tutors for Academic Year';
+				 $this->headTitle($title);
+			  ?>
+              <div class="col-md-12 col-xs-12">
+                  
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                        <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Programme Name</th>
+                            <th class="column-title">Module Title</th>
+                            <th class="column-title">Module Code</th>
+                            <th class="column-title">Credits</th>
+                            <th class="column-title">Year</th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title">Academic Year</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach ($this->moduleUnallocated as $module) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['programme_name']); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_title']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_code']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_credit']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['year']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['semester']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['academic_year']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                
+                </div>
+              </div>
+            </div>
+           </div>  
+          </div>
+        </div> 
+     </div>

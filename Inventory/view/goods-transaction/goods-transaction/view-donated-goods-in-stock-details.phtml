@@ -1,0 +1,48 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+ $title = 'Goods In Stock Details';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+  <div class=" ">              
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><?php echo $this->escapeHtml($title); ?></h2>
+          <div class="clearfix"></div>
+        </div> <!--end of x-title-->      
+        <?php
+        // Opening of the form tag
+         $form->prepare();
+          echo $this->form()->openTag($form);
+          $details = $form->get('goodsinstock');
+          echo $this->form()->openTag($form);
+          $details->get('id')->setValue($this->goodsInStockDetails->getId());
+          //$details->get('supplier_name')->setValue($this->goodsInStockDetails->getSupplier_Name());
+        ?>
+                              
+          <div class="form-group">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <b>Item Name:</b> <i class=" "><?php echo $this->goodsInStockDetails->getItem_Name(); ?></i>
+            </div>   
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <b>Item Quantity:</b> <i class=" "><?php echo $this->goodsInStockDetails->getItem_Quantity(); ?></i>
+            </div>      
+          </div>
+          <div class="form-group">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <b>Item Received Date:</b> <i class=" "><?php echo $this->goodsInStockDetails->getItem_Received_Date(); ?></i>
+            </div>       
+          </div>
+          <br/>
+          <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <b>Donated By:</b> <i class=" "><?php echo $this->goodsInStockDetails->getDonor_Name(); ?></i>
+            </div>        
+          </div>   
+          </div>                           
+        <?php echo $this->form()->closeTag(); ?> <!--//closing the form tag -->
+      </div><!--end of table-responsive-->
+    </div><!--end of x-panel -->
+  </div><!--end of col-md-12 col-sm-12 col-xs-12 -->
+</div><!--end of nav_menu-->

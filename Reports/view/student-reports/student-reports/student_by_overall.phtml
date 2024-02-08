@@ -1,0 +1,110 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Student Statistics'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+                <?php if($this->student_report != NULL) {?>
+                    <table id="datatable" class="table table-striped jambo_table table-bordered"width="100%">
+                    <thead>
+                      <tr class="headings">
+                         <th class="column-title">Sl.No </th>
+                         <th class="column-title">College</th>
+                         <th class="column-title">Programme</th>
+                         <th class="column-title" colspan="<?php//echo $maxyear; ?>">Year</th>
+                         <th class="column-title" colspan="<?php echo (count($scholarships)*count($gender));?>">Scholarships</th>
+                         <th class="column-title">Total</th>
+                      </tr>
+                      <tr>
+                        <th></th><th></th><th></th><th></th>
+
+                        <?php
+                          foreach ($scholarships as $sch)
+                          {
+                              echo '<th class="column-title" colspan="'.count($gender).'" >'.$sch['student_type'].'</th>';
+                          }
+
+                         ?>
+
+                         <th></th>
+                      </tr>
+                      <tr>
+                          <th></th><th></th><th></th><th></th>
+                          <?php
+                               foreach ($scholarships as $sch)
+                               {
+                                   foreach ($gender as $gen)
+
+                                       echo '<th class="column-title">'.$gen['gender'].'</th>';
+                               }
+                          ?>
+                      </tr>
+
+                    </thead>
+                    <tbody>
+
+                    <?php  $i = 1;
+                      $coll = "No Ones";
+		      $program = "";
+	              //var_dump($programmes);
+                      foreach ($programmes as $college)
+                      {
+
+                                echo "<tr><td>".$i ."</td>";
+
+                                if ($coll != $college['abbr'] ) {
+
+                                       echo "<td>".$college['abbr'].' - '.$college['organisation_name']."</td><td>".$college['programme_name']. "</td>";
+                                }
+                                else
+                                      echo "<td></td><td>".$college['programme_name']. "</td>";
+
+                                  for ($year = 1; $year <= $maxyear[$college['id']]; $year++)
+                                  {
+
+                                       if($year == 1) //program != $college['programme_name'])
+                                        {
+                                            echo "<td>".$year."</td>";
+
+                                        }
+                                        else
+                                           echo "<tr><td></td><td></td><td></td><td>".$year."</td>";
+
+                                        foreach ($scholarships as $sch)
+                                        {
+
+                                            foreach ($gender as $gen)
+                                             {
+
+                                                if (isset($this->student_report[$college['orgID']][$college['id']][$year][$sch ['schoId']][$gen['genId']]))
+                                                    {
+                                                        echo "<td>".$this->student_report[$college['orgID']][$college['id']][$year][$sch ['schoId']][$gen['genId']]."</td>";
+
+                                                    }
+                                                else
+                                                   echo "<td></td>";
+
+                                             }
+                                        }
+                                        echo "</tr>";
+
+                                    }
+                                    $coll = $college['abbr'];
+
+                                    $i++;
+                       }
+
+                      ?>
+
+                    </tbody>
+                </table>
+                                             <?php } ?>
+            </div>
+    </div>
+  </div>
+</div>
+<!-- /page content -->

@@ -1,0 +1,277 @@
+<?php
+/**
+ * View -- of Report/AccountsreportController/ledgerAction
+ */
+ $title = "Ledger and Sub Ledger Report";
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>  
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+				<div class="pull-right"></div>
+                <?php echo $this->partial('accounts/report/partial.phtml', array('active' => 'ledger')); ?>
+				<div class ="x_content">
+					<form method="post" action="<?php echo $this->url('report', array('action' => 'ledger')); ?>"  enctype="multipart/form-data" >    
+						<div class="row">
+							<div class="form-group col-lg-2">
+								<label class="control-label" for="organisation">Organisation</label>
+								<select class="form-control" name="organisation" id="organisation" data-placeholder="select" >
+										<?php  
+											$results = $this->orgObj->get(array('id'=>$data['organisation']));
+											foreach ($results as $result):
+												$selected_org = ($result['id']==$data['organisation'])?"selected":"";
+										?>
+											<option value="<?php echo $result['id']; ?>" <?php echo $selected_org;?>>
+												<?php echo $result['organisation_name']; ?>
+											</option>
+									<?php endforeach;  ?>									
+								</select>
+							</div>
+							<div class="form-group col-lg-2">
+								<label class="control-label" for="head">Ledger Accounts</label>
+								<select class="form-control" name="head" id="head" data-placeholder="select" >
+									<option value=""></option>
+									<?php 
+										$heads = $this->headObj->getAll();
+										foreach($heads as $head):
+											$selected_head = ($head['id']==$data['head'])?'selected':'';
+									?>
+									
+										<option value="<?php echo $head['id'];?>" <?php echo $selected_head;?>>
+											<?php echo $head['code'];?>
+										</option>
+									<?php endforeach;?>
+								</select>
+							</div>
+							<div class="form-group col-lg-2">
+								<label class="control-label" for="sub_head">Sub Ledger Accounts</label>
+								<select class="form-control" name="sub_head" id="sub_head" data-placeholder="select" >
+									<option value="-1">All</option>
+									<?php
+										$sub_heads = $this->subheadObj->get(array('head'=>$data['head']));
+										foreach($sub_heads as $subhead):
+											$selected_subhead = ($subhead['id']==$data['sub_head'])?'selected':'';
+									?>
+										<option value="<?php echo $subhead['id']?>" <?php echo $selected_subhead;?>>
+											<?php echo $subhead['name'];?>
+										</option>
+									<?php endforeach;?>
+								</select>
+							</div>
+							<div class="form-group col-lg-2">
+								<label class="control-label" for="start_date">Start Date</label>
+								<div class="date input-group" id="start_date" data-date="<?php echo $data['start_date'];?>" data-date-format="yyyy-mm-dd" >
+									<input class="form-control span2" name="start_date" id="start_date" type="text" placeholder="Start Date" value="<?php echo $data['start_date'];?>" readonly required>
+									<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+								</div>
+							</div>
+							<div class="form-group col-lg-2">
+								<label class="control-label" for="end_date">End Date</label>
+								<div class="date input-group" id="end_date" data-date="<?php echo $data['end_date'];?>" data-date-format="yyyy-mm-dd" >
+									<input class="form-control span2" name="end_date" id="end_date" type="text" placeholder="End Date" value="<?php echo $data['end_date'];?>" readonly required>
+									<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+								</div>
+							</div>
+							<div class="col-lg-2"></br>
+								<button type="submit" class="btn btn-sm btn-success pull-right"><i class="fa fa-gear"></i> Generate </button>
+							</div>
+						</div>
+					</form>
+					<div class="hr hr-dotted"></div>
+					<div class="space-6"></div>
+					<div class="row col-lg-12">
+						<div class="clearfix">
+							<label><i class="blue fa fa-cube"></i> <strong>Ledger : </strong></label><span><?php echo (!isset($data['head']))?'-select-':$this->headObj->getColumn($data['head'],'code');?></span>.&nbsp;&nbsp;
+							<label><i class="orange fa fa-cubes"></i> <strong>Sub-Ledger: </strong></label><span><?php echo ($data['sub_head']=='-1' || !isset($data['sub_head']))?'All Sub-heads':$this->subheadObj->getColumn($data['sub_head'],'code');?></span>.&nbsp;&nbsp;
+							<label><i class="purple fa fa-tags"></i> <strong>Organisation: </strong></label><span><?php echo ($data["organisation"] == -1 || !isset($data['organisation']))? "All Organisation": $this->orgObj->getColumn($data["organisation"], 'organisation_name');?></span>.&nbsp;&nbsp;
+							<label><i class="green fa fa-calendar"></i> <strong>Date: </strong></label><span><?php echo (!isset($data['start_date']))?'-select-':$data['start_date'].' to '.$data['end_date'];?></span>
+						</div>
+					</div>
+					<div class="row col-lg-12">
+						<div class="clearfix">
+						<input type="hidden" name="heads" id="heads" value="<?php echo (!isset($data['head']))?'-select-':$this->headObj->getColumn($data['head'],'code');?>">
+						<input type="hidden" name="sub_heads" id="sub_heads" value="<?php echo ($data['sub_head']=='-1' || !isset($data['sub_head']))?'All Sub-heads':$this->subheadObj->getColumn($data['sub_head'],'code');?>">
+						<input type="hidden" name="organisation" id="organisation" value="<?php echo ($data["organisation"] == -1 || !isset($data['organisation']))? "All Organisation": $this->orgObj->getColumn($data["organisation"], 'organisation_name');?>">
+						<input type="hidden" name="st_date" id="st_date" value="<?php echo $data['start_date']?>">
+						<input type="hidden" name="ed_date" id="ed_date" value="<?php echo $data['end_date'];?>">
+						</div>
+					</div>
+					<div class="row col-lg-12">
+					</div>
+					<div class ="row">
+						<div class="col-lg-12">
+							<div>
+								<table id="datatable" class="table table-striped jambo_table bulk_action">
+									<thead>									
+										<tr>
+											<th>Sl.No.</th>
+											<th>Voucher Date</th>
+											<th>Voucher No.</th>
+											<th>Debit(Dr)</th>
+											<th>Credit(Cr)</th>
+											<th>Closing Balance</th>
+										</tr>
+									</thead>
+									<tbody>	
+									<?php 
+									if($data['head'] > 0 && $data['sub_head'] > 0):
+										foreach($this->subheadObj->getTransactionSubheadforLedger($data['organisation'],$data['start_date'],$data['end_date'], array('id'=>$data['sub_head'])) as $subheadrow):// subhead
+											if($class == '1' || $class == '2'): /* (==) Asset & Liabilities AND (!=) Income & Expense */
+												$opening_balance = $this->transactiondetailObj->getOpeningBalanceforSHLedger($data['start_date'],$data['organisation'],$subheadrow['id']);
+											endif;
+										endforeach;?>
+										<tr>
+											<td></td>
+											<td><?php echo $data['start_date']; ?></td>
+											<td style="text-align:center" >Opening Balance</td>
+											<td style="text-align:right" class = "green"></td>
+											<td style="text-align:right" class = "green"></td>
+											<td style="text-align:right" class = "red"><?php echo number_format((float)$opening_balance, 2, '.', ',');?></td>
+										</tr>
+										<?php
+										$i = 1;
+										$grand_debit =0;$grand_credit=0;
+										$closing_balance =  $opening_balance;
+										foreach($this->transactionObj->getTransactionIDforLedger($data['organisation'],$data['start_date'],$data['end_date'],array('sub_head'=> $subheadrow['id'])) as $transaction):
+												
+												$total_debit = $this->transactiondetailObj->getSumbyTransactionIDforLedger($data['organisation'],$data['start_date'],$data['end_date'], 'debit', array('transaction' => $transaction['id'],'sub_head'=>$data['sub_head']));
+												$total_credit = $this->transactiondetailObj->getSumbyTransactionIDforLedger($data['organisation'],$data['start_date'],$data['end_date'], 'credit', array('transaction' => $transaction['id'],'sub_head'=>$data['sub_head']));
+												$closing_balance = ($closing_balance + $total_debit) - $total_credit;
+												
+										?>
+										<tr>
+											<td><?php echo $i++;?></td>
+											<td><?php echo $transaction['voucher_date'];?></td>
+											<td><a target="_blank" href="<?php echo $this->url('transaction', array('action'=>'viewtransaction', 'id'=>$transaction['id']));?>"><?php echo $transaction['voucher_no']."-".$transaction['remark']; ?></a></td>
+											<td style="text-align:right" class = "green"><?php echo number_format((float)$total_debit, 2, '.', ','); ?></td>
+											<td style="text-align:right" class = "green"><?php echo number_format((float)$total_credit, 2, '.', ','); ?></td>
+											<td style="text-align:right" class = "red"><?php echo number_format((float)$closing_balance, 2, '.', ',');?></td>
+										</tr>
+										<?php
+										$grand_debit += $total_debit; $grand_credit += $total_credit;					
+										$opening_balance_next = $grand_debit + $closing_balance - $grand_credit;							
+										endforeach;							
+										?>
+									<?php
+									else:
+										foreach($this->headObj->getTransactionheadforLedger($data['organisation'],$data['start_date'],$data['end_date'], array('id'=>$data['head'])) as $headrow):// subhead
+											if($class == '1' || $class == '2'): /* (==) Asset & Liabilities AND (!=) Income & Expense */
+												$opening_balance = $this->transactiondetailObj->getOpeningBalanceforHLedger($data['start_date'],$data['organisation'],$headrow['id']);
+											endif;
+										endforeach;?>
+										<tr>
+											<td></td>
+											<td><?php echo $data['start_date']; ?></td>
+											<td style="text-align:center" >Opening Balance</td>
+											<td style="text-align:right" class = "green"></td>
+											<td style="text-align:right" class = "green"></td>
+											<td style="text-align:right" class = "red"><?php echo number_format((float)$opening_balance, 2, '.', ',');?></td>
+										</tr>
+										<?php
+										$i = 1;
+										$grand_debit =0;$grand_credit=0;
+										$closing_balance =  $opening_balance;
+										foreach($this->transactionObj->getTransactionIDforLedger($data['organisation'],$data['start_date'],$data['end_date'],array('head'=> $headrow['id'])) as $transaction):
+												
+												$total_debit = $this->transactiondetailObj->getSumbyTransactionIDforLedger($data['organisation'],$data['start_date'],$data['end_date'], 'debit', array('transaction' => $transaction['id'],'head'=>$data['head']));
+												$total_credit = $this->transactiondetailObj->getSumbyTransactionIDforLedger($data['organisation'],$data['start_date'],$data['end_date'], 'credit', array('transaction' => $transaction['id'],'head'=>$data['head']));
+												$closing_balance = ($closing_balance + $total_debit) - $total_credit;
+												
+										?>
+										<tr>
+											<td><?php echo $i++;?></td>
+											<td><?php echo $transaction['voucher_date'];?></td>
+											<td><a target="_blank" href="<?php echo $this->url('transaction', array('action'=>'viewtransaction', 'id'=>$transaction['id']));?>"><?php echo $transaction['voucher_no']."-".$transaction['remark']; ?></a></td>
+											<td style="text-align:right" class = "green"><?php echo number_format((float)$total_debit, 2, '.', ','); ?></td>
+											<td style="text-align:right" class = "green"><?php echo number_format((float)$total_credit, 2, '.', ','); ?></td>
+											<td style="text-align:right" class = "red"><?php echo number_format((float)$closing_balance, 2, '.', ',');?></td>
+										</tr>
+										<?php
+										$grand_debit += $total_debit; $grand_credit += $total_credit;					
+										$opening_balance_next = $grand_debit + $closing_balance - $grand_credit;							
+										endforeach;
+									 endif;?>
+									</tbody>
+										<tr>
+											<td></td>
+											<td></td>
+											<td style="text-align:center"><strong>Grand Total</strong></td>
+											<td style="text-align:right" class = "green" ><strong><?php echo number_format((float)$grand_debit, 2, '.', ','); ?></strong></td>
+											<td style="text-align:right" class = "green"><strong><?php echo number_format((float)$grand_credit, 2, '.', ','); ?></strong></td>
+											<td></td>
+										</tr>
+								</table>
+							</div>
+						</div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>	
+<script type="text/javascript">
+	$(function(){	
+		$('#start_date').datepicker();
+		$('#end_date').datepicker();
+		$('#start_date').on('changeDate',function(){
+			$('form').formValidation('revalidateField', $(this).attr('id'));
+		});
+		$('#end_date').on('changeDate',function(){
+			$('form').formValidation('revalidateField', $(this).attr('id'));
+		});
+		$('#head').on('change', function(){
+			$.post(
+				"<?php echo $this->url("report", array("action" => "getsubhead"));?>",
+				{
+					head: $(this).val(),organisation_id:<?php echo $data['organisation'];?>,
+				},
+				function(data){
+					console.log(data);
+					$('#sub_head').html(data.subheads);
+					$('#sub_head').trigger('chosen:updated');
+				},
+				'json'
+			);
+		});
+		/*** Form Validation ***/
+		$('form').formValidation({
+			framework: 'bootstrap',
+			excluded: ':disabled',
+			message: 'This value is not valid',
+			fields: {
+				'start_date': {
+					validators: {
+						notEmpty: {
+							message: 'Please select start date'
+						}
+					}
+				},
+				'end_date': {
+					validators: {
+						notEmpty: {
+							message: 'Please select end date'
+						}
+					}
+				},
+				'head' : {
+					validators: {
+						notEmpty: {
+							message: 'Please select head'
+						}
+					}
+				},
+			}
+		}).on('success.field.fv', function(e, data) {
+				if (data.fv.getInvalidFields().length > 0) {    // There is invalid field
+					data.fv.disableSubmitButtons(true);
+			}
+		});
+	});
+</script>

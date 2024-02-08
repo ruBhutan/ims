@@ -1,0 +1,52 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/ChartaccountController/chequecancelledlistAction
+ * 
+ */
+ $title ="Cancelled List";
+?>
+<div class="right_col" role="main">
+	<div class=" ">
+		<div class="col-md-12 col-xs-12">
+			<div class="x_panel">
+	            <div class="x_title">
+					<h2><?php echo $this->escapeHtml($title);?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="table-responsive">
+						<table id="datatable" class="table table-striped jambo_table bulk_action">
+							<thead>
+								<tr class="headings">
+									<th class="column-title" >Sl No</th>
+									<th>Instrument No. </th>
+									<th>Cancellation Date </th>
+									<th>Cancelled by </th>
+									<th>Reason for Cancellation </th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+									$i = 1; 
+									foreach ($this->cheque as $row):
+								?>
+									<tr>
+										<td><?php echo $i++; ?> </td>
+										<td><b><?php echo $row['instrument_no']; ?></b></td>
+										<td><b><?php echo $row['cancellation_date']; ?></b></td>
+										<td><b><?php echo $this->empldObj->getcolumn($row['cancelled_by'],'first_name')." ".$this->empldObj->getcolumn($row['cancelled_by'],'middle_name')." ".$this->empldObj->getcolumn($row['cancelled_by'],'last_name'); ?></b></td>
+										<td><b><?php echo $row['reason']; ?></b></td>								
+									</tr>
+								<?php endforeach;?>
+							</tbody>
+						</table>
+					</div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>

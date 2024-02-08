@@ -1,0 +1,123 @@
+
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Book Guest House Room';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                     
+					  <div class="x_panel">
+					<br>
+                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#guesthousebook" id="guesthousebook-tab" role="tab" data-toggle="tab" aria-expanded="true">Book Guest House</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#viewroom"  id="viewroom-tab" role="tab" data-toggle="tab" aria-expanded="false">View Room Availability </a>
+                      </li>
+                                            
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="guesthousebook" aria-labelledby="guesthousebook-tab">
+                          <br>
+                   
+                     
+                        <div class="row">
+                            
+                          <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Place/College<span class="required">*</span>
+                        </label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                        <?php
+                        echo $this->formRow($form->get('college_name'));
+                        ?>
+                          </div>
+                              
+                        </div>  
+                        </div>  
+                    <br>
+                     <div class="row">
+                            
+                          <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Check In<span class="required">*</span>
+                        </label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                        <?php
+                        echo $this->formRow($form->get('guest_check_in'));
+                        ?>
+                          </div>
+                              <label class="control-label col-md-2 col-sm-2 col-xs-12">Check Out<span class="required">*</span>
+                        </label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                        <?php
+                        echo $this->formRow($form->get('guest_check_out'));
+                        ?>
+                          </div>
+                        </div>  
+                        </div>  
+                    <br>
+                    <div class="row">
+                            
+                          <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">No of Room<span class="required">*</span>
+                        </label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                        <?php
+                        echo $this->formRow($form->get('guest_no'));
+                        ?>
+                              </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">No of Guest<span class="required">*</span>
+                        </label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                        <?php
+                        echo $this->formRow($form->get('guest_no'));
+                        ?>
+                              </div>
+							  </div>
+							  </div>
+                    <br>
+                          <div class="row">
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Particular</label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                        <?php
+                        echo $this->formRow($form->get('guest_particular'));
+                        ?>
+                          </div>
+                              </div>
+                        <br>
+                    
+                    <div class="form-group">
+                        <div class="col-md-4 form-group">
+                      <button class="btn btn-primary">Submit</button>
+                      <button class="btn btn-danger">Cancel</button>
+                  </div>
+                        
+                      </div>
+					  </div>
+           
+                        
+                      <div role="tabpanel" class="tab-pane fade" id="viewroom" aria-labelledby="viewroom-tab">
+                        <br>
+                          <div class="x_panel">
+                          
+						  <img src="../images/calender.jpg">
+						 
+                          </div>
+                      </div>
+                      
+                         </div>                       
+                    </div>
+                  </div>
+                 </div>
+				 </div>
+				</div>
+			</div>
+				
+ 

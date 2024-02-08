@@ -1,0 +1,125 @@
+<div class="x_panel">
+
+    <?php if ( empty($employeePayrollData) ) : ?>
+
+        <div class="x_content">
+            <h2>No Record Found</h2>
+        </div>
+
+    <?php else: ?>
+        <style>
+            .borderless {
+                border: none !important;
+            }
+        </style>
+
+        <?php
+
+        $employeeName = $employeePayrollData[0]['supplier_name'];
+        $employeeCode = $employeePayrollData[0]['supplier_code'];
+        $employeeCID = $employeePayrollData[0]['supplier_license_no'];
+        $employeeTPN = $employeePayrollData[0]['supplier_tpn_no'];
+        $employeeOrganisation = $employeePayrollData[0]['organisation'];
+        ?>
+
+        <div class="x_content">
+            <div class="row printable" style="background-color: #ffffff; color: #000000; padding: 30px;">
+                <div class="col-md-12 ">
+                    <h3 class="text-bold text-center text-uppercase">
+                        TDS Certificate
+                    </h3>
+
+                    <p class="pull-right"><span class="tds-year">Date: <?php echo date('d-m-Y'); ?></span></p>
+
+                    <div class="x_content">
+
+                        <div class="table-responsive">
+
+                            <table id="generated_tds_report_list" class="table table-bordered">
+
+                                <thead>
+                                <tr>
+                                    <th colspan="7" class="borderless">Reference No: <span style="font-weight: lighter" class="tds-emp-name"><span style="font-weight: lighter"><?php echo ''; ?></span></span></th>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="4" class="borderless">Name: <span style="font-weight: lighter"><?php echo $employeeName; ?></span></th>
+                                    <th colspan="3" class="borderless">Entity Code: <span style="font-weight: lighter"><?php echo $employeeCode; ?></span></th>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="4" class="borderless">CID NO: <span style="font-weight: lighter"><?php echo $employeeCID; ?></span></th>
+                                    <th colspan="3" class="borderless">Entity Name: <span style="font-weight: lighter"><?php echo $employeeCode; ?></span></th>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="7" class="borderless">TPN: <span style="font-weight: lighter"><?php echo $employeeTPN; ?></span></th>
+                                </tr>
+
+                                <tr style="border-top: 1px solid #ddd;">
+                                    <th colspan="4" class="borderless">Agency Name: <span style="font-weight: lighter"><?php echo $employeeOrganisation; ?></span></th>
+                                    <th colspan="3" class="borderless">Income Year: <span style="font-weight: lighter"><?php echo $this->year; ?></span></th>
+                                </tr>
+
+                                <tr id="generated_tds_report_thead">
+                                    <th>Month</th>
+                                    <th>Income Type</th>
+                                    <th>Gross Income</th>
+                                    <th>TDS Amount</th>
+                                    <th>Pincode</th>
+                                    <th>Date</th>
+                                    <th>Remark</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <?php foreach ( $employeePayrollData as $list ): ?>
+                                    <tr class="ROW_GTR">
+                                        <td><?php echo date('M', strtotime($this->year . '-' . $list['month'])); ?></td>
+                                        <td><?php echo "Bhutanese Contract" ?></td>
+                                        <td><?php echo $list['transaction_amount'] ?? "0.00"; ?></td>
+                                        <td><?php echo $list['tds_amount'] ?? "0.00"; ?></td>
+                                        <td><?php echo $list['supplier_code'] ?? ""; ?></td>
+                                        <td><?php echo date('Y-m-d', strtotime($list['updated_at'])) ; ?></td>
+                                        <td><?php echo ''; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="text-center">
+            <!--<button type="submit" class="btn btn-success" id="GeneratePDF">Generate PDF</button>-->
+            <a href="<?php
+
+            echo $this->url(
+                'generate-tds-report',
+                array('action' => 'generateTdsSuppliesPdf'),
+                array('query' => array(
+                    'tds_group' => $this->tdsGroup,
+                    'tds_report' => $this->tdsReport,
+                    'organisation_id' => $this->organisation_id,
+                    'department_id' => $this->department_id,
+                    'employee_id' => $this->employee_id,
+                    'year' => $this->year,
+                    'start' => $this->start_month,
+                    'end' => $this->end_month,
+                ))
+            );
+            ?>"
+               class="btn btn-success">
+                Generate Report
+            </a>
+        </div>
+
+    <?php endif ?>
+</div>

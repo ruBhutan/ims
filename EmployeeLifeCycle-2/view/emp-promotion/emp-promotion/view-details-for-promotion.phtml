@@ -1,0 +1,542 @@
+<?php
+ $title = 'Promotion Application Details';
+ $this->headTitle($title);
+ $personal = array();
+ foreach($this->personalDetails as $detail){
+	 $personal = $detail;
+ }
+
+ $last_promotion = array();
+ foreach($this->lastPromotion as $last){
+  $last_promotion = $last;
+ }
+
+
+ $secret_key = $this->keyphrase;
+ function my_encrypt($data, $secret_key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($secret_key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				          <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    //$employee = $form->get('employeepromotion');
+                 ?> 
+                  <h2 class="StepTitle">Important Note:</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h5><i>
+                          		1. Before applying for promotion, please check your "personal details" and ensure that it is upto date and correct.
+                                   For e.g.: Check whether your educational details, training details and other personal records are current and upto date.
+                          </i></h5>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <!-- Personal Details Information-->
+                  <h2 class="StepTitle">Staff Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['first_name'].' '.$personal['middle_name'].' '.$personal['last_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['emp_id']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['date_of_birth']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['nationality']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">CID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['cid']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Address:</label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">House No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['emp_house_no']; ?></i></h4>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Thram No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['emp_thram_no']; ?></i></h4>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Village:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['village_name']; ?></i></h4>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Gewog:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['gewog_name']; ?></i></h4>
+                       </div>
+                    </div>
+                  </div><div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Dzongkhag:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $personal['dzongkhag_name']; ?></i></h4>
+                       </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Personal Details Information-->
+                  <!-- Education Details Information-->
+                   <h2 class="StepTitle">Education Details</h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Name of School/College</th>
+                            <th class="column-title">Location and Country</th>
+                            <th class="column-title">Field of Study</th>
+                            <th class="column-title">Start</th>
+                            <th class="column-title">End</th>
+                            <th class="column-title">Degree/Certificate Obtained</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->educationDetails as $detail):?>
+                             <tr class="even pointer">
+                              <td><?php echo $detail['college_name']; ?></td>
+                              <td><?php echo $detail['college_location']; ?></td>
+                              <td><?php echo $detail['field_study']; ?></td>
+                              <td><?php echo $detail['start_date']; ?></td>
+                              <td><?php echo $detail['end_date']; ?></td>
+                              <td><?php echo $detail['study_level']; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+                  <!-- End of Education Details Information-->
+                  <!-- Training Details Information-->
+                   <h2 class="StepTitle">Training Details</h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Name of School/College</th>
+                            <th class="column-title">Location and Country</th>
+                            <th class="column-title">Field of Study</th>
+                            <th class="column-title">Start</th>
+                            <th class="column-title">End</th>
+                            <th class="column-title">Degree/Certificate Obtained</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->trainingDetails as $detail):
+                              foreach($detail as $value):
+                          ?>
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($value['institute_name']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['institute_location']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['start_date']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['end_date']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                            </tr>
+                          <?php 
+                            endforeach; 
+                            endforeach;
+                        ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+                  <!-- End of Training Details Information-->
+                  <!-- Research Details Information-->
+                   <h2 class="StepTitle">Research Details</h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Title</th>
+                            <th style="width:15%" class="column-title">Date</th>
+                            <th style="width:55%" class="column-title">Purpose</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                        <?php if(!empty($this->researchDetails)){
+                          foreach($this->researchDetails as $detail):
+                              foreach($detail as $value):
+                          ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['year']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['purpose']); ?></td>
+                            </tr>
+                          <?php endforeach; 
+                              endforeach;
+                            } else {
+                                ?>
+                                  <tr class="even pointer">
+                                    <td>NIL</td>
+                                    <td>NIL</td>
+                                    <td>NIL</td>
+                                  </tr>
+                                <?php
+                                }
+                                            ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+                  <!-- End of Research Details Information-->
+                  <!-- Present Job Details Information-->
+                  <h2 class="StepTitle">Present Job Identification</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $this->employmentDetails['position_title']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $this->employmentDetails['position_level']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Pay Scale:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $this->employmentDetails['position_title']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Category:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $this->employmentDetails['category']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Major Occupational Group:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $this->employmentDetails['major_occupational_group']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Last Promotion:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                       <?php 
+                        if(!empty($this->lastPromotionDate)){ ?>
+                          <h4><i><?php echo $this->lastPromotionDate; ?></i></h4>
+                        <?php } else { ?>
+                                <h4><i>Not yet applied for promotion before</i></h4>
+                            <?php } ?>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Present Job Description-->
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Specific Duties and Responsibilities of the Position (table below):</label>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Agency/Department & Division/Unit</th>
+                            <th class="column-title">Position Title</th>
+                            <th class="column-title">Position Level</th>
+                            <th class="column-title">Date From</th>
+                            <th class="column-title">Date To</th>
+                            <th class="column-title">Place of Posting</th>
+                            <th class="column-title">Office Order No. & Date</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <tr class="even pointer">
+                            <td><?php echo "Agency Name"; ?></td>
+                            <td><?php echo $this->employmentDetails['position_title']; ?></td>
+                            <td><?php echo $this->employmentDetails['position_level']; ?></td>
+                            <td><?php echo "From Date"; ?></td>
+                            <td><?php echo "To Date"; ?></td>
+                            <td><?php echo "Place of Posting"; ?></td>
+                            <td><?php echo "Office Order No. & Date"; ?></td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <br />
+                  <!-- End of Job Details Information-->
+                  <!-- Leave Details Information-->
+                  <h2 class="StepTitle">Leave Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Extra Ordinary Leave Availed:</label>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Duration</th>
+                            <th class="column-title">From</th>
+                            <th class="column-title">To</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                        <?php if(!empty($this->eolLeaveDetails)){ 
+                              foreach($this->eolLeaveDetails as $detail):?>
+                                        <tr class="even pointer">
+                                          <td><?php echo $this->escapeHtml($detail['days_of_leave']); ?></td>
+                                          <td><?php echo $this->escapeHtml($detail['from_date']); ?></td>
+                                          <td><?php echo $this->escapeHtml($detail['to_date']); ?></td>
+                                        </tr>
+                                      <?php endforeach; 
+                          } else { ?>
+                          	<tr class="even pointer">
+                              <td>N/A</td>
+                              <td>N/A</td>
+                              <td>N/A</td>
+                            </tr>
+                          <?php } ?>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Long Term/Higher Studies Leave Availed:</label>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Duration</th>
+                            <th class="column-title">From</th>
+                            <th class="column-title">To</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php
+                          if(!empty($this->studyLeaveDetails)){
+                            foreach($this->studyLeaveDetails as $detail):
+                              ?>
+                                 <tr class="even pointer">
+                                  <td><?php echo $this->escapeHtml($detail['days_of_leave']); ?></td>
+                                  <td><?php echo $this->escapeHtml($detail['from_date']); ?></td>
+                                  <td><?php echo $this->escapeHtml($detail['to_date']); ?></td>
+                                </tr>
+                              <?php endforeach; 
+                          } else { ?>
+                          	<tr class="even pointer">
+                              <td>NILL</td>
+                              <td>NILL</td>
+                              <td>NILL</td>
+                            </tr>
+                          <?php } ?>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-6 col-sm-2 col-xs-12">No. of continuous & active years of service completed from the date of initial appointment:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $last['years_service_from_appointment']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-6 col-sm-2 col-xs-12">No. of continuous & active years of service completed since the last promotion:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $last['years_service_from_promotion']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Leave Details Information-->
+                  <!-- PMS Details Information-->
+                  <h2 class="StepTitle">Performance Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Ratings for the past three years: (each out of the total factors)</label>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Year</th>
+                            <th class="column-title">Performance Rating</th>
+                            <th class="column-title">Category</th>
+                            <th class="column-title">Action</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->promotionDetails as $det):?>
+                             <tr class="even pointer">
+                              <td><?php echo $det['performance_year']; ?></td>
+                              <td><?php echo $det['performance_rating']; ?></td>
+                              <td><?php echo $det['performance_category']; ?></td>
+                              <td><?php 
+                                if(!empty($det['supporting_file'])){?>
+                                  <a href="<?php echo $this->url('downloadpromotiondetailfile', array('filename' => 'supporting_file'.$det['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                                <?php 
+                              } else{
+                                echo "File Not Uploaded";
+                              }
+                              ?>
+                                
+                              </td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                  </div>
+                  <br />
+                  <!-- End of PMS Details Information-->
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h5><i>
+                                1. Uploaded necessary Documents
+                          </i></h5>
+                       </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Security Clearance No:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $last_promotion['security_clearance_no']; ?>
+                        </div>  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Uploaded File:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <a href="<?php echo $this->url('downloadpromotiondocument', array('filename' => 'security_clearance_'.$this->emp_promotion_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Audit Clearance No:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $last_promotion['audit_clearance_no']; ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Uploaded File:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <a href="<?php echo $this->url('downloadpromotiondocument', array('filename' => 'audit_clearance_'.$this->emp_promotion_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group"> 
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Other Certificate Description:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php 
+                            if($last_promotion['other_certificate_description']){
+                            echo $last_promotion['other_certificate_description']; 
+                            }else{
+                              echo "Description not mentioned";
+                            }
+                            ?>
+                        </div> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Uploaded File:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+					              <?php if(!empty($last_promotion['other_certificate_file'])) {?>
+                          <a href="<?php echo $this->url('downloadpromotiondocument', array('filename' => 'other_certificate_'.$this->emp_promotion_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                            <?php } else{
+                              echo "File Not Uploaded";
+                            }
+                              ?>
+                        </div>
+                    </div>
+                  </div>                      
+                  <div class="row">
+                    <div class="form-group"> 
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Supplementary Meritorious Promotion:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php 
+                            if($last_promotion['other_certificate_description']){
+                            echo $last_promotion['other_certificate_description']; 
+                            }else{
+                              echo "Description not mentioned";
+                            }
+                            ?>
+                        </div> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Download File:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                        <?php if(!empty($last_promotion['meritorious_promotion_file'])) {?>
+                          <a href="../../<?php echo $last_promotion['meritorious_promotion_file'];?>" target="_blank"class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                            <?php } else{
+                              echo "File Not Uploaded";
+                            }
+                              ?>
+                        </div>
+                    </div>
+                  </div>
+			  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        	<a href="<?php echo $this->url('emppromotionapproval', array('id' => my_encrypt($this->emp_promotion_id, $secret_key)));?>" class="btn btn-success">Approve</a>
+                            <a href="<?php echo $this->url('viewrejectedreasons', array('id' => my_encrypt($this->emp_promotion_id, $secret_key)));?>" class="btn btn-danger">Reject</a>
+                          <?php  
+							           echo $this->form()->closeTag($form);
+						              ?>
+                        </div>
+                        <a href="<?php echo $this->url('printempapplypromotiondetails', array('id' => my_encrypt($this->employee_id, $secret_key), 'type' => my_encrypt('hr', $secret_key), 'promotion_type' => my_encrypt($last['promotion_type'], $secret_key))); ?>" class="btn btn-info"><i class="fa fa-print"></i> Print Details</a>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

@@ -1,0 +1,254 @@
+<?php
+
+ $title = 'Student Parent Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">
+                    <h2>Personal Details</h2>
+                 <?php
+                 $personalDetails = array();
+                 foreach ($this->stdDetails as $details): {
+                      $personalDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'];
+                      $personalDetails['student_id'] = $details['student_id'];
+                      $personalDetails['programme_name'] = $details['programme_name'];
+                      $personalDetails['stdgender'] = $details['stdgender'];
+                      $personalDetails['student_type'] = $details['student_type'];
+                      $personalDetails['enrollment_year'] = $details['enrollment_year'];
+                  } 
+                 ?>
+                    <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['student_id']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['stdgender']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['student_type']; ?>
+                                        </div>
+                            </div><br/><br/>
+
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['programme_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Enrollment Year:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['enrollment_year']; ?>
+                                        </div>
+                            </div>
+
+                            <br/><br/>
+                        <?php endforeach; ?>
+                        <h2>Parent (s) Details</h2>
+                        <?php
+                        $parentDetails = array();
+                        foreach ($this->stdParentDetails as $parents): {
+                            $parentDetails['father_name'] = $parents['father_name'];
+                            $parentDetails['father_cid'] = $parents['father_cid'];
+                            $parentDetails['fnationality'] = $parents['fnationality'];
+                            $parentDetails['father_occupation'] = $parents['father_occupation'];
+                            $parentDetails['father_house_no'] = $parents['father_house_no'];
+                            $parentDetails['father_thram_no'] = $parents['father_thram_no'];
+                            $parentDetails['fdzongkhag_name'] = $parents['fdzongkhag_name'];
+                            $parentDetails['fgewog_name'] = $parents['fgewog_name'];
+                            $parentDetails['fvillage_name'] = $parents['fvillage_name'];
+
+                            $parentDetails['mother_name'] = $parents['mother_name'];
+                            $parentDetails['mother_cid'] = $parents['mother_cid'];
+                            $parentDetails['mnationality'] = $parents['mnationality'];
+                            $parentDetails['mother_occupation'] = $parents['mother_occupation'];
+                            $parentDetails['mother_house_no'] = $parents['mother_house_no'];
+                            $parentDetails['mother_thram_no'] = $parents['mother_thram_no'];
+                            $parentDetails['mdzongkhag_name'] = $parents['mdzongkhag_name'];
+                            $parentDetails['mgewog_name'] = $parents['mgewog_name'];
+                            $parentDetails['mvillage_name'] = $parents['mvillage_name'];
+
+                            $parentDetails['parents_present_address'] = $parents['parents_present_address'];
+                            $parentDetails['parents_contact_no'] = $parents['parents_contact_no'];
+                        }
+                     ?>
+                     <?php
+                        if(empty($parentDetails)) {
+                            $parentDetails['father_name'] = "NA";
+                            $parentDetails['father_cid'] = "NA";
+                            $parentDetails['fnationality'] = "NA";
+                            $parentDetails['father_occupation'] = "NA";
+                            $parentDetails['father_house_no'] = "NA";
+                            $parentDetails['father_thram_no'] = "NA";
+                            $parentDetails['fdzongkhag_name'] = "NA";
+                            $parentDetails['fgewog_name'] = "NA";
+                            $parentDetails['fvillage_name'] = "NA";
+
+                            $parentDetails['mother_name'] = "NA";
+                            $parentDetails['mother_cid'] = "NA";
+                            $parentDetails['mnationality'] = "NA";
+                            $parentDetails['mother_occupation'] = "NA";
+                            $parentDetails['mother_house_no'] = "NA";
+                            $parentDetails['mother_thram_no'] = "NA";
+                            $parentDetails['mdzongkhag_name'] = "NA";
+                            $parentDetails['mgewog_name'] = "NA";
+                            $parentDetails['mvillage_name'] = "NA";
+
+                            $parentDetails['parents_present_address'] = "NA";
+                            $parentDetails['parents_contact_no'] = "NA";
+                     ?>
+
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Father Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['father_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Father CID:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['father_cid']; ?>
+                                        </div>
+                            </div>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Father Nationality:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['fnationality']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Father Occupation:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['father_occupation']; ?>
+                                        </div>
+                            </div>
+                            <?php } else {?>
+                              <h4>Father Details</h4>
+                                <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Father Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['father_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Father CID:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['father_cid']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Father Nationality:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['fnationality']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Father Occupation:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['father_occupation']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Father House No:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['father_house_no']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Father Thram No:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['father_thram_no']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Father Dzongkhag:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['fdzongkhag_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Father Gewog:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['fgewog_name']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Father Village:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['fvillage_name']; ?>
+                                        </div>
+                            </div><br/><br/><br/>
+
+                            <h4>Mother Details</h4>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['mother_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother CID:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['mother_cid']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother Nationality:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['mnationality']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother Occupation:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['mother_occupation']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother House No:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['mother_house_no']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother Thram No:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['mother_thram_no']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother Dzongkhag:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['mdzongkhag_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother Gewog:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['mgewog_name']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother Village:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['mvillage_name']; ?>
+                                        </div>
+                            </div><br/><br/><br/>
+
+                            <h4>Parent Contact Details</h4>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Parent's Contact No:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['parents_contact_no']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Parent's Present Address:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $parentDetails['parents_present_address']; ?>
+                                        </div>
+                            </div><br/><br/>
+                           <?php } ?>
+                            <?php endforeach; ?><br/><br/>                         
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+
+
+ 

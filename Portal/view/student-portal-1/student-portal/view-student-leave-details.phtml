@@ -1,0 +1,95 @@
+<?php
+
+ $title = 'Applied Leave Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">
+                        <?php
+                        $leaveDetails = array();
+                        foreach ($this->stdLeaveDetails as $details): {
+                            $leaveDetails['leave_category'] = $details['leave_category'];
+                            $leaveDetails['from_date'] = $details['from_date'];
+                            $leaveDetails['to_date'] = $details['to_date'];
+                            $leaveDetails['reasons'] = $details['reasons'];
+                            $leaveDetails['leave_status'] = $details['leave_status'];
+                            $leaveDetails['approval_by'] = $details['approval_by'];
+                            $leaveDetails['approved_by'] = $details['approved_by'];
+                            $leaveDetails['lcat_remarks'] = $details['lcat_remarks'];
+                            $leaveDetails['remarks'] = $details['remarks'];
+                            $leaveDetails['evidence_file'] = $details['evidence_file'];
+                        }
+                     ?>
+                     <h2>Leave Details</h2>
+                     <div class="form-group">
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Leave Category:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $leaveDetails['leave_category']; ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Leave Approval By:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $leaveDetails['approval_by']; ?>
+                        </div>
+                    </div><br/><br/><br/>
+                    <div class="form-group">
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">From Date:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $leaveDetails['from_date']; ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">To Date:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $leaveDetails['to_date']; ?>
+                        </div>
+                    </div><br/><br/><br/>
+                    <div class="form-group">
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Reasons:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $leaveDetails['reasons']; ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Leave Category Remarks:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $leaveDetails['lcat_remarks']; ?>
+                        </div>
+                    </div><br/><br/><br/>
+                    <div class="form-group">
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Evident File (<small>This display only if you have submitted document when you apply for leave</small>):</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $leaveDetails['evidence_file']; ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Status:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $leaveDetails['leave_status']; ?>
+                        </div>
+                    </div><br/><br/><br/><br/>
+
+                    <h2>Leave Approved/ Rejected Remarks (<small>Below list will display only if leave is approved or rejected, else it display blank.</small>)</h2>
+                    <div class="form-group">
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Approved/ Rejected By:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $leaveDetails['approved_by']; ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $leaveDetails['remarks']; ?>
+                        </div>
+                    </div>
+                    <?php endforeach; ?><br/><br/>                         
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+</div>
+
+
+ 

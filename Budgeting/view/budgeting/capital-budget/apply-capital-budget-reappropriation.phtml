@@ -1,0 +1,157 @@
+<?php
+ $title = 'Capital Budget Re-Appropriation Proposal (College Finance Officer)';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+  }
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                      <!-- blockquote -->
+                      <blockquote>
+                        <h4><i>Please select the "Reappropriation From" and "Reappropriation To" fields. Once you have selected the "From" and "To" Details,
+                  			you will be able to select the Chart of Accounts and reappropriate the approved budget amount.</i></h4>
+                      </blockquote>
+                      <br />
+                <!--start of reappropriation details -->
+                <div class="x_panel">
+                <div class="x_title">
+                  <h2><i><?php echo $this->escapeHtml('Reappropriation Details'); ?></i></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                  // Opening of the form tag
+                  //$form->setAttribute('action', $this->url('addcapitalbudgetreappropriation', array('action' => 'addCapitalBudgetReappropriation', 'id' => my_encrypt($this->id, $key))));
+                  $form->prepare();
+                  echo $this->form()->openTag($form);
+                  //need to get the organisation id
+                  //echo $this->formHidden($form->get('id'));
+                  $form->get('budget_type')->setValue('capital');
+                  $form->get('status')->setValue('Not Submitted');
+                  $form->get('organisation_id')->setValue($this->organisation_id);
+                  ?>
+                  <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>  
+                <h2><i><u><?php echo $this->escapeHtml('Reappropriation From Details'); ?></u></i></h2>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Activity Name<span class="required">*</span></label>
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('from_activity_name_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Broad Head Name<span class="required">*</span></label>
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('from_broad_head_name_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Object Code<span class="required">*</span></label>
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('from_object_code_id')); ?>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <h2><i><u><?php echo $this->escapeHtml('Reappropriation To Details'); ?></u></i></h2>
+                 <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Activity Name<span class="required">*</span></label>
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('to_activity_name_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Broad Head Name<span class="required">*</span></label>
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('to_broad_head_name_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Object Code<span class="required">*</span></label>
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('to_object_code_id')); ?>
+                    </div>
+                  </div>
+                </div> 
+
+                </div>
+              </div>
+              <!-- End of Reappropriation From Details box-->
+              
+                 
+                   <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php
+                          echo $this->formHidden($form->get('budget_type'));
+                          echo $this->formHidden($form->get('status'));
+                          echo $this->formHidden($form->get('organisation_id'));
+                          echo $this->formHidden($form->get('csrf'));
+                          echo $this->formSubmit($form->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+              
+              <!-- End of Reappropriation To Details-->
+             </div>
+        </div>
+       
+              	
+    
+          </div>
+        </div> 
+     </div>

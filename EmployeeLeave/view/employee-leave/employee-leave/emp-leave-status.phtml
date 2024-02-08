@@ -1,0 +1,133 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Staff Leave Details';
+ $this->headTitle($title);
+ $leave_balance = NULL;
+ foreach($this->leave as $detail){
+     $leave_details = $detail;
+ }
+ if($this->leaveCategory[$leave_details['emp_leave_category_id']] == 'Casual Leave'){
+     $leave_balance = $this->leaveBalance['casual_leave'];
+ } else if($this->leaveCategory[$leave_details['emp_leave_category_id']] == 'Earned Leave'){
+     $leave_balance = $this->leaveBalance['earned_leave'];
+ }
+ 
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <div class="clearfix"></div>
+                  </div>
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $leave = $form->get('employeeleave');
+                                    $leave->get('id')->setValue($leave_details['id']);
+                                    $leave->get('days_of_leave')->setValue($leave_details['days_of_leave']);
+                                    $leave->get('from_date')->setValue($leave_details['from_date']);
+                                    $leave->get('substitution')->setValue($leave_details['substitution']);
+                                    $leave->get('evidence_file')->setValue($leave_details['evidence_file']);
+                                    $leave->get('reason')->setValue($leave_details['reason']);
+                                    $leave->get('leave_status')->setValue($leave_details['leave_status']);
+                                    $leave->get('employee_details_id')->setValue($leave_details['employee_details_id']);
+                                    $leave->get('emp_leave_category_id')->setValue($leave_details['emp_leave_category_id']);
+                                    echo $this->formHidden($leave->get('id'));
+                                    echo $this->formHidden($leave->get('days_of_leave'));
+                                    echo $this->formHidden($leave->get('from_date'));
+                                    echo $this->formHidden($leave->get('substitution'));
+                                    echo $this->formHidden($leave->get('evidence_file'));
+                                    echo $this->formHidden($leave->get('reason'));
+                                    echo $this->formHidden($leave->get('leave_status'));
+                                    echo $this->formHidden($leave->get('employee_details_id'));
+                                    echo $this->formHidden($leave->get('emp_leave_category_id'));
+				  ?>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Staff Name:</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['first_name']. ' '.$leave_details['middle_name'].' '.$leave_details['last_name']; ?>" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">No. of Days Applied for:</label>
+                        <div class="col-md-2 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['days_of_leave']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Leave Balance:</label>
+                        <div class="col-md-2 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_balance; ?>" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">From Date:</label>
+                        <div class="col-md-2 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['from_date']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">To Date: </label>
+                        <div class="col-md-2 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['to_date']; ?>" readonly>
+                        </div>
+                      </div>
+                        
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Substitution of self:</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['sub_first_name']. ' '.$leave_details['sub_middle_name'].' '.$leave_details['sub_last_name']; ?>" readonly>
+                        </div>
+                      </div>
+                     
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons:
+                        </label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <textarea class="form-control"  placeholder='<?php echo $leave_details['reason']; ?>' readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Type of leave:</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder='<?php echo $this->leaveCategory[$leave_details['emp_leave_category_id']]; ?>' readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">View Necessary Documents:</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <?php if($leave_details['evidence_file'] != NULL){?>
+                                        <a href="<?php echo $this->url('downloadleaveapplication', array('filename' => $leave_details['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } 
+											  else 
+												echo "Documents Not Submitted";  
+											?>
+                        </div>
+                      </div>  
+                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:
+                        </label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <?php  echo $this->formRow($leave->get('remarks')); ?>
+                        </div>
+                      </div>
+                     </br> 
+                    
+                    <div class="form-group">
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                       <?php
+                        echo $this->formRow($form->get('csrf'));
+						echo $this->formSubmit($leave->get('approve'));
+						echo $this->formSubmit($leave->get('reject'));
+                      ?>
+                      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $(window).on('beforeunload', function () {
+                                $("input[type=submit], input[type=button]").prop("disabled", "disabled");
+                            });
+                        </script>
+		      </div>
+                    </div>
+
+                </div>
+              </div>
+            </div></div></div>

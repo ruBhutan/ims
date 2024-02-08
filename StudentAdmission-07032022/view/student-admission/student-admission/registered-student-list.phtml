@@ -1,0 +1,189 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+    $title = 'Registered Student List';
+    $this->headTitle($title);
+
+     $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ 
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+                ?>
+
+                <div class="col-md-12 col-sm-12 col-xs-12" align="right">
+                    <a href="<?php echo $this->url('register-new-student', array('action'=>'registerNewStudent')); ?>"><button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Register New Student </button></a>
+                    <a href="<?php echo $this->url('upload-student-lists', array('action' => 'uploadStudentLists')); ?>"> <button type="submit" class="btn btn-success"><i class="fa fa-upload"></i> Import Student List </button></a>
+                    <!--<a href="bulkimport"> <button type="submit" class="btn btn-success"><i class="fa fa-upload"></i>Import in Bulk</button></a> -->
+                </div> 
+
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("Search for List of Registered Student")?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                  
+                        </div>
+                       
+                        <div class="x_content">
+                            <h5><i>*(In order to view the registered student list, either enter organisation name or programme name or admission year or gender or reporting status and click on search button. Input as many fields as possible to narrow the search.)<br />
+                                        **Possible reporting status to type are Pending, Reported and Not Reported** </i></h5>
+                                  <br />
+                            <?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            ?>
+                        
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>College/ Organisation</label>
+                                    <?php echo $this->formRow($form->get('organisation')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme</label>
+                                    <?php echo $this->formRow($form->get('programme')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Admission Year</label>
+                                    <?php echo $this->formRow($form->get('admission_year')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Gender</label>
+                                    <?php echo $this->formRow($form->get('gender')); ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Reporting Status</label>
+                                    <?php echo $this->formRow($form->get('student_reporting_status')); ?>
+                                </div>
+                            </div>
+                         
+                            <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("List of New Registered Student(s) in different colleges in different programmes"); ?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                                 
+                        <div class="x_content">
+                            <div  class="table-responsive">
+                                <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">  
+                                    <thead>
+                                        <tr class="headings">
+                                                                      
+                                            <th class="column-title">Sl.No. </th>
+                                            <th class="column-title">Rank </th>
+                                            <th class="column-title"> Name </th>
+                                            <th class="column-title"> Gender </th>
+                                            <th class="column-title"> Date of Birth </th>
+                                            <th class="column-title">Registration No.</th>
+                                            <th class="column-title">CID No.</th>
+                                            <th class="column-title">Student Type</th>
+                                            <th class="column-title">Programme</th>
+                                            <th class="column-title">Organisation</th>
+                                            <th class="column-title">Addmission Year</th>
+                                            <th class="column-title">Status</th>
+                                            <th class="column-title">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <?php $i=1; ?>
+                                    <?php foreach ($this->registerStudentList as $regList) : ?>
+                                        <tr class="even pointer">                                            
+                                            <td class=" "><?php echo $i; ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['rank']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['first_name']).' '; 
+                                                                echo $this->escapeHtml($regList['middle_name']).' ';
+                                                                echo $this->escapeHtml($regList['last_name']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['gender']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['date_of_birth']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['registration_no']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['cid']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['student_type']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['programme_name']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['organisation_name']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['admission_year']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($regList['student_reporting_status']);?></td>
+                                            <td class=" last"> <a href="<?php echo $this->url('registered-student-details', array('id' => my_encrypt($regList['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View </a></td>
+                                        </tr>
+                                                                 
+                                    <?php $i++; ?>
+                                    <?php endforeach; ?>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>      
+</div>           
+       
+                

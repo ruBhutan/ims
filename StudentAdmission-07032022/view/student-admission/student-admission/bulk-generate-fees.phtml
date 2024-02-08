@@ -1,0 +1,92 @@
+<?php
+$title = 'Bulk Generate Student Fees';
+$this->headTitle($title);
+$key = $this->keyphrase;
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                
+                <?php
+                  if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach ($messages as $message) {
+                      echo '<strong>Success!</strong>' . $message;
+                    }
+                    echo '</div>';
+                  } else if ($this->message == 'Failure' && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach ($messages as $message) {
+                      echo '<strong>Failure!</strong>' . $message;
+                    }
+                    echo '</div>';
+                  }
+                ?>
+                <div class="x_content">
+                    <h5><i>Instructions goes here.</i></h5><br/>
+                    <?php
+                      $form->prepare();
+                      echo $this->form()->openTag($form);
+                      $form->get('organisation_id')->setValueOptions($this->organizationSelectData);
+                      $form->get('structure_id')->setValueOptions($this->studentFeeStructureList);
+                    ?>
+
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                            <label>Organisation</label>
+                            <?php echo $this->formRow($form->get('organisation_id')); ?>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                            <label>Fee Structure</label>
+                            <?php echo $this->formRow($form->get('structure_id')); ?>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                            <label>Due Date</label>
+                            <?php echo $this->formRow($form->get('due_date')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="ln_solid"></div>
+                        <div class="form-group text-center">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?php
+                              echo $this->formHidden($form->get('csrf'));
+                              echo $this->formSubmit($form->get('submit'));
+                              ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                      echo $this->form()->closeTag();
+                    ?>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('input[name="due_date"]').daterangepicker({
+          singleDatePicker: true,
+          showDropdowns: true,
+          minDate: moment().format('YYYY-MM-DD'),
+          startDate: moment().add(15,'d').format('YYYY-MM-DD'),
+          locale: {format: 'YYYY-MM-DD'}
+      });
+  });
+</script>
+

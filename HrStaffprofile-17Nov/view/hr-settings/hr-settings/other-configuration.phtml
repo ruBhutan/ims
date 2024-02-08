@@ -1,0 +1,282 @@
+<?php
+ $title = 'HR Configuration Settings';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                <div class="x_content">
+                  <br />
+                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#tab_content1" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="true">Research Category</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content2" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="false">Funding Types</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content3" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="false">Study Level</a>
+                      </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="profile-tab">
+                       <br/> 
+                       <p> 
+                       <div class="x_panel"> 
+                         <h2>Research Category</h2>   
+                        <div class="x_content">
+                  <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $researchForm->setAttribute('action', $this->url('addresearchcategory', array('action' => 'addResearchCategory')));
+					$researchForm->prepare();
+                    echo $this->form()->openTag($researchForm);
+				    $title = $researchForm->get('researchcategory');
+                    echo $this->formHidden($title->get('id'));   
+                ?>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Category: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($title->get('research_category')); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Description: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($title->get('description')); ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($researchForm->get('csrf'));
+						   echo $this->formSubmit($title->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                
+				<div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="example-datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Research Category </th>
+                            <th class="column-title">Descriptions </th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                        <?php foreach ($this->research_type as $category): ?>
+						  <tr>
+							<td><?php echo $this->escapeHtml($category['research_category']);?></td>
+							<td><?php echo $this->escapeHtml($category['description']);?></td>
+                            <td><a href="<?php echo $this->url('editpositiontitle', array('id' => $category['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+						  </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+					</div>
+				</div>
+			</div> 
+                    
+            <div role="tabpane2" class="tab-pane fade " id="tab_content2" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Funding Types</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $fundingForm->setAttribute('action', $this->url('addfunding', array('action' => 'addFunding')));
+					$fundingForm->prepare();
+                    echo $this->form()->openTag($fundingForm);
+				    $level = $fundingForm->get('fundingcategory');
+                    echo $this->formHidden($level->get('id'));   
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Funding Type: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($level->get('funding_type')); ?>
+                    </div>
+                </div>
+                </div> 
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Description: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($level->get('description')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($fundingForm->get('csrf'));
+						   echo $this->formSubmit($level->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                    
+              
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Funding Type </th>
+                            <th class="column-title">Description </th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php foreach ($this->funding as $level): ?>
+                          <tr>
+                            <td><?php echo $this->escapeHtml($level['funding_type']);?></td>
+                            <td><?php echo $this->escapeHtml($level['description']);?></td>
+                            <td><a href="<?php echo $this->url('editpositionlevel', array('id' => $level['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				  </div>
+				</div>
+                
+                <div role="tabpane3" class="tab-pane fade " id="tab_content3" aria-labelledby="profile-tab">
+               <br/> 
+                <p>  
+                <div class="x_panel"> 
+                <h2>Study Level</h2>   
+                <div class="x_content">
+                <br />
+                   
+                <?php
+                   // Opening of the form tag
+                    $studyLevelForm->setAttribute('action', $this->url('addstudylevel', array('action' => 'addStudyLevel')));
+					$studyLevelForm->prepare();
+                    echo $this->form()->openTag($studyLevelForm);
+				    $teaching = $studyLevelForm->get('studylevel');
+                    echo $this->formHidden($teaching->get('id'));   
+                ?>
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Study Level: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($teaching->get('study_level')); ?>
+                    </div>
+                </div>
+                </div> 
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:<span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($teaching->get('remarks')); ?>
+                    </div>
+                </div>
+                </div>
+                       
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($studyLevelForm->get('csrf'));
+						   echo $this->formSubmit($teaching->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php  echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                <!-- End of tabs-->        
+                <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Study Level </th>
+                            <th class="column-title">Remarks </th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php foreach ($this->study_level as $level): ?>
+                          <tr>
+                            <td><?php echo $this->escapeHtml($level['study_level']);?></td>
+                            <td><?php echo $this->escapeHtml($level['remarks']);?></td>
+                            <td><a href="<?php echo $this->url('editpositionlevel', array('id' => $level['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				  </div>
+				</div>
+   		 </div>
+ 		</div>
+	</div>
+</div>
+</div>
+</div>
+</div>
+            

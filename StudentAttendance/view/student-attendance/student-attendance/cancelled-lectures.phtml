@@ -1,0 +1,194 @@
+<?php
+ $title = 'Dates of Cancelled Lectures';
+ $this->headTitle($title);
+ $i=1;
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ 
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <br/>
+                        <!-- Adding Attendance Record-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml($title)?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+                               
+                            <div class="x_content">
+                            <h5>*(Please enter the start date and the end date of lectures to be cancelled)</i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+								$form->get('year')->setValue('1');
+								$form->get('class_type')->setValue('Scheduled');
+								echo $this->formHidden($form->get('year'));
+								echo $this->formHidden($form->get('class_type'));
+								//$form->get('section')->setValueOptions($this->sectionList);
+							  ?>
+							<?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+								echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+								echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+								$messages = $this->flashMessenger()->getMessages();
+								foreach($messages as $message) {
+									echo '<strong>Success!</strong>'. $message;
+								}
+								echo '</div>';
+								} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+									echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+									echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+									$messages = $this->flashMessenger()->getMessages();
+									foreach($messages as $message) {
+										echo '<strong>Warning! </strong>'. $message;
+									}
+									echo '</div>';
+							 } ?>
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Module</label>
+                                    <?php echo $this->formRow($form->get('module')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                      <label>Section <small><i>(if no section, use 'A')</i></small></label>
+                                    <?php echo $this->formRow($form->get('section')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>From Date</label>
+                                    <?php echo $this->formRow($form->get('from_date')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>To Date</label>
+                                    <?php echo $this->formRow($form->get('to_date')); ?>
+                                  </div>
+                               </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>     
+                          
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Cancel Lecture"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <?php
+                            if($this->lectureForm != NULL){
+                            // Opening of the form tag
+                             $lectureForm->setAttribute('action', $this->url('recordcancelledlectures', array('action' => 'recordCancelledLectures')));
+                             $form->prepare();
+                             echo $this->form()->openTag($lectureForm);
+                             $lectureForm->get('programme_id')->setValue($this->programme_id);
+                             $lectureForm->get('academic_modules_id')->setValue($this->academic_modules_id);
+                             $lectureForm->get('from_date')->setValue($this->from_date);
+                             $lectureForm->get('to_date')->setValue($this->to_date);
+					                   $lectureForm->get('section')->setValue($this->section);
+                             echo $this->formHidden($lectureForm->get('programme_id'));
+                             echo $this->formHidden($lectureForm->get('academic_modules_id'));
+                             echo $this->formHidden($lectureForm->get('from_date'));
+                             echo $this->formHidden($lectureForm->get('to_date'));
+					                   echo $this->formHidden($lectureForm->get('section'));
+                            ?>
+                            <div class="x_content">
+                            <h5>*(Already ancelled Lectures will not be shown in the list)</i></h5>
+                            <div class="table-responsive">
+                              <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <thead>
+                                <tr class="headings">
+                                    <th class="column-title" width="10%">Sl. No</th>
+                                    <th class="column-title" width="35%">Date</th>
+                                    <th class="column-title" width="35%">Periods </th>
+                                    <th class="column-title no-link last"><span class="nobr">Tick to Cancel</span></th>
+                                    <th class="column-title" width="35%">Remarks </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                  <?php foreach ($this->timetable_dates as $key=>$value) : ?>
+                                  <tr class="even pointer">
+                                  	<td><?php echo $i++; ?></td>
+                                    <td><?php echo date("d-m-Y", strtotime(substr($key,0,10)))." ($value) " ; ?></td>
+                                    <td><?php echo substr($key, 11, 22); ?></td>
+                                    <td><?php echo $this->formRow($lectureForm->get('lectures_'.$key)); ?></td>
+                                    <td><?php echo $this->formRow($lectureForm->get('reasons_'.$key)); ?></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="row">
+                                    <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($lectureForm->get('csrf'));
+                                       echo $this->formSubmit($lectureForm->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                       
+                                    }//closing of if loop
+                                    ?>
+                                    </div>
+                                </div>
+                          </div>
+                        </div>
+                            
+                           		<!-- End of Attendance-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              
+<script>
+$(function(){
+    $('.datepicker').datepicker({
+        format: 'mm-dd-yyyy',
+        //startDate: '+0d',
+		endDate: '+0d',
+        autoclose: true
+    });
+});
+</script>

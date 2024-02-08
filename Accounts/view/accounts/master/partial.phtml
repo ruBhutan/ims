@@ -1,0 +1,23 @@
+<?php // partial.phtml 
+  $bankref = ($this->active == "bankref")?"active":"";
+  $currency = ($this->active == "currency")?"active":"";
+  $payhead = ($this->active == "payhead")?"active":"";
+  $payslab = ($this->active == "payslab")?"active":"";
+  $paygroup = ($this->active == "paygroup")?"active":"";
+?>
+<br/>
+<!-- Start a tab -->
+<!--<div class="" role="tabpanel" data-example-id="togglable-tabs">-->
+	<ul id="myTab" class="nav nav-tabs bar_tabs">
+		<li class="<?php echo $bankref; ?>"> <a href="<?php echo $this->url('master', array('action' => 'bankreftype')); ?>"><i class="blue ace-icon fa fa-suitcase bigger-120"></i> Payment Mode</a></li>
+		
+		<li role="presentation" class="<?php echo $currency; ?>"><a href="<?php echo $this->url('master', array('action' => 'currency')); ?>" > <i class="brown ace-icon fa fa-credit-card bigger-120"></i>Currency</a></li>
+		
+		<li role="presentation" class="<?php echo $payhead; ?>"><a href="<?php echo $this->url('master', array('action' => 'payhead')); ?>" ><i class="brown ace-icon fa fa-credit-card bigger-120"></i> Pay Head</a></li>
+		
+		<li role="presentation" class="<?php echo $payslab; ?>"><a href="<?php echo $this->url('master', array('action' => 'payslab')); ?>"  ><i class="purple ace-icon fa fa-paypal bigger-120"></i> Pay Slab</a></li>
+		
+		<li role="presentation" class="<?php echo $paygroup; ?>"><a href="<?php echo $this->url('master', array('action' => 'paygroup')); ?>" ><i class="blue ace-icon fa fa-tasks bigger-120"></i> Pay Group</a></li>
+	</ul>
+<!--</div>-->
+

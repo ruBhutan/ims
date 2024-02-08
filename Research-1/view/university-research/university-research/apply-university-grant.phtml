@@ -1,0 +1,413 @@
+<?php
+ $title = 'ANNUAL UNIVERSITY  RESEARCH GRANT APPLICATION FORM';
+ $this->headTitle($title);
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <!-- Smart Wizard -->
+                    <p>Please fill in the forms which are necessary</p>
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                      <ul class="wizard_steps">
+                          <li>
+                          <a href="#step-1">
+                            <span class="step_no">1</span>
+                            <span class="step_descr">
+                                              Step 1<br />
+                                              <small>GRANT TYPE <br/>AND TITLE</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-2">
+                            <span class="step_no">2</span>
+                            <span class="step_descr">
+                                              Step 2<br />
+                                              <small>RESEARCHERS<br/>AND INSTITUTE </small>
+                                          </span>
+                          </a>
+                        </li>
+                        
+                        <li>
+                          <a href="#step-3">
+                            <span class="step_no">3</span>
+                            <span class="step_descr">
+                                              Step 3<br />
+                                              <small>CO-RESEARCHER/S</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-4">
+                            <span class="step_no">4</span>
+                            <span class="step_descr">
+                                              Step 4<br />
+                                              <small>PROJECT <br/>DESCRIPTION</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-5">
+                            <span class="step_no">5</span>
+                            <span class="step_descr">
+                                              Step 5<br />
+                                              <small>ACTION PLAN <br/>AND BUDGET</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-6">
+                            <span class="step_no">6</span>
+                            <span class="step_descr">
+                                              Step 6<br />
+                                              <small>RECEIVED GRANTS <br>PREVIOUSLY OR NOT </small> 
+                                          </span>
+                          </a>
+                        </li>
+                        
+                      </ul>
+                        <div id="step-1">
+                            <h2 class="StepTitle">Step 1: GRANT TYPE AND RESEARCH TITLE</h2>
+                          <form class="form-horizontal form-label-left input_mask"><br/>
+                                        
+                              <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Grant applied for</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <select class="form-control">
+                                <option>--Select Grant Type--</option>
+                                <option>Beginner Faculty Researcher </option>
+                                <option>Mid-Career Researcher </option>
+                                 <option>Advanced Career Researcher </option>
+                           </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Title</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Enter project/research title">
+                        </div>
+                      </div>
+                      </form>
+                        </div>
+                    <div id="step-2">
+                      <h2 class="StepTitle">Step 2:PRINCIPAL RESEARCHER</h2>
+                          <form class="form-horizontal form-label-left input_mask"><br/>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Name</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Dorjee Pem Selnwa" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">College</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Sherubtse College"readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Position level</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="P1"readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Sex</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Female"readonly>
+                        </div>
+                      </div>         
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">E-mail</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="dselwa@gmail.com"readonly>
+                        </div>
+                      </div>         
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Contact No.</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="323456788"readonly>
+                        </div>
+                      </div>         
+                </form>
+                      
+                </div>
+                   <div id="step-3">
+                        <h2 class="StepTitle">Step 3: CO-RESEARCHER</h2>
+                                      <form class="form-horizontal form-label-left input_mask"><br/>
+             
+                                          
+                                          <div class="x_panel">
+                               
+                <div class="x_content">
+                    <!--<div>
+                        <a href="applytransfer"> <button type="submit" class="btn btn-primary">Apply for Transfer of Goods</button></a>
+                          <div class="ln_solid"></div>
+                        </div> !-->
+                     <div class="table-responsive">
+                                         
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            
+                            <th class="column-title">Working Agency</th>
+                            <th class="column-title">Employee </th>
+                            <th class="column-title">Position level </th>
+                            <th class="column-title">Sex </th>
+                            <th class="column-title">Email </th>
+                            <th class="column-title">Contact No </th>
+                             <th class="column-title">Action</th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr class="even pointer">
+                         <td><select class="form-control">
+                                <option>Select</option>
+                                <option>Sherubtse</option>
+                                <option>CST</option>
+                            </select></td> 
+                             <td><select class="form-control">
+                                <option>Select</option>
+                                <option>Dorjee (Rub001)</option>
+                                <option>Wangmo (Rub002)</option>
+                            </select></td>
+                        <td><input type="text" class="form-control" Placeholder="Auto Captured" readonly></td>
+                          <td><input type="text"class="form-control" Placeholder="Auto Captured" readonly></td>
+                        <td><input type="text"class="form-control" Placeholder="Auto Captured" readonly></td>
+                         <td><input type="text"class="form-control" Placeholder="Auto Captured" readonly></td>
+                        <td><button class="btn btn-primary fa fa-plus">Add More</button></td>
+                        
+                        
+                      </tr>
+                      
+                      </tbody>
+                                            
+                      </table>
+                     </div></div></div>
+                                      </form>
+                    </div>
+                     
+                      <div id="step-4">
+                      <h2 class="StepTitle">Step 4: Project Description and Methodology</h2>
+                          <form class="form-horizontal form-label-left input_mask"><br/>
+                 <h2>Project Description :</h2>             
+                      <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Problem Statement<br> (Between 200 - 250 words)</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Questions and Sub-questions</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                              <div class="form-group">
+                                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Review of Key Literature <br>(Between 400 - 500 words)</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                              <h2>Methodology (1000 words) :</h2>
+                    <div class="form-group">
+                        
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Approach/Paradigm Theory</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Collection Procedures</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Analysis Procedures</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Presentation</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Ethical Considerations</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                              <div class="form-group">
+                                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Significance of the Study<br>(in relation of knowledge,policy and practice)<br>(200 words)</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                              <div class="form-group">
+                                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Dissemination <br>(for eg,publication in journals,periodicals,newspapers,etc.)</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">References</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;">
+                    </textarea>
+                  </div>
+                </div>
+                      
+                    </form>
+                      </div>
+                        
+                        <div id="step-5">
+                            <h2 class="StepTitle">Step 5: Action Plan and Budget</h2>
+                           <form class="form-horizontal form-label-left input_mask"><br/>
+                     <div class="table-responsive">
+                         <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th>Particulars</th>
+                                 <th>Start Date</th>
+                                 <th>End Date</th>
+                                 <th>Budget</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             
+                             <tr>
+                                 <td><input type="textarea" class="form-control" placeholder="Enter Particulars"></td>
+                                 <td><input type="date" class="form-control"></td>
+                                 <td><input type="date" class="form-control"></td>
+                                 <td><input type="number" class="form-control"></td>
+                             </tr>
+                         
+                         </tbody>
+                         
+                         </table>
+                     </div>                
+                    <button class="btn btn-primary fa fa-plus">Add More</button>
+                    </form>
+                            
+            </div>
+                        
+            <div id="step-6">
+          <h2 class="StepTitle">Step 6: Grants Previously Received or not by the Principal Researcher </h2> 
+
+          <form class="form-horizontal form-label-left input_mask"><br/>
+                     <div class="table-responsive">
+                         <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th>Previously Received Grants</th>
+                                 <th>Yes / No</th>
+                                 <th>Year</th>
+                                 <th>Amount</th>
+                                 <th>Year</th>
+                                 <th>Amount</th>
+                                 <th>Status</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             
+                             <tr>
+                                 <td colspan="1"><label>Has the Principal Researcher previously received Annual University Research  Grant(AURG) in past two years:</label></td>
+                                 <td colspan="1"><select class="form-control">
+                                <option>--Select--</option>
+                                <option>Yes </option>
+                                <option>No </option>
+                           </select></td>
+                           <td><input type="Text" class="form-control" placeholder="2013" readonly></td>
+                           <td><input type="Text" class="form-control" placeholder="1million" readonly></td>
+                            <td><input type="Text" class="form-control" placeholder="2014" readonly></td>
+                           <td><input type="Text" class="form-control" placeholder="1million" readonly></td>
+                            <td></td>     
+                             </tr>
+                             <tr>
+                                 <td colspan="1"><label>Has the Principal Researcher previously received Annual College Research  Grant in past two years::</label></td>
+                                 <td colspan="1"><select class="form-control">
+                                <option>--Select--</option>
+                                <option>Yes </option>
+                                <option>No </option>
+                           </select></td>
+                           <td><input type="Text" class="form-control" placeholder="2013" readonly></td>
+                           <td><input type="Text" class="form-control" placeholder="1million" readonly></td>
+                            <td><input type="Text" class="form-control" placeholder="2014" readonly></td>
+                           <td><input type="Text" class="form-control" placeholder="1million" readonly></td>
+                            <td></td>  
+                             </tr>
+                         </tbody>
+                         </table>
+                     </div>                
+                    
+                    <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">College Research Committee Approval Number</label>
+                  <div class="col-md-3 col-sm-3 col-xs-12">
+                    <input type="text" class="form-control" placeholder="">
+                  </div>
+                                 </div>
+          
+                                 <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Ethic Committee Approval Number</label>
+                  <div class="col-md-3 col-sm-3 col-xs-12">
+                    <input type="text" class="form-control" placeholder="">
+                  </div>
+                                 </div> <br><br>
+                      <h2 class="StepTitle">Certification: Please Check to Confirm</h2>
+                        <div class="form-group">
+                        <div class="col-md-1 col-sm-1 col-xs-12">
+                            <input type="checkbox" class="flat"></div>
+                            <div class="col-md-11 col-sm-11 col-xs-12"><p> 
+                            This is to certify that the details provided in this application are ture and complete,and evaluated and endorse by College. </p>
+                           </div>
+                        </div> 
+                  </form>
+              </div>
+          </div>
+              	  </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+   </div>
+ </div>
+     
+        <?php     
+$this->inlineScript()->captureStart();
+echo <<<JS
+      $(document).ready(function() {
+        $('#wizard').smartWizard();
+
+        $('.buttonNext').addClass('btn btn-success');
+        $('.buttonPrevious').addClass('btn btn-primary');
+        $('.buttonFinish').addClass('btn btn-default');
+      });
+JS;
+$this->inlineScript()->captureEnd();
+	 
+

@@ -1,0 +1,197 @@
+<?php
+
+ $title = 'Add Module';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+                </div>
+                  <div class="x_content">
+                	<br/>
+                 	<?php
+						// Opening of the form tag
+						$form->prepare();
+						echo $this->form()->openTag($form);
+						$module = $form->get('module');
+						echo $this->form()->openTag($form);
+						$module->get('programmes_id')->setValueOptions($this->programmeList);
+						echo $this->formHidden($module->get('id'));
+						$module->get('status')->setValue('Active');
+						echo $this->formHidden($module->get('status'));
+						
+                        ?>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                    <div class="row">
+                        <div class="form-group">  
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme Name <span class="required">*</span></label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($module->get('programmes_id')); ?>
+                            </div>
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Title<span class="required">*</span></label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($module->get('module_title'));?>
+                            </div>
+                        </div>
+                     </div>
+                    
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Code<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($module->get('module_code')); ?>
+                            </div>
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">Module Credit<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($module->get('module_credit')); ?>
+                            </div>
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">Module Type<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($module->get('module_type')); ?>
+                            </div>
+                        </div>
+                     </div>
+                        <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Year<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('year')); ?>
+                            </div>
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">Module Semester<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($form->get('semester')); ?>
+                            </div>
+                            <label class="control-label col-md-1 col-sm-1 col-xs-12">Contact Hours<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-1 col-xs-12">
+                              <?php echo $this->formRow($module->get('contact_hours')); ?>
+                            </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="form-group"> 
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Module Description (Brief)<span class="required">*</span> </label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                              <?php echo $this->formRow($module->get('module_description')); ?>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <?php
+                                   
+                                   echo $this->formHidden($form->get('csrf'));
+                                   echo $this->formSubmit($module->get('submit')); 
+                                ?>
+                                </div>
+                            </div>
+                       </div>
+                            <?php
+                            echo $this->form()->closeTag();
+                            ?>
+                        </div>
+                      </div>
+                </div>
+               <?php
+				 $title = 'Programme';
+				 $this->headTitle($title);
+			  ?>
+              <div class="col-md-12 col-xs-12">
+                  
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table table-bordered" width="100%">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" width="5%">S.No</th>
+                            <th class="column-title">Programme Name</th>
+                            <th class="column-title">Module Title</th>
+                            <th class="column-title">Module Code</th>
+                            <th class="column-title" width="5%">Credits</th>
+                            <th class="column-title" width="5%">Year</th>
+                            <th class="column-title" width="5%">Semester</th>
+                            <th class="column-title" width="5%">Contact Hours</th>
+                            <th class="column-title">Type</th>
+                            <th class="column-title">Status</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach ($this->modules as $module) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($this->programmeList[$module['programmes_id']]); ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_title']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_code']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_credit']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_year']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_semester']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['contact_hours']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['module_type']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($module['status']);?></td>
+                            <td><a href="<?php echo $this->url('viewmodule', array('id' => my_encrypt($module['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                            	<a href="<?php echo $this->url('editmodule', array('id' => my_encrypt($module['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                             	</td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                
+                </div></div></div></div>
+             
+          </div>
+        </div> 
+     </div>

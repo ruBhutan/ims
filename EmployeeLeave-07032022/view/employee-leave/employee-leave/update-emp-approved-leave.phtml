@@ -1,0 +1,117 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Staff Approved Leave Details';
+ $this->headTitle($title);
+
+ foreach($this->leave as $detail){
+     $leave_details = $detail;
+ }
+
+ 
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <div class="clearfix"></div>
+                  </div>
+                  <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                      echo '<strong>Success!</strong>'. $message;
+                    }
+                    echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }?>
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $leave = $form->get('cancelledleave');
+                    $leave->get('id')->setValue($leave_details['id']);
+                    $leave->get('employee_details_id')->setValue($leave_details['employee_details_id']);
+                    $leave->get('emp_leave_id')->setValue($leave_details['id']);
+                    $leave->get('cancelled_by')->setValue($this->employee_details_id);
+                    echo $this->formHidden($leave->get('id'));
+                    echo $this->formHidden($leave->get('employee_details_id'));
+                    echo $this->formHidden($leave->get('emp_leave_id'));
+                    echo $this->formHidden($leave->get('cancelled_by'));
+				            ?>
+                    <h4><i>Please make sure that when you cancel the leave No of days to cancel should not be greater than the actual leave approved.</i></h4>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Staff Name:</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['first_name']. ' '.$leave_details['middle_name'].' '.$leave_details['last_name']; ?>" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">No. of Days Applied for:</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['days_of_leave']; ?>" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Applied From Date:</label>
+                        <div class="col-md-2 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['from_date']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Applied To Date: </label>
+                        <div class="col-md-2 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $leave_details['to_date']; ?>" readonly>
+                        </div>
+                      </div><br>
+                      <h5><i>This information should be fill up by HRO/ ADM the no. of days of leave cancelled with from date and to date.</i></h5>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">No. of Days to cancel:</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <?php  echo $this->formRow($leave->get('no_of_days')); ?>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">From Date:(mm/dd/yyyy) </label>
+                        <div class="col-md-2 col-sm-9 col-xs-12">
+                          <?php  echo $this->formRow($leave->get('from_date')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">To Date:(mm/dd/yyyy) </label>
+                        <div class="col-md-2 col-sm-9 col-xs-12">
+                          <?php  echo $this->formRow($leave->get('to_date')); ?>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks (Optional):</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <?php  echo $this->formRow($leave->get('remarks')); ?>
+                        </div>
+                      </div>
+                     </br> 
+                    
+                    <div class="form-group">
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                       <?php
+                        echo $this->formRow($form->get('csrf'));
+            						echo $this->formSubmit($leave->get('submit'));
+                      ?>
+                      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $(window).on('beforeunload', function () {
+                                $("input[type=submit], input[type=button]").prop("disabled", "disabled");
+                            });
+                        </script>
+		      </div>
+                    </div>
+
+                </div>
+              </div>
+            </div></div></div>

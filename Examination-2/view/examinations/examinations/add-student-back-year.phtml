@@ -1,0 +1,174 @@
+<?php
+
+ $title = 'Add Modules to Repeat Semester Student';
+ $this->headTitle($title);
+
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><?php echo $this->escapeHtml($title)?></h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+              </ul> 
+              <div class="clearfix"></div>
+            </div>
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml("Search for Module Lists")?></h2>
+                  <div class="clearfix"></div>
+                </div>
+            <?php
+              // Opening of the form tag
+              $form->prepare();
+              echo $this->form()->openTag($form);
+              $form->get('semester')->setValueOptions($this->semesterList);
+              //$form->get('year')->setValueOptions($this->yearList);
+              ?>
+              <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>                  
+            <div class="x_content">
+            <h2 class="StepTitle">STUDENT DETAILS</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">NAME:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $studentDetails['name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">STUDENT ID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4><i><?php echo $studentDetails['student_id']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br/>
+              <h4><i>*Please select semester to get the list of modules to add in back year modules.</i></h4>
+              <div class="row">                  
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                  <label>Semester</label>
+                  <?php echo $this->formRow($form->get('semester')); ?>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="ln_solid"></div>
+                  <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                    <?php
+                      echo $this->formHidden($form->get('csrf'));
+                      echo $this->formSubmit($form->get('submit')); 
+                      echo $this->form()->closeTag(); 
+                    ?>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          <?php if($module_list){?>
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Module Lists <i class="blue">(Please check for the student repeat module and submit it!)</i></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <?php
+                $updateRepeatSemesterForm->setAttribute('action', $this->url('updaterepeatsemestermodule', array('action' => 'updateRepeatSemesterModule')));
+                $form->prepare();
+                echo $this->form()->openTag($updateRepeatSemesterForm);
+                $updateRepeatSemesterForm->get('moduleCount')->setValue($this->moduleCount);
+                $updateRepeatSemesterForm->get('student_id')->setValue($this->id);
+                $updateRepeatSemesterForm->get('semester')->setValue($this->semesterId);
+                $updateRepeatSemesterForm->get('programmes_id')->setValue($this->programmesId);
+                echo $this->formHidden($updateRepeatSemesterForm->get('id'));
+                echo $this->formHidden($updateRepeatSemesterForm->get('student_id')); 
+                echo $this->formHidden($updateRepeatSemesterForm->get('semester'));   
+                echo $this->formHidden($updateRepeatSemesterForm->get('programmes_id'));     
+                echo $this->formHidden($updateRepeatSemesterForm->get('moduleCount')); 
+                ?>
+                <div class="x_content">
+                  <div  class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action">  
+                        <thead>
+                            <tr class="headings">    
+                                <th class="column-title" width="5%">Sl.No. </th>
+                                <th class="column-title">Module Title</th>
+                                <th class="column-title">Module Code</th>
+                                <th class="column-title">Year</th>
+                                <th class="column-title">Semester</th>
+                                <th class="column-title">Action <small>(Check the module)</small></th>        
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <?php $i = 1;
+                          foreach($module_list as $key => $module){
+                          ?>
+                          <tr>
+                            <td class=" "><?php echo $i; ?></td>
+                            <td class=" "><?php echo $module['module_title']; ?></td>
+                            <td class=" "><?php echo $module['module_code']; ?></td>
+                            <td class=" "><?php echo $module['module_year']; ?></td>
+                            <td class=" "><?php echo $module['module_semester']; ?></td>
+                            <td class="a-center">
+                            <?php 
+                              if(in_array($module['module_code'], $this->assigned_module_list)) { ?>
+                                <?php 
+                                $updateRepeatSemesterForm->get('module_'.$i)->setValue('1');
+                                echo $this->formRow($updateRepeatSemesterForm->get('module_'.$i++)); 
+                                ?>  
+                                
+                              <?php }else{
+                                echo $this->formRow($updateRepeatSemesterForm->get('module_'.$i++));
+                              }
+                            ?>
+                            </td>
+                          </tr>
+                          <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                  <?php
+                    echo $this->formHidden($updateRepeatSemesterForm->get('csrf'));
+                    echo $this->formSubmit($updateRepeatSemesterForm->get('submit')); 
+                    echo $this->form()->closeTag(); 
+                ?>
+            </div>
+        </div> 
+          <?php } ?>
+
+      </div>  
+    </div>
+  </div> 
+</div>

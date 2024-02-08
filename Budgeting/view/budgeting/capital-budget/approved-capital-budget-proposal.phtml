@@ -1,0 +1,74 @@
+<?php
+ $title = 'List of Budget Proposals of Colleges/OVC to RUB';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No. </th>
+                            <th class="column-title">Activity Name</th>
+                            <th class="column-title">Broad Head Name</th>
+                            <th class="column-title">Object Code</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Proposed Amount</th>
+                            <th class="column-title">Approved Amount</th>
+                            <th class="column-title">Balance</th>
+                            <th class="column-title">Actions</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i =1; foreach ($this->budgetProposal as $proposal) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['activity_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['broad_head_name_id']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['object_code_id']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['write_up']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['proposed_budget_amount']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['budget_amount_approved']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['balance']);?></td>
+                            <td class=" "><a href="<?php echo $this->url('viewcapitalbudgetproposal', array('id' => my_encrypt($proposal['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                                    </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                 </div>
+             </div>
+    
+          </div>
+        </div> 
+     </div>
+     </div>
+     </div>

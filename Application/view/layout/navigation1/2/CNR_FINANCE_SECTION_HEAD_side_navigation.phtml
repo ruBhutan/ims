@@ -1,0 +1,74 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+<div class="menu_section">
+<h3><?php $userRole=$this->layout()->userRole; echo $userRole; $userRegion=$this->layout()->userRegion; echo ", $userRegion"; ?></h3>
+<ul class="nav side-menu">
+	<li><a><i class="fa fa-calendar"></i>Planning<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?php echo $this->url('viewfiveyearplan') ?>">View Vision and Mission</a></li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-bar-chart"></i>Budgeting<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Budget Proposal<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Captial Budget<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('capitalbudgetproposal') ?>">New Budget Proposal</a></li>
+						<li><a href="<?php echo $this->url('approvedcapitalbudgetproposal') ?>">Approved Budget</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Current Budget<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('budgetproposal') ?>">New Budget Proposal</a></li>
+						<li><a href="<?php echo $this->url('approvedbudgetproposal') ?>">Approved Budget</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Budget Re-Appropriation<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Capital Budget<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('capitalbudgetreappropriation') ?>">Apply Budget Re-Appropriation</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Current Budget<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('budgetreappropriation') ?>">Apply Budget Re-Appropriation</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Supplementary Budget<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Capital Budget<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('capitalsupplementarybudget') ?>">Apply Supplementary Budget</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Current Budget<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('currentsupplementarybudget') ?>">Apply Supplementary Budget</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Budget Withdrawal<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Capital Budget<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('capitalbudgetwithdrawal') ?>">Apply Budget Withdrawal</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Current Budget<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('currentbudgetwithdrawal') ?>">Apply Budget Withdrawal</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+</div>
+</div>

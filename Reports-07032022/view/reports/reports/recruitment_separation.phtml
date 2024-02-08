@@ -1,0 +1,42 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('List of Staff on Separation By Agency and Position Level'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+               <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Name </th>
+                     <th class="column-title">Position Level</th>
+                     <th class="column-title">Agency/College </th>
+                     <th class="column-title">Recruitment Date</th>
+                     <th class="column-title">Separation Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php $i=1; foreach ($this->hr_report as $list) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['first_name'].' '.$list['middle_name'].' '.$list['last_name']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['position_level']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['organisation_name']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['recruitment_date']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($list['separation_order_date']);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

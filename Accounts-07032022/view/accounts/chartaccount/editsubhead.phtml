@@ -1,0 +1,116 @@
+<?php
+/**
+* 
+* View -- of Accounts/ChartaccountController/editheadAction
+* 
+*/
+$title ="Edit Sub Head";
+?>
+<?php 
+  foreach($this->subheads as $subheadsrow):
+    extract($subheadsrow);
+  endforeach;
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>
+				 <?php echo $this->partial('accounts/chartaccount/partial.phtml', array('active' => 'subhead')); ?>
+				<div class="x_content">
+					<form method="post" action="<?php echo $this->url('chartaccount', array('action' => 'editsubhead', 'id' => $id)); ?>"  enctype="multipart/form-data" >                  
+						<div class ="row">
+                            <div class="col-lg-2"></div>	
+                            <div class ="col-xs-8">	
+								<div class="form-group col-lg-6">
+									<label for="shcode" class="control-label">Code</label>
+									<input type="hidden" id="subhead_id" name="subhead_id" class="form-control" value = "<?php echo $id;?>" required />
+									<input type="text" id="shcode" name="shcode" class="form-control" value="<?php echo $code;?>" size="14" maxlength="200" placeholder="Enter Sub Head Code" required />
+						        </div>
+								<div class="form-group col-lg-6">
+									<label for="shname" class="control-label">Name</label>
+									<input type="text" id="shname" name="shname" class="form-control" value = "<?php echo $name;?>" placeholder="Enter Sub Head Name" required />
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="head" class="control-label">Ledger</label>
+									<select id="head" name="head" class="form-control" data-placeholder="Head" required >
+										<option value=""></option>
+										<?php 
+										foreach ($this->headObj->getAll() as $headrow):
+											$selected = ($head_id==$headrow['id'])?"selected":"";
+										?>
+											<option value="<?php echo $headrow['id'];?>" <?php echo $selected;?>>
+												<?php echo $headrow['name']; ?>
+											</option>
+										<?php 
+										endforeach;
+										?>
+									</select>
+								</div>
+							</div>
+                            <div class ="col-lg-2"></div>
+                        </div>
+						<div class ="x_title"></div>
+						<div class ="row">
+						    <div class ="col-lg-2"></div>
+						    <div class ="col-lg-8">
+							    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+								<button type="button" class="btn btn-warning" onclick="javascript:history.back();" ><i class="fa fa-times"></i> Cancel </button>
+							</div>
+						    <div class ="col-lg-2"></div>
+						</div>
+					</form>
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+<script >
+	//$('form select').chosen({ allow_single_deselect: true });		
+	$('document').ready(function(){
+		$('form').formValidation({
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				shcode:{
+					validators: {
+						notEmpty: {
+							message: 'Please enter subhead code.'
+						}
+					}
+				},
+				shname:{
+					validators: {
+						notEmpty: {
+							message: 'Please enter sub head name.'
+						}
+					}
+				},
+				head:{
+					validators: {
+						notEmpty: {
+							message: 'Please select head.'
+						}
+					}
+				},
+			}
+		});
+	});
+</script>
+
+
+
+
+
+
+
+
+
+

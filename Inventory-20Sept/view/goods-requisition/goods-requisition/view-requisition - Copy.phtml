@@ -1,0 +1,226 @@
+<?php
+
+ $title = 'Goods Requisition Lists (Individual)';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    
+                    <!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Pending Requisition</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Approved Requisition</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Rejected Requisition</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab3" data-toggle="tab" aria-expanded="false">Forwarded Requisition</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab4" data-toggle="tab" aria-expanded="false">Forwarded Requisition Status</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                <div class="table-responsive">
+                                  <table class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Category</th>
+                                         <th class="column-title">Sub Category</th>
+                                         <th class="column-title">Item</th>
+                                         <th class="column-title">Quantity Type</th>
+                                         <th class="column-title">Requisition Quantity</th>
+                                         <th class="column-title">Applied Date</th>
+                                         <th class="column-title">Action</th>
+                                      </tr>
+                                </thead>
+                                <tbody>
+                                   <?php $i=1; foreach ($this->pendingRequisition as $pendinglist) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getCategory_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getSub_Category_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getItem_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getItem_Quantity_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getRequisition_Item_Quantity());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($pendinglist->getRequisition_Date());?></td>
+                                        <td><a href="<?php echo $this->url('indv-req-pending-details', array('id' => $pendinglist->getId()));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View Details</a></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                <div class="table-responsive">
+                                  <table class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                        <th class="column-title">Sl.No </th>
+                                        <th class="column-title">Category</th>
+                                        <th class="column-title">Sub Category</th>
+                                         <th class="column-title">Item</th>
+                                         <th class="column-title">Quantity Type</th>
+                                         <th class="column-title">Requisition Quantity</th>
+                                         <th class="column-title">Approved Quantity</th>
+                                         <th class="column-title">Approved Balance Quantity</th>
+                                         <th class="column-title">Applied Date</th>
+                                         <th class="column-title">Approved Date</th>
+                                         <th class="column-title">Action </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->approvedRequisition as $approvedList) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList->getCategory_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList->getSub_Category_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList->getItem_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList->getItem_Quantity_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList->getRequisition_Item_Quantity());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList->getApproved_Item_Quantity());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList->getApproved_Balance_Quantity());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList->getRequisition_Date());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($approvedList->getApproval_Date());?></td>
+                                        <td><a href="<?php echo $this->url('indv-req-approved-details', array('id' => $approvedList->getId()));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View Details</a></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                            <div class="table-responsive">
+                              <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                  <tr class="headings">
+                                    <th class="column-title">Sl.No </th>
+                                        <th class="column-title">Category</th>
+                                        <th class="column-title">Sub Category</th>
+                                        <th class="column-title">Item</th>
+                                        <th class="column-title">Quantity Type</th>
+                                        <th class="column-title">Requisition Quantity</th>
+                                        <th class="column-title">Applied Date</th>
+                                        <th class="column-title">Updated Date</th>
+                                        <th class="column-title">Action </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->rejectedRequisition as $rejectlist) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getCategory_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getSub_Category_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getItem_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getItem_Quantity_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getRequisition_Item_Quantity());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getRequisition_Date());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getApproval_Date());?></td>
+                                        <td><a href="<?php echo $this->url('indv-req-rejected-details', array('id' => $rejectlist->getId()));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View Details </a></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                            <div class="table-responsive">
+                              <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                  <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Category</th>
+                                         <th class="column-title">Sub Category</th>
+                                         <th class="column-title">Item</th>
+                                         <th class="column-title">Quantity Type</th>
+                                         <th class="column-title">Requisition Quantity</th>
+                                         <th class="column-title">Approved Quantity</th>
+                                         <th class="column-title">Applied Date</th>
+                                         <th class="column-title">Approved Date</th>
+                                      </tr>
+                                </thead>
+                                <tbody>
+                                   <?php $i=1; foreach ($this->forwardedRequisition as $forwardList) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardList->getCategory_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardList->getSub_Category_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardList->getItem_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardList->getItem_Quantity_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardList->getRequisition_Item_Quantity());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardList->getApproved_Item_Quantity());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardList->getRequisition_Date());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardList->getApproval_Date());?></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
+                            <div class="table-responsive">
+                              <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                  <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Category</th>
+                                         <th class="column-title">Sub Category</th>
+                                         <th class="column-title">Item</th>
+                                         <th class="column-title">Quantity Type</th>
+                                         <th class="column-title">Requisition Quantity</th>
+                                         <th class="column-title">Forward Quantity</th>
+                                         <th class="column-title">Applied Date</th>
+                                         <th class="column-title">Forward Date</th>
+                                         <th class="column-title">Forward Status</th>
+                                         <th class="column-title">Forwarded By</th>
+                                         <th class="column-title">Action </th>
+                                      </tr>
+                                </thead>
+                                <tbody>
+                                   <?php $i=1; foreach ($this->forwardedRequisitionStatus as $forwardStatus) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardStatus->getCategory_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardStatus->getSub_Category_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardStatus->getItem_Name());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardStatus->getItem_Quantity_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardStatus->getRequisition_Item_Quantity());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardStatus->getRequisition_Forward_Quantity());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardStatus->getRequisition_Date());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardStatus->getRequisition_Forward_Date());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardStatus->getRequisition_Forward_Status());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($forwardStatus->getFirst_Name()). ' ';
+                                                            echo $this->escapeHtml($forwardStatus->getMiddle_Name()). ' ';
+                                                            echo $this->escapeHtml($forwardStatus->getLast_Name());?></td>
+                                    <td><a href="<?php echo $this->url('indv-req-forwarded-details', array('id' => $forwardStatus->getId()));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View Details </a></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+
+                        
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

@@ -1,0 +1,199 @@
+<?php
+ $title = 'Record Counseling Details for Student';
+ $this->headTitle($title);
+ $appointmentDetails = array();
+ foreach($this->counselingDetail as $details)
+ {
+	 $appointmentDetails['id'] = $details['id'];
+   if($counselingType == 'Appointment'){
+    $appointmentDetails['subject'] = $details['subject'];
+    $appointmentDetails['reason'] = $details['description'];
+    $appointmentDetails['remarks'] = $details['remarks'];
+    $appointmentDetails['scheduled_time'] = $details['scheduled_time'];
+    $appointmentDetails['scheduled_date'] = $details['scheduled_date'];
+    $appointmentDetails['venue'] = $details['venue'];
+    $appointmentDetails['counselor_remarks'] = $details['counselor_remarks'];
+    $appointmentDetails['applicant_id'] = $details['applicant_id'];
+    $appointmentDetails['applicant_type'] = $details['applicant_type'];
+   }
+   else if($counselingType == 'Recommended'){
+    $appointmentDetails['subject'] = $details['subject'];
+    $appointmentDetails['reason'] = $details['reason'];
+    $appointmentDetails['remarks'] = $details['reason'];
+    $appointmentDetails['scheduled_time'] = $details['scheduled_time'];
+    $appointmentDetails['scheduled_date'] = $details['scheduled_date'];
+    $appointmentDetails['venue'] = $details['venue'];
+    $appointmentDetails['counselor_remarks'] = $details['counselor_remarks'];
+    $appointmentDetails['applicant_id'] = $details['suggested_id'];
+    $appointmentDetails['applicant_type'] = $details['suggested_type'];
+   }
+ }
+
+ $applicantDetail = array();
+ foreach($this->applicantDetails as $details)
+ {
+  if($this->applicantType == 1){
+    $applicantDetail['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'].' ('.$details['emp_id'].')';
+  }
+  else if($this->applicantType == 2){
+    $applicantDetail['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'].' ('.$details['student_id'].')';
+  }
+ }
+
+$key = $this->cryptKey;
+ function encryptIt($q, $key) {
+    $qEncoded      = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $key ), $q, MCRYPT_MODE_CBC, md5( md5( $key ) ) ) );
+    return( $qEncoded );
+}
+ 
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+				           $counsel = $form->get('counselingnotes');
+                   echo $this->formHidden($counsel->get('id')); 
+				           //need to get the counseling details
+				            $counsel->get('counselor')->setValue($this->employee_details_id);
+                    $counsel->get('scheduled_counseling_id')->setValue($this->scheduled_counseling_id);
+				            $counsel->get('applicant_id')->setValue($appointmentDetails['applicant_id']);
+                    $counsel->get('applicant_type')->setValue($appointmentDetails['applicant_type']);
+          				   echo $this->formHidden($counsel->get('applicant_id'));
+                     echo $this->formHidden($counsel->get('applicant_type'));
+          				   echo $this->formHidden($counsel->get('counselor'));
+                     echo $this->formHidden($counsel->get('scheduled_counseling_id'));
+                     $counsel->get('submit')->setValue('Record Notes');
+                   echo $this->formHidden($counsel->get('id'));
+                ?>
+                <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Applicant:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $applicantDetail['name']?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Subject:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['subject']?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['reason']; ?>"></textarea> 
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Scheduled Time:</label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo date('h:i A', strtotime($appointmentDetails['scheduled_time'])); ?>">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Scheduled Date:</label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['scheduled_date']; ?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" disabled="disabled" rows="3" placeholder='<?php echo $appointmentDetails['counselor_remarks']; ?>'></textarea>
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Counseling Date:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counsel->get('date')); ?>
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Counselor Notes:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counsel->get('notes')); ?>
+                    </div>
+                </div> 
+                </div>
+
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Document (s):<br><small>(Optional, you can upload if you have document only.)</small></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counsel->get('documents')); ?>
+                    </div>
+                </div> 
+                </div>
+           
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                   		<?php 
+          						  echo $this->formHidden($form->get('csrf'));
+          						  echo $this->formSubmit($counsel->get('submit')); 
+          						?>
+                    	</div>
+                    </div>
+                </div>
+                    <?php echo $this->form()->closeTag(); ?>
+                       
+                </div>
+              </div>
+            </div>
+       </div>       
+ 	</div>
+ 
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+    

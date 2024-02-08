@@ -1,0 +1,78 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('HR Recruitment Report'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+               <?php if($this->hr_report != NULL) {?>
+              <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                  <thead>                        
+                       <th class="column-title" style="width:20%">Position Level</th>
+                       <?php foreach($this->five_year_plan as $year): ?>
+                       <th class="column-title" style="width:7%"><?php echo $year; ?></th>
+                       <th class="column-title" style="width:7%"><?php echo $year; ?></th>
+                       <?php endforeach; ?>
+                  </thead>
+                  <thead>
+                      <th class="column-title">Type</th>
+                      <th class="column-title">R</th>
+                      <th class="column-title">C</th>
+                      <th class="column-title">R</th>
+                      <th class="column-title">C</th>
+                      <th class="column-title">R</th>
+                      <th class="column-title">C</th>
+                      <th class="column-title">R</th>
+                      <th class="column-title">C</th>
+                      <th class="column-title">R</th>
+                      <th class="column-title">C</th>
+                  </thead>
+                  <tbody>
+                    <?php foreach($position_level as $level) : ?>
+                    <tr class="even pointer">
+                      <td class=" "><?php echo $level;?></td>
+                      <?php for($i=0; $i<5; $i++){ ?>
+                      <td class=" "><?php 
+                                        if(array_key_exists($level, $this->hr_report)){
+                                                if(array_key_exists($this->five_year_plan[$i], $this->hr_report[$level])){
+                                                        if(array_key_exists('Regular', $this->hr_report[$level][$this->five_year_plan[$i]]))
+                                                                echo $this->hr_report[$level][$this->five_year_plan[$i]]['Regular'];
+                                                        else
+                                                                echo $this->escapeHtml(0);
+                                                } else
+                                                        echo $this->escapeHtml(0);
+                                        }
+                                        else 
+                                                echo $this->escapeHtml(0);
+                                        ?></td>
+                      <td class=" "><?php 
+                                        if(array_key_exists($level, $this->hr_report)){
+                                                if(array_key_exists($this->five_year_plan[$i], $this->hr_report[$level])){
+                                                        if(array_key_exists('Contract', $this->hr_report[$level][$this->five_year_plan[$i]]))
+                                                                echo $this->hr_report[$level][$this->five_year_plan[$i]]['Contract']; 
+                                                        else
+                                                                echo $this->escapeHtml(0);
+                                                } else
+                                                        echo $this->escapeHtml(0);
+                                        }
+                                        else 
+                                                echo $this->escapeHtml(0);
+                                        ?></td>
+                       <?php } ?>
+                    </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+               <?php } ?>
+              <!-- end of reports -->
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

@@ -1,0 +1,113 @@
+<?php
+ $title = 'COLLEGE  RESEARCH PUBLICATION APPLICATION DETAILS';
+ $this->headTitle($title);
+ $publication = array();
+ foreach($this->publicationDetail as $key=>$value){
+	 $publication[$key] = $value;
+ }
+  ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <div id="step-2">
+                      <h2 class="StepTitle">DETAILS</h2>
+                      <form class="form-horizontal form-label-left input_mask"><br/>
+                      <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Researcher Name</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <input type="text" placeholder="<?php echo $publication[0]['first_name']. ' '. $publication[0]['middle_name'].' '.$publication[0]['last_name']; ?> " class="form-control col-md-7 col-xs-12" disabled="disabled">
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Student/Employee ID</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <input type="text" placeholder="<?php echo $publication[0]['emp_id']; ?> " class="form-control col-md-7 col-xs-12" disabled="disabled">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                        <div class="form-group">  
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">College/University</label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" placeholder="<?php echo $publication[0]['organisation_name']; ?>" readonly="">
+                            </div>
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level</label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" placeholder="<?php echo $publication[0]['position_level'] ?>" readonly="">
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="form-group">  
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Email</label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" placeholder="<?php echo $publication[0]['email'] ?>" readonly="">
+                            </div>
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender</label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" placeholder="<?php echo $publication[0]['gender'] ?>" readonly="">
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="form-group">  
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Research Title</label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" placeholder="<?php echo $publication[0]['publication_name']; ?>" readonly="">
+                            </div>
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Publication Date</label>
+                           <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" placeholder="<?php echo $publication[0]['submission_date']; ?>" readonly="">
+                            </div>
+                        </div>
+                        </div>
+                     </form>
+                    </div>
+          
+
+               <?php
+      						// Opening of the form tag
+      						$form->prepare();
+      						echo $this->form()->openTag($form);
+      						$research = $form->get('researchrecommendation');
+      						$research->get('id')->setValue($publication[0]['id']);
+      						echo $this->formHidden($research->get('id'));       
+      					?>
+                  <h2 class="StepTitle">OVER ALL RECOMMENDATION</h2>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select the status</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <?php echo $this->formRow($research->get('publication_status')); ?>
+                         </div>
+                     </div>
+                     <br />
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <?php echo $this->formRow($research->get('remarks')); ?>
+                        </div>
+                     </div> 
+                     <center>
+              					 	<?php  
+              							echo $this->formHidden($form->get('csrf'));
+                            echo $this->formRow($research->get('submit')); 
+                            echo $this->form()->closeTag($form);
+                         ?>
+                    </center>
+          </div>
+       </div>
+     </div>
+   </div>
+    </div>
+   </div>
+     
+ </div>
+     
+        

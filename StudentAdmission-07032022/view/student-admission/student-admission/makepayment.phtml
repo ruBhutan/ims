@@ -1,0 +1,258 @@
+<?php
+    $title = 'Student Fees Payment';
+    $this->headTitle($title);
+    $key = $this->keyphrase;
+    function my_encrypt($data, $key) {
+        $encryption_key = base64_decode($key);
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+        $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+        return bin2hex(base64_encode($encrypted . '::' . $iv));
+    }
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Student Details</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="x_content">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation ID:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getOrganisation_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getStudent_Id()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getFirst_Name() . ' ' . $this->studentDetails->getMiddle_Name() . ' ' . $this->studentDetails->getLast_Name()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Email:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getEmail()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Contact No:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getContact_No()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getProgramme_Name()); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->escapeHtml($this->studentDetails->getStudent_Type()); ?>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="clearfix"></div>
+                </div><!--end of x-content-->
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <?php
+                  if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach ($messages as $message) {
+                      echo '<strong>Success!</strong>' . $message;
+                    }
+                    echo '</div>';
+                  } else if ($this->message == 'Failure' && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach ($messages as $message) {
+                      echo '<strong>Failure!</strong>' . $message;
+                    }
+                    echo '</div>';
+                  }
+                ?>
+                <div class="x_content">
+                    <h5><i>Instructions goes here.</i></h5><br/>
+                    <div class="fees-paid text-center col-lg-offset-4 col-lg-3" style="display: none;">
+                        <h2 class="bg-green">Fees already paid</h2>
+                    </div>
+                    <?php
+
+                        // Opening of the form tag
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $register = $form->get('makeFeesPayment');
+                        
+                        // Set form fields value
+                        $register->get('payment_type')->setValueOptions($this->paymentTypes);
+                    ?>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fee_category">Fee Category</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="margin-top: 8px;">
+                            <?php echo $this->escapeHtml($this->feeDetails['fee_category']); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="semester">Semester</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="margin-top: 8px;">
+                            <?php echo 'Semester ' . $this->escapeHtml($this->feeDetails['semester']) . ' - ' . $this->escapeHtml($this->feeDetails['year']); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="due_amount">Due Amount</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12 due_amount" style="margin-top: 8px;">
+                            
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="amount">Amount<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('amount')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="payment_type">Payment Type<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('payment_type')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: <?php echo ($register->get('cheque_no')->getValue() != "") ? 'block' : 'none' ; ?>;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cheque_no">Cheque No<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('cheque_no')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: <?php echo ($register->get('dd_no')->getValue() != "") ? 'block' : 'none' ; ?>;">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dd_no">Demand Draft No<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('dd_no')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">Status<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php echo $this->formRow($register->get('status')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="ln_solid"></div>
+                        <div class="form-group text-center">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?php
+                              echo $this->formHidden($register->get('csrf'));
+                              echo $this->formSubmit($register->get('submit'));
+                              ?>
+                            </div>
+                        </div>
+                    </div> 
+                    <?php
+                        //closing the form tag  
+                        echo $this->form()->closeTag();
+                    ?>
+                </div> <!-- End of x-content -->
+            </div>
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Student Previous Fees Payment</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <h5><i>Following are the list of student previous fees payment's data</i></h5>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Sl. No</th>
+                                    <th class="column-title">Payment Type </th>
+                                    <th class="column-title">Amount </th>
+                                    <th class="column-title">Cheque No </th>
+                                    <th class="column-title">DD No </th>
+                                    <th class="column-title">Status </th>
+                                    <th class="column-title">Created At </th>
+                                    <th class="column-title">Updated At </th>
+                                    <th class="column-title">Actions </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                  <?php $i = 1; $pendingAmount = $this->feeDetails['amount']; ?>
+                                  <?php foreach ($this->feePaymentDetails as $feePayment) : ?>
+                                  <tr class="even pointer">
+                                      <td class=" " width="5%"><?php echo $i; ?></td>
+                                      <td class=" " width="10%"><?php echo $this->escapeHtml($feePayment['type']); ?></td>
+                                      <td class=" " width="10%"><?php echo $this->escapeHtml($feePayment['amount']); ?></td>
+                                      <td class=" " width="10%"><?php echo $this->escapeHtml($feePayment['cheque_no']); ?></td>
+                                      <td class=" " width="10%"><?php echo $this->escapeHtml($feePayment['dd_no']); ?></td>
+                                      <td class=" " width="10%"><?php echo $this->escapeHtml($feePayment['status']); ?></td>
+                                      <td class=" " width="15%"><?php echo $this->escapeHtml($feePayment['created_at']); ?></td>
+                                      <td class=" " width="15%"><?php echo $this->escapeHtml($feePayment['updated_at']); ?></td>
+                                      <td class=" last" width="20%">
+                                          <a href="/public/addstudentfees/editpayment/<?php echo my_encrypt($feePayment['id'], $key); ?>" class="btn btn-info btn-xs">
+                                              <i class="fa fa-pencil"></i> Edit
+                                          </a>
+                                          <button data-id="<?php echo my_encrypt($feePayment['id'], $key); ?>" class="btn btn-danger btn-xs deleteFeePayment">
+                                              <i class="fa fa-trash"></i> Delete
+                                          </button>
+                                      </td>
+                                  </tr>
+                                  <?php $i++; if($feePayment['status'] == 'Completed') { $pendingAmount -= floatval($feePayment['amount']); } ?>
+                                  <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> 
+        </div> 
+    </div>
+</div>
+<script type="text/javascript">
+  
+  $(document).ready(function () {
+      $('.due_amount').html('<?php echo $pendingAmount; ?>');
+      $('#amount').attr('max', '<?php echo $pendingAmount; ?>');
+      $('#PaymentTypes').on('change', function () {
+          var type = $(this).val();
+          $('#cheque_no, #dd_no').removeAttr('required').parents('.form-group').css('display', 'none');
+          if (type === '2') {
+            $('#cheque_no').attr('required', 'required').parents('.form-group').css('display', 'block');
+          } else if (type === '3') {
+            $('#dd_no').attr('required', 'required').parents('.form-group').css('display', 'block');
+          }
+      });
+      if (parseInt(<?php echo $pendingAmount; ?>) === 0) {
+        $("#makeFeesPayment").remove();
+        $(".fees-paid").css('display', 'block');
+      }
+      $(".deleteFeePayment").on('click', function () {
+        if (confirm('Are you sure you want to delete this record?')) {
+          window.location = "/public/addstudentfees/deletepayment/"+$(this).data('id');
+        }
+      });
+  });
+  
+</script>

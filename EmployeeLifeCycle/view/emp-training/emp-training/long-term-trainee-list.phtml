@@ -1,0 +1,96 @@
+<?php
+ $title = 'Report from Long Term Trainings, Study etc. ';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+$updatedList = array();
+foreach ($this->updatedReportList as $value) {
+  $updatedList[] = $value['employee_details_id'];
+} 
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                     <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                    <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }?>
+                    <div class="table-responsive">
+                      <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                          <tr class="headings">     
+                            <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Staff Name</th>
+                            <th class="column-title">Staff ID</th>
+                            <th class="column-title">Department</th>
+                            <th class="column-title">Training From</th>
+                            <th class="column-title">Training To</th>
+                            <th class="column-title" style="width:15%">Action </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i = 1; foreach ($this->longTermTraineeList as $trainee) : ?>
+                            <tr>
+                                <td class=" "><?php echo $i++;?></td>
+                                <td class=" "><?php echo $this->escapeHtml($trainee['first_name'].' '.$trainee['middle_name'].' '.$trainee['last_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($trainee['emp_id']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($trainee['department_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($trainee['training_start_date']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($trainee['training_end_date']);?></td>
+                                <td>
+                                  <?php if(!in_array($trainee['employee_details_id'], $updatedList)) {?>
+                                  <a href="<?php echo $this->url('updatestudyreport', array('id' => my_encrypt($trainee['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>Study Report</a>
+                                       <a href="<?php echo $this->url('requeststudyextension', array('id' => my_encrypt($trainee['id'], $key)));?>" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i>Request Time Extension</a>
+                                     <?php } else
+                                     echo "Already updated the report";
+                                     ?>
+                                        </td>
+                            </tr>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+
+               </div>
+            </div>
+          </div> 
+        </div>
+      </div>
+     </div>
+          
+                     

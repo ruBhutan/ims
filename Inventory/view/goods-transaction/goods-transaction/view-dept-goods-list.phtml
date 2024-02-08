@@ -1,0 +1,191 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Division/ Section Goods Lists';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>     
+<div class="right_col" role="main">
+    <div class="">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Sub Stock</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Transfer Goods</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <br/>
+                                <!-- Display Purchased Goods in stock-->                                     
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Sub Stock Lists"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                    </div>
+                                    <h5><i>Following are the sub stock lists. In action there are two buttons namely "Transfer" and "Surrender". <b>Transfer:</b> To transfer to another sub store and <b>Surrender:</b> To return/ surrender back to store.</i></h5>
+                                    <div class="col-md-12 col-xs-12">
+                                      <div class="x_panel">
+                                        <?php 
+                                        if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                            echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                            $messages = $this->flashMessenger()->getMessages();
+                                            foreach($messages as $message) {
+                                                echo '<strong>Success!</strong>'. $message;
+                                            }
+                                            echo '</div>';
+                                        }
+
+                                        else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                            $messages = $this->flashMessenger()->getMessages();
+                                            foreach($messages as $message) {
+                                                echo '<strong>Failure!</strong>'. $message;
+                                            }
+                                            echo '</div>';
+                                        }
+
+                                    ?>
+                                              <div class="x_content">
+                                                <div class="table-responsive">
+                                                    <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                                                        <thead>
+                                                            <tr class="headings">
+                                                                <th class="column-title">Sl. No</th>
+                                                                <th class="column-title">Division/ Section</th>
+                                                                <th class="column-title">Item Name </th>
+                                                                <th class="column-title">Quantity </th>
+                                                                <th class="column-title">Item Sub Category </th>
+                                                                <th class="column-title">Date of Issue </th>
+                                                                <th class="column-title no-link last"><span class="nobr">Action</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                        <?php $i=1; ?>
+                                                        <?php foreach ($this->deptAllGoods as $deptGoods) : ?>
+                                                            <tr>
+                                                                <td><?php echo $i; ?></td>
+                                                                <td><?php echo $this->escapeHtml($deptGoods->getUnit_Name()); ?></td>
+                                                                <td><?php echo $this->escapeHtml($deptGoods->getItem_Name()); ?></td>
+                                                                <td><?php echo $this->escapeHtml($deptGoods->getDept_Quantity()); ?></td>
+                                                                <td><?php echo $this->escapeHtml($deptGoods->getSub_Category_Type()); ?></td>
+                                                                <td><?php echo $this->escapeHtml($deptGoods->getDate_Of_Issue()); ?></td>
+                                                                <td class=" last"><a href="<?php echo $this->url('apply-dept-goods-transfer', array('id' => my_encrypt($deptGoods->getId(), $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-send"></i> Transfer</a>
+                                                                  <a href="<?php echo $this->url('apply-dept-goods-surrender', array('id' => my_encrypt($deptGoods->getId(), $key))); ?>" class="btn btn-success btn-xs"><i class="fa fa-send"></i> Surrender</a>
+                                                                </td>
+                                                                
+                                                            </tr>
+                                                        <?php $i++; ?>
+                                                        <?php endforeach; ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                    
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                       <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                            <br/>
+                                <!-- Display Purchased Goods in stock-->                                     
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Transfered Goods"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                    </div>
+
+                                    <div class="col-md-12 col-xs-12">
+                                      <div class="x_panel">
+                                              <div class="x_content">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped jambo_table bulk_action">
+                                                        <thead>
+                                                            <tr class="headings">
+                                                                <th class="column-title">Sl. No</th>
+                                                                <th class="column-title">Department Unit Name</th>
+                                                                <th class="column-title">Item Name </th>
+                                                                <th class="column-title">Quantity </th>
+                                                                <th class="column-title">Item Sub Category </th>
+                                                                <th class="column-title">Item Category </th>
+                                                                <th class="column-title">Item Quantity Type </th>
+                                                                <th class="column-title">Transfer Date </th>
+                                                                <th class="column-title">Approved Date </th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                             <tbody>
+                                                        <?php $i=1; ?>
+                                                        <?php foreach ($this->transferedGoodsList as $deptGoods) : ?>
+                                                            <tr class="even pointer">
+                                                                <td class=" "><?php echo $i; ?></td>
+                                                                <td class=" "><?php echo $this->escapeHtml($deptGoods->getUnit_Name()); ?></td>
+                                                                <td class=" "><?php echo $this->escapeHtml($deptGoods->getItem_Name()); ?></td>
+                                                                <td class=" "><?php echo $this->escapeHtml($deptGoods->getTransfer_Quantity()); ?></td>
+                                                                <td class=" "><?php echo $this->escapeHtml($deptGoods->getSub_Category_Type()); ?></td>
+                                                                <td class=" "><?php echo $this->escapeHtml($deptGoods->getCategory_Type()); ?></td>
+                                                                <td class=" "><?php echo $this->escapeHtml($deptGoods->getItem_Quantity_Type()); ?></td>
+                                                                <td class=" "><?php echo $this->escapeHtml($deptGoods->getGoods_Transfer_Date()); ?></td>
+                                                                <td class=" "><?php echo $this->escapeHtml($deptGoods->getTransfer_Update_Date()); ?></td>
+                                                            </tr>
+                                                        <?php $i++; ?>
+                                                        <?php endforeach; ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                    
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+

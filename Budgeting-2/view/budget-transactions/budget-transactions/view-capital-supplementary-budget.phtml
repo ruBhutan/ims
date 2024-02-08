@@ -1,0 +1,113 @@
+<?php
+ $title = 'Capital Supplementary Budget Details';
+ $this->headTitle($title);
+ $budgetDetail = array();
+ foreach ($this->supplementaryBudget as $key=>$value){
+	 $budgetDetail[$key] = $value;
+ }
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+                </div>
+                  <div class="x_content">
+                	<br/>
+                     <?php
+						// Opening of the form tag
+						$form->prepare();
+						echo $this->form()->openTag($form);
+					?>
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Reference No<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['reference_no']; ?>">
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Reference Date<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['reference_date']; ?>">
+                            </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="form-group"> 
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Reasons<span class="required">*</span> </label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                              <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php  echo $budgetDetail[0]['reasons']; ?>'></textarea>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">    
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-3 col-xs-12">Activity Name<span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-6 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['activity_name']; ?>">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-3 col-xs-12">Broad Head Name<span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-6 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['broad_head_name']; ?>">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-3 col-xs-12">Object Code<span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-6 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['object_name']; ?>">
+                            </div>
+                          </div>
+                     </div>
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Approved Budget<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['budget_amount_approved']; ?>">
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Balance<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['balance']; ?>">
+                            </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Expenditure<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo 'Expenditure'; ?>">
+                            </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Supplementary Budget<span class="required">*</span></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $budgetDetail[0]['amount']; ?>">
+                            </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                </div>
+                            </div>
+                            <?php
+                            echo $this->form()->closeTag();
+                            ?>
+                       </div>
+                        </div>
+                      </div>
+                </div>
+
+             </div>
+           </div>
+          </div>
+        </div> 
+     </div>
+     
+     

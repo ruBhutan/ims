@@ -1,0 +1,326 @@
+<?php
+ $title = 'Job Applicant Details';
+ $this->headTitle($title);
+ $personal = array();
+ foreach($this->personalDetails as $detail){
+	 $personal = $detail;
+ }
+ $pay_scale = array();
+ foreach($this->payScale as $scale){
+     $pay_scale[$scale['position_level']] = $scale['minimum_pay_scale'].'-'.$scale['maximum_pay_scale'];
+ }
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+                 ?> 
+                  <!-- Personal Details Information-->
+                  <h2 class="StepTitle">Personal Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['first_name'].' '.$personal['middle_name'].' '.$personal['last_name']; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php if(array_key_exists('emp_id', $personal)) { echo $personal['emp_id']; } ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['date_of_birth']; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['nationality']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">CID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['cid']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Address:</label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">House No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['emp_house_no']; ?>"readonly>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Thram No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['emp_thram_no']; ?>"readonly>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Village:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['village_name']; ?>"readonly>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Gewog:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['gewog_name']; ?>"readonly>
+                       </div>
+                    </div>
+                  </div><div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Dzongkhag:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['dzongkhag_name']; ?>"readonly>
+                       </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Personal Details Information-->
+                  <!-- Education Details Information-->
+                   <h2 class="StepTitle">Education Details</h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Name of School/College</th>
+                            <th class="column-title">Location and Country</th>
+                            <th class="column-title">Field of Study</th>
+                            <th class="column-title">Start</th>
+                            <th class="column-title">End</th>
+                            <th class="column-title">Degree/Certificate Obtained</th>
+                            <th class="column-title">Aggregate Marks Obtained</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->educationDetails as $detail):?>
+                             <tr class="even pointer">
+                              <td><?php echo $detail['college_name']; ?></td>
+                              <td><?php echo $detail['college_location']; ?></td>
+                              <td><?php echo $detail['field_study']; ?></td>
+                              <td><?php echo $detail['start_date']; ?></td>
+                              <td><?php echo $detail['end_date']; ?></td>
+                              <td><?php echo $detail['study_level']; ?></td>
+                              <td><?php echo $detail['marks_obtained']; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+                  <!-- End of Education Details Information-->
+                  <!-- Training Details Information-->
+                   <h2 class="StepTitle">Training Details</h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Name of School/College</th>
+                            <th class="column-title">Location and Country</th>
+                            <th class="column-title">Field of Study</th>
+                            <th class="column-title">Start</th>
+                            <th class="column-title">End</th>
+                            <th class="column-title">Degree/Certificate Obtained</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->trainingDetails as $detail):
+						  		foreach($detail as $value):
+						  ?>
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($value['institute_name']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['institute_location']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['start_date']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['end_date']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                            </tr>
+                          <?php endforeach; 
+						  		endforeach;
+						  ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+                  <!-- End of Training Details Information-->
+                  <!-- Research Details Information-->
+                   <h2 class="StepTitle">Research Details</h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Title</th>
+                            <th style="width:15%" class="column-title">Date</th>
+                            <th style="width:55%" class="column-title">Purpose</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->researchDetails as $detail):
+						  		foreach($detail as $value):
+						  ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['year']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['purpose']); ?></td>
+                            </tr>
+                          <?php endforeach; 
+						  		endforeach;
+						  ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+                  <!-- End of Research Details Information-->
+                  <!-- Work Details Information-->
+                   <h2 class="StepTitle">Work History</h2>
+                      <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Working Agency</th>
+                            <th style="width:20%" class="column-title">Occupational Group</th>
+                            <th style="width:15%" class="column-title">Category</th>
+                            <th style="width:15%" class="column-title">Title</th>
+                            <th style="width:15%" class="column-title">Level</th>
+                            <th style="width:15%" class="column-title">From</th>
+                            <th style="width:15%" class="column-title">To</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->employmentDetails as $detail):
+						  		foreach($detail as $value):
+						  ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($value['working_agency']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['occupational_group']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['position_category']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['position_title']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['position_level']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['start_period']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['end_period']); ?></td>
+                            </tr>
+                          <?php endforeach; 
+						  		endforeach;
+						  ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+                  <!-- End of Work Details Information-->
+                  <!-- Present Job Details Information-->
+                  <h2 class="StepTitle">Present Job Identification</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $this->employmentDetails['position_title']; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $this->employmentDetails['position_level']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Pay Scale:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $pay_scale[$this->employmentDetails['position_level']]; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Category:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $this->employmentDetails['category']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Major Occupational Group:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $this->employmentDetails['major_occupational_group']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Last Promotion:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo "CID"; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Specific Duties and Responsibilities of the Position (table below):</label>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Agency/Department & Division/Unit</th>
+                            <th class="column-title">Position Title</th>
+                            <th class="column-title">Position Level</th>
+                            <th class="column-title">Date From</th>
+                            <th class="column-title">Date To</th>
+                            <th class="column-title">Place of Posting</th>
+                            <th class="column-title">Office Order No. & Date</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php //foreach($researchers as $detail):?>
+                             <tr class="even pointer">
+                              <td><?php echo "College Name"; ?></td>
+                              <td><?php echo "College Name"; ?></td>
+                              <td><?php echo "College Name"; ?></td>
+                              <td><?php echo "College Name"; ?></td>
+                              <td><?php echo "College Name"; ?></td>
+                              <td><?php echo "College Name"; ?></td>
+                              <td><?php echo "College Name"; ?></td>
+                            </tr>
+                          <?php //endforeach; ?>
+                      </tbody>
+                    </table>
+                  </div>
+                  <br />
+                  <!-- End of Job Details Information-->
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <br />
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

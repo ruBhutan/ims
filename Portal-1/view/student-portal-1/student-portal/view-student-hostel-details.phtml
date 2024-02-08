@@ -1,0 +1,106 @@
+<?php
+
+ $title = 'Student Hostel Room Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">   
+                    <br/>
+                    <?php
+                        $roomDetails = array();
+                        foreach ($this->studentHostelRoom as $room): {
+                            $roomDetails['hostel_name'] = $room['hostel_name'];
+                            $roomDetails['hostel_type'] = $room['hostel_type'];
+                            $roomDetails['hostel_category'] = $room['hostel_category'];
+                            $roomDetails['hostel_room_no'] = $room['hostel_room_no'];
+                            $roomDetails['provost_name'] = $room['provost_name'];
+                            $roomDetails['room_no'] = $room['room_no'];
+                        }
+                     ?>
+                            <h2>Hostel Room</h2>
+
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Hostel:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $roomDetails['hostel_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Hostel Type:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $roomDetails['hostel_type']; ?>
+                                        </div>
+                            </div><br/><br/> 
+                            <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Hostel Category:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $roomDetails['hostel_category']; ?>
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Hostel Total Room:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $roomDetails['hostel_room_no']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Your Room No:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $roomDetails['room_no']; ?>
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Hostel Provost:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $roomDetails['provost_name']; ?>
+                                        </div>
+                            </div>
+                            <?php endforeach; ?>
+                            <br/><br/>  
+                            <br/>
+                            <div class="x_title">
+                            <div class="clearfix"></div>
+                            </div><br/> 
+
+                            <h2>Hostel Room Inventory</h2>
+                            <div class="table-responsive">
+                                <table class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                        <tr class="headings">
+                                             <th class="column-title">Room No</th>
+                                             <th class="column-title">No of Chairs</th>
+                                             <th class="column-title">No of Tables</th>
+                                             <th class="column-title">No of Beds</th>
+                                             <th class="column-title">No of Sockets</th>
+                                             <th class="column-title">Lights</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php $i=1; foreach ($this->studentHostelInventory as $inventory) : ?>
+                                        <tr class="even pointer">
+                                            <td class=" "><?php echo $this->escapeHtml($inventory['hostel_room_no']); ?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($inventory['no_chairs']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($inventory['no_tables']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($inventory['no_beds']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($inventory['sockets']);?></td>
+                                            <td class=" "><?php echo $this->escapeHtml($inventory['lights']);?></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                                
+                            </div>
+                        
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+
+
+ 

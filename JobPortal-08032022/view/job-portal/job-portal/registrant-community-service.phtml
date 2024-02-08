@@ -1,0 +1,143 @@
+<?php
+ $title = 'Community Service Details';
+ $this->headTitle($title);
+
+   $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $registrant = $form->get('communityservice');
+                    $registrant->get('job_applicant_id')->setValue($this->job_applicant_id);
+                    echo $this->formHidden($registrant->get('id'));
+					         echo $this->formHidden($registrant->get('job_applicant_id'));
+				          ?> 
+                
+		<h4><i><font color="green">Only fill up the following form if you have any community services.</font></i></h4>  <br/>	
+		<h4><i><font color="red">***Please fill up the form to update your community service details. All star marks are mandatory field (s). Please don't make mistake while uploading file.</font></i></h4>  <br/>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                    echo '<strong>Success!</strong>'. $message;
+                    }
+                   echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }?> 
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Community Service Name:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('service_name')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Date:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('service_date')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:</label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('remarks')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Supporting File (Optional):</label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('supporting_file')); ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($registrant->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+        <!-- Start of table listing budget ledgers -->
+        <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Community Service Name</th>
+                            <th class="column-title">Date</th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i = 1; foreach ($this->serviceDetails as $detail) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['service_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($detail['service_date']);?></td>
+                            <td class=" last">
+                              <a href="<?php echo $this->url('editregistrantcommunityservice', array('id' => my_encrypt($detail['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+                              <?php if($detail['supporting_file']){?>
+                                <a href="<?php echo $this->url('downloadapplicantcommunityfile', array('filename'=> 'supporting_file'.$detail['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download Uploaded File</a>
+                                <?php } else {?>
+                                  <p><i><font color="blue">File Not Uploaded</font></i></p>
+                                  <?php } ?>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                  </div>
+               </div>
+             </div>
+        
+        
+    
+          </div>
+        </div> 
+     </div>

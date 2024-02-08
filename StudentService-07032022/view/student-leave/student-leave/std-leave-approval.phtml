@@ -1,0 +1,181 @@
+<?php
+ $title = 'Student Leave Details (DSA/Resident Coordinator)';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+      							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+      							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+      							$messages = $this->flashMessenger()->getMessages();
+      							foreach($messages as $message) {
+      								echo '<strong>Success!</strong>'. $message;
+      							}
+      							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }?>
+                	<!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Pending Leave</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Approved Approval</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Rejected Leave</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                          <div class="row">
+                             </div>
+                                <br/>
+                                <div class="table-responsive">
+                                  <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                        <th class="column-title">Student Name </th>
+                                        <th class="column-title">Student ID </th>
+                                        <th class="column-title">Type of Leave </th>
+                                        <th class="column-title">Date From</th>
+                                        <th class="column-title">Date To</th>
+                                        <th class="column-title">Outing On</th>
+                                        <th class="column-title">Reasons</th>
+                                        <th class="column-title">Leave Status</th>
+                                        <th class="column-title">Actions</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <?php if(!empty($this->pendingList)){?>
+                                       <?php foreach ($this->pendingList as $approval) : ?>
+                                        <tr>
+                                           <td class=" "><?php echo $this->escapeHtml($approval['first_name'].' '.$approval['middle_name'].' '.$approval['last_name']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approval['student_id']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approval['leave_category']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approval['from_date']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approval['to_date']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approval['outing_category']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approval['reasons']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approval['leave_status']);?></td>
+                                           <td><a href="<?php echo $this->url('approvestdleave', array('id' => my_encrypt($approval['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a></td>
+                                        </tr>
+                                     <?php endforeach; ?>
+                                   <?php } ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                       <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                        	<div class="row">
+                            </div>
+                            <br/>
+                                <div class="table-responsive">
+                                  <table id="datatable" class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                        <th class="column-title">Student Name </th>
+                                        <th class="column-title">Student ID </th>
+                                        <th class="column-title">Type of Leave </th>
+                                        <th class="column-title">Date From</th>
+                                        <th class="column-title">Date To</th> 
+                                        <th class="column-title">Outing On</th>
+                                        <th class="column-title">Reasons</th>
+                                        <th class="column-title">Leave Status</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php if(!empty($this->approvedList)){?>
+                                       <?php foreach ($this->approvedList as $approved) : ?>
+                                        <tr>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['first_name'].' '.$approved['middle_name'].' '.$approved['last_name']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['student_id']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['leave_category']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['from_date']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['to_date']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['outing_category']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['reasons']);?></td>
+                                           <td class=" "><?php echo $this->escapeHtml($approved['leave_status']);?></td>
+                                        </tr>
+                                     <?php endforeach; ?>
+                                   <?php } ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                          <div class="row">
+                          </div>
+                            <br/>
+                            <div class="table-responsive">
+                              <table id="datatable-keytable" class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                  <tr class="headings">
+                                    <th class="column-title">Student Name </th>
+                                    <th class="column-title">Student ID </th>
+                                    <th class="column-title">Type of Leave </th>
+                                    <th class="column-title">Date From</th>
+                                    <th class="column-title">Date To</th>
+                                    <th class="column-title">Outing On</th>
+                                    <th class="column-title">Reasons</th>
+                                    <th class="column-title">Leave Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                   <?php if(!empty($this->rejectList)){?>
+                                   <?php foreach ($this->rejectList as $reject) : ?>
+                                    <tr>
+                                       <td class=" "><?php echo $this->escapeHtml($reject['first_name'].' '.$reject['middle_name'].' '.$reject['last_name']);?></td>
+                                       <td class=" "><?php echo $this->escapeHtml($reject['student_id']);?></td>
+                                       <td class=" "><?php echo $this->escapeHtml($reject['leave_category']);?></td>
+                                       <td class=" "><?php echo $this->escapeHtml($reject['from_date']);?></td>
+                                       <td class=" "><?php echo $this->escapeHtml($reject['to_date']);?></td>
+                                       <td class=" "><?php echo $this->escapeHtml($reject['outing_category']);?></td>
+                                       <td class=" "><?php echo $this->escapeHtml($reject['reasons']);?></td>
+                                       <td class=" "><?php echo $this->escapeHtml($reject['leave_status']);?></td>
+                                    </tr>
+                                 <?php endforeach; ?>
+                               <?php } ?>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

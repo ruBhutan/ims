@@ -1,0 +1,365 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Employee Loan Deductions';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#loantype" role="tab" id="loantype-tab" data-toggle="tab" aria-expanded="true">Employee Loan </a>
+                      </li>
+                      <li role="presentation" class=""><a href="#empadvance" role="tab" id="empadvance-tab" data-toggle="tab" aria-expanded="false">Advance Taken by Employees</a>
+                      </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        
+                        <div role="tabpanel" class="tab-pane fade active in" id="loantype" aria-labelledby="loantype-tab">
+                        <p>
+                            <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      
+                      <div class="x_content">
+                    
+                        <div>
+                                            
+     <table class="table table-striped jambo_table bulk_action">
+  
+         <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Loan Type<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select class="form-control">
+                                <option>----Select---</option>
+                                <option>Vehicle Loan</option>
+                                <option>Education Loan</option>
+                                
+                               
+                            </select>
+                          </div>
+                        </div>  
+                        </div><br>
+         
+         <div class="row">
+             <div class="row">
+                            
+                          <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Employee Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <select class="form-control">
+                                <option>----Select----</option>
+                                <option>Dorji - 20150202</option>
+                                <option>Wangmo - 200102103</option>
+                               
+                            </select>
+                        
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Bank Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select class="form-control">
+                                <option>----Select---</option>
+                                <option>BOB</option>
+                                <option>BNB</option>
+                                <option>BDBL</option>
+                                <option>PNB</option>
+                                <option>BDBL</option>
+                                <option>RICBL</option>
+                               
+                            </select>
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Loan Amount<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="number" id="loan_amount" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Loan Term (Start Date)<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="date" id="loan_term" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                        
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Loan Term (End Date)<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="date" id="loan_term" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                        
+                        
+                    <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Loan Amount to be deducted(Monthly)<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="number" id="loan_amt_deduction" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                    </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <textarea class="form-control col-md-7 col-xs-12"></textarea>
+                          </div>
+                        </div>  
+                        </div><br>
+                      
+         <div class="row">
+             <div class="col-md-12 form-group">
+           <button class="btn btn-success">Submit</button>
+           <button class="btn btn-danger">Cancel</button>
+             </div></div>
+            
+</div></div></div></table></div></div></div>
+    
+
+            
+      <div class="x_panel">
+                               
+                <div class="x_content">
+                    
+                     <div class="table-responsive">
+                                         
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl.No </th>
+                            <th class="column-title">Employee Name </th>
+                            <th class="column-title">Employee ID </th>
+                            <th class="column-title">Loan Start Date </th>
+                            <th class="column-title">Loan End Date </th>
+                            <th class="column-title">Total Loan Availed(Nu) </th>
+                            <th class="column-title">Total Loan Balance(Nu)</th>
+                            <th class="column-title">Loan Deduction Amount(Monthly)</th>
+                            <th class="column-title no-link last"><span class="nobr">Lampsum</span>
+                            </th>
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Mendrel</td>
+                        <td>20141212</td>
+                        <td>20/04/2017</td>
+                        <td>20/04/2017</td>
+                        <td>950,000</td>
+                        <td>560,00</td>
+                        <td>12,500</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                        
+                        
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Dorji</td>
+                        <td>20162134</td>
+                        <td>20/04/2017</td>
+                        <td>20/04/2017</td>
+                        <td>750,000</td>
+                        <td>470,000</td>
+                        <td>10,500</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                        
+                      </tr>
+                      
+                      
+                      </tbody>
+                                            
+                      </table>
+                     </div></div></div></div></div>
+                    
+                            
+                            
+                        </p>
+                        
+                        </div>
+                  
+                  
+                  <div role="tabpanel" class="tab-pane fade" id="empadvance" aria-labelledby="empadvance-tab">
+                        <p>
+                      
+                            
+                            
+                            
+                            <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      
+                      <div class="x_content">
+                    
+                        <div>
+                                            
+     <table class="table table-striped jambo_table bulk_action">
+           
+         <div class="row">
+             <div class="row">
+                            
+                          <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Employee Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <select class="form-control">
+                                <option>----Select----</option>
+                                <option>Dorji - 20150202</option>
+                                <option>Wangmo - 200102103</option>
+                               
+                            </select>
+                        
+                          </div>
+                        </div>  
+                        </div><br>
+                        
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Advance Amount<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="number" id="loan_amount" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Advance Term (Start Date)<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="date" id="loan_term" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                        
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Advance Term (End Date)<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="date" id="loan_term" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                        
+                        
+                    <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Advance Amount to be deducted(Monthly)<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="number" id="loan_amt_deduction" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                    </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <textarea class="form-control col-md-7 col-xs-12"></textarea>
+                          </div>
+                        </div>  
+                        </div><br>
+                      
+         <div class="row">
+             <div class="col-md-12 form-group">
+           <button class="btn btn-success">Submit</button>
+           <button class="btn btn-danger">Cancel</button>
+             </div></div>
+            
+</div></div></div></table></div></div></div>
+    
+
+            
+      <div class="x_panel">
+                               
+                <div class="x_content">
+                    
+                     <div class="table-responsive">
+                                         
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl.No </th>
+                            <th class="column-title">Employee Name </th>
+                            <th class="column-title">Employee ID </th>
+                            <th class="column-title">Loan Start Date </th>
+                            <th class="column-title">Loan End Date </th>
+                            <th class="column-title">Total Advance Availed(Nu) </th>
+                            <th class="column-title">Total Advance Balance(Nu)</th>
+                            <th class="column-title">Advance Deduction Amount(Monthly)</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Mendrel</td>
+                        <td>20141212</td>
+                        <td>20/04/2017</td>
+                        <td>20/04/2017</td>
+                        <td>60,000</td>
+                        <td>50,000</td>
+                        <td>12,500</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                        
+                        
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Dorji</td>
+                        <td>20162134</td>
+                        <td>20/04/2017</td>
+                        <td>20/04/2017</td>
+                        <td>70,000</td>
+                        <td>40,000</td>
+                        <td>10,500</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                        
+                      </tr>
+                      
+                      
+                      </tbody>
+                                            
+                      </table>
+                     </div></div></div></div></div>
+                            
+                            
+                    </p>
+             </div>
+          </div>
+        </div>
+       </div>
+   </div>
+ </div>
+        </div>
+        </div>

@@ -1,0 +1,181 @@
+<?php
+ $title = 'Edit Term Adhoc Training Details';
+ $this->headTitle($title);
+
+$trainings = array();
+foreach($this->training_details as $details){
+	$trainings = $details;
+} //var_dump($trainings); die();
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+					$training = $form->get('employeetraining');
+                    echo $this->form()->openTag($form);
+					$training->get('id')->setValue($trainings['id']);
+					$training->get('order_no')->setValue($trainings['order_no']);
+					$order_date = explode("-",$trainings['order_date']);
+					$training->get('order_date')->setValue($order_date[01].'/'.$order_date[02].'/'.$order_date[00]);
+					$training->get('hrd_type')->setValue($trainings['hrd_type']);
+					//$training->get('training_category')->setValue($trainings['training_category']);
+					//$training->get('training_type')->setValue($trainings['training_type']);
+					$training->get('course_title')->setValue($trainings['course_title']);
+					$training->get('institute_name')->setValue($trainings['institute_name']);
+					$training->get('institute_location')->setValue($trainings['institute_location']);
+					$training->get('institute_country')->setValue($trainings['institute_country']);
+					$training->get('field_study')->setValue($trainings['field_study']);
+					
+					$training_start_date = explode("-",$trainings['training_start_date']); 
+					$training_end_date = explode("-",$trainings['training_end_date']); 
+					$training->get('training_start_date')->setValue($training_start_date[01].'/'.$training_start_date[02].'/'.$training_start_date[00].'-'.$training_end_date[01].'/'.$training_end_date[02].'/'.$training_end_date[00]);
+					
+					$training->get('course_level')->setValue($trainings['course_level']);
+					$training->get('source_of_funding')->setValue($trainings['source_of_funding']);
+					$training->get('proposing_agency')->setValue($trainings['proposing_agency']);
+					//$training->get('professional_development_no')->setValue($trainings['professional_development_no']);
+					$training->get('source_of_funding')->setValueOptions($this->fundingSource);
+                    $training->get('course_level')->setValueOptions($this->courseLevel);
+                    $training->get('institute_country')->setValueOptions($this->institute_country);
+					$training->get('proposing_agency')->setValue($this->proposing_agency);
+					$training->get('submit')->setValue('Update');
+					echo $this->formHidden($training->get('proposing_agency'));
+					echo $this->formHidden($training->get('hrd_type'));
+					 echo $this->formHidden($training->get('id'));
+				  ?> 
+
+                    <?php
+					  if($trainings['training_start_date'] < date('Y-m-d')){
+						  echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert"></button>';
+						echo '<strong>You are not allow to edit this particular training since training has been already started from '.$trainings['training_start_date'].'</strong>';
+						echo '</div>';
+					  } else { ?>
+                       
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Training/Long Term Study Order No.<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php  echo $this->formRow($training->get('order_no')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Training/Long Term Study Order Date<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php  echo $this->formRow($training->get('order_date')); ?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Training Category<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php  echo $this->formRow($form->get('training_category')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Training Type<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php  echo $this->formRow($form->get('training_type')); ?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <br />
+                	<h4><i>Training/Course Details:</i></h4>
+                    <br />
+                    <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Course Title<span class="required">*</span></label>
+                       <div class="col-md-8 col-sm-8 col-xs-12">
+                          <?php  echo $this->formRow($training->get('course_title')); ?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Study/Course Level<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php  echo $this->formRow($training->get('course_level')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Field Of Study<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php  echo $this->formRow($training->get('field_study')); ?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Training Start Date<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php  echo $this->formRow($training->get('training_start_date')); ?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <br />
+                	<h4><i>Institute Details:</i></h4>
+                    <br />
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Institute/University Name<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php  echo $this->formRow($training->get('institute_name')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Training/Study Location<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php  echo $this->formRow($training->get('institute_country')); ?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Training/Study Address<span class="required">*</span></label>
+                       <div class="col-md-8 col-sm-8 col-xs-12">
+                          <?php  echo $this->formRow($training->get('institute_location')); ?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Source of Funding<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php  echo $this->formRow($training->get('source_of_funding')); ?>
+                        </div>
+                    </div>
+                    </div>
+                   
+                    <div class="ln_solid"></div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <?php
+            						 echo $this->formHidden($form->get('csrf'));
+            						 echo $this->formSubmit($training->get('submit')); 
+                        ?>
+                        </div>
+                    </div>
+                    </div>
+                   <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                   </div>
+                </div>
+					  <?php } ?>
+              </div>
+
+           </div>
+         </div>
+	  </div>
+    </div>
+  

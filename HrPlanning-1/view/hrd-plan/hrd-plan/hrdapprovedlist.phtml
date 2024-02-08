@@ -1,0 +1,177 @@
+<?php
+
+ $title = 'HRD Approved Lists (RUB / OVC HRO)';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                     <br/>
+                     <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+                    
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?> 
+                	<!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Approved Trainings</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Not Approved Trainings</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Pending for Approval</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <br/>
+                               <div class="table-responsive">
+                      			<table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                                    <thead>
+                                      <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Course Title </th>
+                                         <th class="column-title">No.Of Slots</th>
+                                         <th class="column-title">Duration</th>
+                                         <th class="column-title">Training Type</th>
+                                         <th class="column-title">Funding Source</th>
+                                         <th class="column-title">Target Group</th>
+                                         <th class="column-title">Tuition Fees</th>
+                                         <th class="column-title">Country</th>
+                                         <th class="column-title">Priority</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->approvedList as $list) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getCourse_Title());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getTotal_No_Slots());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getDuration());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getTraining_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getSource_Of_Funding());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getTarget_Group());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getTuition_Fees());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getLocation_Of_Training());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($list->getPriority());?></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                    <br /><br />
+                                    <h7>Notes: Total Approved No. = existing no.+ Approved proposed no. and GAP=Total Approved no.-existing no.</h7>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                <br/>
+                                <div class="table-responsive">
+                                  <table id="datatable" class="table table-striped jambo_table table-bordered">
+                                    <thead>
+                                      <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Course Title </th>
+                                         <th class="column-title">No.Of Slots</th>
+                                         <th class="column-title">Duration</th>
+                                         <th class="column-title">Training Type</th>
+                                         <th class="column-title">Funding Source</th>
+                                         <th class="column-title">Target Group</th>
+                                         <th class="column-title">Tuition Fees</th>
+                                         <th class="column-title">Country</th>
+                                         <th class="column-title">Priority</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->rejectedList as $rejectlist) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getCourse_Title());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getTotal_No_Slots());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getDuration());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getTraining_Type());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getSource_Of_Funding());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getTarget_Group());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getTuition_Fees());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getLocation_Of_Training());?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($rejectlist->getPriority());?></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                    <h7>Notes: Total Approved No. = existing no.+ Approved proposed no. and GAP=Total Approved no.-existing no.</h7>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                            <br/>
+                            <div class="table-responsive">
+                              <table id="datatable-fixed-header" class="table table-striped jambo_table table-bordered">
+                                <thead>
+                                  <tr class="headings">
+                                     <th class="column-title">Sl.No </th>
+                                     <th class="column-title">Course Title </th>
+                                     <th class="column-title">No.Of Slots</th>
+                                     <th class="column-title">Duration</th>
+                                     <th class="column-title">Training Type</th>
+                                     <th class="column-title">Funding Source</th>
+                                     <th class="column-title">Target Group</th>
+                                     <th class="column-title">Tuition Fees</th>
+                                     <th class="column-title">Country</th>
+                                     <th class="column-title">Priority</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                   <?php $i=1; foreach ($this->pendingList as $pendinglist) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $i++;?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($pendinglist->getCourse_Title());?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($pendinglist->getTotal_No_Slots());?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($pendinglist->getDuration());?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($pendinglist->getTraining_Type());?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($pendinglist->getSource_Of_Funding());?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($pendinglist->getTarget_Group());?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($pendinglist->getTuition_Fees());?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($pendinglist->getLocation_Of_Training());?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($pendinglist->getPriority());?></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                                <h7>Notes: Total Approved No. = existing no.+ Approved proposed no. and GAP=Total Approved no.-existing no.</h7>
+                            </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

@@ -1,0 +1,143 @@
+<?php
+/**
+ * 
+ * View -- of Asse/PayrollController/viewpayrollemployeeAction
+ * 
+ */
+    $this->headTitle($this->title);
+?>
+
+<?php 
+foreach ($employee as $row):
+		extract($row);
+endforeach;
+$title = 'Employee and Pay Structure';
+?>
+<div class="right_col" role="main">
+	<div class=" ">
+		<div class="col-md-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2><?php echo $this->escapeHtml($title);?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="pull-right"></div>
+				<div class="row" id="convert-table">
+					<span class="col-xs-12 col-sm-4 center" id="convert-tab1">
+						<span class="profile-picture">
+							<img class="editable img-responsive"; alt="<?php echo $first_name; ?>" id="<?php echo $first_name; ?>" src="data:image/png;base64,<?php echo base64_encode($empimg);?>" />
+						</span>
+						<div class="space space-3"></div>
+						<div class="space space-3"></div>
+						<a class="btn btn-success" href="<?php echo $this->url('payroll',array('action'=>'paystructure','id'=>$id));?>" >Pay Structure</a>
+					</span>
+					<span class="col-xs-12 col-sm-8" id="convert-tab2">
+						<h4 class="blue">
+							<span class="middle"><?php echo $first_name." ".$middle_name." ".$last_name; ?></strong></span>
+							</span>
+						</h4>
+
+						<div class="profile-user-info">
+							<div class="profile-info-row">
+								<span class="profile-info-name"> EID / CID : </span>
+
+								<span class="profile-info-value">
+									<span><?php echo $emp_id;?> / <?php echo $cid;?></span>
+								</span>
+							</div>
+
+							<div class="profile-info-row">
+								<span class="profile-info-name"> DoB / Gender : </span>
+
+								<span class="profile-info-value">
+									<span><?php echo $date_of_birth;?> /  <?php echo $this->genderObj->getColumn($gender,'gender'); ?></span>
+								</span>
+							</div>
+							<div class="profile-info-row">
+								<span class="profile-info-name">Maritial Status/Blood Group : </span>
+								<span class="profile-info-value">
+									<span><?php echo $this->mObj->getColumn($marital_status,'maritial_status'); ?></span>/<span><?php echo $this->bgroupObj->getColumn($blood_group,'blood_group'); ?></span>
+								</span>
+							</div>
+
+							<div class="profile-info-row">
+								<span class="profile-info-name">Nationality / Religion : </span>
+
+								<span class="profile-info-value">
+									<span><?php echo $this->nObj->getColumn($nationality,'nationality');?> / <?php echo $this->religionObj->getColumn($religion,'religion');?></span>
+								</span>
+							</div>
+							<div class="profile-info-row">
+								<span class="profile-info-name">Permanent Add : </span>
+
+								<span class="profile-info-value">
+									<i class="fa fa-map-marker light-orange bigger-110"></i>
+									<span><?php echo $this->dzongkhagObj->getColumn($emp_dzongkhag,'dzongkhag_name');?></span>
+									<span><?php echo $this->gewogObj->getColumn($emp_gewog,'gewog_name');?></span>
+									<span><?php echo $this->villageObj->getColumn($emp_village,'village_name')?></span>
+								</span>
+							</div>
+							<div class="profile-info-row">
+								<span class="profile-info-name">Thram No. / House No. : </span>
+								<span class="profile-info-value">
+									<span><?php echo $emp_thram_no;?> / <?php echo $emp_house_no;?></span>
+								</span>
+							</div>
+							<div class="profile-info-row">
+								<span class="profile-info-name">Basic Pay : </span>
+								<span class="profile-info-value">
+									<span><?php echo $basicPAY;?></span>
+								</span>
+							</div>
+						</div>
+					</span>
+				</div>
+                <div class="x_content">
+					<div class="table-responsive">
+						<table id="datatable" class="table table-striped jambo_table bulk_action">
+							<thead>
+								<tr class="headings">
+									<th class="column-title" >Sl No</th>
+									<th>Organisation</th>
+									<th>Department</th>
+									<th>Department Unit</th>
+									<th>Major Occupational Group | Position Category</th>
+									<th>Position Title | Level</th>
+									<th>Pay Scale | Increment Type</th>
+								</tr>
+							</thead>
+							<tbody> 
+								<?php $i = 1;foreach ($empljp as $empjp): ?>
+									<tr>
+									    <td><?php echo $i++; ?></td>
+										<td>
+											<?php echo $this->orgaObj->getColumn($empjp['organisation_id'],"organisation_name"); ?>
+										</td>
+										<td>
+											<?php echo $this->deptObj->getColumn($empjp['departments_id'],"department_name"); ?>
+										</td>
+										<td>
+											<?php echo $this->deptutObj->getColumn($empjp['departments_units_id'],'unit_name'); ?>
+										</td>
+										<td>
+											<?php echo $this->mogObj->getColumn($empjp['major_occupational_group_id'],'major_occupational_group');?> | <?php echo $this->pcObj->getColumn($empjp['emp_category_id'],'category'); ?>
+										</td>
+										<td>
+											<?php echo $this->ptObj->getColumn($empjp['position_title_id'],'position_title');?> | <?php echo $this->plObj->getColumn($empjp['position_level_id'],'position_level'); ?>
+										</td>
+										<td>
+											<?php echo $empjp['pay_scale']; ?> | <?php echo $this->itypeObj->getColumn($empjp['increment_type_id'],'increment_type');?>
+										</td>
+									</tr>
+								<?php  endforeach; ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

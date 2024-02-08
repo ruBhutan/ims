@@ -1,0 +1,329 @@
+<?php
+ $title = 'COLLEGE ANNUAL RESEARCH GRANT APPLICATION FORM';
+ $this->headTitle($title);
+ 
+  //getting the aurg details
+ $chief_researcher = array();
+ $researchers = array();
+ $actionPlan = array();
+ $budgetPlan = array();
+ $carg = array();
+ $i = 0;
+ $j = 0;
+ $k = 0;
+  foreach($this->researcherDetails as $detail){
+   $chief_researcher = $detail;
+ }
+ foreach($this->cargDetails as $detail){
+	 $i++;
+	 foreach($detail as $key=>$value){
+		 if($key == "name" || $key == "researcher_type" || $key == "qualification" ||$key == "position_level" || $key == "appointment_date" || $key == "email" || $key == "phone_no" || $key == "researcher_category" ){
+		 $researchers[$i][$key] = $value;
+		 }else {
+			 $carg[$key] = $value;
+		 }
+	 }
+ }
+ foreach($this->actionPlanDetails as $detail){
+	 $j++;
+	 foreach($detail as $key=>$value){
+		 if($key == 'activity_name' || $key == 'time_frame' || $key == 'remarks'){
+			 $actionPlan[$j][$key] = $value;
+		 }
+	 }
+
+ }
+ foreach($this->budgetPlanDetails as $detail){
+	 $k++;
+	 foreach($detail as $key=>$value){
+		 if($key == 'purpose' || $key == 'amount' || $key == 'remarks'){
+			 $budgetPlan[$j][$key] = $value;
+		 }
+	 }
+
+ }
+ ?>
+ <div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><?php echo $this->escapeHtml($title); ?></h2>                   
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <h2>Grant</h2>
+                <form class="form-horizontal form-label-left input_mask"><br/>
+                  <div class="form-group">
+						        <label class="control-label col-md-3 col-sm-3 col-xs-12">Grant Applied For:</label>
+						        <div class="col-md-4 col-sm-4 col-xs-12">
+							       <h4><i><?php echo $carg['grant_applied_for']; ?></i></h4>
+						        </div>
+                      </form>
+                    </div>                
+
+                      <h2 class="StepTitle">Step 2:Principal Researcher</h2>
+                      <form class="form-horizontal form-label-left input_mask"><br/>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <h4><i><?php echo $chief_researcher['first_name'].' '.$chief_researcher['middle_name'].' '.$chief_researcher['last_name']; ?></i></h4>
+                        </div>
+                      </div>
+                      <!--<div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Qualification:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <h4><i><?php echo ""; ?></i></h4>
+                        </div>
+                      </div>-->
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Level:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <h4><i><?php echo $chief_researcher['position_level']; ?></i></h4>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Appointment Year:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <?php $date = explode("-", $chief_researcher['recruitment_date']); ?>
+                            <h4><i><?php echo $date[0]; ?></i></h4>
+                        </div>
+                      </div>         
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">E-mail:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <h4><i><?php echo $chief_researcher['email'] ?></i></h4>
+                        </div>
+                      </div>         
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Contact No:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <h4><i><?php echo $chief_researcher['phone_no'] ?></i></h4>
+                        </div>
+                      </div>         
+					         </form>
+					         <h2 class="Title">CARG Category Type</h2>     
+					         <form class="form-horizontal form-label-left input_mask"><br/>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Category:</label>
+                        <div class="col-md-4 col-sm-3 col-xs-12">
+                            <h4><i><?php echo $chief_researcher['carg_category_type'] ?></i></h4>
+                        </div>
+                      </div>
+                      </form>     
+
+                    <h2 class="StepTitle">Step 3: Co-Researcher</h2>
+                      <div class="form-group">
+                        <div class="col-md-2 col-sm-2 col-xs-12"></div>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <div class="table-responsive">
+                              <table class="table table-striped projects">
+                                <thead>
+                                  <tr class="headings">
+                                    <th class="column-title">Name </th>
+                                    <th class="column-title">Faculty/Student </th>
+                                    <th class="column-title">Qualification </th>
+                                    <th class="column-title">Position level </th>
+                                    <th class="column-title">Appointment Year </th>
+                                    <th class="column-title">Email </th>
+                                    <th class="column-title">Contact No </th>
+                                    <th class="column-title">CARG Category </th>
+                                  </tr>
+                                </thead>  
+                                <tbody>
+                                  <?php foreach($researchers as $detail):?>
+                                     <tr class="even pointer">
+                                      <td style="width:20%"><i><?php echo $detail['name']; ?></i></td>
+                                      <td><i><?php echo $detail['researcher_type']; ?></i></td>
+                                      <td><i><?php echo $detail['qualification']; ?></i></td>
+                                      <td><i><?php echo $detail['position_level']; ?></i></td>
+                                      <td><i><?php echo $detail['appointment_date']; ?></i></td>
+                                      <td><i><?php echo $detail['email']; ?></i></td>
+                                      <td><i><?php echo $detail['contact_no']; ?></i></td>
+                                      <td><i><?php echo $detail['researcher_category']; ?> </i></td>
+                                    </tr>
+                                  <?php endforeach; ?>
+                                </tbody>                                                    
+                              </table>
+                            </div>
+                         </div>
+                      </div>
+
+                    <div class="clearfix"></div>
+
+					         <h2 class="StepTitle">Step 4: Research/Project Title</h2>
+                    <form class="form-horizontal form-label-left input_mask"><br/>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Research Title:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <h4><i><?php echo $carg['research_title']; ?></i></h4>
+                        </div>
+                      </div>                
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Total Amount Requested:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <h4><i><?php echo $carg['amount_applied_for']; ?></i></h4>
+                        </div>
+                      </div>         
+                    </form>
+
+                    <div class="clearfix"></div>
+
+                    <h2 class="StepTitle">Step 5: Research/Project Summary</h2>
+                    <form class="form-horizontal form-label-left input_mask">        
+                      <div class="form-group">
+                        <h6><b>Note</b> :( Write a Plain English summary in no more than 150 words focusing on the overall goals and significance of the research/project )</h6>
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Research/Project Summary</label>
+						          <div class="col-md-9 col-sm-9 col-xs-12">
+							         <i><textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $carg['research_summary']; ?></textarea></i>
+						          </div>
+                      </div>
+					            <br>
+                      <div class="form-group">
+                        <div class="col-md-1 col-sm-2 col-xs-12"></div>
+                          <div class="col-md-10 col-sm-9 col-xs-12">
+                            <div class="table-responsive">
+                              <table class="table table-striped projects">
+                                 <thead>
+                                     <tr>
+                                         <th style="width:40%">Previously Received Grants</th>
+                                         <th style="width:10%">Yes/No</th>
+                                         <th style="width:10%">Year</th>
+                                         <th style="width:15%">Amount</th>
+                                         <th style="width:10%">Year</th>
+                                         <th style="width:15%">Amount</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr>
+                                         <td><i>Has the Principal Researcher previously received Annual Research University Grant(AURG)in past two years:</i></td>
+                                         <td><i><?php echo "Yes";?></i></td>
+                                         <td><i><?php echo "";?></i></td>
+                                         <td><i><?php echo "";?></i></td>
+                                         <td><i><?php echo "";?></i></td>
+                                         <td><i><?php echo "";?></i></td>
+                                     </tr>
+                                     <tr>
+                                         <td><i>Has the Principal Researcher previously received Annual Research College Grantin past two years::</i></td>
+                                         <td><i><?php echo "No";?></i></td>
+                                         <td><i><?php echo "";?></i></td>
+                                         <td><i><?php echo "";?></i></td>
+                                         <td><i><?php echo "";?></i></td>
+                                         <td><i><?php echo "";?></i></td>
+                                     </tr>
+                                 </tbody>
+                               </table>
+                            </div>
+                         </div>
+                      </div>
+                    </form>
+
+                    <div class="clearfix"></div>
+
+                    <h2 class="StepTitle">Step 6: Action Plan</h2>
+                    <h4 class="StepTitle">(Detail plan of action to implement this research/project)</h4>
+                    <div class="form-group">
+                        <div class="col-md-2 col-sm-2 col-xs-12"></div>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <div class="table-responsive">
+                              <table class="table table-striped projects">
+                                <thead>
+                                   <tr class="headings">
+                                   <th style="width:33%" class="column-title">Activity </th>
+                                   <th style="width:33%" class="column-title">Time Frame </th>
+                                   <th style="width:33%" class="column-title">Remarks </th>
+                                   </tr>
+                                </thead>  
+                                <tbody>
+                                   <?php foreach($actionPlan as $detail):?>
+                                   <tr>
+                                    <td><i><?php echo $detail['activity_name']; ?></i></td>
+                                    <td><i><?php echo $detail['time_frame']; ?></i></td>
+                                    <td><i><?php echo $detail['remarks']; ?></i></td>
+                                   </tr>
+                                   <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                            </div>
+                         </div>
+                      </div>
+
+                    <div class="clearfix"></div>
+                 	<h2 class="StepTitle">Step 7: Budget</h2> 
+       				<h4 class="StepTitle">(Provide detailed breakdown of budget requested in item 4 above)</h4>
+                    <div class="form-group">
+                        <div class="col-md-2 col-sm-2 col-xs-12"></div>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <div class="table-responsive">
+                              <table class="table table-striped projects">
+                              <thead>
+                                <tr class="headings">
+                                  <th class="column-title">Purpose </th>
+                                  <th class="column-title">Amount </th>
+                                  <th class="column-title">Remarks </th>
+                                </tr>
+                              </thead>  
+                             <tbody>
+                              <?php foreach($budgetPlan as $detail):?>
+                                <tr>
+                                  <td><i><?php echo $detail['purpose']; ?></i></td>
+                                  <td><i><?php echo $detail['amount']; ?></i></td>
+                                  <td><i><?php echo $detail['remarks']; ?></i></td>
+                                </tr>
+                              <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                            </div>
+                         </div>
+                      </div>
+
+                    <div class="clearfix"></div>
+                    <br /><br />
+                    <form class="form-horizontal form-label-left input_mask">  
+                    <div class="form-group">     
+                      <label class="control-label col-md-4 col-sm-4 col-xs-12">College Ethics Committee Approval Number: </label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                         <input type="text" class="form-control" value="<?php echo  $chief_researcher['crc_approval_no']; ?>" readonly="readonly">
+                      </div>
+                    </div>                                     
+                    <div class="form-group">     
+                      <label class="control-label col-md-4 col-sm-4 col-xs-12">Total Amount Granted by CRC: </label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                        <input type="text" class="form-control" value="<?php echo  $chief_researcher['crc_amount_granted']; ?>" readonly="readonly">
+                      </div>
+                    </div>             
+          				</form>
+
+                <h2 class="StepTitle">Step 8: Uploaded Documents</h2><br/>
+                <form class="form-horizontal form-label-left input_mask">             
+					     <div class="form-group">
+                      <label class="control-label col-md-4 col-sm-4 col-xs-12">Certification duly signed by all Researchers</label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                         <a href="<?php echo $this->url('downloadresearchdocument', array('filename' => 'signed_certification_researchers_'.$this->id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-4 col-sm-4 col-xs-12">Certification duly signed by all CRC Members</label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                         <a href="<?php echo $this->url('downloadresearchdocument', array('filename' => 'signed_certification_crc_'.$this->id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-4 col-sm-4 col-xs-12">Research Proposal Document</label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                          <a href="<?php echo $this->url('downloadresearchdocument', array('filename' => 'research_proposal_'.$this->id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                      </div>
+                    </div>                                      
+                    <div class="clearfix"></div>
+                    <div class="ln_solid"></div>
+                    </form>
+                  <br>
+			   </div>
+		    </div>
+       </div>
+   </div>
+  </div>
+ </div>
+ </div>
+   

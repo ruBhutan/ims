@@ -1,0 +1,62 @@
+<?php
+
+ $title = 'Attendance Record';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+<div class="right_col" role="main">
+  <div class="">
+    <div class="col-md-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="table-responsive">
+            <table class="table table-striped jambo_table bulk_action"> 
+              <div class="form-group">      
+              </div> 
+              <thead>
+                <tr class="headings">
+                  <th class="column-title">Sl. No</th>
+                  <th class="column-title">Assessment Component</th>
+                  <th class="column-title">Assessment </th>
+                  <th class="column-title">Date of Submission</th>
+                  <th class="column-title">Assessment Marks</th>
+                  <th class="column-title">Assessment Weightage </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="even pointer"><?php $i=1; foreach ($this->academic_assessment_details as $value) : ?>
+                  <td class=" "><?php echo $i++;?></td>
+                  <td class=" "><?php echo $this->escapeHtml($value['assessment_component']);?></td>
+                  <td class=" "><?php echo $this->escapeHtml($value['assessment']);?></td>
+                  <td class=" "><?php echo $this->escapeHtml($value['date_submission']);?></td>
+                  <td class=" "><?php echo $this->escapeHtml($value['assessment_marks']);?></td>
+                  <td class=" "><?php echo $this->escapeHtml($value['assessment_weightage']);?></td>
+                </tr><?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

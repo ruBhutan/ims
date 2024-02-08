@@ -1,0 +1,196 @@
+<?php
+ $title = 'Budget Re-Appropriation Proposal (College Finance Officer)';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+  }
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                  <?php
+                    // Opening of the form tag
+                    $budgetForm->setAttribute('action', $this->url('updatecapitalbudgetreappropriation', array('action' => 'updateCapitalBudgetReappropriation', 'id' => my_encrypt($this->id, $key))));
+                    $budgetForm->prepare(); 
+                    $budgetForm->get('id')->setValue($this->id);
+                    $budgetForm->get('status')->setValue('Submitted');
+                    echo $this->form()->openTag($budgetForm);
+					
+				          ?>
+                  <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>  
+                  <div class="row">    
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Reference No<span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <?php  echo $this->formRow($budgetForm->get('reference_no')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Reference Date<span class="required">*</span></label>
+                        <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                        <?php  echo $this->formRow($budgetForm->get('reference_date')); ?>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Purpose<span class="required">*</span></label>
+                        <div class="col-md-7 col-sm-6 col-xs-12">
+                          <?php  echo $this->formRow($budgetForm->get('purpose')); ?>
+                        </div>
+                      </div>
+                 </div>
+                 <br />
+                <!--start of reappropriation details -->
+                <div class="x_panel">
+                <div class="x_title">
+                  <h2><i><?php echo $this->escapeHtml('Reappropriation From Details: '); ?></i></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <h5><i>**Please note that any empty or zero values will be ignored.</i></h5>
+                  <br />
+                    <table class="table table-bordered">
+                            <thead>
+                              <tr class="headings">
+                                <th class="column-title">Activity Name</th>
+                                <th class="column-title">Broad Head Name</th>
+                                <th class="column-title">Object Code</th>
+                                <th class="column-title">Budget</th>
+                                <th class="column-title">Expenditure</th>
+                                <th class="column-title">Balance</th>
+                                <th class="column-title">Amount To Reappropriate</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                          <tr>
+                             <?php $i =0; foreach ($this->fromDataDetails as $data) : ?>
+                              <tr class="even pointer">
+                                <td class=" "><?php echo $this->escapeHtml($data['activity_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['broad_head_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['object_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['budget_amount_approved']);?></td>
+                                <td class=" "><?php echo "expenditure"; ?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['balance']);?></td>
+                                <td class=" "><?php echo $this->formRow($budgetForm->get('from_amount'.$this->id)); ?></td>
+                              </tr>
+                              <?php endforeach; ?>
+                          </tr>
+                         </tbody>
+                       </table>
+                </div>
+              </div>
+              <br />
+              <!-- End of Reappropriation From Details box-->
+              
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2><i><?php echo $this->escapeHtml('Reappropriation To Details:'); ?></i></h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                      </ul>
+                     <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                    <h5><i>**Please note that any empty or zero values will be ignored.</i></h5>
+                      <br />
+                    <table class="table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Activity Name</th>
+                            <th class="column-title">Broad Head Name</th>
+                            <th class="column-title">Object Code</th>
+                            <th class="column-title">Budget</th>
+                            <th class="column-title">Expenditure</th>
+                            <th class="column-title">Balance</th>
+                            <th class="column-title">Amount to Reappropriate</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <?php $i =0; foreach ($this->toDataDetails as $data) : ?>
+                          <tr class="even pointer">
+                                <td class=" "><?php echo $this->escapeHtml($data['activity_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['broad_head_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['object_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['budget_amount_approved']);?></td>
+                                <td class=" "><?php echo "expenditure"; ?></td>
+                                <td class=" "><?php echo $this->escapeHtml($data['balance']);?></td>
+                                <td class=" "><?php echo $this->formRow($budgetForm->get('to_amount'.$this->id)); ?></td>
+                              </tr>
+                          <?php endforeach; ?>
+                      </tr>
+                     </tbody>
+                   </table>
+                  
+                </div>
+              </div>
+                   <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php
+                           //echo $this->formHidden($budgetForm->get('organisation_id'));
+                           echo $this->formHidden($budgetForm->get('id'));
+                           echo $this->formHidden($budgetForm->get('status'));
+                           echo $this->formHidden($budgetForm->get('csrf'));
+                           echo $this->formSubmit($budgetForm->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+              
+              <!-- End of Reappropriation To Details-->
+             </div>
+        </div>
+       
+              	
+    
+          </div>
+        </div> 
+     </div>

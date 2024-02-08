@@ -1,0 +1,127 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+ $title = 'Requisition Approved Details';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+  <div class=" ">              
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><?php echo $this->escapeHtml($title); ?></h2>
+          <div class="clearfix"></div>
+        </div> <!--end of x-title-->      
+        <?php
+        // Opening of the form tag
+         $form->prepare();
+          echo $this->form()->openTag($form);
+          $details = $form->get('requisitionforwardupdate');
+          echo $this->form()->openTag($form);
+          $details->get('id')->setValue($this->reqApprovedDetails->getId());
+          $details->get('requisition_date')->setValue($this->reqApprovedDetails->getRequisition_Date());
+          $details->get('item_name_id')->setValue($this->reqApprovedDetails->getItem_Name());
+          $details->get('sub_category_type')->setValue($this->reqApprovedDetails->getSub_Category_Type());
+          $details->get('requisition_item_quantity')->setValue($this->reqApprovedDetails->getRequisition_Item_Quantity());
+          $details->get('item_specification')->setValue($this->reqApprovedDetails->getItem_Specification());
+          $details->get('purpose')->setValue($this->reqApprovedDetails->getPurpose());
+          //$details->get('approved_item_quantity')->setValue($this->approvedDetails->getApproved_Item_Quantity());
+          $details->get('approval_date')->setValue($this->reqApprovedDetails->getApproval_Date());
+          $details->get('department_name')->setValue($this->reqApprovedDetails->getDepartment_Name());
+          $details->get('unit_name')->setValue($this->reqApprovedDetails->getUnit_Name());
+          //$details->get('requisition_remarks')->setValue($this->approvedDetails->getRequisition_Remarks());
+
+        ?>
+        <br>
+        <h2><i>Staff Details</i></h2>
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Name</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+            <input type="text" placeholder="<?php 
+            echo $this->reqApprovedDetails->getFIrst_Name().' ';
+            echo $this->reqApprovedDetails->getMiddle_Name().' ';
+            echo $this->reqApprovedDetails->getLast_Name(); ?>" class="form-control" readonly> 
+          </div>
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID</label>
+          <div class="col-md-3 col=col-sm-3 col-xs-12">
+            <input type="text" placeholder="<?php echo $this->reqApprovedDetails->getEmp_Id(); ?>" class="form-control" readonly>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Department</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+            <?php  echo $this->formRow($details->get('department_name')); ?>
+          </div>
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Department Unit</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+            <?php  echo $this->formRow($details->get('unit_name')); ?>
+          </div>
+        </div><br>
+
+
+        <h2><i>Requisition Details</i></h2>                      
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Requisition Date</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+            <?php  echo $this->formRow($details->get('requisition_date')); ?>
+          </div>
+          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="sub_category_type">Sub Category Type</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+              <?php  echo $this->formRow($details->get('sub_category_type')); ?>
+          </div>
+        </div>
+										              
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Item Name</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+              <?php  echo $this->formRow($details->get('item_name_id')); ?> 
+          </div>
+          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="requisition_item_quantity">Requisition Quantity</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+              <?php  echo $this->formRow($details->get('requisition_item_quantity')); ?>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Item Specification</label>
+          <div class="col-md-8 col-sm-8 col-xs-12">
+              <?php  echo $this->formRow($details->get('item_specification')); ?>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Purpose</label>
+          <div class="col-md-8 col-sm-8 col-xs-12">
+              <?php  echo $this->formRow($details->get('purpose')); ?>
+          </div>
+        </div><br>
+
+        <h2><i>Requisition Approved Details</i></h2>
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Approved Date</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+            <?php  echo $this->formRow($details->get('approval_date')); ?>
+          </div>
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Approved Quantity</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+              <input type="text" placeholder="<?php echo $this->reqApprovedDetails->getApproved_Item_Quantity(); ?>" class="form-control" readonly> 
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Approved Balance Quantity</label>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+              <input type="text" placeholder="<?php echo $this->reqApprovedDetails->getApproved_Balance_Quantity(); ?>" class="form-control" readonly> 
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-2 col-sm-2 col-xs-12">Requisition Remarks</label>
+          <div class="col-md-8 col-sm-8 col-xs-12">
+              <Textarea type="text" rows="5" class="form-control" readonly><?php echo $this->reqApprovedDetails->getRequisition_Remarks(); ?></Textarea>
+          </div>
+        </div>
+
+        <?php echo $this->form()->closeTag(); ?> <!--//closing the form tag -->
+      </div><!--end of table-responsive-->
+    </div><!--end of x-panel -->
+  </div><!--end of col-md-12 col-sm-12 col-xs-12 -->
+</div><!--end of nav_menu-->

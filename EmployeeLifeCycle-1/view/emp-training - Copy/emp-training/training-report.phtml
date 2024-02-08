@@ -1,0 +1,64 @@
+<?php
+ $title = 'Report from Long Term Trainings, Workshops, Seminars etc. ';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                     <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                    <div class="table-responsive">
+                      <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                          <tr class="headings">     
+                            <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Field Study</th>
+                            <th class="column-title">Institute Name</th>
+                        	<th class="column-title">Institute Location</th>
+                        	<th class="column-title">Training From</th>
+                            <th class="column-title">Training To</th>
+                            <th class="column-title">Action </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i = 1; foreach ($this->longTermTrainingList as $training) : ?>
+                            <tr>
+                                  <td class=" "><?php echo $i++;?></td>
+                                  <td class=" "><?php echo $this->escapeHtml($training['field_study']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['institute_name']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['institute_location']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['training_start_date']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['training_end_date']);?></td>
+                                   <td><a href="<?php echo $this->url('viewlongtermtrainingreport', array('id' => $training['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>Training Report</a></td>
+                            </tr>
+                         <?php endforeach; ?>
+                         <?php foreach ($this->shortTermTrainingList as $training) : ?>
+                            <tr>
+                                  <td class=" "><?php echo $i++;?></td>
+                                  <td class=" "><?php echo $this->escapeHtml($training['title']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['institute_name']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['institute_location']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['workshop_start_date']);?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($training['workshop_end_date']);?></td>
+                                   <td><a href="<?php echo $this->url('viewshorttermtrainingreport', array('id' => $training['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>Training Report</a></td>
+                            </tr>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+
+               </div>
+            </div>
+          </div>
+          
+
+        </div>
+      </div>
+     </div>
+          
+                     

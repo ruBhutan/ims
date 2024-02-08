@@ -1,0 +1,133 @@
+<?php
+ $title = 'Edit Staff Leave Balance';
+ $this->headTitle($title);
+
+  $leave_details = array();
+ foreach($this->employee_leave_details as $detail){
+   $leave_details = $detail;
+ }
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form); 
+                   // $form = $form->get('employeeleavedetail');
+          					$form->get('id')->setValue($leave_details['id']);
+          					//$form->get('first_name')->setValue($leave_details['first_name']);
+                    $form->get('middle_name')->setValue($leave_details['middle_name']);
+                    $form->get('last_name')->setValue($leave_details['last_name']);
+                    $form->get('emp_id')->setValue($leave_details['emp_id']);
+                    $form->get('casual_leave')->setValue($leave_details['casual_leave']);
+                    $form->get('earned_leave')->setValue($leave_details['earned_leave']);
+                    $form->get('employee_details_id')->setValue($leave_details['employee_details_id']);
+                    $form->get('submit')->setValue('Update');
+                     echo $this->formHidden($form->get('employee_details_id'));
+                    echo $this->formHidden($form->get('id'));
+				          ?>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff Name:</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $leave_details['first_name'].' '.$leave_details['middle_name'].' '.$leave_details['last_name']; ?>" readonly="readonly">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $leave_details['emp_id']; ?>" readonly="readonly">
+                    </div>
+                </div>
+                </div>
+
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Casual Leave Balance: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php  echo $this->formRow($form->get('casual_leave')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Earned Leave Balance: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                     <?php  echo $this->formRow($form->get('earned_leave')); ?>
+                    </div>
+                </div>
+                </div>
+
+                 
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formRow($form->get('csrf'));
+						            echo $this->formSubmit($form->get('submit')); 
+                      ?>
+                        </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                </div>
+              </div>
+            </div>
+            <!-- Officating Table List-->
+            <div class="col-md-12 col-xs-12">
+                  
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml('Staff Leave Balance Details as of'); ?> (<?php echo date('Y-m-d'); ?>)</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                      <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action"> 
+                         <div class="form-group">      
+                      </div> 
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Staff ID </th>
+                            <th class="column-title">Staff Name </th>
+                            <?php if($this->organisation_id == 1) {?>
+                              <th class="column-title">Organisation</th>
+                            <?php } ?>
+                            <th class="column-title">Casual Leave Balance</th>
+                            <th class="column-title">Earned Leave Balance</th>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php $i=1; foreach ($this->empLeaveDetails as $leave) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($leave['emp_id']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($leave['first_name'].' '.$leave['middle_name'].' '.$leave['last_name']);?></td>
+                            <?php if($this->organisation_id == 1) {?>
+                              <td class=" "><?php echo $this->escapeHtml($leave['organisation_name']);?></td>
+                            <?php } ?>
+                            <td class=" "><?php echo $this->escapeHtml($leave['casual_leave']);?></td>
+                              <td class=" "><?php echo $this->escapeHtml($leave['earned_leave']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                     </table>
+                    </div>
+                    </div>
+                
+                </div>
+             </div>
+          </div>
+        </div>
+      

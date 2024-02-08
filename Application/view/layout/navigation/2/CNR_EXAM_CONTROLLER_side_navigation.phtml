@@ -1,0 +1,27 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+<div class="menu_section">
+<br><br><br>
+<ul class="nav side-menu">
+	<li><a><i class="fa fa-book"></i>Examination<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Examinations<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('addexamtimetable') ?>">Examination Timetable</a></li>
+					<li><a href="<?php echo $this->url('viewexamtimetable') ?>">View Examination Timetable</a></li>
+					<li><a href="<?php echo $this->url('assignexaminvigilator') ?>">Invigilation Duties</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Examination Codes<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('eligiblestudentlist') ?>">Eligible Student List</a></li>
+					<li><a href="<?php echo $this->url('noneligiblestudentlist') ?>">Non Eligible Student List</a></li>
+					<li><a href="<?php echo $this->url('generateexamcode') ?>">Generate Examination Code</a></li>
+					<li><a href="<?php echo $this->url('viewexamcode') ?>">View Examination Code</a></li>
+			</ul>
+			</li>
+			<li><a href="<?php echo $this->url('addexamhall') ?>">Exam Halls</a></li>
+		</ul>
+	</li>
+</ul>
+</div>
+</div>

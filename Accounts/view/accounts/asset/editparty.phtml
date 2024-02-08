@@ -1,0 +1,196 @@
+<?php
+/**
+ *
+ * View -- of Accounts/AssetController/editpartyAction
+ *
+ */
+ $title = 'Edit Party';
+ $this->headTitle($title);
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<?php
+    foreach($this->party as $party):
+        extract($party);
+    endforeach;
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>
+                <?php echo $this->partial('accounts/asset/partial.phtml', array('active' => 'party')); ?>
+				<div class="x_content">
+					<form id="form" method="post" action="<?php echo $this->url('asset', array('action' => 'editparty', 'id' => my_encrypt($id, $key))); ?>" enctype="multipart/form-data" >
+						<div class="row">
+							<div class="form-group col-lg-4">
+								<label for="name" class="control-label">Name</label>
+								<input type="text" class="form-control" name="name" id="name" value="<?php echo $supplier_name; ?>" required>
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="code" class="control-label">Party Code</label>
+								<input type="text" class="form-control" name="code" id="code" placeholder="code" value="<?php echo $supplier_code; ?>"required>
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="organisation" class="control-label">Organisation</label>
+								<select class="form-control" id="organisation" name="organisation" required >
+									<option value=""></option>
+									<?php
+									   foreach ($this->serviceObj->getDatabyParam('organisation', array('id'=>$userorg), null) as $row):
+										   $selected = ($organisation_id==$row['id'])?"selected":"";
+									?>
+										<option value="<?php echo $row['id'];?>"<?php echo $selected; ?>>
+											<?php echo $row['organisation_name'];?>
+										</option>
+									<?php
+									endforeach;
+									?>
+								</select>
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="party_role" class="control-label">Party Role</label>
+								<select class="form-control" id="party_role" name="party_role" data-placeholder="Select" >
+									<option value=""></option>
+									<?php
+									foreach ($this->serviceObj->getDatabyParam('accounts_party_role', null, null) as $prole_row):
+										$selected = ($party_role_id == $prole_row['id'])? "selected":"";
+									?>
+										<option value="<?php echo $prole_row['id'];?>" <?php echo $selected	?>>
+											<?php echo $prole_row['party_role'];?>
+										</option>
+									<?php endforeach;?>
+								</select>
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="supplier_license_no" class="control-label">License No. </label>
+								<input type="text" class="form-control" name="supplier_license_no" id="supplier_license_no" value ="<?php echo $supplier_license_no;?>" placeholder="license no" required>
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="supplier_tpn_no" class="control-label">TPN No. </label>
+								<input type="text" class="form-control" name="supplier_tpn_no" id="supplier_tpn_no" value ="<?php echo $supplier_tpn_no;?>"  placeholder="supplier_contact_no" required>
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="supplier_bank_acc_no" class="control-label">Bank Accounts No. </label>
+								<input type="text" class="form-control" name="supplier_bank_acc_no" id="supplier_bank_acc_no" value ="<?php echo $supplier_bank_acc_no;?>"  placeholder="supplier_contact_no" required>
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="supplier_contact_no" class="control-label">Contact No. </label>
+								<input type="text" class="form-control" name="supplier_contact_no" id="supplier_contact_no" value ="<?php echo $supplier_contact_no;?>"  placeholder="supplier_contact_no" required>
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="active" class="control-label">Check</label>
+								<?php
+									$supplier_active =  ($supplier_status=='1')?'checked':'';
+									$supplier_inactive = ($supplier_status=='0')?'checked':'';
+
+								?>
+								<div class="radio">
+									<label>
+										<input type="radio" name="active" id="active" value="1" <?php echo $supplier_active; ?> required>
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Active
+									</label>
+									&nbsp;&nbsp;&nbsp;
+									<label>
+										<input type="radio" name="active" id="active" value="0" <?php echo $supplier_inactive; ?> required>
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inactive
+									</label>
+								</div>
+							</div>
+							<div class="form-group col-lg-4">
+								<label for="address" class="control-label">Address</label>
+								<textarea class="form-control" name="address" id="address"><?php echo $supplier_address;?></textarea>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12">
+								<h5 class='header blue'>Sub Ledger Details</h5>
+								<table id="head_table" class="table small-padding">
+									<thead>
+										<tr>
+											<th>Sub Ledgers</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php 
+											$count=sizeof($subhead_details);
+											if($count > 0): 
+												$i = 0;
+												foreach($subhead_details as $subhead_detail):?>
+													<tr>
+													    <input type="hidden" class="form-control" name="subhead_id[]" id="subhead_id" placeholder="" value =" <?php echo $subhead_detail['id'];?>" required>
+														<td><?php echo $subhead_detail['code'];?></td>
+													</tr>
+												<?php endforeach;?>
+											<?php else:?>
+		                                            <td><b class ="red">
+											        <?php echo "Sub Ledgers are not found to be map.";?></b>
+													</td>
+											<?php endif;?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+                        <?php if($count > 0 ):?>
+						<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+						<button type="button" class="btn btn-warning" onclick="javascript:history.back();" ><i class="fa fa-times"></i> Cancel </button>
+					    <?php endif; ?>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function() {
+		$('form').formValidation({
+			framework: 'bootstrap',
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				code: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide code.'
+						},
+					}
+				},
+				name: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide name.'
+						},
+					}
+				},
+				head: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide head.'
+						},
+					}
+				},
+				organisation: {
+					validators: {
+						notEmpty: {
+							message: 'Please select organisation.'
+						},
+					}
+				},
+			}
+		});
+	});
+</script>

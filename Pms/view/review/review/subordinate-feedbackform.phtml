@@ -1,0 +1,100 @@
+<?php
+ $title = 'Employee Details';
+ $this->headTitle($title);
+ $personal = array();
+ foreach($this->revieweeDetails as $detail){
+	 $personal = $detail;
+ }
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <form>   
+                 <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Appraisal Period</label>
+                      <h4 class="blue"><i><?php echo $personal['appraisal_period']; ?></i></h4>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee Name</label>
+                      <h4 class="blue"><i><?php echo $personal['first_name'].' '.$personal['middle_name'].' '.$personal['last_name']; ?></i></h4>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee ID No.</label>
+                      <h4 class="blue"><i><?php echo $personal['emp_id']; ?></i></h4>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Title</label>
+                      <h4 class="blue"><i><?php echo $personal['position_title']; ?></i></h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Department/Division</label>
+                      <h4 class="blue"><i><?php echo $personal['department_name']; ?></i></h4>
+                  </div>
+                </div>
+              </form>
+          </div>
+         </div>
+        </div>
+		<?php
+         $title = 'Sub-Ordinate Feedback Form';
+         $this->headTitle($title);
+        ?>         
+         <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+					$form->get('appraisal_period')->setValue($personal['appraisal_period']);
+					$form->get('employee_details_id')->setValue($personal['employee_details_id']);
+					echo $this->formHidden($form->get('id'));
+					echo $this->formHidden($form->get('employee_details_id'));
+					echo $this->formHidden($form->get('appraisal_period'));
+				  ?>
+                    <br />
+                     	
+						<?php $i = 1; foreach ($this->subordinateFeedback as $key => $value): ?>
+                         <div class="form-group">
+                          <div class="radio">
+                            <label class="col-md-5 col-sm-4 col-xs-12">
+                            	<b><?php echo $value; ?></b>
+                            </label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <?php echo $this->formRow($form->get('evaluation'.$i++));?>
+                            </div>
+                          </div>
+                         </div>
+                         <?php endforeach; ?>
+                          <div class="ln_solid"></div>
+                          <div class="form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                              <?php
+							   echo $this->formHidden($form->get('csrf'));
+							   echo $this->formSubmit($form->get('submit')); 
+							   echo $this->form()->closeTag(); 
+							?>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
+                </div>             
+            </div>
+          </div>      
+ 

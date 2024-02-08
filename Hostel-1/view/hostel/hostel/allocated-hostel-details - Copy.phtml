@@ -1,0 +1,51 @@
+<?php
+ $title = 'Hostel Allocation for Students';
+ $this->headTitle($title);
+ $roomDetails = array();
+ foreach ($this->hostelAllocationDetails as $details)
+ {
+	if(empty($roomDetails[$details['room_no']]))
+		$roomDetails[$details['room_no']] = $details['student_name']. '(' .$details['std_id'].')' .'<br />';
+	else{
+		$roomDetails[$details['room_no']] .= $details['student_name']. '(' .$details['std_id'].')';
+	}
+		
+ }
+ 
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>  
+                      <div class="table-responsive">
+                      <table class="table table-bordered"> 
+                        <tbody>
+                          <?php $j=1; for($i=1; $i<7; $i++) {?>
+                          <tr class="even pointer">
+                          	<td class=" "><b>ROOM NO: <?php echo $j;?></b><br /><br /><?php if(isset($roomDetails[$j])) { echo $roomDetails[$j++];  }?></td>
+                            <td class=" "><b>ROOM NO: <?php echo $j;?></b><br /><br /><?php if(isset($roomDetails[$j])) { echo $roomDetails[$j++];  }?></td>
+                            <td class=" "><b>ROOM NO: <?php echo $j;?></b><br /><br /><?php if(isset($roomDetails[$j])) { echo $roomDetails[$j++];  }?></td>
+                            <td class=" "><b>ROOM NO: <?php echo $j;?></b><br /><br /><?php if(isset($roomDetails[$j])) { echo $roomDetails[$j++];  }?></td>
+                            <td class=" "><b>ROOM NO: <?php echo $j;?></b><br /><br /><?php if(isset($roomDetails[$j])) { echo $roomDetails[$j++];  }?></td>
+                            <td class=" "><b>ROOM NO: <?php echo $j;?></b><br /><br /><?php if(isset($roomDetails[$j])) { echo $roomDetails[$j++];  }?></td>
+                            <td class=" "><b>ROOM NO: <?php echo $j;?></b><br /><br /><?php if(isset($roomDetails[$j])) { echo $roomDetails[$j++];  }?></td>
+                          </tr>
+                          <?php } ?>
+                        </tbody>
+                      </table>
+                                        
+                    </div>
+                 </div>
+              </div>
+            </div>
+         </div>
+      </div>
+            
+   

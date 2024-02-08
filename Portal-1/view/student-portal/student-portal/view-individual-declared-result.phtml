@@ -1,0 +1,84 @@
+<?php
+
+ $title = 'Result (s) Details';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+$module = array();
+foreach($this->module_details as $details){
+    $module = $details;
+} 
+?>
+
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                    <?php
+
+                    ?>
+                        <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                         <div class="form-group">      
+                      </div> 
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Module</th>
+                            <th class="column-title">Credit Value </th>
+                            <th class="column-title">Year of Passing</th>
+                            <th class="column-title">Type</th>
+                            <th class="column-title">Max Marks</th>
+                            <th class="column-title">Marks Secured</th>
+                            <th class="column-title">Total Marks</th>
+                            <th class="column-title">Tocal CV</th>
+                            <th class="column-title">Remarks</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                          <?php $i=1; foreach ($this->ca_details as $details) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($details['assessment']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($details['date_submission']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($details['marks']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($details['assessment_marks']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($details['assessment_weightage']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                
+                </div>
+                </div>
+                </div>
+                </div>
+             
+          </div>
+        </div> 
+     </div>         

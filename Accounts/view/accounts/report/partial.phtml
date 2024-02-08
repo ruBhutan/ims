@@ -1,0 +1,29 @@
+<?php // partial.phtml 
+  $ledger = ($this->active == "ledger")?"active":"";
+  $trialbalance = ($this->active == "trialbalance")?"active":"";
+  $profitloss = ($this->active == "profitloss")?"active":"";
+  $balancesheet = ($this->active == "balancesheet")?"active":"";
+  $cashflow = ($this->active == "cashflow")?"active":"";
+  $bankreconciliation = ($this->active == "bankreconciliation")?"active":"";
+  $bankstatement = ($this->active == "bankstatement")?"active":"";
+?>
+<br/>
+<!-- Start a tab -->
+<!--<div class="" role="tabpanel" data-example-id="togglable-tabs">-->
+	<ul id="myTab" class="nav nav-tabs bar_tabs">
+		<li role="presentation" class="<?php echo $ledger; ?>"> <a href="<?php echo $this->url('report', array('action' => 'ledger')); ?>"><i class="blue ace-icon fa fa-globe bigger-120"> </i> Ledger & Sub-Ledger </a></li>
+		
+		<li role="presentation" class="<?php echo $trialbalance; ?>"><a href="<?php echo $this->url('report', array('action' => 'trialbalance')); ?>" > <i class="blue ace-icon fa fa-sitemap bigger-120"> </i>Trail Balance</a></li>
+		
+		<li role="presentation" class="<?php echo $profitloss; ?>"><a href="<?php echo $this->url('report', array('action' => 'profitloss')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>Profit and Loss Statement</a></li>
+		
+		<li role="presentation" class="<?php echo $balancesheet; ?>"><a href="<?php echo $this->url('report', array('action' => 'balancesheet')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>Balance Sheet</a></li>
+		
+		<li role="presentation" class="<?php echo $cashflow; ?>"><a href="<?php echo $this->url('report', array('action' => 'cashflow')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>Cash Flow Statement</a></li>
+		
+		<li role="presentation" class="<?php echo $bankreconciliation; ?>"><a href="<?php echo $this->url('report', array('action' => 'bankreconciliation')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>Bank Reconciliation</a></li>
+  
+        <li role="presentation" class="<?php echo $bankstatement; ?>"><a href="<?php echo $this->url('report', array('action' => 'bankstatement')); ?>" ><i class="orange ace-icon fa fa-database bigger-120"> </i></i>Bank Statement</a></li>
+		
+	</ul>
+<!--</div>-->	

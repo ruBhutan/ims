@@ -1,0 +1,481 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Personal Details ';
+ $this->headTitle($title);
+?> 
+<div class="right_col" role="main">
+          <div class="">
+               <div class="x_panel">
+                   <div class="x_title">
+                  <h3>Apply Promotion</h3>
+                </div>
+             <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                <form>   
+                 <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee Name</label>
+                    <input type="text" placeholder="Dorjee  Wangmo Wangda" class="form-control" readonly>
+                  </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee ID</label>
+                    <input type="text" placeholder="RUB001" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Gender</label>
+                    <input type="text" placeholder="Female" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Date of Birth</label>
+                    <input type="text" placeholder="03-04-1979" class="form-control" readonly>
+                  </div>
+                     
+                </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Nationality</label>
+                    <input type="text" placeholder="Bhutanese" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Nationality</label>
+                    <input type="text" placeholder="Bhutanese" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Citizenship  Identity  Card</label>
+                    <input type="text" placeholder="10504050409" class="form-control" readonly>
+                  </div>
+                        
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Date of issue</label>
+                    <input type="text" placeholder="2/2/2008" class="form-control" readonly>
+                  </div>
+                       
+                      </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Place of Issue</label>
+                    <input type="text" placeholder="Thimphu" class="form-control" readonly>
+                  </div>  
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Father's Name</label>
+                    <input type="text" placeholder="Ugyen Thinley" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Father's Nationality</label>
+                    <input type="text" placeholder="Bhutanese" class="form-control" readonly>
+                  </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Father's Occupation</label>
+                    <input type="text" placeholder="Farmer" class="form-control" readonly>
+                  </div>
+                      </div>
+          </form>
+                </div>
+         </div>
+                  </div>
+              
+           
+         <?php
+        $title = 'Education Details ';
+        $this->headTitle($title);
+        ?>
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                <form>   
+                 <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            
+                             <th class="column-title">Sl.No. </th>
+                              <th class="column-title">Education </th>
+                               <th class="column-title">Institute Location</th>
+                             <th class="column-title">Field Study</th>
+                            <th class="column-title">Subjects</th>
+                            <th class="column-title">Certificate Obtained</th>
+                            <th class="column-title">Education Duration Starts</th>
+                            <th class="column-title">Education Duration Ends</th>
+                             <th class="column-title">File Uploads</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Degree</td>
+                                <td>Sherubtse,Trashigang</td>
+                                <td>ICT</td>
+                                <td>Bsc.Computer Science</td>
+                                <td>Degree</td>
+                                <td>2/2/2008</td>
+                                <td>2/2/2014</td>
+                                <td>view the docs</td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+          </form>
+                </div>
+         </div>
+                  </div>
+          
+    <?php
+        $title = 'Research and Publications ';
+        $this->headTitle($title);
+     ?>
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+              
+                </div>
+                
+                 <div class="x_content">
+                <form>   
+                 <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            
+                             <th class="column-title">Sl.No. </th>
+                              <th class="column-title">Research Titles</th>
+                               <th class="column-title">Research Purpose</th>
+                             <th class="column-title">Research Date</th>
+                             <th class="column-title">File Uploads</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>GNH</td>
+                                <td>RUB Policy </td>
+                                <td>2/2/2012</td>
+                                <td>view the docs</td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+          </form>
+                </div> 
+                </div>
+                </div>
+       
+               <?php
+        $title = 'Present Job Identification ';
+        $this->headTitle($title);
+     ?>
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                <form>   
+                     <div class="row">
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Title</label>
+                    <input type="text" placeholder="Research Officer" class="form-control" readonly>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Level</label>
+                    <input type="text" placeholder="Grade-7 " class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Sub Level</label>
+                    <input type="text" placeholder="" class="form-control" readonly>
+                  </div>
+                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Pay Scale</label>
+                    <input type="text" placeholder="Nu.30,000" class="form-control" readonly>
+                  </div>
+                         
+                </div>
+                    
+                     <div class="row">
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Category</label>
+                    <input type="text" placeholder="Research" class="form-control" readonly>
+                  </div>
+                         <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Agency</label>
+                    <input type="text" placeholder="Sherubtse College" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Agency Position Title</label>
+                    <input type="text" placeholder=" " class="form-control" readonly>
+                  </div>
+                           <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Agency Position Level</label>
+                    <input type="text" placeholder="" class="form-control" readonly>
+                  </div>
+                </div>
+                    
+                      <div class="row">
+                            <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Date From</label>
+                    <input type="text" placeholder="2/2/2017" class="form-control" readonly>
+                  </div>
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Date To</label>
+                    <input type="text" placeholder="1/1/2019" class="form-control" readonly>
+                  </div>
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Place of Posting</label>
+                    <input type="text" placeholder="" class="form-control" readonly>
+                  </div>
+              
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Office Order</label>
+                    <input type="text" placeholder="" class="form-control" readonly>
+                  </div>
+                </div>
+          </form>
+                   <h2>Additional Responsibilities</h2> 
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            
+                             <th class="column-title">Sl.No. </th>
+                              <th class="column-title">Additional Responsibility</th>
+                               <th class="column-title">Date: From</th>
+                             <th class="column-title">Date: To</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Provost</td>
+                                <td>2/2/2012 </td>
+                                <td>2/2/2017</td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
+                </div>
+                </div>
+              
+            
+
+    <?php
+        $title = 'Leave Details ';
+        $this->headTitle($title);
+     ?>
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                <form>   
+                 <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>EOL Duration</label>
+                    <input type="text" placeholder="1year" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>EOL From</label>
+                    <input type="text" placeholder="2/2/2000 " class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>EOL To</label>
+                    <input type="text" placeholder="2/2/2001" class="form-control" readonly>
+                  </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Study Leave Duration</label>
+                    <input type="text" placeholder="2/2/2001" class="form-control" readonly>
+                  </div>
+                </div>
+                    
+                    <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Study Leave From</label>
+                    <input type="text" placeholder="1year" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Study Leave To</label>
+                    <input type="text" placeholder="2/2/2000 " class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Study Leave Status</label>
+                    <input type="text" placeholder="Pending" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Continuous Service Duration</label>
+                    <input type="text" placeholder="" class="form-control" readonly>
+                  </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Countinuous Service Promotion</label>
+                    <input type="text" placeholder="" class="form-control" readonly>
+                  </div>
+                </div>
+          </form>
+                </div>
+                </div>
+                </div>
+                 <br/><br/>  
+                <h4>Ratings for the past three years: (each out of the total factors). Copies of 
+                        		of performance evaluation reports should be attached.
+                        	</h4>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                
+                <div class="x_content">
+
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th readonly>Performance Year</th>
+                        <th>Performance Rating</th>
+                        <th>Attach Documents </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>2013</td>
+                        <td>Very Good</td>
+                        <td>View documents</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>2014</td>
+                        <td>Outstanding</td>
+                        <td>View documents</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>2015</td>
+                        <td>Outstanding</td>
+                        <td>View documents</td>
+                      </tr>
+                       <tr>
+                        <th scope="row">4</th>
+                        <td>2016</td>
+                        <td>Outstanding</td>
+                        <td>View documents</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+                 
+          <?php
+        $title = 'File uploads ';
+        $this->headTitle($title);
+     ?>        
+             <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+              
+                </div>
+                
+                 <div class="x_content">
+                <form>   
+                 <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            
+                             <th class="column-title">Sl.No. </th>
+                              <th class="column-title">Upload Category</th>
+                               <th class="column-title">Reference No.</th>
+                             <th class="column-title">File Uploads</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Security Clearance</td>
+                                <td><input type="text"> </td>
+                                <td><input type="file"></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Audit Clearance</td>
+                                <td><input type="text"> </td>
+                                <td><input type="file"></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Other Certificates</td>
+                                <td><input type="text"> </td>
+                                <td><input type="file"></td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+          </form>
+                </div> 
+                </div>
+                </div>    
+               <div class="row">
+                        <label class="control-label col-md-5 col-sm-12 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                                   <button class="btn btn-default" type="submit">Save & Close</button>
+                                <button class="btn btn-success" type="submit">Submit</button>   
+                    </div>
+                    </div>
+                </div>   
+
+          </div></div></div>
+                
+                 

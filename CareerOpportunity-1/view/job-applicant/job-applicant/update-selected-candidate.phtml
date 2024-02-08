@@ -1,0 +1,221 @@
+<?php
+ $title = 'Update Selected Applicant Details By OVC';
+ $this->headTitle($title);
+ $personal = array();
+ $vacancy_detail = array();
+ $pay_scale = array();
+ foreach($this->personalDetails as $detail){
+	 $personal = $detail;
+ }
+ 
+ foreach($this->vacancyDetail as $detail){
+	 $vacancy_detail = $detail;
+ }
+ 
+ foreach($this->payScale as $scale){
+     $pay_scale[$scale['id']] = $scale['minimum_pay_scale'].'-'.$scale['maximum_pay_scale'];
+ }
+
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				  <?php
+                    // Opening of the form tag
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+                   $application = $form->get('jobapplication');
+				   $application->get('emp_job_applications_id')->setValue($this->emp_job_applications_id);
+                                   $application->get('cid')->setValue($personal['cid']);
+				   $application->get('nationality')->setValue($personal['nationality']);
+				   $application->get('date_of_birth')->setValue($personal['date_of_birth']);
+				   if(array_key_exists('position_title', $vacancy_detail)){
+					   $application->get('position_title')->setValue($vacancy_detail['position_title']);
+				   }
+				   if(array_key_exists('position_level', $vacancy_detail)){
+					   $application->get('position_level')->setValue($vacancy_detail['position_level']);
+				   }
+				   if(array_key_exists('position_category', $vacancy_detail)){
+					   $application->get('position_category')->setValue($vacancy_detail['position_category']);
+				   }
+                                   $application->get('pay_scale')->setValue($pay_scale[$vacancy_detail['position_level']]);
+				   echo $this->formHidden($application->get('emp_job_applications_id'));
+                                   echo $this->formHidden($application->get('cid'));
+				   echo $this->formHidden($application->get('nationality')); 
+				   echo $this->formHidden($application->get('date_of_birth')); 
+				   echo $this->formHidden($application->get('position_title'));
+				   echo $this->formHidden($application->get('position_level'));
+				   echo $this->formHidden($application->get('position_category'));
+                 ?> 
+                  <!-- Personal Details Information-->
+                  <h2 class="StepTitle">Personal Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['first_name'].' '.$personal['middle_name'].' '.$personal['last_name']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Emp ID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php if(array_key_exists('position_title', $vacancy_detail)){
+					   									echo $personal['emp_id']; } 
+												?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['date_of_birth']; ?></i></h4>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['nationality']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">CID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['cid']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Address:</label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">House No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['emp_house_no']; ?></i></h4>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Thram No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['emp_thram_no']; ?></i></h4>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Village:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['emp_village']; ?></i></h4>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Gewog:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['emp_gewog']; ?></i></h4>
+                       </div>
+                    </div>
+                  </div><div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Dzongkhag:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $personal['emp_dzongkhag']; ?></i></h4>
+                       </div>
+                    </div>
+                  </div>
+                  <br />
+                  <!-- End of Personal Details Information-->
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <h2 class="StepTitle">Appointment Details</h2>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Appointment Order No.<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($application->get('appointment_order_no')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Appointment Date</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($application->get('date_of_appointment')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Category<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php if(array_key_exists('position_category', $vacancy_detail)){
+					   									echo $this->positionCategory[$vacancy_detail['position_category']]; } 
+												?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php if(array_key_exists('position_title', $vacancy_detail)){
+					   									echo $vacancy_detail['position_title']; } 
+												?>"readonly>
+                        </div>                      
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Position Level</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php if(array_key_exists('position_level', $vacancy_detail)){
+					   									echo $this->positionLevels[$vacancy_detail['position_level']]; } 
+												?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Pay Scale</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($application->get('pay_scale')); ?>
+                        </div>
+                    </div>
+                  </div>
+                   <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Upload Promotion Order<span class="required">*</span></label>
+                       <div class="col-md-8 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($application->get('appointment_order_file')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Working Agency</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($form->get('organisation_id')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Department Name</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($form->get('departments_id')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Unit Name</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($form->get('departments_units_id')); ?>
+                        </div>
+                    </div>
+                  </div>
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+							echo $this->formHidden($form->get('csrf')); 
+							echo $this->formRow($application->get('submit'));
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

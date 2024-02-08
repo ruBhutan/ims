@@ -1,0 +1,606 @@
+<?php
+// module/Inventory/view/goods-transaction/goods-transaction/view-item-details.phtml:
+ $title = 'Item Details';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                </div>
+                	<!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Item Category</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Item Sub Category</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Item Quantity Type</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Item Name</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                <br/>
+                                <?php if($organisation_id == '1') {?>
+                                <!-- Adding Item Category-->
+                                <div class="col-md-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Add Item Category")?></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                          </li>
+                                    
+                                        </ul>
+                                     <div class="clearfix"></div>
+                                  <h5><i>Add Item Category form by selecting item major class (Item Major class usually of two types name Fixed Assets and Consumable Assets).</i></h5>
+                                    </div>
+                                    <?php 
+                                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                          $messages = $this->flashMessenger()->getMessages();
+                                          foreach($messages as $message) {
+                                              echo '<strong>Success!</strong>'. $message;
+                                          }
+                                          echo '</div>';
+                                      }
+
+                                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                          $messages = $this->flashMessenger()->getMessages();
+                                          foreach($messages as $message) {
+                                              echo '<strong>Failure!</strong>'. $message;
+                                          }
+                                          echo '</div>';
+                                      }
+                                  ?>                                       
+                                    <div class="x_content">
+                                      <br />
+                                      <?php
+                                        // Opening of the form tag
+                                      $itemcategoryForm->setAttribute('action', $this->url('add-item-category', array('action' => 'addItemCategory')));
+                                      $itemcategoryForm->prepare();
+                                      echo $this->form()->openTag($itemcategoryForm);
+                                      $itemCategory = $itemcategoryForm->get('itemcategory');
+                                      echo $this->formHidden($itemCategory->get('id'));
+                                      $itemCategory->get('major_class_id')->setValueOptions($this->itemMajorClass);
+                                      ?>
+                                    
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Major Class<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemCategory->get('major_class_id')); ?>
+                                        </div>
+                                      </div>
+                                                          
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Category<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemCategory->get('category_type')); ?>
+                                        </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Code</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemCategory->get('category_code')); ?>
+                                        </div>
+                                      </div>
+                    
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemCategory->get('description')); ?>
+                                        </div>
+                                      </div>
+                                     
+                                 
+                                      <div class="ln_solid"></div>
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php
+                                           echo $this->formHidden($itemcategoryForm->get('csrf'));
+                                           echo $this->formSubmit($itemCategory->get('submit')); 
+                                           echo $this->form()->closeTag(); 
+                                          ?>
+                                        </div>
+                                      </div>                                     
+                                  </div>
+                                </div>
+                               </div>     
+                                      
+                                  
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Item Category"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                      <h5><i>List of Item Category Added</i></h5>
+                                    </div>
+                                    <div class="x_content">
+                                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr class="headings">
+                                                    <th class="column-title">Sl. No</th>
+                                                    <th class="column-title">Major Class </th>
+                                                    <th class="column-title">Item Category </th>
+                                                    <th class="column-title">Category Code</th>
+                                                    <th class="column-title">Item Description </th>
+                                                    <th class="column-title">Action</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                            <?php 
+                                            $i=1;
+                                            foreach ($this->listItemCategory as $itemCat) : ?>
+                                            <tr class="even pointer">
+                                              <td class=" " width="7%"><?php echo $i++;?></td>
+                                              <td class=" "><?php echo $itemCat->getMajor_Class();?></td>
+                                              <td class=" "><?php echo $itemCat->getCategory_Type();?></td>
+                                              <td class=" "><?php echo $itemCat->getCategory_Code();?></td>
+                                              <td class=" "><?php echo $itemCat->getDescription();?></td>
+                                              <td class=" "><a href="<?php echo $this->url('edit-item-category', array('id' => my_encrypt($itemCat->getId(), $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                              </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                                <?php } else {?>
+                                  <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Item Category"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                      <h5><i>List of Item Category added by OVC and usually item categories of two types only (Fixed Assets and Consumable Assets) and it is common for all organisation/ college.</i></h5>
+                                    </div>
+                                    <div class="x_content">
+                                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr class="headings">
+                                                    <th class="column-title">Sl. No</th>
+                                                    <th class="column-title">Major Class </th>
+                                                    <th class="column-title">Item Category </th>
+                                                    <th class="column-title">Category Code</th>
+                                                    <th class="column-title">Item Description </th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                            <?php 
+                                            $i=1;
+                                            foreach ($this->listItemCategory as $itemCat) : ?>
+                                            <tr class="even pointer">
+                                              <td class=" "><?php echo $i++;?></td>
+                                              <td class=" "><?php echo $itemCat->getMajor_Class();?></td>
+                                              <td class=" "><?php echo $itemCat->getCategory_Type();?></td>
+                                              <td class=" "><?php echo $itemCat->getCategory_Code();?></td>
+                                              <td class=" "><?php echo $itemCat->getDescription();?></td>
+                                              </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                                <?php } ?>
+                            
+                              <!-- End of Item Category-->
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                <br/>
+                                <!-- Adding Item Sub Category-->
+                                <div class="col-md-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Add Item Sub Category")?></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                          </li>
+                                    
+                                        </ul>
+                                     <div class="clearfix"></div>
+                                   <h5><i>Add Item Sub Category form. Each college will have their own item sub category type. Please select item category from drop down lists and add sub category based on selected category.</i></h5>
+                                    </div>
+                                       
+                                    <div class="x_content">
+                                      <br />
+                                      <?php
+                                        // Opening of the form tag
+										                  $itemsubcategoryForm->setAttribute('action', $this->url('add-item-sub-category', array('action' => 'addItemSubCategory')));
+										                  $itemsubcategoryForm->prepare();
+										                  echo $this->form()->openTag($itemsubcategoryForm);
+										                  $itemSubCategory = $itemsubcategoryForm->get('itemsubcategory');
+                                      $itemSubCategory->get('organisation_id')->setValue($this->organisation_id);
+										                  echo $this->formHidden($itemSubCategory->get('id'));
+                                      echo $this->formHidden($itemSubCategory->get('organisation_id'));
+
+                                      //$itemSubCategory->get('item_category_id')->setValueOptions($this->itemCategory);
+                                      ?>
+                                    
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="major_class_id">Select Major Class<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemsubcategoryForm->get('major_class_id')); ?>
+                                        </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item_category_id">Select Item Category<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemsubcategoryForm->get('item_category_id')); ?>
+                                        </div>
+                                      </div>
+									  
+									                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Sub Category<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemSubCategory->get('sub_category_type')); ?>
+                                        </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Sub Category Code</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemSubCategory->get('sub_category_code')); ?>
+                                        </div>
+                                      </div>
+									  
+									                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemSubCategory->get('description')); ?>
+                                        </div>
+                                      </div>
+                                     
+                                 
+                                      <div class="ln_solid"></div>
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+									                      <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php
+                                           echo $this->formHidden($itemsubcategoryForm->get('csrf'));
+                                           echo $this->formSubmit($itemSubCategory->get('submit')); 
+                                           echo $this->form()->closeTag(); 
+                                          ?>
+											                  </div>
+                                      </div>                                     
+                                  </div>
+                                </div>
+                               </div>     
+                                      
+                                  
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Item Sub Category"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                      <h5><i>List of item sub category type added.</i></h5>
+                                    </div>
+                                    <div class="x_content">
+                                        <table id="datatable1" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr class="headings">
+                                                    <th class="column-title">Sl. No</th>
+                                                    <th class="column-title">Major Class </th>
+                                                    <th class="column-title">Item Sub Category </th>
+                                                    <th class="column-title">Sub Category Code</th>
+                                                    <th class="column-title">Item Category </th>
+                                                    <th class="column-title">Item Sub Description </th>
+                                                    <th class="column-title">Action</th>
+                                                </tr>
+                                            </thead>
+                    
+                                            <tbody>
+                                            <?php 
+											                      $i=1;
+											                      foreach ($this->listItemSubCategory as $itemsubcat) : ?>
+                                            <tr class="even pointer">
+                                              <td class=" "><?php echo $i++;?></td>
+                                              <td class=" "><?php echo $itemsubcat['major_class'];?></td>
+                                              <td class=" "><?php echo $itemsubcat['sub_category_type'];?></td>
+                                              <td class=" "><?php echo $itemsubcat['sub_category_code'];?></td>
+											                        <td class=" "><?php echo $itemsubcat['category_type'];?></td>
+											                        <td class=" "><?php echo $itemsubcat['description'];?></td>
+                                              <td class=" "><a href="<?php echo $this->url('edit-item-sub-category', array('id' => my_encrypt($itemsubcat['id'], $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                              </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                            	<!-- End of Item Sub Category-->
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                            <br/>
+                            <!-- Adding Item Quantity Type-->
+                            <div class="col-md-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Add Item Quantity Type")?></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                          </li>
+                                    
+                                        </ul>
+                                     <div class="clearfix"></div>
+                                  <h5><i>Add Item Quantity Type form. Maintain your own organisation/ college item quantity type.</i></h5>
+                                    </div>
+                                       
+                                    <div class="x_content">
+                                      <br />
+                                       <?php
+                                        // Opening of the form tag
+                  										$itemquantitytypeForm->setAttribute('action', $this->url('add-item-quantity-type', array('action' => 'addItemQuantityType')));
+                  										$itemquantitytypeForm->prepare();
+                  										echo $this->form()->openTag($itemquantitytypeForm);
+                  										$itemQuantityType = $itemquantitytypeForm->get('itemquantitytype');
+                                      $itemQuantityType->get('organisation_id')->setValue($this->organisation_id);
+                                      echo $this->formHidden($itemQuantityType->get('organisation_id'));
+                  										echo $this->formHidden($itemQuantityType->get('id'));
+                                      ?>
+                                    
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Unit of Measurement<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemQuantityType->get('item_quantity_type')); ?>
+                                        </div>
+                                      </div>
+									
+									                   <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemQuantityType->get('remarks')); ?>
+                                        </div>
+                                    </div>
+                                     
+                                    <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+										                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php
+                                          echo $this->formHidden($itemquantitytypeForm->get('csrf'));
+                                          echo $this->formSubmit($itemQuantityType->get('submit')); 
+                                          echo $this->form()->closeTag(); 
+                                          ?>
+										                    </div>
+                                    </div>                                      
+                                    </div>
+                                </div>
+                            </div>     
+                                      
+                                  
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Item Quantity Type"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                      <h5><i>List of item quantity type added.</i></h5>
+                                    </div>
+                    
+                                    <div class="x_content">
+                                      <table id="datatable2" class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr class="headings">
+                                                <th class="column-title">Sl. No</th>
+                                                <th class="column-title">Unit of Measurement </th>
+                                                <th class="column-title">Remarks </th>
+                                                <th class="column-title">Action</th>
+                                            </tr>
+                                        </thead>
+                    
+                                        <tbody>
+                                          <?php
+                                          $i=1;  foreach($this->listItemQuantityType as $itemquantity): ?>
+                                          <tr class="even pointer">
+                                            <td class=" "><?php echo $i++;?></td>
+                                            <td class=" "><?php echo $itemquantity->getItem_Quantity_Type();?></td>
+										                        <td class=" "><?php echo $itemquantity->getRemarks();?></td>
+                                            <td class=" "><a href="<?php echo $this->url('edit-item-quantity-type', array('id' => my_encrypt($itemquantity->getId(), $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                            </td>
+                                          </tr>
+                                          <?php endforeach; ?>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                            <!-- End of Item Quantity Type-->
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                            <br/>
+                            <!-- Adding Item Name-->
+                            <div class="col-md-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Add Item Name")?></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                          </li>
+                                    
+                                        </ul>
+                                     <div class="clearfix"></div>
+                                     <h5><i>Add Item Name form. You can maintain your own organisation/ college item name based on the item category and sub category selected. Fields with * are mandatory to enter or select.</i></h5>
+                                    </div>
+                                       
+                                    <div class="x_content">
+                                      <br />
+                                      <?php
+                                        // Opening of the form tag
+                  										$itemnameForm->setAttribute('action', $this->url('add-item-name', array('action' => 'addItemName')));
+                  										$itemnameForm->prepare();
+                  										echo $this->form()->openTag($itemnameForm);
+                  										$itemName = $itemnameForm->get('itemname');
+                                      $itemName->get('organisation_id')->setValue($this->organisation_id);
+                                      echo $this->formHidden($itemName->get('organisation_id'));
+                  										echo $this->formHidden($itemName->get('id'));
+                  										
+                  										//$itemName->get('item_category_id')->setValueOptions($this->itemCategory);
+                                     // $itemName->get('item_sub_category_id')->setValueOptions($this->itemSubCategory);
+                                     // $itemName->get('item_sub_category_id')->setValueOptions($this->itemSubCategory);
+
+                                      $itemName->get('item_quantity_type_id')->setValueOptions($this->itemQuantityType);										
+                                      ?>
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="major_class_id">Select Major Class<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemnameForm->get('major_class_id')); ?>
+                                        </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Category<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemnameForm->get('item_category_id')); ?>
+                                        </div>
+                                      </div>
+                                    									  
+									                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Sub Category<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemnameForm->get('item_sub_category_id')); ?>
+                                        </div>
+                                      </div>
+									  
+									                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Unit of Measurement<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemName->get('item_quantity_type_id')); ?>
+                                        </div>
+                                      </div>
+									  
+									                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemName->get('item_name')); ?>
+                                        </div>
+                                      </div>
+									  
+									                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($itemName->get('description')); ?>
+                                        </div>
+                                      </div>
+                               
+                                    <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+										                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <?php
+                                        echo $this->formHidden($itemnameForm->get('csrf'));
+                                        echo $this->formSubmit($itemName->get('submit')); 
+                                        echo $this->form()->closeTag(); 
+                                        ?>
+										                    </div>
+                                    </div>
+                                    </div>
+                                      
+                                  </div>
+                                </div>                                      
+                                  
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Item Name List"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                      <h5><i>List of item name added.</i></h5>
+                                    </div>
+                    
+                                    <div class="x_content">
+                                      <table id="datatable-buttons" class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr class="headings">
+                                                <th class="column-title">Sl. No</th>
+                                                <th class="column-title">Item Name </th>
+                                                <th class="column-title">Sub Category </th>   
+                                                <th class="column-title">Category </th>
+                                                <th class="column-title">Unit of Measurement</th>
+                                                <th class="column-title">Action</th>
+                                            </tr>
+                                        </thead>
+                    
+                                        <tbody>
+                                          <?php
+                                          $i=1;  foreach($this->listItemName as $item): ?>
+                                          <tr class="even pointer">
+                                            <td class=" "><?php echo $i++;?></td>
+                                            <td class=" "><?php echo $item->getItem_Name();?></td>
+                      											<td class=" "><?php echo $item->getSub_Category_Type();?></td>
+                      											<td class=" "><?php echo $item->getCategory_Type();?></td>
+                      											<td class=" "><?php echo $item->getItem_Quantity_Type();?></td>
+                                            <td class=" "><a href="<?php echo $this->url('edit-item-name', array('id' => my_encrypt($item->getId(), $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                            </td>
+                                          </tr>
+                                          <?php endforeach; ?>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End of Item Name-->
+						              </div>
+                        </div>     
+                    </div>
+            </div>
+                    <!-- End of Tabs-->                                        
+        </div>
+    </div>
+</div>
+    

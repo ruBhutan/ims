@@ -1,0 +1,274 @@
+<?php
+ $title = 'Add/Edit Class X and XII Marks';
+ $this->headTitle($title);
+ $marks_details = array();
+ foreach($this->markDetails as $detail){
+	 $marks_details = $detail;
+ }
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <?php if(!empty($marks_details)){?>
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+		<h4><i><font color="green">Before filling up the following detail please add the <a href="registranteducationdetails">Education Detail</a>.</font></i></h4>  <br/>	
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $registrant = $form->get('applicantmarks');
+                    $registrant->get('id')->setValue($marks_details['id']);
+          					$registrant->get('job_applicant_id')->setValue($this->job_applicant_id);
+          					$registrant->get('x_english')->setValue($marks_details['x_english']);
+          					$registrant->get('x_sub1_mark')->setValue($marks_details['x_sub1_mark']);
+          					$registrant->get('x_sub2_mark')->setValue($marks_details['x_sub2_mark']);
+                    $registrant->get('x_sub3_mark')->setValue($marks_details['x_sub3_mark']);
+          					$registrant->get('x_sub4_mark')->setValue($marks_details['x_sub4_mark']);
+          					$registrant->get('xll_english')->setValue($marks_details['xll_english']);
+          					$registrant->get('xll_sub1_mark')->setValue($marks_details['xll_sub1_mark']);
+                    $registrant->get('xll_sub2_mark')->setValue($marks_details['xll_sub2_mark']);
+                    $registrant->get('xll_sub3_mark')->setValue($marks_details['xll_sub3_mark']);
+          					date_default_timezone_set("Asia/Thimphu");
+                    $registrant->get('last_updated')->setValue(date("Y-m-d h:i:s"));
+                    echo $this->formHidden($registrant->get('id'));
+          					echo $this->formHidden($registrant->get('job_applicant_id'));
+                    echo $this->formHidden($registrant->get('last_updated'));
+                    $registrant->get('submit')->setValue('Update');
+          				  ?> 
+                    <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?> 
+                <h2 class="StepTitle">1. Class X Marks, <medium><i>Please enter marks secured in English subject and other four subjects with highest marks.</i></medium></h2><br/> 
+                <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">English: <span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('x_english')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Best Subject 1: <span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('x_sub1_mark')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">  
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Best Subject 2: <span class="required">*</span></label>
+                      <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('x_sub2_mark')); ?>
+                      </div>
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Best Subject 3: <span class="required">*</span></label>
+                      <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('x_sub3_mark')); ?>
+                      </div>
+                    </div>
+                    <div class="form-group">  
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Best Subject 4: <span class="required">*</span></label>
+                      <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('x_sub4_mark')); ?>
+                      </div>
+                    </div>
+                  <br />
+                  <h2 class="StepTitle">2. Class XII Marks, <medium><i>Please enter marks secured in English subject and other three subjects with highest marks.</i></medium></h2><br/> 
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">English: <span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('xll_english')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Best Subject 1: <span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('xll_sub1_mark')); ?>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Best Subject 2: <span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('xll_sub2_mark')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Best Subject 3: <span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('xll_sub3_mark')); ?>
+                        </div>
+                  </div>
+                  
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+          						<?php
+          						   echo $this->formHidden($form->get('csrf'));
+          						   echo $this->formSubmit($registrant->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+            <?php } else{?>
+
+              <?php
+             $title = 'Enter Class X and XII Marks';
+             $this->headTitle($title);
+            ?>
+
+            <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $registrant = $form->get('applicantmarks');
+                    $registrant->get('job_applicant_id')->setValue($this->job_applicant_id);
+                    
+                    echo $this->formHidden($registrant->get('id'));
+                    echo $this->formHidden($registrant->get('job_applicant_id'));
+                    ?> 
+                    <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+                    <h2 class="StepTitle">Important Note:</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h5><i>
+			      You are allowed to add the mentioned marks for class X and XII as categorized below reflected on your class X and XII marksheet. This is not necessary to enter if you have not completed either class X or XII. If you have completed only class 10 and not class 12 then you can add marks for class 10 only.<br>
+<br>Before adding the details first please add the education detail, for that please <a href="registranteducationdetails"> Click Here</a>
+                          </i></h5>
+                       </div>
+                    </div>
+                  </div>
+                  <h2 class="StepTitle">1. Class X Marks, <medium><i>Please enter marks secured in English subject and other four subjects with highest marks.</i></medium></h2><br/> 
+                <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">English:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('x_english')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Best Subject 1:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('x_sub1_mark')); ?>
+                        </div>
+                      </div>
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Best Subject 2:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('x_sub2_mark')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Best Subject 3:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('x_sub3_mark')); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3 col-xs-12">Best Subject 4 Mark:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('x_sub4_mark')); ?>
+                        </div>
+                    </div>
+                  <br />
+                  <h2 class="StepTitle">2. Class 12 Marks, <medium><i>Please enter marks secured in English subject and other three subjects with highest marks.</i></medium></h2><br/> 
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">English:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('xll_english')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Best Subject 1:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('xll_sub1_mark')); ?>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Best Subject 2:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('xll_sub2_mark')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Best Subject 3:<span class="required">*</span></label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                        <?php echo $this->formRow($registrant->get('xll_sub3_mark')); ?>
+                        </div>
+                  </div>
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php
+                           echo $this->formHidden($form->get('csrf'));
+                           echo $this->formSubmit($registrant->get('submit')); 
+                        ?>
+                      </div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+            <?php } ?>
+
+             </div>
+          </div>
+        </div> 
+     </div>
+   </div>
+ </div>
+</div>

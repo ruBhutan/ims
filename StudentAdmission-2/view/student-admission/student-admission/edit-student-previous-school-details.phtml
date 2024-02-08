@@ -1,0 +1,138 @@
+<?php
+
+ $title = 'Student Previous School Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">   
+                    <br/>
+                    <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $school = $form->get('studentpreviousschool');
+                        echo $this->form()->openTag($form);
+                        $school->get('id')->setValue($this->stdPreviousSchool->getId());
+                        $school->get('previous_institution')->setValue($this->stdPreviousSchool->getPrevious_Institution());
+                        $school->get('previous_institution')->setValueOptions($this->school_list);
+                        $school->get('aggregate_marks_obtained')->setValue($this->stdPreviousSchool->getAggregate_Marks_Obtained());
+                        $from_date = explode("-", $this->stdPreviousSchool->getFrom_Date());
+                       $school->get('from_date')->setValue($from_date[01].'/'.$from_date[02].'/'.$from_date[00]);
+                        $to_date = explode("-", $this->stdPreviousSchool->getTo_Date());
+                       $school->get('to_date')->setValue($to_date[01].'/'.$to_date[02].'/'.$to_date[00]);
+                        $school->get('previous_education')->setValue($this->stdPreviousSchool->getPrevious_Education()); 
+                        $school->get('student_id')->setValue($this->stdPreviousSchool->getStudent_Id());
+                        echo $this->formHidden($school->get('id'));
+                        echo $this->formHidden($school->get('student_id'));
+                        $school->get('submit')->setValue('Update Student Previous School');
+                        echo $this->formHidden($school->get('id')); 
+                     ?> 
+                    <h2>Personal Details</h2> 
+                     <hr> 
+                    <?php 
+                        $personalDetails = array();
+                        foreach ($this->stdDetails as $details): {
+                            $personalDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'];
+                            $personalDetails['student_id'] = $details['student_id'];
+                            $personalDetails['stdgender'] = $details['stdgender'];
+                            $personalDetails['programme_name'] = $details['programme_name'];
+                            $personalDetails['student_type'] = $details['student_type'];
+                            $personalDetails['enrollment_year'] = $details['enrollment_year'];
+                        }
+
+                    ?> 
+                    <div class="form-group"> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><b>Name:</b></label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['name']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['student_id']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['stdgender']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['student_type']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['programme_name']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Enrollment Year:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['enrollment_year']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                    </div><br/>
+                    <?php endforeach; ?>
+                    <div class="ln_solid"></div>
+
+                           <h2>Update Student Previous School Details</h2>
+                           <label> Previous School Details: <i>(For Date Fields to pick, first date field is From Date and second date field is To Date). ***Either you click UP or DOWN arrow to display the date or calendar***</i></label>
+                           <hr>
+
+                            <div class="row">
+                             <div class="col-md-12 center-margin">
+                                <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                  <label>Previous School/ Institution<span>*</span></label>
+                                  <?php echo $this->formRow($school->get('previous_institution')); ?>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                  <label>Marks Obtained<span>*</span></label>
+                                  <?php echo $this->formRow($school->get('aggregate_marks_obtained')); ?>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                  <label>From Date<span>*</span></label>
+                                  <?php echo $this->formRow($school->get('from_date')); ?>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                  <label>To Date<span>*</span></label>
+                                  <?php echo $this->formRow($school->get('to_date')); ?>
+                                </div>
+                             </div>
+                            </div>
+
+                            <div class="row">
+                             <div class="col-md-12 center-margin">
+                                <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                  <label>Education<span>*</span></label>
+                                  <?php echo $this->formRow($school->get('previous_education')); ?>
+                                </div>
+                             </div>
+                            </div>                           
+
+                            <div class="form-group">
+                            <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <?php
+                                            echo $this->formHidden($form->get('csrf')); 
+                                            echo $this->formSubmit($school->get('submit'));
+                                            echo $this->form()->closeTag();
+                                            ?>
+                                        </div>
+                                </div>
+                            </div>
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+
+ 

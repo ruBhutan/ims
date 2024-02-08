@@ -1,0 +1,137 @@
+<?php
+ $title = 'Staff Job Profile';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+$emp_details = array();
+foreach($this->employeeDetails as $details){
+    $emp_details = $details;
+}
+
+ $emp_address = array();
+ foreach($this->empPermanentAddr as $address){
+     $emp_address = $address;
+ }
+?>
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                </div>
+                <h5><i class="red"><b>NOTE: Please check whether the job profile in table is correct or not. If information is incorrect then click on edit button from below table to edit it. If there is no list in table then, please click on "Add New Job Profile" button to add it.</b></i>
+                </h5>
+                <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                        echo '<strong>Success!</strong>'. $message;
+                    }
+                    echo '</div>';
+                        } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                        echo '<strong>Warning!</strong>'. $message;
+                    }
+                    echo '</div>';
+                }  ?>
+
+                <div class="x_content">
+                    <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                        <div class="profile_img">
+                            <!-- end of image cropping -->
+                            <div id="crop-avatar">
+                            <?php if(!empty($emp_details['profile_picture'])){?>
+									<img class="img-responsive avatar-view" src="<?php echo '/'.$emp_details['profile_picture']; ?>" alt="Profile Picture" title="<?php echo $emp_address['first_name'].' ('.$emp_address['emp_id'].')'; ?>" width="130" height="130">
+								<?php } else {?>
+									<img class="img-responsive avatar-view" src="/img/logo.png" alt="Profile Picture" title="<?php echo $emp_address['first_name'].' ('.$emp_address['emp_id'].')'; ?>" width="130" height="130">
+								<?php }?>
+                            </div>
+                        </div>
+                        <h4><?php echo $emp_details['first_name'].' '.$emp_details['middle_name'].' '.$emp_details['last_name'];?></h4>
+                        <a href="<?php echo $this->url('payroll', array('action' => 'paystructure', 'id' => $emp_details['id'])); ?>" class="btn btn-success"><i class="fa fa-credit-card"></i> Pay Structure</a>
+                    </div>
+                    
+                    <!--To display the details -->
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <address>
+                            <h4 class="blue"><strong><?php echo $emp_details['first_name'].' '.$emp_details['middle_name'].' '.$emp_details['last_name'];?></strong></h4>
+                            <strong>STAFF ID / CID: </strong><i><?php echo $emp_details['emp_id'].' / '.$emp_details['cid']; ?></i>
+                            <br>
+                            <strong>DOB / GENDER: </strong><i><?php echo $emp_details['date_of_birth'].' / '.$emp_details['gender']; ?></i>
+                            <br>
+                            <strong>MARITIAL STATUS / BLOOD GROUP: </strong><i><?php echo $emp_details['maritial_status'].' / '.$emp_details['blood_group']; ?></i>
+                            <br>
+                            <strong>NATIONALITY / RELIGION: </strong><i><?php echo $emp_address['nationality'].' / '.$emp_details['religion']; ?></i>
+                            <br>
+                            <strong>PERMANENT ADDR: </strong><i><?php echo $emp_address['country'].', '.$emp_address['dzongkhag_name'].', '.$emp_address['gewog_name'].', '.$emp_address['village_name']; ?></i>
+                            <br>
+                            <strong>THRAM NO. / HOUSE NO: </strong><i><?php echo $emp_details['emp_thram_no'].' / '.$emp_details['emp_house_no']; ?></i>
+                            <br>
+                            <strong>ORGANISATION: </strong><i><?php echo $emp_details['organisation_name']; ?></i>
+                        </address>
+                    </div>
+                </div>
+                
+                <?php if(empty($this->empJobProfile) && $this->organisation_id == $emp_details['organisation_id']) { ?>
+                <a class="pull-right btn btn-primary" href="<?php echo $this->url('addempjobprofile', array('action'=>'addEmpJobProfile','id'=>my_encrypt($emp_details['id'], $key)));?>" ><i class="fa fa-plus"></i> Add New Job Profile</a>
+                <?php } ?>
+            
+                <div class="x_content">
+                    <table id="datatable" class="table table-striped jambo_table table-bordered">
+                    <thead>                        
+                        <th class="column-title">Organisation </th>
+                        <th class="column-title">Department</th>
+                        <th class="column-title">Unit</th>
+                        <th class="column-title">Occupational Group | Position Category</th>
+                        <th class="column-title">Position Title | Level</th>
+                        <th class="column-title">Pay Scale | Increment Type</th>
+                        <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                    </thead>
+
+                    <tbody>
+                        <?php $i =1; foreach ($this->empJobProfile as $profile) : ?>
+                        <tr class="even pointer">
+                        <td class=" "><?php echo $this->escapeHtml($profile['organisation_name']);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($profile['department_name']) ?></td>
+                        <td class=" "><?php echo $this->escapeHtml($profile['unit_name']);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($profile['major_occupational_group'].' | '.$profile['category']);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($profile['position_title'].' | '.$profile['position_level']);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($profile['pay_scale'].' | '.$profile['increment_type']);?></td>
+                        <td class=" last">
+                        <?php if($this->organisation_id == $profile['organisation_id']){ ?>
+                        <a href="<?php echo $this->url('editempjobprofile', array('id' => my_encrypt($profile['id'], $key))); ?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> Edit Profile</a>
+                        <?php } else {?>
+                        <p><i class="blue">You are not allow to edit it!</i></p>
+                        <?php } ?>
+                        </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>    
+            </div>
+        </div>
+        </div>
+     </div>
+   </div>
+ </div>

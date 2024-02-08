@@ -1,0 +1,88 @@
+<?php
+ $title = 'Allocation of Modules To Tutors for Academic Year';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/> 
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                    	    } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>   
+                        <div class="x_content">
+                              <div class="table-responsive">
+                              <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                                <thead>
+                                  <tr class="headings">
+                                    <th class="column-title" width="8%">Sl. No</th>
+                                    <th class="column-title" width="15%">Programme Name</th>
+                                    <th class="column-title" width="15%">Module Title</th>
+                                    <th class="column-title" width="12%">Module Code</th>
+                                    <th class="column-title" width="18%">Module Tutor</th>
+                                    <th class="column-title" width="8%">Section</th>
+                                    <th class="column-title" width="12%">Academic Year</th>
+                                    <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <?php $i=1; foreach ($this->moduleTutorDetails as $module) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $i++;?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($module['programme_name']); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($module['module_title']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($module['module_code']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($module['first_name'].' '.$module['middle_name'].' '.$module['last_name']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($module['section']);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($module['academic_year']);?></td>
+                                    <td><a href="<?php echo $this->url('deleteacademicyeartutor', array('id' => my_encrypt($module['id'], $key)));?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</a></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                            </div>
+                        <div class="clearfix"></div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              

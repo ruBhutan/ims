@@ -1,0 +1,106 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/DemographyController/editcurrencyAction
+ * 
+ */
+ $title ="Edit Currency";
+?>
+<?php 
+    foreach($this->currency as $currency):
+        extract($currency);
+    endforeach;
+?>                             
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>			
+				<?php echo $this->partial('accounts/master/partial.phtml', array('active' => 'currency')); ?>
+				<div class="x_content">
+					<form method="post" action="<?php echo $this->url('master', array('action' => 'editcurrency', 'id' => $id)); ?>"  enctype="multipart/form-data" >                 
+						<div class ="row">
+							<div class ="col-lg-2"></div>
+							<div class ="col-lg-8">
+									<div class="form-group col-lg-6">
+										<label for="currency" class="control-label">Currency</label>
+										<input class="form-control" placeholder="currency" name="currency" id="currency" value="<?php echo $currency; ?>" required >
+									</div>
+										
+									<div class="form-group col-lg-6">
+										<label for="country" class="control-label">Country</label>
+										<input class="form-control" placeholder="country" name="country" id="country" value="<?php echo $country; ?>" required >
+									</div>
+										
+									<div class="form-group col-lg-6">
+										<label for="code" class="control-label">Code</label>
+										<input class="form-control" placeholder="code" name="code" id="code" value="<?php echo $code; ?>" >
+									</div>
+									<div class="form-group col-lg-6">
+										<label for="fraction" class="control-label">Fraction</label>
+										<input class="form-control" placeholder="fraction" name="fraction" id="fraction" value="<?php echo $fraction; ?>">
+									</div>
+									<input type="hidden" name="status" id="status" value="<?php echo $status; ?>">
+							</div>
+							<div class ="col-lg-2"></div>
+						</div>
+						<div class="x_title"></div>
+						<div class ="row">
+						    <div class ="col-lg-2"></div>
+							<div class ="col-lg-8">
+								<div class="col-lg-6">
+									<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+									<button type="button" class="btn btn-warning" onclick="javascript:history.back();" ><i class="fa fa-times"></i> Cancel </button>
+								</div>
+							</div>
+							<div class ="col-lg-2"></div>
+						</div>
+					</form>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	$('select').chosen({ allow_single_deselect: true });		
+	$('document').ready(function(){
+		$('form').formValidation({
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				currency: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide currency.'
+						}
+					}
+				},
+				country: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide country.'
+						}
+					}
+				},
+				code: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide code.'
+						}
+					}
+				},
+			}
+		});
+	});
+</script>
+
+                                
+
+      

@@ -1,0 +1,328 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/AssetController/edittransactionAction
+ * 
+ */
+ $title ="Salary Booking Adjustment";
+?>
+<?php 
+	$total_debit = 0;
+	$total_credit = 0;
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>  
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+				<form id="transForm" method="post" action="<?php echo $this->url('payroll', array('action' => 'booksalary')); ?>"  enctype="multipart/form-data" >    
+					<div class="row"> 
+						<div class="form-group col-lg-3">
+							<label for="voucher_date" class="control-label">Voucher Date</label>
+							<div class="date input-group" id="voucher_date" data-date="<?php echo date('Y-m-d');?>" data-date-format="yyyy-mm-dd">
+								<input class="form-control span2" name="voucher_date" id="voucher_date" type="text" placeholder="Payment Date" value="<?php echo date('Y-m-d'); ?>" readonly required>
+								<span class="input-group-addon add-on"><i class="fa fa-calendar"></i> </span>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<label for="voucher_type" class="control-label">Voucher Type</label>
+							<select id="voucher_type" name="voucher_type" class="form-control" data-placeholder="Select" required >
+								<option value=""></option>
+								<?php 
+								foreach ($journals as $journal):
+								?>
+									<option value="<?php echo $journal['id'];?>">
+									<?php echo $journal['journal']; ?>
+									</option>
+								<?php 
+								endforeach;
+								?>
+							</select>
+						</div>
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label for="voucher_amount">Voucher Amount(<?php echo $this->currency_code();?>)</label>
+								<input type="text" class="form-control" name="voucher_amount" id="voucher_amount" value="" required  readonly > 
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label for="bank_balance" class="control-label">Bank Balance (<?php echo "Nu.";?>)</label>
+								<input type="text" class="form-control" name="bank_balance" id="bank_balance" value="<?php echo ($bank_balance > 0)?$bank_balance:'0.00';?>"  readonly />
+								<div class = "error1" style ="display:none"> Payment is more than Bank Balance</div>
+							</div>						
+						</div>						
+					</div>
+					<?php if(sizeof($payheads)>0):?>
+					<div class="alert alert-block alert-warning">
+						<i class="fa fa-check"></i><strong class="yellow">Salary Booking has been inappropriate.</strong><br>
+						<strong class="yellow">Following Payheads doesn't have Subhead for booking in Finance:</strong><br>
+						<?php
+							$sl = 1;
+							foreach($payheads as $payhead):
+								echo $sl++.".&nbsp;".$payhead['pay_head']."<br>";
+							endforeach;
+						?><br>
+						<strong class="yellow">Please create Subheads for these Payheads for salary booking. And try again.</strong>
+					</div>
+					<?php else:?>
+					<div class="row">
+						<div class="col-lg-12"> 
+							<label>Payroll Details</label>
+							<table id="trdetails_table" class="table small-padding">
+								<thead>
+									<tr>
+										<th>Detail</th>
+										<th>Debit(<?php echo $this->currency_code();?>)</th>
+										<th>Credit(<?php echo $this->currency_code();?>)</th>
+										<th>&nbsp;</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+									$rownum = 1;
+									//Earning Payheads/Debit/deduction = 0
+									foreach($this->organisations as $org_row):
+											$data = array(
+												'year' => $this->data['year'],
+												'month' => $this->data['month'],
+												'organisation' => $org_row['organisation_id'],
+												'deduction' => '0'
+											);
+											$masterdtls = $this->payrollObj->salaryBookingMasterDtls($data);
+											$sum_earning = 0;
+											foreach($masterdtls as $masterdtls):
+												$filter = array(
+													'year' => $data['year'],
+													'month' => $data['month'],
+													'organisation' => $data['organisation'],
+													'masterdtlsID' => $masterdtls['ref_id'],
+													'department' => '-1',													
+												);
+												//print_r($filter); exit;
+												$amt = $this->paydetailObj->getAmtforSummary($filter);
+												
+												if((int)$amt > 0):
+													if($masterdtls['deduction'] == 1):
+														$credit_amt = $amt;
+														$debit_amt = '0.00';
+														$total_credit += $credit_amt;
+													else:
+														$credit_amt = '0.00';
+														$debit_amt = $amt;
+														$total_debit += $debit_amt;
+													endif;?>
+													<tr id="<?php echo $rownum;?>">
+														<td class="col-lg-4">
+															<?php echo $masterdtls['sub_head'];?>
+														</td>
+														<td class="col-lg-4" style="text-align:right">
+															<?php echo $debit_amt;?>      
+														</td>
+														<td class="col-lg-4" style="text-align:right"> 
+															<?php echo $credit_amt;?>        
+														</td>
+														<td width="30px;">
+														</td>
+													</tr>
+													<?php $rownum++;?>
+												<?php endif;
+												$sum_earning +=$amt;
+											endforeach;//end of subhead foreach
+									endforeach;//end of location foreach
+									//Deduction Payheads/Credit/deduction = 1
+									$data = array(
+										'year' => $this->data['year'],
+										'month' => $this->data['month'],
+										'organisation' =>$user_org,
+										'deduction' => '1'
+									);
+									$masterdtls = $this->payrollObj->salaryBookingMasterDtls($data);
+									//print_r($subheads); exit;
+									$sum_deduction = 0;
+									foreach($masterdtls as $masterdtls_row):
+										$filter = array(
+											'year' => $data['year'],
+											'month' => $data['month'],
+										    'organisation' =>$user_org,
+											'masterdtlsID' => $masterdtls_row['ref_id'],
+											'department' => '-1',													
+										);
+										$amt = $this->paydetailObj->getAmtforSummary($filter);
+										if((int)$amt > 0):
+											if($masterdtls_row['deduction'] == 1):
+												$credit_amt = $amt;
+												$debit_amt = '0.00';
+												$total_credit += $credit_amt;
+											else:
+												$credit_amt = '0.00';
+												$debit_amt = $amt;
+												$total_debit += $debit_amt;
+											endif;?>
+											<tr id="<?php echo $rownum;?>">
+												<td class="col-lg-4">
+													<?php echo $masterdtls_row['sub_head'];?>
+												</td>
+												<td class="col-lg-4" style="text-align:right" >
+													<?php echo $debit_amt;?>      
+												</td>
+												<td class="col-lg-4" style="text-align:right"> 
+													<?php echo $credit_amt;?>        
+												</td>
+												<td width="30px;">
+												</td>
+											</tr>
+											<?php $rownum++;
+										endif;
+										$sum_deduction +=$amt;
+									endforeach; //end of subhead foreach ?>
+									<tr id="<?php echo $rownum; ?>">
+                                        <td class="col-lg-4">
+											<div class="form-group">
+												<select id="sub_head" name="sub_head[]" class="form-control" data-placeholder="Select" >
+													<option value=""></option>
+													<?php 
+													foreach($bankdetls as $row);
+													foreach ($this->materdtlsObj->get(array('md.ref_id'=>$row['id'],'md.type'=>array('2'))) as $mast_row):
+													$selected = ($row['id']= $mast_row['ref_id'])?'selected':'';?>
+														<option value="<?php echo $mast_row['id']; ?>" <?php echo $selected;?>>
+															<?php echo $mast_row['sub_head']; ?>
+														</option>
+													<?php  endforeach; ?>
+												</select>
+											</div>
+										</td>										
+										<td class="col-lg-4">
+											<div class="form-group">
+												<input style="text-align:right" type="text" class="form-control tr_debit" name="debit[]" id="debit" value="0.00"  >
+											</div>     
+										</td>
+										<td class="col-lg-4">
+											<div class="form-group">
+												<input style="text-align:right" type="text" class="form-control tr_credit" name="credit[]" id="credit" value="<?php echo number_format(($sum_earning - $sum_deduction), 2, '.', ''); ?>" >
+											</div>      
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6"></div>
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label for="total_debit">Total Debit(<?php echo $this->currency_code();?>)</label>
+								<input type="text" class="form-control" name="total_debit" id="total_debit" data-match="#total_credit" value="<?php echo $total_debit;?>" readonly />
+								<div class="help-block with-errors"></div> 
+							</div>
+						</div> 
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label for="total_credit">Total Credit(<?php echo $this->currency_code();?>)</label>
+								<input type="text" class="form-control" name="total_credit" id="total_credit"  value="<?php echo $total_credit?>" readonly />
+								<div class="help-block with-errors"></div> 
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label for="remarks">Remark</label>
+								<?php $remark = "Being the salary adjustment for the month of ".date('F Y',strtotime($this->data['year'].'-'.$this->data['month'].'-01'));?>
+								<textarea class="form-control" name="remark" id="remark" ><?php echo $remark;?></textarea>  
+							</div>
+						</div>
+					</div>
+					<input type="hidden" name="year" id="year" value="<?php echo $this->data['year'];?>"/>
+					<input type="hidden" name="month" id="month" value="<?php echo $this->data['month'];?>"/>
+					<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+					<?php endif;?>
+					<button type="button" class="btn btn-warning" onclick="javascript:history.back();"><i class="fa fa-times"></i> Cancel </button> 
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		$('#voucher_date').datepicker();
+        $('#voucher_date').on('changeDate',function(){
+			$('form').formValidation('revalidateField', $(this).attr('id'));
+		});		
+		$('#trdetails_table').salarytransaction({
+		    getMatDetail:'<?php echo $this->url("transaction", array("action" => "getmasterdtl"));?>',
+			tot_debit: '<?php echo $total_debit;?>',
+			tot_credit:'<?php echo $total_credit;?>',
+			
+		});	
+		//formValidation
+		$('form')         
+		.formValidation({
+			framework: 'bootstrap',
+	        excluded: ':disabled',
+	        message: 'This value is not valid',
+	        fields: {
+	            'voucher_date': {
+	                validators: {
+	                    notEmpty: {
+	                        message: 'Please enter voucher date'
+	                    }
+	                }
+	            },
+	            'voucher_type': {
+	                validators: {
+	                    notEmpty: {
+	                        message: 'Please select voucher type'
+	                    }
+	                }
+	            },
+	            'voucher_amount': {
+	                validators: {
+	                    callback: {
+	                        message: 'Transaction cannot happen without any amount',
+	                        callback: function(value, validator, $field) {
+	                            // Get the selected options
+	                            var value = validator.getFieldElements('voucher_amount').val();
+	                            return (value != null && value > 0);
+	                        }
+	                    }
+	                }
+	            }, 
+	            'sub_head[]': {
+	                validators: {
+	                    notEmpty: {
+	                        message: 'Please select subhead'
+	                    }
+	                }
+	            }, 
+	            'total_debit': {
+	                validators: {
+	                	 identical: {
+	                         field: 'total_credit',
+	                         message: 'Total credit must be equal to total dedit'
+	                     }
+	                }
+	            }, 
+	            'total_credit': {
+	                validators: {
+	                	 identical: {
+	                         field: 'total_debit',
+	                         message: 'Total debit must be equal to total credit'
+	                     }
+	                }
+	            },           
+	        }
+		})
+		.on('success.field.fv', function(e, data) {
+            if (data.fv.getInvalidFields().length > 0) {    // There is invalid field
+                data.fv.disableSubmitButtons(true);
+            }
+        });
+	});// end of my function
+</script> 

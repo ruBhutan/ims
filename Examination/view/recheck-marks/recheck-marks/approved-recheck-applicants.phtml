@@ -1,0 +1,186 @@
+<?php
+ $title = 'List of Approved Applicants for Recheck of Marks';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+      <div class="">
+        <div class="col-md-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><?php echo $this->escapeHtml($title); ?></h2>
+             <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Payment Paid List</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Recheck Updated List</a>
+                        </li>
+                      </ul>
+              <br />
+              <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                      echo '<strong>Success!</strong>'. $message;
+                    }
+                    echo '</div>';
+                  } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                      echo '<strong>Warning!</strong>'. $message;
+                    }
+                    echo '</div>';
+                } ?>
+              <div id="myTabContent" class="tab-content">
+              <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+              <?php
+            // Opening of the form tag
+            $recheckForm->setAttribute('action', $this->url('updateapprovedrecheckmarksstatus', array('action' => 'updateApprovedRecheckMarksStatus')));
+            $recheckForm->prepare();
+            echo $this->form()->openTag($recheckForm);
+            // $marks = $form->get('recheckmarks');
+            ?>
+             <div class="table-responsive">
+              <table class="table table-striped jambo_table table-bordered" width = "100%">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title" width="5%">Sl.No.</th>
+                     <th class="column-title">Student</th>
+                     <th class="column-title">Programme</th>
+                     <th class="column-title">Academic Year</th>
+                     <th class="column-title">Year</th>
+                     <th class="column-title">Semester</th>
+                     <th class="column-title">Module Name (with Code)</th>
+                     <th class="column-title">Recheck Type</th>
+                     <th class="column-title">Payment Status</th>
+                     <th class="column-title">Payment Remarks</th>
+                     <th class="column-title">Recheck Status</th>
+                     <th class="column-title">Recheck/ Re-evaluation Remarks</th>
+                     <th class="column-title">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $i=1;  foreach($this->recheckList as $list): ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $list['first_name'].' '.$list['middle_name'].' '.$list['last_name'].' ('.$list['student_id'].')';?></td>
+                    <td class=" "><?php echo $list['programme_code'];?></td>
+                    <td class=" "><?php echo $list['academic_year'];?></td>
+                    <td class=" "><?php echo $list['year'];?></td>
+                    <td class=" "><?php echo $list['semester'];?></td>
+                    <td class=" "><?php echo $list['module_title'].' ('.$list['module_code'].')';?></td>
+                    <td class=" "><?php echo $list['type'];?></td>
+                    <td class=" "><?php echo $list['payment_status'];?></td>
+                    <td class=" "><?php echo $list['payment_remarks'];?></td>
+                    <td class=" "><?php echo $list['recheck_status'];?></td>
+                    <?php
+                    if($list['payment_status'] == 'Payment Updated' && $list['recheck_status'] == 'Pending' && $list['payment_remarks'] == 'paid') { ?> 
+                      <td class=" "><?php echo $this->formRow($recheckForm->get('recheck_remarks_'.$list['id'])); ?></td>
+                   <?php } else {?>
+                    <td class=" "><?php echo $list['payment_remarks'];?></td>
+                   <?php } ?>
+                   <td class=" "><a href="<?php echo $this->url('recheckapplicationdetails', array('id' => my_encrypt($list['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View
+                   </td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+            <?php
+             echo $this->formHidden($recheckForm->get('csrf'));
+             echo $this->formSubmit($recheckForm->get('submit'));
+             echo $this->form()->closeTag();
+            ?>
+         </div>
+         <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+            <div class="table-responsive">
+              <table id="datatable-buttons" class="table table-striped jambo_table bulk_action" width="100%">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title" width="5%">Sl.No.</th>
+                     <th class="column-title">Student</th>
+                     <th class="column-title">Programme</th>
+                     <th class="column-title">Academic Year</th>
+                     <th class="column-title">Year</th>
+                     <th class="column-title">Semester</th>
+                     <th class="column-title">Module Name (with Code)</th>
+                     <th class="column-title">Recheck Type</th>
+                     <th class="column-title">Payment Status</th>
+                     <th class="column-title">Recheck/ Re-evaluation Status</th>
+                      <th class="column-title">Payment Remarks</th>
+                      <th class="column-title">Recheck/Re-evaluation Remarks</th>
+                     <th class="column-title">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $i=1;  foreach($this->updatedRecheckList as $list): ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $list['first_name'].' '.$list['middle_name'].' '.$list['last_name'].' ('.$list['student_id'].')';?></td>
+                    <td class=" "><?php echo $list['programme_code'];?></td>
+                    <td class=" "><?php echo $list['academic_year'];?></td>
+                    <td class=" "><?php echo $list['year'];?></td>
+                    <td class=" "><?php echo $list['semester'];?></td>
+                    <td class=" "><?php echo $list['module_title'].' ('.$list['module_code'].')';?></td>
+                    <td class=" "><?php echo $list['type'];?></td>
+                    <td class=" "><?php echo $list['payment_status'];?></td>
+                    <td class=" "><?php echo $list['recheck_status'];?></td>
+                    <td class=" "><?php 
+                      if($list['payment_remarks'] == NULL){
+                        echo 'Not Paid';
+                      }else{
+                        echo $list['payment_remarks'];
+                      }
+                    ?></td>
+                    <td class=" "><?php 
+                      if($list['recheck_remarks'] == NULL){
+                        echo 'NA';
+                      }else{
+                        echo $list['recheck_remarks'];
+                      }
+                    ?></td>
+                    <td class=" ">
+                      <a href="<?php echo $this->url('recheckapplicationdetails', array('id' => my_encrypt($list['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</a>
+                    <?php if($list['payment_remarks'] == 'Not Paid'){?>
+                      <a href="<?php echo $this->url('deleteunpaidrecheckapplicant', array('id' => my_encrypt($list['id'], $key)));?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete</a>
+                      <?php } ?>
+                  </td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+              </div>
+                        </div>
+                      </div>
+                </div>
+         </div>
+       </div>
+     </div>
+  </div>
+</div>
+            

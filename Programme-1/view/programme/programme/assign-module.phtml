@@ -1,0 +1,160 @@
+<?php
+
+ $title = 'Assign Module Tutor';
+ $this->headTitle($title);
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+                </div>
+                  <div class="x_content">
+                 	<?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $form->get('programmes_id')->setValueOptions($this->programmeList);
+                    ?>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                            
+                      <div class="row">
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <label>Programme</label>
+                            <?php echo $this->formRow($form->get('programmes_id')); ?>
+                          </div>
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <label>Academic Module</label>
+                            <?php echo $this->formRow($form->get('academic_modules_id')); ?>
+                          </div>
+                       </div>
+                     
+                     <div class="row">
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <?php
+                               echo $this->formHidden($form->get('csrf'));
+                               echo $this->formSubmit($form->get('submit')); 
+                               echo $this->form()->closeTag(); 
+                            ?>
+                        </div>
+                    </div>
+                      
+                  </div>
+                </div>
+               </div>     
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Assign Module Tutors for Academic Year"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <?php if($this->programmes_id !=0 ){ ?>
+                            <?php
+                               $assignModuleTutorForm->setAttribute('action', $this->url('moduletutorassignment', array('action' => 'moduleTutorAssignment')));
+                                $form->prepare();
+                                echo $this->form()->openTag($assignModuleTutorForm);
+                                $assignModuleTutorForm->get('programmes_id')->setValue($this->programmes_id);
+                                echo $this->formHidden($assignModuleTutorForm->get('id'));  
+                                echo $this->formHidden($assignModuleTutorForm->get('programmes_id'));                     
+                        ?>
+                            <div class="x_content">
+                            <h5><i>*If tutors are not teaching, please do not assign any sections</b> </i></h5><br />
+                              <div  class="table-responsive">
+                                <table class="table table-striped jambo_table table-bordered">
+                                    <thead>
+                                      <tr class="headings">
+                                        <th class="column-title" width="10%">Sl. No</th>
+                                        <th class="column-title" width="10%">Programme Name</th>
+                                        <th class="column-title" width="20%">Module Title</th>
+                                        <th class="column-title" width="10%">Module Code</th>
+                                        <th class="column-title" width="10%">Module Tutor</th>
+                                        <th class="column-title" width="10%">Employee ID</th>
+                                        <th class="column-title">Sections</th>
+                                      </tr>
+                                    </thead>
+                                  <tbody>
+                                  
+                                  <?php $i =1; foreach($this->moduleAllocated as $module) { ?>
+                                    <tr class="even pointer">
+                                      <td class=" "><?php echo $i++; ?></td>
+                                      <td class=" "><?php echo $module['programme_name']; ?></td>
+                                      <td class=" "><?php echo $module['module_title']; ?></td>
+                                      <td class=" "><?php echo $module['module_code']; ?></td>
+                                      <td class=" "><?php echo $module['first_name'].' '.$module['middle_name'].' '.$module['last_name']; ?></td>
+                                      <td class=" "><?php echo $module['emp_id']; ?></td>
+                                      <td class=" last">
+										<?php
+                                          foreach ($this->sectionList as $key => $value):
+                                        ?>
+                                        <?php  echo $this->formRow($assignModuleTutorForm->get('section_'.$module['employee_details_id'].'_'.$module['academic_modules_id'].'_'.$key), 'append'); ?>
+                                        <?php 
+                                          endforeach;
+                                        ?>
+                                	 </td>
+                                    </tr>
+                                     <?php  } //end of foreach loop
+									 ?>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            <?php
+                            echo $this->formHidden($assignModuleTutorForm->get('csrf'));
+                            echo $this->formSubmit($assignModuleTutorForm->get('submit'));
+                            echo $this->form()->closeTag();
+                            ?>
+                            <?php 
+							}	//end of if loop
+							?>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>

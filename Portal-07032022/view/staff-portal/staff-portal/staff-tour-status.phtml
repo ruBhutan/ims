@@ -1,0 +1,97 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'TADA Details';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+	
+<div class="right_col" role="main">
+	<div class="">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2><?php echo $this->escapeHtml($title); ?></h2>
+					<div class="clearfix"></div>
+					<p><font color="red">Please check your travel status. If the status is <b>"Pending"</b> then you have not fully submitted your travel authorization with travel details. You can delete your travel authorization and if your recent/latest travel authorization is still "Pending" then delete it and again submit your travel authorization with travel details. <b>When you submit your travel details please read information carefully and submit your travel authorization with travel details.</b></font></p>
+				</div>
+				<?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+				<div class="x_content">
+					<div class="table-responsive">
+						<table id="datatable" class="table table-striped jambo_table bulk_action">
+							<thead>
+								<tr class="headings">
+									<th class="column-title">Sl.No.</th>
+									<th class="column-title"><span class="nobr">Applied Date</span></th>
+									<th class="column-title"><span class="nobr">Purpose of Tour</span></th>
+									<th class="column-title"><span class="nobr">No of Days</span></th>
+									<th class="column-title"><span class="nobr">Status</span></th>
+									<th class="column-title"><span class="nobr">Action</span></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php $i=1; ?>
+								<?php foreach ($this->tourList as $travels) : ?>
+								<tr class="even pointer">
+									<td class=" " width="8%"><?php echo $i; ?></td>
+									<td class=" "><?php echo $this->escapeHtml($travels['travel_auth_date']); ?></td>
+									<td class=" "><?php echo $this->escapeHtml($travels['purpose_of_tour']); ?></td>
+									<td class=" "><?php echo $this->escapeHtml($travels['no_of_days']); ?></td>
+									<td class=" "><?php echo $this->escapeHtml($travels['tour_status']); ?></td>
+									<td class=" " width="10%"> <a href="<?php echo $this->url('stafftourdetails', array('id' => my_encrypt($travels['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View Details</a>
+										<?php if($travels['tour_status'] == 'Approved'){?>
+									<a href="<?php echo $this->url('printapprovedtraveldetails', array('id' => my_encrypt($travels['id'], $key), 'type' => my_encrypt('individual', $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-print"></i> Print Details</a>									<?php if(!empty($travels['order_no'])){
+									    	if(!empty($travels['order_file'])){?>
+									    		<a href="<?php echo $this->url('downloadtravelorderfile', array('filename' => 'order_file'.$travels['id']));?>"><span class="btn btn-info  btn-xs"><i class="fa fa-download"></i> Download Order File</span></a>
+									    	<?php }	else{
+									    		echo "<font color='blue'><i>Order File Not Uploaded</i></font>";
+									    	}?>
+									    <?php } ?>
+								<?php } else if($travels['tour_status'] == 'Pending'){?>
+									<a href="<?php echo $this->url('deletestaffpendingtour', array('id' => my_encrypt($travels['id'], $key))); ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete </a>
+								<?php } ?>
+
+								</td>
+								</tr>
+								<?php $i++; ?>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div>
+				</div>		 
+			</div>
+		</div>
+	</div>
+</div>

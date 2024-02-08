@@ -1,0 +1,166 @@
+<?php
+ $title = 'ANNUAL UNIVERSITY  RESEARCH GRANT APPLICATION FORM';
+ $this->headTitle($title);
+ $researcher = array();
+ foreach($this->researcherDetails as $detail){
+	 $researcher['name'] = $detail['first_name'].' '.$detail['middle_name'].' '.$detail['last_name'];
+ }
+ $announcementDetails = array();
+ foreach($this->grantAnnouncement as $detail){
+	 $announcementDetails = $detail;
+ }
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  
+                  <div class="x_content">
+                  <?php if(strtotime($announcementDetails['end_date'])> strtotime(date('Y-m-d'))) { ?>
+                     <!-- Smart Wizard -->
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                      <ul class="wizard_steps">
+                          <li>
+                          <a href="#step-1" class="done">
+                            <span class="step_no">1</span>
+                            <span class="step_descr">
+                                  Step 1<br />
+                                  <small>GRANT TYPE AND TITLE</small> <br/>
+                                  <small>RESEARCHER(S)</small>
+                              </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-2" class="disabled">
+                            <span class="step_no">2</span>
+                            <span class="step_descr">
+                                  Step 2<br />
+                                  <small>PROJECT <br/>DESCRIPTION</small>
+                              </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-3" class="disabled">
+                            <span class="step_no">3</span>
+                            <span class="step_descr">
+                                  Step 3<br />
+                                  <small>ACTION PLAN AND BUDGET</small> <br/>
+                                  <small>RECEIVED GRANTS PREVIOUSLY OR NOT </small>
+                              </span>
+                          </a>
+                        </li>
+                      </ul>
+                 <div class="ln_solid"></div>
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $research = $form->get('aurgtitle');
+                    echo $this->form()->openTag($form);
+					echo $this->formHidden($research->get('id'));
+					$research->get('research_year')->setValue('2017-05-05');
+					$research->get('application_step_status')->setValue('Incomplete');
+					$research->get('employee_details_id')->setValue($this->employee_details_id);
+					$research->get('application_step_status')->setValue('Step 1'); 
+                 ?>
+                   <div id="step-1">
+                        <h2 class="StepTitle">Grant Type and Research Title</h2>
+                        <br />
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-3 col-xs-12">Grant applied for</label>
+                            <div class="col-md-2 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($research->get('grant_applied_for')); ?>
+                            </div>
+                            <label class="control-label col-md-2 col-sm-3 col-xs-12">Research Title</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <?php echo $this->formRow($research->get('research_title')); ?>
+                            </div>
+                          </div>
+                    </div>
+                    <br />
+                    <div id="step-2">
+                      <h2 class="StepTitle">Principal Researcher Details</h2>
+                      <br />
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Name</label>
+                        <div class="col-md-2 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $researcher['name']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">College</label>
+                        <div class="col-md-3 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Sherubtse College"readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Position level</label>
+                        <div class="col-md-1 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="P1"readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Contact</label>
+                        <div class="col-md-2 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="323456788"readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">E-mail</label>
+                        <div class="col-md-2 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="dselwa@gmail.com"readonly>
+                        </div>
+                      </div>
+                </div>
+                   
+                 <!-- Dynamically adding rows -->  
+                    <br /><br />
+                    <div class="clear"></div>
+                    <h2><?php echo $this->escapeHtml("Co-Researchers"); ?></h2>
+                    <br />
+                    <div class="clear"></div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Co-Researcher(s) Details </label>
+                       <?php   echo $this->formCollection($research->get('aurgresearchers')); ?>
+                    <div class="form-horizontal form-label-left">
+                        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-9">
+                          <button class="btn btn-success" type="button"  onclick="return add_category()"> Add More Co-Researchers</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+        
+               <!-- End of Dynamically added rows -->
+                
+          <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($research->get('research_year'));
+							echo $this->formHidden($research->get('application_step_status'));
+							echo $this->formHidden($research->get('csrf'));
+							echo $this->formHidden($research->get('employee_details_id'));
+                            echo $this->formRow($research->get('submit')); 
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+                      <?php } else { ?> <!-- End of the if loop-->
+                      	<h2 class="StepTitle">The last date for Applying for University Grant has Passed</h2>
+                      <?php } ?> <!-- End of the else loop-->
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+   </div>
+ </div>
+
+<script>
+     function add_category() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+ </script>

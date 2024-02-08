@@ -1,0 +1,1060 @@
+<?php
+ $title = 'Personal Details';
+ $this->headTitle($title);
+?>
+
+  <div class="right_col" role="main">
+
+        <div class="">
+         
+          <div class="clearfix"></div>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                   <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                  <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+
+                    <div class="profile_img">
+
+                      <!-- end of image cropping -->
+                      <div id="crop-avatar">
+                        <!-- Current avatar -->
+                      
+                        <!-- Cropping modal -->
+                        <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                              <form class="avatar-form" action="crop.php" enctype="multipart/form-data" method="post">
+                                <div class="modal-header">
+                                  <button class="close" data-dismiss="modal" type="button">&times;</button>
+                                  <h4 class="modal-title" id="avatar-modal-label">Change Avatar</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="avatar-body">
+
+                                    <!-- Upload image and data -->
+                                    <div class="avatar-upload">
+                                      <input class="avatar-src" name="avatar_src" type="hidden">
+                                      <input class="avatar-data" name="avatar_data" type="hidden">
+                                      <label for="avatarInput">Local upload</label>
+                                      <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+                                    </div>
+
+                                    <!-- Crop and preview -->
+                                    <div class="row">
+                                      <div class="col-md-9">
+                                        <div class="avatar-wrapper"></div>
+                                      </div>
+                                      <div class="col-md-3">
+                                        <div class="avatar-preview preview-lg"></div>
+                                        <div class="avatar-preview preview-md"></div>
+                                        <div class="avatar-preview preview-sm"></div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row avatar-btns">
+                                      <div class="col-md-9">
+                                        <div class="btn-group">
+                                          <button class="btn btn-primary" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees">Rotate Left</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="-15" type="button">-15deg</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="-30" type="button">-30deg</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="-45" type="button">-45deg</button>
+                                        </div>
+                                        <div class="btn-group">
+                                          <button class="btn btn-primary" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees">Rotate Right</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="15" type="button">15deg</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="30" type="button">30deg</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="45" type="button">45deg</button>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                        <button class="btn btn-primary btn-block avatar-save" type="submit">Done</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- <div class="modal-footer">
+                                                  <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+                                                </div> -->
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- /.modal -->
+
+                        <!-- Loading state -->
+                        <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+                      </div>
+                      <!-- end of image cropping -->
+
+                    </div>
+                    <h3>Dorjee Wangmo</h3>
+
+                    <ul class="list-unstyled user_data">
+                      <li><i class=""></i> Bsc.Computer Science,
+                      </li>
+
+                      <li>
+                        <i class=""></i> 2nd Semester
+                      </li>
+
+                    </ul>
+                    <br />
+                     </div>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#tab_content1" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="true">Personal Details</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Qualifications</a>
+                      </li>
+                       <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Other Activities</a>
+                      </li>
+                       <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Other Responsibility Shouldered</a>
+                       </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="profile-tab">
+                       <br/> 
+                       <p> 
+                <div class="x_panel">
+                <div class="x_content">
+                      <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('emp_id'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Full Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('emp_first_name'));
+                        ?>
+                        </div>
+                      
+                    
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('emp_midd_name'));
+                        ?>
+                        </div>
+                       
+                    
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('emp_last_name'));
+                        ?>
+                        
+                      </div>
+                  </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">CID <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                         echo $this->formRow($form->get('cid'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                         echo $this->formRow($form->get('nationality'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                     <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                         echo $this->formRow($form->get('date_of_birth'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">House No. <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('emp_house_no'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Thram No. <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('emp_thram_no'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('emp_dzongkhag'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('emp_gewog'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Village <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('emp_village'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Category <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('emp_category'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('gender'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Marital Status <span class="required">*</span>
+                        </label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                        echo $this->formRow($form->get('marital_status'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="ln_solid"></div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                  <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit</a>
+                    <button class="btn btn-success">Save </button>
+                        </div>
+                    </div>
+                    </div>
+                   <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                     </div></div> 
+                  </div>
+                        
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                        <br/> 
+                       <p>
+                            
+                           <div class="x_panel"> 
+                          <div class="x_title">
+ <h2>Work Experience</h2>                  <div class="clearfix"></div>
+                </div>         
+                         <div class="x_content">
+                    <br/>
+                        <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                        <div class="row">
+                          <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Company<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php
+                        echo $this->formRow($form->get('emp_id'));
+                        ?>
+                          </div>
+                        </div>
+                        </div>
+                    
+                   
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formRow($form->get('emp_job_title'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                    
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">From<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                        echo $this->formRow($form->get('emp_experience_yr'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">To<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                        echo $this->formRow($form->get('emp_experience_yr'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Comments<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                    
+                        echo $this->formRow($form->get('emp_work_experience'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                   
+                    <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formSubmit($form->get('submit'));                  
+                        echo $this->formSubmit($form->get('reset')); 
+                      ?>
+                    </div>
+                    
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                   </div></div>  
+                           
+                       
+                        <div class="x_content">
+                       <table class="table table-striped jambo_table bulk_action">
+     
+                    <div class="row">
+                    <div class="ln_solid"></div>
+                    <button class="btn btn-success">ADD</button>
+                    </div>
+                    </table></div>
+                     
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                        <th>
+                          <input type="checkbox" id="check-all" class="flat">
+                        </th>                          
+                        <th class="column-title">Company</th>
+                         <th class="column-title">Position Title </th>
+                           <th class="column-title">From </th>
+                            <th class="column-title">To </th>
+                            <th class="column-title">Comments </th>
+                         </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                        <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>eDruk</td>
+                        <td>ICT</td>
+                        <td>2/2/2012</td>
+                        <td>2/2/2017</td>
+                         <td>ccccc</td>
+                      </tr>
+                      <tr>
+                        <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>eDruk</td>
+                        <td>ICT</td>
+                       <td>2/2/2012</td>
+                        <td>2/2/2019</td>
+                        <td>ccccc</td>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div></div></div>  
+                       
+                       
+                         <div class="x_panel"> 
+                              <div class="x_title">
+                                <h2>Education </h2>                  
+                                <div class="clearfix"></div>
+                                </div>     
+                        
+                        <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                    
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Level:<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formRow($form->get('emp_job_title'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                    
+                        <div class="row">
+                          <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Institutes:<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php
+                        echo $this->formRow($form->get('emp_id'));
+                        ?>
+                          </div>
+                        </div>
+                        </div>
+                    
+                     <div class="row">
+                          <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Major/Specialization:<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php
+                        echo $this->formRow($form->get('emp_id'));
+                        ?>
+                          </div>
+                        </div>
+                        </div>
+                    
+                    
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">From:<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                        echo $this->formRow($form->get('emp_experience_yr'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">To:<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                        echo $this->formRow($form->get('emp_experience_yr'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    
+            
+                    <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formSubmit($form->get('submit'));                  
+                        echo $this->formSubmit($form->get('reset')); 
+                      ?>
+                    </div>
+                    
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                   </div>
+                        <div class="x_content">
+                       <table class="table table-striped jambo_table bulk_action">
+     
+                    <div class="row">
+                    <div class="ln_solid"></div>
+                   <button class="btn btn-success">Add </button>
+                    </div>
+                       </table></div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                        <th>
+                          <input type="checkbox" id="check-all" class="flat">
+                        </th>                          
+                        <th class="column-title">Level </th>
+                         <th class="column-title">institute </th>
+                          <th class="column-title">Major/Specialization </th>
+                           <th class="column-title">From </th>
+                            <th class="column-title">To </th>
+                         </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                        <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>Degree</td>
+                        <td>Sherubtse</td>
+                        <td>ICT</td>
+                        <td>2/2/2009</td>
+                        <td>2/2/2012</td>
+                      </tr>
+                      <tr>
+                        <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>Masters Degree</td>
+                        <td>Australian University</td>
+                        <td>Management</td>
+                        <td>2/2/2015</td>
+                        <td>2/2/2017</td>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div></div></div>
+                       
+                   </div>
+                  
+                  <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                       <br/> 
+                       <p> 
+                       <div class="x_panel"> 
+<div class="x_title">
+                                <h2>Award </h2>                  
+                                <div class="clearfix"></div>
+                                </div>                    
+                        
+                        <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                        
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Award type<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                    
+                        echo $this->formRow($form->get('emp_award_type'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Award Details<span class="required">*</span>
+                        </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                               <?php 
+                               echo $this->formRow($form->get('emp_award_detail'));
+                               ?> 
+                            </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Year<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                        echo $this->formRow($form->get('emp_award_yr'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formSubmit($form->get('submit')); 
+                        echo $this->formSubmit($form->get('reset')); 
+                      ?>
+                    </div>
+                      </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+               
+                        <div class="x_content">
+                       <table class="table table-striped jambo_table bulk_action">
+     
+                    <div class="row">
+                    <div class="ln_solid"></div>
+                    <button class="btn btn-success">Add </button>
+                    </div>
+                    </table></div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                        <th>
+                          <input type="checkbox" id="check-all" class="flat">
+                        </th>                          
+                        <th class="column-title">Award type</th>
+                         <th class="column-title">Award Details</th>
+                          <th class="column-title">Year</th>
+                         </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>President Award</td>
+                        <td>Awarded to the best student of the year</td>
+                        <td>2012</td>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div></div></div>
+                       
+                       <div class="x_panel">
+                           <div class="x_title">
+   <h2>Community Services</h2>  
+                           <div class="clearfix"></div>
+                           </div>                  
+                        
+                        <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Work Title<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formRow($form->get('emp_job_title'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Description of work<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                    
+                        echo $this->formRow($form->get('description_of_work'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                    
+                     <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">From: Date<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                        echo $this->formRow($form->get('emp_community_service_yr'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">From: To<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                        echo $this->formRow($form->get('emp_community_service_yr'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                    
+                        echo $this->formRow($form->get('remarks'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                    
+                   
+                    
+                    <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formSubmit($form->get('submit')); 
+                        echo $this->formSubmit($form->get('reset')); 
+                      ?>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                        <div class="x_content">
+                       <table class="table table-striped jambo_table bulk_action">
+     
+                    <div class="row">
+                    <div class="ln_solid"></div>
+                   <button class="btn btn-success">Add </button>
+                    </div>
+                    </table></div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                        <th>
+                          <input type="checkbox" id="check-all" class="flat">
+                        </th>                          
+                        <th class="column-title">Work Title</th>
+                         <th class="column-title">Work Descriptions</th>
+                          <th class="column-title">From:Date</th>
+                          <th class="column-title">To:Date</th>
+                          <th class="column-title">Remarks</th>
+                         </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>Social Work</td>
+                        <td>Social service to needy peoples</td>
+                        <td>2/2/2012</td>
+                         <td>2/8/2012</td>
+                          <td></td>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div></div></div>
+                       <div class="x_panel">
+                           <div class="x_title">
+                    <h2>Contributions</h2> 
+                    <div class="clearfix"></div></div>
+                        
+                        <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Contribution Title<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                    <?php
+                        echo $this->formRow($form->get('emp_job_title'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Contribution details<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                    <?php
+                    
+                        echo $this->formRow($form->get('emp_contribution_type'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Year<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                            <?php
+                        echo $this->formRow($form->get('emp_contribution_yr'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                    <?php
+                        echo $this->formSubmit($form->get('submit')); 
+                        echo $this->formSubmit($form->get('reset')); 
+                      ?>
+                    </div>
+                    
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                          
+                        <div class="x_content">
+                       <table class="table table-striped jambo_table bulk_action">
+     
+                    <div class="row">
+                    <div class="ln_solid"></div>
+                   <button class="btn btn-success">Add </button>
+                    </div>
+                    </table></div>
+                       
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                        <th>
+                          <input type="checkbox" id="check-all" class="flat">
+                        </th>                          
+                        <th class="column-title">Contribution Title</th>
+                         <th class="column-title">Contribution Descriptions</th>
+                          <th class="column-title">From:Date</th>
+                          <th class="column-title">To:Date</th>
+                          <th class="column-title">Remarks</th>
+                         </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>Lhakhang Wash</td>
+                        <td></td>
+                        <td>2/2/2012</td>
+                         <td>2/8/2012</td>
+                          <td></td>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div></div></div>
+                       
+                      </div>      
+                        
+              <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                       <br/> 
+                       <p> 
+                           
+                       <div class="x_panel"> 
+                        <div class="x_title" >
+                       <h2>Responsibility Shouldered</h2>    
+                        <div class="clearfix"></div></div>
+                        <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                    
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Responsibility Taken<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                    <?php
+                    
+                        echo $this->formRow($form->get('emp_responsibility_taken'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                   
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date:To<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                            <?php
+                        echo $this->formRow($form->get('emp_responsibility_yr'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date:From<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                            <?php
+                        echo $this->formRow($form->get('emp_responsibility_yr'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                    <?php
+                        echo $this->formSubmit($form->get('submit')); 
+                        echo $this->formSubmit($form->get('reset')); 
+                      ?>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                         
+                        <div class="x_content">
+                       <table class="table table-striped jambo_table bulk_action">
+     
+                    <div class="row">
+                    <div class="ln_solid"></div>
+                <button class="btn btn-success">Add </button>
+                    </div>
+                    </table></div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                        <th>
+                          <input type="checkbox" id="check-all" class="flat">
+                        </th>                          
+                        <th class="column-title">Responsibility </th>
+                        <th class="column-title">Date:From </th>
+                        <th class="column-title">Date:To </th>
+                         </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>Provost</td>
+                        <td>2/2/2013</td>
+                        <td>2/2/2016</td>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div></div></div>
+                      </div> 
+          </div>
+        </div>
+                      </div>
+                    </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      <!-- /page content -->
+    </div>
+
+  </div>
+
+  <div id="custom_notifications" class="custom-notifications dsp_none">
+    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+    </ul>
+    <div class="clearfix"></div>
+    <div id="notif-group" class="tabbed_notifications"></div>
+  </div>

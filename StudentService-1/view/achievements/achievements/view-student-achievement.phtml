@@ -1,0 +1,88 @@
+<?php
+ $title = 'Student Achievements Details';
+ $this->headTitle($title);
+ $student_achievements = array();
+ foreach($this->studentAchievement as $achievement){
+	 $student_achievements[] = $achievement;
+	 $student_name = $achievement['first_name']. ' '.$achievement['middle_name']. ' '.$achievement['last_name'];
+	 $student_id = $achievement['student_id'];
+	 $student_programme = $achievement['programme_name'];
+	 $student_year = $achievement['enrollment_year'];
+   $achievement_name = $achievement['achievement_name'];
+   $achievement_remarks = $achievement['remarks'];
+ }
+
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+					         <?php
+					         // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $award = $form->get('achievements');
+                    ?>
+                    <div class="row">
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $student_name; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $student_id; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme Name:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $student_programme; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Enrollment Year:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $student_year; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+
+                       <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Achievement Name:</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input type="text" placeholder="<?php echo $achievement_name; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks:</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <textarea class="form-control" rows="4" disabled="disabled"><?php echo $achievement_remarks; ?></textarea>
+                          
+                        </div>
+                      </div>
+
+                    </div>
+                            <!-- end work experience -->            
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+                               echo $this->form()->closeTag();
+                            ?>
+                            </div>
+                    	  </div>
+                     </div>
+                 
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>

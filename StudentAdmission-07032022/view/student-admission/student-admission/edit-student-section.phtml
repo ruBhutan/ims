@@ -1,0 +1,189 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+    $title = 'Student List';
+    $this->headTitle($title);
+
+     //get student list in an array
+ $studentName = array();
+ //$studentId = array();
+ //$criteriaName = array();
+ $i=1;
+ $j=1;
+ foreach($this->editStudentList as $student){
+    $studentId[$i] = $student['studentId'];
+    $stuId[$i] = $student['id'];
+    $studentName[$i] = $student['first_name']. ' ' .$student['middle_name'].' '.$student['last_name'];
+    $sectionName[$i] = $student['student_section_id'];
+    $currentSection[$i] = $student['section'];
+    $semesterName[$i] = $student['semester'];
+    $yearName[$i] = $student['year'];
+    $academicYear[$i] = $student['academic_year'];
+    $i++;
+ }
+ 
+?>
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div> 
+
+                <div class="col-md-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("Search for List of Student to edit section")?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                  
+                        </div>
+
+                        <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                        ?>
+                       
+                        <div class="x_content">
+                            <h5><i>*(In order to search the list of student  and to edit section to them, you have to select programme, Year and semester from drop down list and click on search button to display the list of students with respect to the programme you select.)<br />
+                                        **When list display, select section from drop down list and at once you can submit their section** </i></h5>
+                                  <br />
+                            <?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $form->get('year')->setValueOptions($this->studentYear);
+                            ?>
+                        
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme</label>
+                                    <?php echo $this->formRow($form->get('programmes_id')); ?>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Year</label>
+                                    <?php echo $this->formRow($form->get('year')); ?>
+                                </div>
+                            </div>                         
+                            <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->escapeHtml("List of student to edit section"); ?></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <?php
+                       
+                                // Opening of the form tag
+                               $editStudentSectionForm->setAttribute('action', $this->url('updateeditedstudentsection', array('action' => 'updateEditedStudentSection')));
+                                $form->prepare();
+                                echo $this->form()->openTag($editStudentSectionForm);
+                                $editStudentSectionForm->get('studentCount')->setValue($this->studentCount);
+                                $editStudentSectionForm->get('programmes_id')->setValue($this->programmesId);
+                                $editStudentSectionForm->get('year')->setValue($this->yearId);
+                               // $studentSectionForm->get('student_section_id')->setValue($editStudentList['student_section_id']);
+                                echo $this->formHidden($editStudentSectionForm->get('programmes_id'));
+                                echo $this->formHidden($editStudentSectionForm->get('year'));
+                                echo $this->formHidden($editStudentSectionForm->get('id'));  
+                                echo $this->formHidden($editStudentSectionForm->get('studentCount'));                            
+                        ?>      
+                        <div class="x_content">
+                            <h5><i>Below are the list of student with default section since at the time of reporting, they are provided/ allocated to section <b>"A"</b>.<br /><br/>
+                            Based on their current section, please select the section from drop down list for all students and submit in bulk. </i></h5>
+                            <div  class="table-responsive">
+                                <div id="print-content">
+				<table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered" border="1">  
+                                    <thead>
+                                        <tr class="headings">
+                                                                      
+                                            <th class="column-title" width="10%">Sl.No. </th>
+                                            <th class="column-title">Student Id</th>
+                                            <th class="column-title">Name</th>
+                                            <th class="column-title">Year</th>
+                                            <th class="column-title">Semester</th>
+                                            <th class="column-title">Academic Year</th>
+                                            <th class="column-title">Current Section</th>
+                                            <th class="column-title">Section</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php for($i = 1; $i<=$this->studentCount; $i++) {?>
+                                        <tr class="even pointer">
+                                            <td class=" "><?php echo $i; ?></td>
+                                            <td class=" "><?php echo $studentId[$i]; ?></td>
+                                            <td class=" "><?php echo $studentName[$i]; ?></td>
+                                            <td class=" "><?php echo $yearName[$i]; ?></td>
+                                            <td class=" "><?php echo $semesterName[$i]; ?></td>
+                                            <td class=" "><?php echo $academicYear[$i]; ?></td>
+                                            <td class=" "><?php echo $currentSection[$i]; ?></td>
+                                            <td class=" "><?php 
+                                            $editStudentSectionForm->get('student_section_id'.$i)->setValue($sectionName[$i]);
+                                            echo $this->formRow($editStudentSectionForm->get('student_section_id'.$i)); 
+
+                                            ?><?php //echo $stuId[$i]; ?></td>
+                                            
+                                        </tr>
+                                        <?php  }?>
+                                    </tbody>
+                                </table>
+                                <input type="button" class="btn btn-primary" onclick="printDiv('print-content')" value="Print this Page"/>
+                            </div>
+			</div>
+                        <?php
+                            echo $this->formHidden($editStudentSectionForm->get('csrf'));
+                            echo $this->formSubmit($editStudentSectionForm->get('submit'));
+                            echo $this->form()->closeTag();
+                        
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>      
+</div>           
+       
+                

@@ -1,0 +1,255 @@
+<?php
+$title = 'Leave Status';
+$this->headTitle($title);
+$total_leave_taken = array();
+$leave_category = array();
+$earned_leave_id = NULL;
+$casual_leave_id = NULL;
+//Added By Tashi, ICT
+$annual_leave_id = NUll;
+//ended by Tashi, ICT
+
+$earned_leave_balance = $this->leaveBalance['earned_leave'];
+$casual_leave_balance = $this->leaveBalance['casual_leave'];
+
+//added by Tashi, ICT
+$annual_leave_balance = $this->leaveBalance['annual_leave'];
+//ended by Tashi, ICT
+foreach ($this->leaveCategory as $leave) {
+    $leave_category[] = $leave;
+}
+
+foreach ($this->totalLeaveTaken as $key => $value) {
+    $total_leave_taken[$key] = $value;
+    //var_dump($total_leave_taken);
+} //var_dump($leave_category); echo '<br>';
+
+$key = $this->keyphrase;
+function my_encrypt($data, $key)
+{
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+/*
+foreach($this->eolTaken as $total){
+if($total_leave_taken == NULL)
+$total_leave_taken[$total['emp_leave_category_id']] = $total['days_of_leave'];
+else
+$total_leave_taken[$total['emp_leave_category_id']] += $total['days_of_leave'];
+}
+
+foreach($this->studyLeaveTaken as $total){
+if($total_leave_taken == NULL)
+$total_leave_taken[$total['emp_leave_category_id']] = $total['days_of_leave'];
+else
+$total_leave_taken[$total['emp_leave_category_id']] += $total['days_of_leave'];
+}
+foreach($this->maternityLeaveTaken as $total){
+if($total_leave_taken == NULL)
+$total_leave_taken[$total['emp_leave_category_id']] = $total['days_of_leave'];
+else
+$total_leave_taken[$total['emp_leave_category_id']] += $total['days_of_leave'];
+}
+
+foreach($this->escortLeaveTaken as $total){
+if($total_leave_taken == NULL)
+$total_leave_taken[$total['emp_leave_category_id']] = $total['days_of_leave'];
+else
+$total_leave_taken[$total['emp_leave_category_id']] += $total['days_of_leave'];
+} */
+
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <?php if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach ($messages as $message) {
+                        echo '<strong>Success!</strong>' . $message;
+                    }
+                    echo '</div>';
+                } else if ($this->message == 'Failure' && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach ($messages as $message) {
+                        echo '<strong>Warning!</strong>' . $message;
+                    }
+                    echo '</div>';
+                } ?>
+                <div class="x_content">
+                    <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                            <tr class="headings">
+                                <th width="5%" class="column-title">Sl.No </th>
+                                <th width="10%" class="column-title">Leave Types</th>
+                                <th width="10%" class="column-title">Total Days of Leave Entitlement</th>
+                                <th width="25%" class="column-title">Description</th>
+                                <th width="10%" class="column-title">Leave Balance</th>
+                                <th width="10%" class="column-title">Approval From</th>
+                                <th width="10%" class="column-title">Apply</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php $i = 1;
+                            foreach ($leave_category as $category) : ?>
+                            <tr class="even pointer">
+                                <td class=" "><?php echo $i++; ?></td>
+                                <td class=" "><?php echo $this->escapeHtml($category['leave_category']); ?></td>
+                                <td class=" "><?php
+                                                    if ($category['leave_category'] != 'Earned Leave')
+                                                        echo $this->escapeHtml((float)$category['total_days']);
+                                                    else
+                                                        echo $this->escapeHtml($earned_leave_balance); ?></td>
+                                <td class=" "><?php echo $this->escapeHtml($category['remarks']); ?></td>
+                                <td class=" ">
+                                    <?php
+                                        if ($category['leave_category'] == 'Earned Leave') {
+                                            echo $this->escapeHtml((float)$earned_leave_balance);
+                                        } else if ($category['leave_category'] == 'Casual Leave') {
+                                            echo $this->escapeHtml((float)$casual_leave_balance);
+                                        } else if ($category['leave_category'] == 'Annual Leave') {
+                                            echo $this->escapeHtml((float)$annual_leave_balance);
+                                        } elseif ($category['leave_category'] == 'Paternity Leave' || $category['leave_category'] == 'Bereavement Leave' || $category['leave_category'] == 'Maternity Leave' || $category['leave_category'] == 'Medical Escort Leave' || $category['leave_category'] == 'Study Leave (Without Pay)' || $category['leave_category'] == 'Extraordinary Medical Leave') {
+
+                                            echo "NA";
+                                        } elseif ($category['leave_category'] == 'Study Leave (Administrative & Technical)') {
+                                            if ($employeeOccupationalGroup['id'] == '2') {
+                                                if (array_key_exists($category['id'], $total_leave_taken))
+                                                    echo $this->escapeHtml((float)$category['total_days']) - $total_leave_taken[$category['id']];
+                                                else
+                                                    echo $this->escapeHtml((float)$category['total_days']);
+                                            } else {
+                                                echo "NA";
+                                            }
+                                        } elseif ($category['leave_category'] == 'Study Leave (Academics)') {
+                                            if ($employeeOccupationalGroup['id'] == '1') {
+                                                if (array_key_exists($category['id'], $total_leave_taken))
+                                                    echo $this->escapeHtml((float)$category['total_days']) - $total_leave_taken[$category['id']];
+                                                else
+                                                    echo $this->escapeHtml((float)$category['total_days']);
+                                            } else {
+                                                echo 'NA';
+                                            }
+                                        } else {
+                                            //Need to deduct the number of days leave was taken for each category
+                                            if (array_key_exists($category['id'], $total_leave_taken))
+                                                echo $this->escapeHtml((float)$category['total_days']) - $total_leave_taken[$category['id']];
+                                            else
+                                                echo $this->escapeHtml((float)$category['total_days']);
+                                        }
+
+                                        ?></td>
+                                <td class=" "><?php echo $this->escapeHtml($category['approval_by']); ?></td>
+                                <td class=" ">
+                                    <?php if ($category['leave_category'] == 'Study Leave (Administrative & Technical)') {
+                                            if ($employeeOccupationalGroup['id'] == '2') {
+                                                if (array_key_exists($category['id'], $total_leave_taken) && $category['category_type'] == "non_recurrent") {
+                                                    if ((((float)$category['total_days']) - $total_leave_taken[$category['id']]) <= 0) {
+                                                        echo $this->escapeHtml("No Leave Balance1");
+                                                    } else { ?>
+
+                                    <a href="<?php echo $this->url('empleaveapplication', array('id' => my_encrypt($category['id'], $key))); ?>"
+                                        class="btn btn-info btn-xs">Apply</a>
+                                    <?php }
+                                                }
+                                            } else {
+                                                echo "You are not eligible to apply";
+                                            }
+                                        } elseif ($category['leave_category'] == 'Study Leave (Academics)') {
+                                            if ($employeeOccupationalGroup['id'] == '1') {
+                                                if (array_key_exists($category['id'], $total_leave_taken) && $category['category_type'] == "non_recurrent") {
+                                                    if ((((float)$category['total_days']) - $total_leave_taken[$category['id']]) <= 0) {
+                                                        echo $this->escapeHtml("No Leave Balance2");
+                                                    } else {
+                                                    ?>
+                                    <a href="<?php echo $this->url('empleaveapplication', array('id' => my_encrypt($category['id'], $key))); ?>"
+                                        class="btn btn-info btn-xs">Apply</a>
+                                    <?php }
+                                                }
+                                            } else {
+                                                echo 'You are not eligible to apply';
+                                            }
+                                        } /*elseif ($category['leave_category'] == 'Annual Leave') {
+                                                        echo $this->escapeHtml("Under Development");
+
+                                        } */ elseif ($category['leave_category'] == 'Annual Leave') {
+                                            if ($employeeOccupationalGroup['id'] == '2') {
+                                                if ($category['category_type'] == "non_recurrent") {
+                                                    if ((float)$annual_leave_balance <= 0) {
+                                                        echo $this->escapeHtml("No Leave Balance");
+                                                    } else {
+                                                    ?>
+                                    <a href="<?php echo $this->url('empleaveapplication', array('id' => my_encrypt($category['id'], $key))); ?>"
+                                        class="btn btn-info btn-xs">Apply</a>
+                                    <?php }
+                                                }
+                                            } else {
+                                                echo 'You are not eligible to apply';
+                                            }
+                                        }
+                                        
+                                        elseif (array_key_exists($category['id'], $total_leave_taken) && $category['category_type'] == "non_recurrent") {
+                                            if (preg_match('/Casual Leave/', $category['leave_category'])) {
+                                                if (((float)$casual_leave_balance <= 0)) { ?>
+                                    <?php echo $this->escapeHtml("No Leave Balance");
+                                                } else { ?>
+                                    <a href="<?php echo $this->url('empleaveapplication', array('id' => my_encrypt($category['id'], $key))); ?>"
+                                        class="btn btn-info btn-xs">Apply</a>
+                                    <?php }
+                                            } else if (preg_match('/Earned Leave/', $category['leave_category'])) {
+                                                if (((int)$earned_leave_balance <= 0)) { ?>
+                                    <?php echo $this->escapeHtml("No Leave Balance");
+                                                } else { ?>
+                                    <a href="<?php echo $this->url('empleaveapplication', array('id' => my_encrypt($category['id'], $key))); ?>"
+                                        class="btn btn-info btn-xs">Apply</a>
+                                    <?php }
+                                            } 
+                                        else if (($category['total_days']) - $total_leave_taken[$category['id']] <= 0 && $category['leave_category'] == 'Paternity Leave') { ?>
+                                    <a href="<?php echo $this->url('empleaveapplication', array('id' => my_encrypt($category['id'], $key))); ?>"
+                                        class="btn btn-info btn-xs">Apply</a>
+                                    <?php } else if ((($category['total_days']) - $total_leave_taken[$category['id']] <= 0 && $category['leave_category'] == 'Medical Leave') || (($category['total_days']) - $total_leave_taken[$category['id']] <= 0)) { ?>
+                                    <?php echo $this->escapeHtml("No Leave Balance" . $this->totalLeaveTaken[$category['id']]);
+                                            } else if (($category['leave_category'] == 'Annual Leave') && ($employeeOccupationalGroup['id'] == '1')) { ?>
+                                    <?php echo $this->escapeHtml("Not eligible for Academic staffs");
+                                            } else { ?>
+                                    <a href="<?php echo $this->url('empleaveapplication', array('id' => my_encrypt($category['id'], $key))); ?>"
+                                        class="btn btn-info btn-xs">Apply</a>
+                                    <?php }
+                                        } else if ((array_key_exists($category['id'], $total_leave_taken) && $category['category_type'] == "recurrent") && ($category['total_days']) - $total_leave_taken[$category['id']] <= 0 && $category['leave_category'] == 'Medical Leave') {
+                                            echo $this->escapeHtml("No Leave Balance6");
+                                        } else { ?>
+                                    <a href="<?php echo $this->url('empleaveapplication', array('id' => my_encrypt($category['id'], $key))); ?>"
+                                        class="btn btn-info btn-xs">Apply</a>
+                                    <?php
+                                        }
+                                        ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+
+                    </table>
+                    <h6>Notes:No Leave carry over for Teaching(academic) employees</h6>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

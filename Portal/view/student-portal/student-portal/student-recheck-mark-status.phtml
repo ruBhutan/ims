@@ -1,0 +1,54 @@
+<?php
+
+ $title = 'Recheck Marks Application Status';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+
+                        <div class="table-responsive">
+                          <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                              <tr class="headings">
+                                 <th class="column-title">Sl.No </th>
+                                 <th class="column-title">Module</th>
+                                 <th class="column-title">Previous Marks</th>
+                                 <th class="column-title">Payment Status</th>
+                                 <th class="column-title">Repayment Status</th>
+                                 <th class="column-title">Application Date</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                           <?php $i=1; foreach ($this->recheckMarks as $recheck) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                                <td class=" "><?php echo $this->escapeHtml($recheck['module_title'].' ('.$recheck['module_code'].')');?></td>
+                                <td class=" "><?php echo $this->escapeHtml($recheck['previous_marks']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($recheck['payment_status']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($recheck['repayment_status']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($recheck['application_date']);?></td>
+                              </tr>
+                              <?php endforeach; ?>
+                            </tbody>
+                          </table>
+                        </div>
+                        </div>                        
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

@@ -1,0 +1,76 @@
+<?php
+
+ $title = 'Applied Counseling Appointment Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">
+                        <?php
+                        $applicationDetails = array();
+                        foreach ($this->appointmentDetail as $details): {
+                            $applicationDetails['counselor_type'] = $details['counselor_type'];
+                            $applicationDetails['subject'] = $details['subject'];
+                            $applicationDetails['description'] = $details['description'];
+                            $applicationDetails['appointment_time'] = $details['appointment_time'];
+                            $applicationDetails['appointment_date'] = $details['appointment_date'];
+                            $applicationDetails['remarks'] = $details['remarks'];
+                            $applicationDetails['appointment_status'] = $details['appointment_status'];
+                        }
+                     ?>
+                     <h4>Application Details</h4>
+                     <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Counselor Type:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['counselor_type']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Subject:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['subject']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Appointment Status:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['appointment_status']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Description:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['description']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Appointment Date:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['appointment_date']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Appointment Time:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['appointment_time']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $applicationDetails['remarks']; ?>
+                                        </div>
+                            </div><br/><br/><br/>
+                            <?php endforeach; ?><br/><br/>                         
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+</div>
+
+
+ 

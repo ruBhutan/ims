@@ -1,0 +1,68 @@
+<?php
+ $title = 'List of Applicants for Reassessment of Module';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+      <div class="">
+        <div class="col-md-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><?php echo $this->escapeHtml($title); ?></h2>
+             <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <br />
+             <div class="table-responsive">
+              <table class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title" width="5%">Sl.No.</th>
+                     <th class="column-title">Student</th>
+                     <th class="column-title">Programme</th>
+                     <th class="column-title">Academic Year</th>
+                     <th class="column-title">Year</th>
+                     <th class="column-title">Semester</th>
+                     <th class="column-title">Module Name (with Code)</th>
+                     <th class="column-title">Module Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $i=1;  foreach($this->assessmentList as $list): ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $list['first_name'].' '.$list['middle_name'].' '.$list['last_name'].' ('.$list['student_id'].')';?></td>
+                    <td class=" "><?php echo $list['programme_name'];?></td>
+                    <td class=" "><?php echo $list['academic_year'];?></td>
+                    <td class=" "><?php echo $list['year'];?></td>
+                    <td class=" "><?php echo $list['semester'];?></td>
+                    <td class=" "><?php echo $list['module_title'].' ('.$list['module_code'].')';?></td>
+                    <td class=" "><?php echo $list['module_type'];?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+         </div>
+       </div>
+     </div>
+  </div>
+</div>
+            

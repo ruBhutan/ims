@@ -1,0 +1,171 @@
+<?php
+ $title = 'RUB Vision and Mission';
+ $this->headTitle($title);
+ $rub_objectives = array();
+ foreach($this->objectives as $detail){
+	 $rub_objectives[] = $detail;
+ }
+ foreach($this->five_year_plan as $key => $value){
+	$five_year = $value; 
+ }
+
+?>
+	<!-- page content -->
+      <div class="right_col" role="main">
+        <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml('Five Year Plan'); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+					$form->get('five_year_plan')->setValueOptions($this->fiveYearPlanList);
+				  ?>  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12"> </label>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                      <?php  echo $this->formRow($form->get('five_year_plan')); ?>
+                    </div>
+                </div>
+                </div>
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+                           
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($form->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+              
+        <!--  List of Vision and Mission -->      
+              
+        <div class="x_panel">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="dashboard_graph">
+
+                <div class="row x_title">
+                  <div class="col-md-6">
+                    <h3>RUB Vision and Mission <small><?php echo $five_year; ?></small></h3>
+                  </div>
+                </div>
+                <!-- Vision and Mission -->
+                <div class="col-md-8 col-sm-8 col-xs-12">
+                  <div class="row">
+                      <div class="form-group">
+                        <div class="pricing_features">
+                        <h4>Vision</h4>
+                         <?php $i=1; foreach($this->vision as $vision): ?>
+                          <article class="media event">
+                            <a class="pull-left border-aero profile_thumb"><i><?php echo $i++; ?></i></a>
+                            <div class="media-body">
+                              <br />
+                              <p><?php echo $vision['vision']; ?></p>
+                            </div>
+                          </article>
+                        <?php endforeach; ?>
+                        <br />
+                        <h4> Mission</h4>
+                        <?php $i =1; foreach($this->mission as $mission): ?>
+                          <article class="media event">
+                            <a class="pull-left border-aero profile_thumb"><i><?php echo $i++; ?></i></a>
+                            <div class="media-body">
+                              <br />
+                              <p><?php echo $mission['mission']; ?></p>
+                            </div>
+                          </article>
+                        <?php endforeach; ?>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12 bg-white">
+                  <div class="x_title">
+                    <h2>Objectives and Their Weightage</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <canvas id="doughnut-chart"></canvas>
+                  </div>
+                  <div class="col-md-12 col-sm-12 col-xs-6">
+                    <div>
+                      <?php $i = 1; foreach($rub_objectives as $objective): ?>
+                      <p><?php echo 'Objective '.$i++.': '.$objective['objectives'].' ( '. $objective['weightage'].')' ?>; </p>
+                      <div class="">
+                        <div class="progress progress_sm" style="width: <?php echo $objective['weightage']; ?>;">
+                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
+                        </div>
+                      </div>
+                     <?php endforeach; ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
+          </div>
+          <br />
+        </div>
+      </div>
+    </div>
+   </div>
+
+<?php
+$objective_1 = $rub_objectives[0]['objectives'];
+$objective_2 = $rub_objectives[1]['objectives'];
+$objective_3 = $rub_objectives[2]['objectives'];
+$objective_4 = $rub_objectives[3]['objectives'];
+$weightage_1 = rtrim($rub_objectives[0]['weightage'],"%");
+$weightage_2 = rtrim($rub_objectives[1]['weightage'],"%");
+$weightage_3 = rtrim($rub_objectives[2]['weightage'],"%");
+$weightage_4 = rtrim($rub_objectives[3]['weightage'],"%");
+
+$this->inlineScript()->captureStart();
+echo <<<JS
+new Chart(document.getElementById("doughnut-chart"), {
+    type: 'doughnut',
+    data: {
+      labels: ['Objective 1','Objective 2','Objective 3','Objective 4'],
+      datasets: [
+        {
+          label: "Weightage (percentage)",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [$weightage_1, $weightage_2, $weightage_3, $weightage_4]
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: false,
+        text: 'Weightage (Percentage)'
+      }
+    }
+});
+JS;
+$this->inlineScript()->captureEnd();
+              
+         
+          
+

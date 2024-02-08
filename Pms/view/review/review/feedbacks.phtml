@@ -1,0 +1,150 @@
+<?php
+
+ $title = 'List of Peer/Subordinates/Beneficiaries for Feedback';
+ $this->headTitle($title);
+ 
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+ //need to store employee details in an array
+ $employeeName = array();
+ $employeeID = array();
+ foreach($this->nominatedEmployee as $nominated){
+	 $employeeName[$nominated['id']] = $nominated['first_name'];
+	 $employeeName[$nominated['id']] .= ' '. $nominated['middle_name'];
+	 $employeeName[$nominated['id']] .= ' '. $nominated['last_name'];
+	 $employeeID[$nominated['id']] = $nominated['emp_id'];
+ }
+ 
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+              	
+                 <!-- Adding Activities-->
+         <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                     <br/>
+                     
+                	<!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Provide Peer Feedback</a></li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Provide Subordinate Feedback</a> </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Provide Beneficiaries Feedback</a></li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                        <br />
+                        <h5><i>*You have been nominated to provide feedback for the following employees.</i></h5>
+                 			 <br />
+                                <div class="table-responsive">
+                                  <table class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Nomination for Employee</th>
+                                         <th class="column-title">Employee ID</th>
+                                         <th class="column-title">Designation</th>
+                                         <th class="column-title">Action </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->peerList as $peer) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($employeeName[$peer['employee_details_id']]);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($employeeID[$peer['employee_details_id']]);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml('');?></td>
+                                        <td><a href="<?php echo $this->url('peerfeedbackform', array('id' => my_encrypt($peer['id'], $key)));?>"><u>Provide Feedback</u></a></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                        <br />
+                       <h5><i>*You have been nominated to provide feedback for the following employees.</i></h5>
+                 			 <br />
+                                <div class="table-responsive">
+                                  <table class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                      <tr class="headings">
+                                         <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Nomination for Employee</th>
+                                         <th class="column-title">Employee ID</th>
+                                         <th class="column-title">Designation</th>
+                                         <th class="column-title">Action </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                       <?php $i=1; foreach ($this->subordinateList as $subordinate) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $i++;?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($employeeName[$subordinate['employee_details_id']]);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($employeeID[$subordinate['employee_details_id']]);?></td>
+                                        <td class=" "><?php echo $this->escapeHtml('');?></td>
+                                        <td><a href="<?php echo $this->url('subordinatefeedbackform', array('id' => my_encrypt($subordinate['id'], $key)));?>"><u>Provide Feedback</u></a></td>
+                                      </tr>
+                                      <?php endforeach; ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                        <br />
+                        <h5><i>*You have been nominated to provide feedback for the following employees.</i></h5>
+                 			 <br />
+                            <div class="table-responsive">
+                              <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                  <tr class="headings">
+                                     <th class="column-title">Sl.No </th>
+                                         <th class="column-title">Nomination for Employee</th>
+                                         <th class="column-title">Employee ID</th>
+                                         <th class="column-title">Designation</th>
+                                         <th class="column-title">Action </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                   <?php $i=1; foreach ($this->beneficiaryList as $beneficiary) : ?>
+                                  <tr class="even pointer">
+                                    <td class=" "><?php echo $i++;?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($employeeName[$beneficiary['employee_details_id']]);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($employeeID[$beneficiary['employee_details_id']]);?></td>
+                                    <td class=" "><?php echo $this->escapeHtml('');?></td>
+                                    <td><a href="<?php echo $this->url('beneficiaryfeedbackform', array('id' => my_encrypt($beneficiary['id'], $key)));?>"><u>Provide Feedback</u></a></td>
+                                  </tr>
+                                  <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                        
+                        
+                       </div>
+                     </div>
+                  </div>
+                </div>
+              </div>
+             </div>
+            </div>
+               
+   

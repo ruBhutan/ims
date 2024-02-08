@@ -1,0 +1,104 @@
+<?php
+ $title = 'Modules';
+ $this->headTitle($title);
+ 
+// $modules = array();
+ //foreach($this->studentAcademicModules as $module){
+  // $modules[$module['id']] = $module['module_title'];
+ //}
+                       
+?>
+<div class="right_col" role="main">
+    <div class="">            
+          <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_content">
+                  <br />
+                  <?php 
+                  $studentSemester = array();
+                  foreach ($this->studentSemesterYear as $semester): {
+                    $studentSemester['semester'] = $semester['semester'];
+                    $studentSemester['section'] = $semester['section'];
+                    $studentSemester['academic_year'] = $semester['academic_year'];
+                    $studentSemester['programme_name'] = $semester['programme_name'];
+                  }
+                  ?>
+                  <div class="x_title">
+                    <h2>Modules <small>Assigned Modules of the semester <b><?php echo "&nbsp;&nbsp;".$semester['semester']; ?></b> For Section: <b><?php echo "&nbsp;&nbsp;".$semester['section']; ?></b> of Academic Year <b><?php echo "&nbsp;&nbsp;".$semester['academic_year']; ?><?php echo "&nbsp;&nbsp;(".$semester['programme_name']; ?>)</b></small></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <?php endforeach; ?>
+                  <div class="x_content"> 
+                  <?php 
+                            $index = 1;
+                            $modules = array();
+                            foreach ($this->studentAcademicModules as $module): {
+                               $modules['module_title'] = $module['module_title'];
+                               $modules['module_code'] = $module['module_code'];
+                            } 
+                            //foreach($this->routesList as $key=>$value):
+                            //$in = ($i==0)?'':'';
+                            $accordian_number = array(
+                                            1 => 'One',
+                                            2 => 'Two',
+                                            3 => 'Three',
+                                            4 => 'Four',
+                                            5 => 'Five',
+                                            6 => 'Six',
+                                            7 => 'Seven',
+                                            8 => 'Eight',
+                                            9 => 'Nine',
+                                            10 => 'Ten',
+                                            11 => 'Eleven',
+                                            12 => 'Twelve',
+                                            13 => 'Thirteen',
+                                            14 => 'Fourteen',
+                                            15 => 'Fifteen',
+                                            16 => 'Sixteen',
+                                            17 => 'Seventeen'
+                                          );
+                          ?>         
+                    <ul class="list-unstyled timeline">
+
+                        <?php 
+                            //$index = 1;
+
+                            //foreach($this->routesList as $key=>$value):
+                            //$in = ($i==0)?'':'';
+
+                          ?>        
+
+                    <li>
+
+                    <!-- start accordion -->
+                    <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                      <div class="panel">
+                        <a class="panel-heading" role="tab" id="heading<?php echo $accordian_number[$index];?>" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $accordian_number[$index]; ?>" aria-expanded="true" aria-controls="collapse<?php echo $accordian_number[$index];?>">
+                          <h4 class="blue panel-title"> <?php echo $modules['module_code'].' - '.$modules['module_title']; ?></h4>
+                        </a>
+                        <div id="collapse<?php echo $accordian_number[$index];?>" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="heading<?php echo $accordian_number[$index++];?>">
+                          <div class="panel-body">
+                            <div class="row fontawesome-icon-list">
+   
+
+                            </div>
+                          </div>
+                        </div>
+
+                      
+                      </div>
+                    </div>
+                     <?php endforeach; ?>
+                  </li>
+                  </ul>
+                    </div>             
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+
+             </div>
+        </div> 
+      </div>
+    </div>
+   </div>
+  </div>

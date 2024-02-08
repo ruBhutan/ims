@@ -1,0 +1,95 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('List of Staff By Department'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+               <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Organisation </th>
+                     <th class="column-title">Department Name </th>
+                     <th class="column-title">Male (AC)</th>
+                     <th class="column-title">Female (AC)</th>
+                     <th class="column-title">Male (ADM)</th>
+                     <th class="column-title">Female (ADM)</th>
+                     <th class="column-title">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php $i=1;
+				  	foreach ($this->hr_report as $key => $value) : ?>
+                  <?php foreach ($value as $key2 => $value2) : 
+				  		$male_ac = 0;
+						$female_ac = 0;
+						$male_adm = 0;
+						$female_adm = 0;
+				  ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($key);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($key2);?></td>
+                    <td class=" "><?php 
+										if(array_key_exists('Academics', $this->hr_report[$key][$key2])){
+											if(array_key_exists('Male', $this->hr_report[$key][$key2]['Academics'])){
+												$male_ac = $this->hr_report[$key][$key2]['Academics']['Male'];
+												echo $this->escapeHtml($male_ac);
+											}
+											else 
+												echo $this->escapeHtml("0");
+										}
+										else 
+											echo $this->escapeHtml("0");?></td>
+                    <td class=" "><?php 
+										if(array_key_exists('Academics', $this->hr_report[$key][$key2])){
+											if(array_key_exists('Female', $this->hr_report[$key][$key2]['Academics'])){
+												$female_ac = $this->hr_report[$key][$key2]['Academics']['Female'];
+												echo $this->escapeHtml($female_ac);
+											}
+											else 
+												echo $this->escapeHtml("0");
+                                         }
+                                         else
+                                         	echo $this->escapeHtml("0");?></td>
+                    <td class=" "><?php 
+										if(array_key_exists('Administrative and Technical', $this->hr_report[$key][$key2])){
+											if(array_key_exists('Male', $this->hr_report[$key][$key2]['Administrative and Technical'])){
+												$male_adm = $this->hr_report[$key][$key2]['Administrative and Technical']['Male'];
+												echo $this->escapeHtml($male_adm);
+											}
+											else 
+												echo $this->escapeHtml("0");
+										}
+										else 
+											echo $this->escapeHtml("0");?></td>
+                    <td class=" "><?php 
+										if(array_key_exists('Administrative and Technical', $this->hr_report[$key][$key2])){
+											if(array_key_exists('Female', $this->hr_report[$key][$key2]['Administrative and Technical'])){
+												$female_adm = $this->hr_report[$key][$key2]['Administrative and Technical']['Female'];
+												echo $this->escapeHtml($female_adm);
+											}
+											else 
+												echo $this->escapeHtml("0");
+										}
+										else 
+											echo $this->escapeHtml("0");?></td>
+                    <td class=" "><?php 
+										echo $this->escapeHtml($male_ac + $female_ac + $male_adm + $female_adm);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

@@ -1,0 +1,244 @@
+<?php
+ $title = 'WorkForce Proposal Form';
+ $this->headTitle($title);
+ 
+  $proposal_dates = array();
+ foreach($this->proposalDates as $detail){
+	 $proposal_dates = $detail;
+ }
+ //set it to a default value
+ if(empty($proposal_dates))
+ 	$proposal_dates['end_date'] = '2000-01-01';
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+				   $proposal = $form->get('hrmplan');
+                   echo $this->formHidden($proposal->get('id'));
+				   $proposal->get('proposal_status')->setValue('Not Submitted'); 
+				   echo $this->formHidden($proposal->get('proposal_status'));
+				   $proposal->get('working_agency')->setValue($this->organisation_id); 
+				   echo $this->formHidden($proposal->get('working_agency'));
+				   $date = date('Y-m-d');
+				   $proposal->get('proposal_submission_date')->setValue($date);
+				   $proposal->get('approval_date')->setValue($date);
+				   $proposal->get('five_year_plan')->setValue($this->five_year_plan);
+				   $proposal->get('department_name')->setValueOptions($this->departmentList);
+				   $form->get('position_category_id')->setValueOptions($this->positionCategory);
+				   $form->get('position_title_id')->setValueOptions($this->positionTitle);
+				   $form->get('position_level_id')->setValueOptions($this->positionLevel);
+				   echo $this->formHidden($proposal->get('approval_date'));
+				   echo $this->formHidden($proposal->get('proposal_submission_date'));
+                ?>
+                <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                <?php if(strtotime($proposal_dates['end_date'])> strtotime(date('Y-m-d'))) { ?>
+                <div class="row">
+                <div class="form-group">  
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Five Year Plan<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('five_year_plan')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Department<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('department_name')); ?>
+                    </div>
+                </div>
+                </div>
+                <br />
+                <div class="row"> 
+                <h4><i>HR Details:</i></h4>
+                <div class="form-group">  
+                   <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupation Group<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($form->get('occupational_group')); ?>
+                    </div>
+                   <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Category<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($form->get('position_category_id')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-group">  
+                   <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($form->get('position_title_id')); ?>
+                    </div>
+                   <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($form->get('position_level_id')); ?>
+                    </div>
+                </div>
+                </div>
+                <br />
+                <div class="row">
+                <h4><i>Requirement Details:</i></h4>
+                <div class="form-group">  
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Existing No:<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('existing_no')); ?>
+                    </div>
+                   <label class="control-label col-md-2 col-sm-2 col-xs-12">Required No:<span class="required">*</span></label>
+                   <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('required_no')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-group">  
+                   <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks<span class="required">*</span></label>
+                   <div class="col-md-8 col-sm-8 col-xs-12">
+                      <?php echo $this->formRow($proposal->get('remarks')); ?>
+                    </div>
+                </div>
+                </div>
+                <br />
+                <div class="row">
+                <h4><i>Implementation Plan (Breakdown of Requirements Mentioned Above):</i></h4>
+                <div class="form-group">  
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Year 1<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php  echo $this->formRow($proposal->get('requirement_year_1')); ?>
+                    </div>
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Year 2<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php  echo $this->formRow($proposal->get('requirement_year_2')); ?>
+                    </div>
+                   <label class="control-label col-md-1 col-sm-1 col-xs-12">Year 3<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php  echo $this->formRow($proposal->get('requirement_year_3')); ?>
+                    </div>
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Year 4<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php  echo $this->formRow($proposal->get('requirement_year_4')); ?>
+                    </div>
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Year 5<span class="required">*</span></label>
+                   <div class="col-md-1 col-sm-1 col-xs-12">
+                      <?php  echo $this->formRow($proposal->get('requirement_year_5')); ?>
+                    </div>
+                </div>
+                </div>          
+               
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                     <?php 
+						 echo $this->formHidden($form->get('csrf'));
+						 echo $this->formInput($proposal->get('submit'));
+					 ?>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+              
+              <!-- Start of table listing HRM proposals -->
+        <div class="x_panel">
+            <div class="x_title">
+                  <h2><?php echo $this->escapeHtml('HRM Proposal List'); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                  </ul>
+                 <div class="clearfix"></div>
+                </div>
+                <h5><i>*The following are the list of the proposals to be submitted by the Department. You can view/edit/delete the proposal before submitting
+                  			to the HRO of the College/Organisation. Once submitted, then you will not be able to edit the proposal</i></h5>
+                  <br />
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">     
+                            <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Working Agency </th>
+                            <th class="column-title">Department </th>
+                            <th class="column-title">Position Title </th>
+                            <th class="column-title">Position Category </th>
+                            <th class="column-title">Position Level </th>
+                             <th class="column-title">Existing No.</th>
+                            <th class="column-title">Approval</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i =1; foreach ($this->hrmProposals as $approval) : ?>
+                            <tr>
+                              <td class=" "><?php echo $this->escapeHtml($i++);?></td>
+                              <td class=" "><?php echo $this->escapeHtml($organisationList[$approval->getWorking_Agency()]);?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getDepartment_Name());?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getPosition_Title());?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getCategory());?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getPosition_Level());?></td>
+                              <td class=" "><?php echo $this->escapeHtml($approval->getExisting_No());?></td>
+                              <td><a href="<?php echo $this->url('viewhrmproposal', array('id' => my_encrypt($approval->getId(), $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                            	<a href="<?php echo $this->url('edithrmproposal', array('id' => my_encrypt($approval->getId(), $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                <a href="<?php echo $this->url('deletehrmproposal', array('id' => my_encrypt($approval->getId(), $key)));?>" class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Delete</a></td>
+                            </tr>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+                 </div>
+                 <?php
+					// Opening of the form tag
+					$submitForm->setAttribute('action', $this->url('updatehrmproposal', array('action' => 'updateHrmProposal', 'id' => '1')));
+                    $submitForm->prepare();
+                    echo $this->form()->openTag($submitForm);
+					echo $this->formHidden($submitForm->get('csrf'));
+					echo $this->formSubmit($submitForm->get('submit'));
+				  ?>
+              </div>
+        </div>
+        <?php } else { ?> <!-- End of the if loop-->
+                      	<h2 class="StepTitle">The last date for HRM Proposal has Passed</h2>
+                      <?php } ?> <!-- End of the else loop-->
+      </div>
+     </div>
+   </div>
+  </div>

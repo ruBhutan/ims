@@ -1,0 +1,134 @@
+<?php
+ $title = 'Counseling Appointment';
+ $this->headTitle($title);
+
+ $appointmentDetails = array();
+ foreach($this->counselingAppointmentDetails as $details){
+  $appointmentDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'];
+   $appointmentDetails['subject'] = $details['subject'];
+    $appointmentDetails['description'] = $details['description'];
+     $appointmentDetails['appointment_time'] = $details['appointment_time'];
+      $appointmentDetails['appointment_date'] = $details['appointment_date'];
+       $appointmentDetails['remarks'] = $details['remarks'];
+        $appointmentDetails['scheduled_time'] = $details['scheduled_time'];
+         $appointmentDetails['scheduled_date'] = $details['scheduled_date'];
+          $appointmentDetails['venue'] = $details['venue'];
+           $appointmentDetails['counselor_remarks'] = $details['counselor_remarks'];
+           $appointmentDetails['scheduled_status'] = $details['scheduled_status'];
+ }
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>                
+                <div class="x_content">
+                  <br />
+                  <?php 
+                  $form->prepare();
+                   echo $this->form()->openTag($form);
+                  ?>
+                   
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Counselor: </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['name']; ?>">
+                    </div>
+                </div>
+                </div>
+
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Subject: </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['subject']; ?>">
+                    </div>
+                </div>
+                </div>  
+                <div class="row">  
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons: </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                       <textarea class="form-control" disabled="disabled" rows="3"><?php echo $appointmentDetails['description']; ?></textarea>
+                    </div>
+                </div>
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Appointment Time:</label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['appointment_time']; ?>">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Appointment Date: </label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['appointment_date']; ?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Other Preferable Time:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" rows="3" disabled="disabled"><?php echo $appointmentDetails['remarks']; ?></textarea>
+                    </div>
+                </div> 
+                </div>
+
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Scheduled Time:</label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['scheduled_time']; ?>">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Scheduled Date:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['scheduled_date']; ?>">
+                    </div>
+                </div> 
+                </div>
+
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Venue:</label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['venue']; ?>">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Scheduled status:</label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['scheduled_status']; ?>">
+                    </div>
+                </div> 
+                </div>
+
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Counselor Remarks:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" rows="5" disabled="disabled"><?php echo $appointmentDetails['counselor_remarks']; ?></textarea>
+                    </div>
+                </div> 
+                </div>           
+                 <?php echo $this->form()->closeTag(); ?>
+                       
+                </div>
+              </div>
+            </div>
+       </div>       
+ 	</div>
+   
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+    

@@ -1,0 +1,197 @@
+<?php
+
+ $title = 'Application Form and Documents Submitted for Training';
+ $this->headTitle($title);
+ 
+ $training_detail = array();
+ $nomination_list = array();
+ $nomination_details = array();
+ foreach($this->trainingDetails as $key=>$value){
+	foreach($value as $key1=>$value1){
+		$training_detail[$value['employee_details_id']][$key1] = $value1;
+	}
+ } //var_dump($training_detail); die();
+ 
+ foreach($this->trainingNominations as $key=>$value){
+	$nomination_list[$value['employee_details_id']] = $value['first_name'].' '.$value['middle_name'].' '.$value['last_name'];
+	$nomination_details = $value;
+ } 
+
+  $secretKey = $this->keyphrase;
+ function my_encrypt($data, $secretKey) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($secretKey);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ 
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+
+                    <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+                      ?>
+                      <h2>Course Title: <i><font color="blue"><?php echo $training_detail[$value['employee_details_id']]['course_title']; ?></font></i>. &nbsp;
+					  Institute: <i><font color="blue"><?php echo $training_detail[$value['employee_details_id']]['institute_name'].' ('.$training_detail[$value['employee_details_id']]['institute_location'].')'; ?></font></i> 
+					  </h2>
+					  <h2>From: <i><font color="blue"><?php echo $training_detail[$value['employee_details_id']]['training_start_date']; ?></font></i>&nbsp;
+					  To: <i><font color="blue"><?php echo $training_detail[$value['employee_details_id']]['training_end_date']; ?></font></i>.&nbsp;&nbsp; 
+					  Nomination Evidence File:
+					  <?php
+						if(!empty($nomination_details['nomination_evidence_file'])){?>
+							<a href="<?php echo $this->url('downloadtrainingdocuments', array('action' => 'downloadTrainingDocuments', 'filename' => $nomination_details['id'], 'category' => 'training_nomination'));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+						<?php }else{
+							echo "<i><font color='blue'>File Not Uploaded.</font></i>";
+						}
+					  ?>
+					  </h2>
+					  <hr>
+                      <div class="table-responsive">
+                          <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                              <tr class="headings">     
+                                <th style="width:10%" class="column-title">Name </th>
+                                <th style="width:9%" class="column-title">Audit Clearance Form</th>
+                                <th style="width:9%" class="column-title">Security Clearance Form </th>
+                                <th style="width:9%" class="column-title">Medical Clearance Certificate</th>
+                                <th style="width:9%" class="column-title">Acceptance Letter from Institute</th>
+                                <th style="width:9%" class="column-title">Course Content and Schedule </th>
+                                <th style="width:9%" class="column-title">Professional Development Report </th>
+                                <th style="width:9%" class="column-title">Action <small>(Under action "update button will be enable if they have applied.")</small></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            <?php $i = 1; foreach ($nomination_list as $key=>$value) : ?>
+                                <tr>
+                                   <td class=" "><?php echo $i++.'. '.$value;?></td>
+                                   <td class=" ">
+                                   		<?php if(array_key_exists($key, $training_detail)){?>
+                                        <?php if(!empty($training_detail[$key]['audit_clearance'])){?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'audit_clearance_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } else{
+                                        echo "Documents Not Submitted";
+                                      } ?>
+                                        <?php } 
+                                      else{
+                                        echo "Documents Not Submitted";
+                                      }   
+                                    ?>
+                                        </td>
+                                   <td class=" ">
+                                   		<?php if(array_key_exists($key, $training_detail)){?>
+                                        <?php if(!empty($training_detail[$key]['security_clearance'])){?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'security_clearance_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } else{
+                                        echo "Documents Not Submitted";
+                                      } ?>
+                                        <?php } 
+                                      else{
+                                        echo "Documents Not Submitted";
+                                      }   
+                                    ?>
+                                        </td>
+                                   <td class=" ">
+                                   		<?php if(array_key_exists($key, $training_detail)){?>
+                                        <?php if(!empty($training_detail[$key]['medical_certificate'])){?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'medical_certificate_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } else{
+                                        echo "Documents Not Submitted";
+                                      } ?>
+                                        <?php } 
+                                      else{
+                                        echo "Documents Not Submitted";
+                                      }   
+                                    ?>
+                                        </td>
+                                   <td class=" ">
+                                   		<?php if(array_key_exists($key, $training_detail)){?>
+                                        <?php if(!empty($training_detail[$key]['acceptance_letter'])){?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'acceptance_letter_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } else{
+                                        echo "Documents Not Submitted";
+                                      } ?>
+                                        <?php } 
+                                      else{
+                                        echo "Documents Not Submitted";
+                                      }   
+                                    ?>
+                                        </td>
+                                   <td class=" ">
+                                   		<?php if(array_key_exists($key, $training_detail)){?>
+                                        <?php if(!empty($training_detail[$key]['course_content_schedule'])){ ?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'course_content_schedule_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } else{
+                                        echo "Documents Not Submitted";
+                                      } ?>
+                                        <?php } 
+                                      else{
+                                        echo "Documents Not Submitted";
+                                      }   
+                                    ?>
+                                        </td>
+                                        <td class=" ">
+                                      <?php if(array_key_exists($key, $training_detail)){?>
+                                        <?php if(!empty($training_detail[$key]['professional_development_report'])){ ?>
+                                        <a href="<?php echo $this->url('downloadlongtermapplication', array('filename' => 'professional_development_report_'.$training_detail[$key]['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a><?php } else{
+                                        echo "Documents Not Submitted";
+                                      } ?>
+                                        <?php } 
+                                      else{
+                                        echo "Documents Not Submitted";
+                                      }   
+                                    ?>
+                                        </td>
+                                        <td class=" ">
+                                          <?php if(array_key_exists($key, $training_detail)){ ?> 
+                                            <?php if($training_detail[$key]['award_letter'] != NULL){
+                                                echo "Already Updated";
+                                              ?>
+
+                                            <?php } else{?>
+                                              <a href="<?php echo $this->url('appliedlongtermapplication', array('id' => my_encrypt($training_detail[$key]['id'], $secretKey))); ?>" class="btn btn-success btn-xs"><i class="fa fa-refresh"></i>Update</a>
+                                            <?php } ?>
+                                          <?php   } else
+                                          echo "Not yet applied.";
+                                          ?>
+                                        </td>
+                                </tr>
+                             <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                   </div>
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

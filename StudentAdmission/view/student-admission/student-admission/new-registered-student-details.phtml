@@ -1,0 +1,206 @@
+<?php
+
+ $title = 'New Registered Student Details';
+ $this->headTitle($title);
+
+ $stdDetails = array();
+ foreach($this->student_details as $details) {
+    $stdDetails['registration_no'] = $details['registration_no'];
+    $stdDetails['submission_date'] = $details['submission_date'];
+     $stdDetails['admission_year'] = $details['admission_year'];
+      $stdDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'];
+       $stdDetails['cid'] = $details['cid'];
+        $stdDetails['student_gender'] = $details['student_gender'];
+         $stdDetails['date_of_birth'] = $details['date_of_birth'];
+          $stdDetails['programme_name'] = $details['programme_name'];
+           $stdDetails['student_type'] = $details['student_type'];
+            $stdDetails['parent_name'] = $details['parent_name'];
+             $stdDetails['parents_contact_no'] = $details['parents_contact_no'];
+              $stdDetails['relation'] = $details['relation'];
+               $stdDetails['aggregate'] = $details['aggregate'];
+               $stdDetails['moe_student_code'] = $details['moe_student_code'];
+               $stdDetails['twelve_indexnumber'] = $details['twelve_indexnumber'];
+               $stdDetails['twelve_stream'] = $details['twelve_stream'];
+               $stdDetails['twelve_student_type'] = $details['twelve_student_type'];
+               $stdDetails['twelve_school'] = $details['twelve_school'];
+ }
+ $stdAddress = array();
+ foreach($this->stdPermanentAddr as $address){
+    $stdAddress = $address;
+ }
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">   
+                        <h2><i>Official Details:</i></h2>
+                        <div class="form-group">
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Registration/Index No.:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['registration_no']; ?></i>
+                                    </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Registered Date:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['submission_date']; ?></i>
+                                    </div>
+                        </div><br/><br/> 
+                        <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Admission Year:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['admission_year']; ?></i>
+                                    </div>
+                        </div><br/><br/>
+
+                        <div class="clearfix"></div>
+
+                        <h2><i>Personal  Details:</i></h2>
+                     
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name</label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <i><?php echo $stdDetails['name']; ?></i>
+                                </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">CID No# </label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <i><?php echo $stdDetails['cid']; ?></i>
+                                </div>
+                        </div> <br/><br/>    
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['student_gender']; ?></i>
+                                  </div>
+                                  <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['date_of_birth']; ?></i>
+                                  </div>                               
+                        </div><br/><br/>
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['programme_name']; ?></i>
+                                    </div>
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Scholarship Type</label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <i><?php echo $stdDetails['student_type']; ?></i>
+                                </div>
+                            
+                        </div><br/><br/>
+
+                        <div class="clearfix"></div>
+                            <h2><i>Class Twelve Details:</i></h2>
+                            <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Class 12 Student Code:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['moe_student_code']; ?></i>
+                                    </div>                               
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Class 12 Aggregate:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['aggregate'].' %'; ?></i>
+                                    </div> 
+                        </div><br/><br/>
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Class 12 Index No:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['twelve_indexnumber']; ?></i>
+                                    </div>                               
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Class 12 Student Type:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['twelve_student_type']; ?></i>
+                                    </div> 
+                        </div><br/><br/>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Class 12 Stream:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['twelve_stream']; ?></i>
+                                    </div>                               
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Class 12 School:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['twelve_school']; ?></i>
+                                    </div> 
+                        </div><br/><br/>
+
+                        <div class="clearfix"></div>
+
+                         <h2><i>Permanent Address:</i></h2>
+                         <?php if(!empty($this->stdPermanentAddr)){ ?>
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Village:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdAddress['village_name']; ?></i>
+                                    </div>                               
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdAddress['gewog_name']; ?></i>
+                                    </div> 
+                        </div><br/><br/> 
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag:</label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <i><?php echo $stdAddress['dzongkhag_name']; ?></i>
+                                </div>                               
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Country:</label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <i><?php echo $stdAddress['country']; ?></i>
+                                </div>                               
+                        </div>
+                    <?php } else { ?>
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Village:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo 'NA'; ?></i>
+                                    </div>                               
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo 'NA'; ?></i>
+                                    </div> 
+                        </div><br/><br/> 
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag:</label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <i><?php echo 'NA'; ?></i>
+                                </div>                               
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Country:</label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <i><?php echo 'NA'; ?></i>
+                                </div>                               
+                        </div>
+                    <?php } ?>
+                        <br/><br/>
+                        <h2><i>Parent/ Guardian  Details:</i></h2>
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Parent/ Guardian Name:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['parent_name']; ?></i>
+                                    </div>                               
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Relation:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <i><?php echo $stdDetails['relation']; ?></i>
+                                    </div> 
+                        </div><br/><br/> 
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Contact No:</label>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <i><?php echo $stdDetails['parents_contact_no']; ?></i>
+                                </div>                               
+                        </div>
+
+                </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div>
+
+ 

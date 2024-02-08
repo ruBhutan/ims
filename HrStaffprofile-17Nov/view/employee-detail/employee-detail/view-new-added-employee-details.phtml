@@ -1,0 +1,680 @@
+<?php
+ $title = 'New Recruited Staff Details';
+ $this->headTitle($title);
+
+   $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+ $employee_details = array();
+ foreach($this->newEmployeeDetails as $details){
+  $employee_details['first_name'] = $details['first_name'];
+  $employee_details['middle_name'] = $details['middle_name'];
+  $employee_details['last_name'] = $details['last_name'];
+  $employee_details['date_of_birth'] = $details['date_of_birth'];
+  $employee_details['cid'] = $details['cid'];
+  $employee_details['phone_no'] = $details['phone_no'];
+  $employee_details['email'] = $details['email'];
+  $employee_details['blood_group'] = $details['blood_group'];
+  $employee_details['religion'] = $details['religion'];
+  $employee_details['emp_house_no'] = $details['emp_house_no'];
+  $employee_details['emp_thram_no'] = $details['emp_thram_no'];
+
+  $employee_details['recruitment_date'] = $details['recruitment_date'];
+  $employee_details['status'] = $details['status'];
+  $employee_details['emp_resignation_id'] = $details['emp_resignation_id'];
+
+  $employee_details['major_occupational_group'] = $details['major_occupational_group'];
+  $employee_details['maritial_status'] = $details['maritial_status'];
+  $employee_details['dzongkhag_name'] = $details['dzongkhag_name'];
+  $employee_details['gewog_name'] = $details['gewog_name'];
+  $employee_details['village_name'] = $details['village_name'];
+  $employee_details['employee_type'] = $details['employee_type'];
+  $employee_details['egender'] = $details['egender'];
+  $employee_details['eblood_group'] = $details['eblood_group'];
+  $employee_details['ereligion'] = $details['ereligion'];
+  $employee_details['department_name'] = $details['department_name'];
+  $employee_details['unit_name'] = $details['unit_name'];
+  $employee_details['category'] = $details['category'];
+  $employee_details['major_occupational_group'] = $details['major_occupational_group'];
+   $employee_details['ecountry'] = $details['ecountry'];
+   $employee_details['position_title'] = $details['position_title'];
+   $employee_details['position_level'] = $details['position_level'];
+    $employee_details['enationality'] = $details['enationality'];
+    $employee_details['job_applicant_id'] = $details['job_applicant_id'];
+    $employee_details['emp_job_applications_id'] = $details['emp_job_applications_id'];
+ }
+
+ $staff_details = array();
+ foreach($this->new_employee_id as $detail){
+  $staff_details['id'] = $detail['id'];
+  $staff_details['emp_id'] = $detail['emp_id'];
+  $staff_details['office_order_no'] = $detail['office_order_no'];
+  $staff_details['office_order_date'] = $detail['office_order_date'];
+  $staff_details['evidence_file'] = $detail['evidence_file'];
+ }
+
+ $uploade_files = array();
+ foreach($this->uploaded_file as $file){
+  $uploade_files['id'] = $file['id'];
+  $uploade_files['announcement_doc'] = $file['announcement_doc'];
+  $uploade_files['shortlist_doc'] = $file['shortlist_doc'];
+  $uploade_files['selection_doc'] = $file['selection_doc'];
+  $uploade_files['minutes_doc'] = $file['minutes_doc'];
+  $uploade_files['others_doc'] = $file['others_doc'];
+  $uploade_files['emp_application_form_doc'] = $file['emp_application_form_doc'];
+  $uploade_files['emp_academic_transcript_doc'] = $file['emp_academic_transcript_doc'];
+  $uploade_files['emp_training_doc'] = $file['emp_training_doc'];
+  $uploade_files['emp_cid_wp_doc'] = $file['emp_cid_wp_doc'];
+  $uploade_files['emp_security_cl_doc'] = $file['emp_security_cl_doc'];
+  $uploade_files['emp_medical_doc'] = $file['emp_medical_doc'];
+  $uploade_files['emp_no_objec_doc'] = $file['emp_no_objec_doc'];
+  $uploade_files['appointment_order_doc'] = $file['appointment_order_doc'];
+  $uploade_files['new_employee_details_id'] = $file['new_employee_details_id'];
+ }
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content"> 
+                     <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+      							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+      							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+        							$messages = $this->flashMessenger()->getMessages();
+        							foreach($messages as $message) {
+        								echo '<strong>Success!</strong>'. $message;
+        							}
+        							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                     <div id="step-1">
+                        <h2 class="StepTitle">Staff Details:</h2>
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">First Name<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['first_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Middle Name</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                 <input type="text" value="<?php echo $employee_details['middle_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Last Name</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['last_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['date_of_birth']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Marital Status<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                <input type="text" value="<?php echo $employee_details['maritial_status']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Gender</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['egender']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">CID<span class="required">*</span><br />
+                            	<small>(In case of non-national, plese enter work permit no.)</small></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['cid']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Country</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['ecountry']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Nationality</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['enationality']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                           <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Phone No:</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['phone_no']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">E-mail</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['email']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Blood Group<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['eblood_group']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Religion</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['ereligion']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <h2 class="StepTitle">Address Details:</h2>
+                           <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">House No:</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['emp_house_no']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Thram No:</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['emp_thram_no']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['dzongkhag_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Gewog</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['gewog_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Village</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                 <input type="text" value="<?php echo $employee_details['village_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <h2 class="StepTitle">Employment Details:</h2>
+                           <div class="row">
+                            <div class="form-group">  
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Department</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['department_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Unit</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['unit_name']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupational Group<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['major_occupational_group']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Category<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['category']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Staff Type<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['employee_type']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['position_title']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Position Level<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['position_level']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                
+                            </div>
+                          </div>
+                          <br />
+                           <div class="row">
+                            <div class="form-group">  
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Recruitment Date<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['recruitment_date']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Status:<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $employee_details['status'].' Staff ID'; ?>" class="form-control" readonly="readonly">
+                                </div>
+                                 <label class="control-label col-md-1 col-sm-3 col-xs-12">Staff ID<span class="required">*</span></label>
+                                 <?php if($employee_details['status'] == 'Generated'){?> 
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <input type="text" value="<?php echo $staff_details['emp_id']; ?>" class="form-control" readonly="readonly">
+                                </div>
+                              <?php } else{?>
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                <input type="text" placeholder="Not Generated" class="form-control" readonly="readonly">
+                                 </div>
+                              <?php }?>
+                            </div>
+                          </div>
+                          <br>
+                    <h2 class="StepTitle">Official Details:</h2>
+                    <?php if($employee_details['status'] == 'Generated'){?>
+                      <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Office Order No:</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                <?php if($staff_details['office_order_no'] != NULL){?>
+                                  <input type="text" value="<?php echo $staff_details['office_order_no']; ?>" class="form-control" readonly="readonly">
+                                <?php } else{?>
+                                  <input type="text" placeholder="Not Mentioned" class="form-control" readonly="readonly">
+                                <?php } ?>
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Office Order Date:</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php if($staff_details['office_order_date'] != NULL){?>
+                                  <input type="text" value="<?php echo $staff_details['office_order_date']; ?>" class="form-control" readonly="readonly">
+                                <?php } else{?>
+                                  <input type="text" placeholder="Not Mentioned" class="form-control" readonly="readonly">
+                                <?php } ?>
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Document (s):</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php if($staff_details['evidence_file'] != NULL){?>
+                                  <a href="<?php echo $this->url('downloadrecruitedemployeedoc', array('filename' => $staff_details['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                                <?php } else{?>
+                                  <input type="text" placeholder="File Not Uploaded" class="form-control" readonly="readonly">
+                                <?php } ?>
+                                </div>
+                            </div>
+                          </div>
+
+                          <br>
+                    <h2 class="StepTitle">Uploaded Documents:<small>(Download and view)</small></h2>
+                    
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Announcement Document: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['announcement_doc'])){?>     
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'announcement_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Shortlist Document: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                       <?php if(!empty($uploade_files['shortlist_doc'])){?>  
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'shortlist_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                       <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div><br>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Selection Document: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['selection_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'selection_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Minutes Document: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['minutes_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'minutes_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div><br>
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Employment Application Form: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_application_form_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_application_form_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Copies of Academic Transcripts and Certificates:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_academic_transcript_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_academic_transcript_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div><br>
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Copies of Relevant Training Caetificates:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_training_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_training_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Copies of the CID/Work Permit:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_cid_wp_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_cid_wp_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div><br>
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Copies of Security Clearance:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_security_cl_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_security_cl_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Copies of Medical Fitness Certificate:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_medical_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_medical_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div><br>
+
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>No objection Certificate: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_no_objec_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_no_objec_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Appointment Order:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['appointment_order_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'appointment_order_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Other Document:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['others_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'others_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <p><i>Document Not Uploaded</i></p>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <a href="<?php echo $this->url('newemployeelist');?>"><span class="btn btn-primary"><i class="fa fa-angle-double-left"></i> Back</span></a>
+                          <?php if($employee_details['emp_job_applications_id'] != 0) {?>
+                          <a href="<?php echo $this->url('viewjobapplicantdetails', array('id' => my_encrypt($employee_details['emp_job_applications_id'], $key)));?>"><span class="btn btn-success"><i class="fa fa-eye"></i> View Details</span></a>
+                          <?php } ?>
+                        </div>
+                      </div>
+                    <?php }  
+                    else if($employee_details['status'] == 'Pending'){ ?>
+                      <h4><i><font color="blue">***Staff ID is still not generated and before you generate ID for staff please collect necessary missing documents and upload it***.</font></i></h4>
+                    <br>
+                    <?php
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $form->get('id')->setValue($uploade_files['id']);
+                    $form->get('announcement_doc')->setValue($uploade_files['announcement_doc']);
+                    $form->get('shortlist_doc')->setValue($uploade_files['shortlist_doc']);
+                    $form->get('selection_doc')->setValue($uploade_files['selection_doc']);
+                    $form->get('minutes_doc')->setValue($uploade_files['minutes_doc']);
+                    $form->get('emp_application_form_doc')->setValue($uploade_files['emp_application_form_doc']);
+                    $form->get('emp_academic_transcript_doc')->setValue($uploade_files['emp_academic_transcript_doc']);
+                    $form->get('emp_training_doc')->setValue($uploade_files['emp_training_doc']);
+                    $form->get('emp_cid_wp_doc')->setValue($uploade_files['emp_cid_wp_doc']);
+                    $form->get('emp_security_cl_doc')->setValue($uploade_files['emp_security_cl_doc']);
+                    $form->get('emp_medical_doc')->setValue($uploade_files['emp_medical_doc']);
+                    $form->get('emp_no_objec_doc')->setValue($uploade_files['emp_no_objec_doc']);
+                    $form->get('appointment_order_doc')->setValue($uploade_files['appointment_order_doc']);
+                    $form->get('others_doc')->setValue($uploade_files['others_doc']);
+                    $form->get('new_employee_details_id')->setValue($uploade_files['new_employee_details_id']);
+                    $form->get('submit')->setValue('Update');
+                    echo $this->formHidden($form->get('id')); 
+                    echo $this->formHidden($form->get('new_employee_details_id')); 
+                    ?>
+                    <h2 class="StepTitle">Uploaded Documents:<small>(Download and view)</small></h2>
+                    
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Announcement Document: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['announcement_doc'])){?>     
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'announcement_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('announcement_doc')); ?>
+                          <?php } ?>
+                        </div>
+                   
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Shortlist Document: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                       <?php if(!empty($uploade_files['shortlist_doc'])){?>  
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'shortlist_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                       <?php } else{?>
+                        <?php echo $this->formRow($form->get('shortlist_doc')); ?>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div><br>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Selection Document: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['selection_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'selection_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('selection_doc')); ?>
+                          <?php } ?>
+                        </div> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Minutes Document: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['minutes_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'minutes_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('minutes_doc')); ?>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div><br>
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Employment Application Form: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_application_form_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_application_form_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('emp_application_form_doc')); ?>
+                          <?php } ?>
+                        </div> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Copies of Academic Transcripts and Certificates:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_academic_transcript_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_academic_transcript_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('emp_academic_transcript_doc')); ?>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div><br>
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Copies of Relevant Training Caetificates:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_training_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_training_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('emp_training_doc')); ?>
+                          <?php } ?>
+                        </div> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Copies of the CID/Work Permit:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_cid_wp_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_cid_wp_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('emp_cid_wp_doc')); ?>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div><br>
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Copies of Security Clearance:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_security_cl_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_security_cl_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('emp_security_cl_doc')); ?>
+                          <?php } ?>
+                        </div>  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Copies of Medical Fitness Certificate:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_medical_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_medical_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('emp_medical_doc')); ?>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div><br>
+
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>No objection Certificate: <small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['emp_no_objec_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'emp_no_objec_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('emp_no_objec_doc')); ?>
+                          <?php } ?>
+                        </div> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Appointment Order:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['appointment_order_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'appointment_order_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('appointment_order_doc')); ?>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><i>Other Document:<small>(Optional)</small></i></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?php if(!empty($uploade_files['others_doc'])){?> 
+                          <a href="<?php echo $this->url('downloadnewempdocument', array('filename' => 'others_'.$this->new_employee_details_id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                          <?php } else{?>
+                            <?php echo $this->formRow($form->get('others_doc')); ?>
+                          <?php } ?>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf'));
+                            echo $this->formRow($form->get('submit')); 
+							              echo $this->form()->closeTag($form);
+						              ?>
+                          <a href="<?php echo $this->url('newemployeelist');?>"><span class="btn btn-primary"><i class="fa fa-angle-double-left"></i> Back</span></a>
+                          <?php if($employee_details['emp_job_applications_id'] != 0) {?>
+                          <a href="<?php echo $this->url('viewjobapplicantdetails', array('id' => my_encrypt($employee_details['emp_job_applications_id'], $key)));?>"><span class="btn btn-success"><i class="fa fa-eye"></i> View Details</span></a>
+                          <?php } ?>
+                        </div>
+                      </div>
+
+                <?php } ?>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>

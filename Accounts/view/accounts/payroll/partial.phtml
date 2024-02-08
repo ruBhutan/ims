@@ -1,0 +1,16 @@
+<?php // partial.phtml 
+	$payroll = ($this->active == "payroll")?"active":"";
+	$payslip = ($this->active == "payslip")?"active":"";
+?>
+<br/>
+<!-- Start a tab -->
+<!--<div class="" role="tabpanel" data-example-id="togglable-tabs">-->
+	<ul id="myTab" class="nav nav-tabs bar_tabs">
+		<li class="<?php echo $payroll; ?>"> <a href="<?php echo $this->url('payroll', array('action' => 'index')); ?>"><i class="blue ace-icon fa fa-suitcase bigger-120"></i> Payroll </a></li>
+		
+		<li role="presentation" class="<?php echo $payslip; ?>"><a href="<?php echo $this->url('payroll', array('action' => 'payslip')); ?>" > <i class="brown ace-icon fa fa-credit-card bigger-120"></i>Pay Slip</a></li>
+		
+	</ul>
+<!--</div>-->
+
+

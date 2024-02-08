@@ -1,0 +1,26 @@
+<?php if($this->usertype == 1) {
+  echo $this->partial('dashboard_staff.phtml');
+   } else if($this->usertype == 2){
+    echo $this->partial('dashboard_student.phtml');
+   } else if($this->usertype == 3){
+    echo $this->partial('dashboard_parent.phtml');
+   } else if($this->usertype == 4){
+    echo $this->partial('dashboard_alumni.phtml');
+  }  else if($this->usertype == 5){?> 
+  <!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              
+        
+            </section>
+            <!-- /.content -->
+          </div>
+<?php }  ?><!-- /.content-wrapper -->
+
+
+
+
+
+
+

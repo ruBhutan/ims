@@ -1,0 +1,151 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Success Indicator Form';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+               <div class="row">
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Five Year Plan</label>
+               <select class="form-control"><option>--select--</option></select>
+                  </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Objectives</label>
+                 <select class="form-control"><option>--select--</option></select>
+                  </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Administrative Units</label>
+                 <select class="form-control"><option>--select--</option></select>
+                  </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Activities</label>
+                <select class="form-control"><option>--select--</option></select>
+                  </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Financial Year</label>
+                <select class="form-control"><option>--select--</option></select>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Success Indicator</label>
+                 <textarea class="form-control"></textarea>
+                  </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Weightage</label>
+                   <input type="text" placeholder="" class="form-control" >
+                  </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Unit Type</label>
+                  <select class="form-control"><option>--select--</option></select>
+                  </div>
+                </div> 
+                    <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/>      
+                  <h2 class="StepTitle">Target / Criteria Values</h2> 
+                  <div class="table-responsive">
+                         <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th>Excellent</th>
+                                 <th>Very Good</th>
+                                 <th>Good</th>
+                                 <th>Fair</th>
+                                 <th>Poor</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                             </tr>
+                         </tbody>
+                         </table>
+                     </div>
+                  <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/>      
+                  <h2 class="StepTitle">Trend Values</h2> 
+                  <div class="table-responsive">
+                         <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th>Year 1</th>
+                                 <th>Year 2</th>
+                                 <th>Year 3</th>
+                                 <th>Year 4</th>
+                                 <th>Year 5</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                             </tr>
+                         </tbody>
+                         </table>
+                     </div>
+                  <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Indicator Description</label>
+                 <textarea class="form-control"></textarea>
+                  </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Data Collection Methodology</label>
+                <select class="form-control"><option>--select--</option></select>
+                  </div>
+                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Data Collection Frequency</label>
+                <select class="form-control"><option>--select--</option></select>
+                  </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Data Source</label>
+                 <textarea class="form-control"></textarea>
+                  </div>
+                  </div>
+                  <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <button type="button" class="btn btn-success">Save</button>
+                    </div>
+                    </div>
+                    </div>
+    
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        </div>
+   
+          </div>
+        </div> 
+
+              
+              
+   
+            
+    

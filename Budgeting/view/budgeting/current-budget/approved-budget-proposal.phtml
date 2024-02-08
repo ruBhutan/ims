@@ -1,0 +1,81 @@
+<?php
+ $title = 'List of Budget Proposals of Colleges/OVC to RUB';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $proposal = $form->get('budgetproposal');
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($proposal->get('id')); 
+					$proposal->get('five_year_plan')->setValue('12th Five Year Plan');
+				  ?>   
+        
+        <!-- Start of table listing budget ledgers -->
+                     <div class="table-responsive">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No. </th>
+                            <th class="column-title">College/Organisation</th>
+                            <th class="column-title">Programme</th>
+                            <th class="column-title">Activity</th>
+                            <th class="column-title">Chart of Accounts</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Proposed Amount</th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                         <?php $i =1; foreach ($this->budgetProposal as $proposal) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['organisation_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['ledger_head']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['group_head']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['account_code']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['write_up']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($proposal['proposed_budget_amount']);?></td>
+                            <td class=" "><a href="<?php echo $this->url('viewbudgetproposal', array('id' => my_encrypt($proposal['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+                 </div>
+             </div>
+    
+          </div>
+        </div> 
+     </div>
+     </div>
+     </div>

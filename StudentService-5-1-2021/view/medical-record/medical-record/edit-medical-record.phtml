@@ -1,0 +1,141 @@
+<?php
+ $title = 'Edit Student Medical Record';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+					<?php
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $record = $form->get('medicalrecord');
+					
+                    //getting the student details
+                    $studentName;
+                    $studentId; //this is the student id
+                    $stdId; //this is the auto generated id
+                    $programme;
+                    foreach($studentMedicalDetails as $student){
+                      $studentName = $student['first_name'];
+                      $studentName .= ' ';
+                      $studentName .= $student['middle_name'];
+                      $studentName .= ' ';
+                      $studentName .= $student['last_name'];
+                      $studentId = $student['std_enrol_id'];
+                      $programme = $student['programme_name'];
+                    }
+                    $record->get('id')->setValue($id);
+                    $from_date = explode("-", $student['from_date']);
+                    $record->get('from_date')->setValue($from_date[01].'/'.$from_date[02].'/'.$from_date[00]);
+                    $to_date = explode("-", $student['to_date']);
+                    $record->get('to_date')->setValue($to_date[01].'/'.$to_date[02].'/'.$to_date[00]);
+                    $record->get('medical_problem')->setValue($student['medical_problem']);
+                    $record->get('remarks')->setValue($student['remarks']);
+                    $record->get('medical_proof')->setValue($student['medical_proof']);
+                    $record->get('student_id')->setValue($student['student_id']);
+                    echo $this->formHidden($record->get('id'));
+                    echo $this->formHidden($record->get('student_id'));
+                    $record->get('submit')->setValue('Update');
+                    ?>
+                    <div class="row">
+                     <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" id="first-name"  class="form-control col-md-7 col-xs-12" placeholder="<?php echo $studentName; ?>" disabled="disabled">
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" id="first-name"  class="form-control col-md-7 col-xs-12" placeholder="<?php echo $programme; ?>" disabled="disabled">
+                        </div>
+                      </div>
+                   </div>
+                   <div class="row">
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Id:</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                         <input type="text" id="first-name"  class="form-control col-md-7 col-xs-12" placeholder="<?php echo $studentId; ?>" disabled="disabled">
+                        </div>
+                      </div>
+                   </div>
+                    <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Date From: <span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($record->get('from_date')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date To: <span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php echo $this->formRow($record->get('to_date')); ?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group"> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Medical Problem: <span class="required">*</span></label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <?php echo $this->formRow($record->get('medical_problem'));?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks:</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <?php echo $this->formRow($record->get('remarks')); ?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Upload Evidence: <small>(Optional)</small></label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                        <?php if($student['medical_proof']){?>
+                         <p><i class="red">Already uploaded and download by clicking on "Download File." <a href = "/<?php echo $student['medical_proof'];?>" target="_blank"><i class="fa fa-download"></i> Download File</a> And still want to upload again then select file and upload it but the previously uploaded file will get replaced by current one.</i></p>
+                          <?php echo $this->formRow($record->get('medical_proof')); ?>
+                          <?php } else { ?>
+                            <p><i class="red">Previously file was not uploaded! Please upload it.</i></p>
+                            <?php echo $this->formRow($record->get('medical_proof')); ?>
+                        <?php  } ?>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                         <?php
+                         echo $this->formHidden($form->get('csrf'));
+						              echo $this->formSubmit($record->get('submit')); 
+                        ?>
+                        </div>
+                    </div>
+                    </div>
+                   <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                  </div>
+                </div>
+             </div>
+          </div>
+      </div>
+                        
+                   
+                    
+                 
+                 
+            
+         
+              
+       
+                

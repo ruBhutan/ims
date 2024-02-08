@@ -1,0 +1,128 @@
+
+<?php
+ $title = 'Search Applications for College Research Grant';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+	<div class="right_col" role="main">
+          <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+                      </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                          <?php
+							// Opening of the form tag
+							$form->prepare();
+							echo $this->form()->openTag($form);
+						  ?>
+						
+						  <div class="row">
+							  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+								<label>Researcher Name</label>
+								<?php echo $this->formRow($form->get('researcher_name')); ?>
+							  </div>
+							  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+								<label>Research Title</label>
+								<?php echo $this->formRow($form->get('research_title')); ?>
+							  </div>
+							  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+								<label>Grant Type</label>
+								<?php echo $this->formRow($form->get('grant_type')); ?>
+							  </div>
+						   </div>
+						 
+						 <div class="row">
+							<div class="ln_solid"></div>
+							<div class="form-group">
+								<label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+								  <?php
+								   echo $this->formHidden($form->get('csrf'));
+								   echo $this->formSubmit($form->get('submit')); 
+								   echo $this->form()->closeTag(); 
+								?>
+							</div>
+						</div>
+                 </div>
+               </div>
+
+          <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?> 
+            
+     		 <div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Research Grant Type </th>
+                            <th class="column-title">Research Title </th>
+                            <th class="column-title">Researcher Name </th>
+                            <th class="column-title">University / College </th>
+                            <th class="column-title">Application Date </th>
+                            <th class="column-title">CARG Status </th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                         <?php foreach ($this->researches as $research) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $this->escapeHtml($research['grant_applied_for']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($research['research_title']);?></td>
+                            <td class=" "> Researcher Name</td>
+                            <td class=" ">University Name</td>
+                            <td class=" "><?php echo $this->escapeHtml($research['research_year']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($research['application_status']);?></td>
+                            <td class=" last"> <a href="<?php echo $this->url('updatecarg', array('id' => my_encrypt($research['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Update Progress</a>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+              

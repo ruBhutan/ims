@@ -1,0 +1,321 @@
+<?php
+ $title = 'Performance Management System - Academic Appraisal';
+ $this->headTitle($title);
+ $api_output = array();
+ $academic_activities = array();
+ $api = array();
+ foreach($this->kpi as $kpi){
+	 $academic_activities[$kpi['category']][$kpi['activity_name']][]= $kpi;
+	 $api_output[$kpi['category']][] = $kpi['activity_name'];
+	 $api[$kpi['pms_nature_activity_id']] = $kpi['nature_of_activity'];
+ }
+ 
+ $appraisal_details = array();
+ foreach($this->appraisalDetail as $detail){
+	 $appraisal_details = $detail;
+ }
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                     <br/>
+                	<!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Academic Appraisal Form</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Guidelines for Academic Appraisal</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <br/>
+                                <!-- Adding Feedback Questions-->
+                                <div class="col-md-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Academic Appraisal Form")?></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                        </ul>
+                                     <div class="clearfix"></div>
+                                  
+                                    </div>
+                                       
+                                    <div class="x_content">
+                                      <br />
+                                       <?php
+										// Opening of the form tag
+										$form->prepare();
+										echo $this->form()->openTag($form);
+										$appraisal = $form->get('academicappraisal');
+										//get the objectives with their id
+										$natureActivity = $this->natureActivity;
+										echo $this->form()->openTag($form);										
+										$appraisal->get('id')->setValue($appraisal_details['id']);
+										$appraisal->get('employee_details_id')->setValue($appraisal_details['employee_details_id']);
+										$appraisal->get('appraisal_period')->setValue($appraisal_details['appraisal_period']);
+										$appraisal->get('status')->setValue($appraisal_details['status']);
+										$appraisal->get('pms_nature_activity_id')->setValue($appraisal_details['pms_nature_activity_id']);
+										$appraisal->get('awpa_objectives_activity_id')->setValue($appraisal_details['awpa_objectives_activity_id']);
+										$appraisal->get('pms_nature_activity_id')->setValueOptions($natureActivity);
+										$appraisal->get('awpa_objectives_activity_id')->setValueOptions($objectivesSelect);
+										$appraisal->get('maximum_api')->setValue($appraisal_details['maximum_api']);
+										$appraisal->get('minimum_api')->setValue($appraisal_details['minimum_api']);
+										echo $this->formHidden($appraisal->get('id'));
+										echo $this->formHidden($appraisal->get('appraisal_period')); 
+										echo $this->formHidden($appraisal->get('status')); 
+										echo $this->formHidden($appraisal->get('employee_details_id')); 
+									  ?>
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">College/Department Output<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php echo $this->formRow($appraisal->get('awpa_objectives_activity_id')); ?>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Nature of Activity<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php echo $this->formRow($appraisal->get('pms_nature_activity_id')); ?>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Maximum API<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($appraisal->get('maximum_api')); ?>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Minimum API<span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                          <?php  echo $this->formRow($appraisal->get('minimum_api')); ?>
+                                        </div>
+                                      </div>
+                                      
+                                     <div class="row">
+                                        <div class="ln_solid"></div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                              <?php
+                                               echo $this->formHidden($form->get('csrf'));
+                                               echo $this->formSubmit($appraisal->get('submit')); 
+                                               echo $this->form()->closeTag(); 
+                                            ?>
+                                        </div>
+                                    </div>
+                                      
+                                  </div>
+                                </div>
+                               </div>     
+                                      
+                                  
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Academic APIs"); ?></h2>
+                                      <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                    </div>
+                    
+                                    <div class="x_content">
+                                      <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                        <thead>
+                                          <tr class="headings">
+                                             <th style="width:25%" class="column-title">College/Department Output</th>
+                                             <th style="width:25%" class="column-title">Activities</th>
+                                             <th style="width:15%" class="column-title">Maximum API </th>
+                                             <th style="width:15%" class="column-title">Minimum API</th>
+                                             <th style="width:10%" class="column-title">Status</th>
+                                             <th style="width:10%" class="column-title">Action</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+										  <?php 
+										  	$i=0;
+											$activity=NULL;
+											foreach($academic_activities as $key=>$value){
+										  ?>
+                                          <tr class="even pointer">
+                                            <td class=" "><?php  $j=1;?></td>
+                                            <td class="blue"><i><b><?php echo $key; ?></b></i></td>
+                                            <td class=" "></td>
+                                            <td class=" "></td>
+                                            <td class=" "></td>
+                                            <td class=" "></td>
+                                          </tr>
+                                          <?php 
+										  	foreach($value as $key1=>$value1){
+												foreach($value1 as $key2=>$value2){
+										  ?>
+                                          <tr>
+                                            <td class=" "><?php echo $key1; ?></td>
+                                            <td class=" "><?php echo $api[$value2['pms_nature_activity_id']];?></td>
+                                            <td class=" "><?php echo $value2['maximum_api'];?></td>
+                                            <td class=" "><?php echo $value2['minimum_api'];?></td>
+                                            <td class=" "><?php echo $value2['status']; ?></td>
+                                            <td><a href="<?php echo $this->url('viewacademicappraisal', array('id' => $value2['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a><br />
+                            <?php if($value2['status'] != "Approved") { ?>
+                            <a href="<?php echo $this->url('editacademicappraisal', array('id' => $value2['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a><br />
+                            <?php  } if($value2['status'] == "Pending for Approval") {?>
+                            <a href="<?php echo $this->url('deleteacademicappraisal', array('id' => $value2['id']));?>" class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Delete</a><?php } ?></td>
+                                          </tr>
+                                          <?php  } } } ?>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                           		<!-- End of Feedback Questions-->
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                <br/>
+                                <!-- Tab for Guidelines-->
+                                <div class="col-md-12 col-xs-12">
+                                  <div class="x_panel">
+                                    <div class="x_title">
+                                      <h2><?php echo $this->escapeHtml("Guidelines for Academic Performance Inidex (API) for Academics")?></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                          </li>
+                                    
+                                        </ul>
+                                     <div class="clearfix"></div>
+                                  
+                                    </div>
+                                       
+                                    <div class="x_content">
+                                      <br />
+                                      <!-- list of Guidelines --> 
+                                      <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                          <div class="x_panel">
+                                            <div class="x_title">
+                                              <h2>Theme I: Teaching and Learning</h2>
+                                              <ul class="nav navbar-right panel_toolbox">
+                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                              </ul>
+                                              <div class="clearfix"></div>
+                                            </div>
+                                            <div class="x_content">
+                                              <div class="dashboard-widget-content">
+                            
+                                                <ul class="list-unstyled timeline widget">
+                                                <?php foreach($this->teachingTheme as $teaching) { ?>
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title"><?php echo $teaching['nature_of_activity'];?></h2>
+                                                        <div class="byline">
+                                                        </div>
+                                                        <p class="excerpt">
+                                                        	<?php echo $teaching['activity_details'];?>
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+                                                 <?php } ?>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                          <div class="x_panel">
+                                            <div class="x_title">
+                                              <h2>Theme II: Research and Innovation</h2>
+                                              <ul class="nav navbar-right panel_toolbox">
+                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                              </ul>
+                                              <div class="clearfix"></div>
+                                            </div>
+                                            <div class="x_content">
+                                              <div class="dashboard-widget-content">
+                            
+                                                <ul class="list-unstyled timeline widget">
+                                                  <?php foreach($this->researchTheme as $research){ ?>
+                                                  <li>
+                                                    <div class="block">
+                                                      <div class="block_content">
+                                                        <h2 class="title"><?php echo $research['nature_of_activity'];?></h2>
+                                                        <div class="byline">
+                                                        </div>
+                                                        <p class="excerpt">
+                                                        	<?php echo $research['activity_details'];?>
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </li>
+                                                 <?php } ?>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                              <div class="x_panel">
+                                                <div class="x_title">
+                                                  <h2>Theme III: Services</h2>
+                                                  <ul class="nav navbar-right panel_toolbox">
+                                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                    </li>
+                                                  </ul>
+                                                  <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                  <div class="dashboard-widget-content">
+                                
+                                                    <ul class="list-unstyled timeline widget">
+                                                      <?php foreach($this->servicesTheme as $services){ ?>
+                                                      <li>
+                                                        <div class="block">
+                                                          <div class="block_content">
+                                                            <h2 class="title"><?php echo $services['nature_of_activity'];?></h2>
+                                                            <div class="byline">
+                                                            </div>
+                                                            <p class="excerpt">
+                                                                <?php echo $services['activity_details'];?>
+                                                            </p>
+                                                          </div>
+                                                        </div>
+                                                      </li>
+                                                     <?php } ?>
+                                                    </ul>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                            
+                            	<!-- End of Guidelines Tab-->
+                        	</div>
+                          </div>
+                         </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>

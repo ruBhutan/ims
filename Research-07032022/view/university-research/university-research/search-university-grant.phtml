@@ -1,0 +1,114 @@
+
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Search Applications for University Research Grant';
+ $this->headTitle($title);
+?>
+	<div class="right_col" role="main">
+          <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+                      </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                          
+                      
+                          
+<div>                    
+   <table class="table table-striped jambo_table bulk_action">
+ <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+     <label>Application Type</label>
+    <?php echo $this->formRow($form->get('grant_application_type')); ?>
+</div>
+       <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+     <label>From Date</label>
+    <?php echo $this->formRow($form->get('application_date')); ?>
+</div>
+       <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+     <label>To Date</label>
+    <?php echo $this->formRow($form->get('application_date')); ?>
+       </div>
+       
+    <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+        <label>Research Title Name</label>
+    <?php echo $this->formRow($form->get('research_title')); ?>
+</div>
+    
+    <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+        <label>College</label>    
+    <?php echo $this->formRow($form->get('lead_college')); ?>
+</div>
+    
+<div class="col-md-4 col-sm-4 col-xs-12 form-group">
+    <label>University Ethic Approved Number</label>
+    <?php echo $this->formRow($form->get('ethic_committee_approve_no')); ?>
+</div>
+                          
+                                
+ <div class="row">
+</div>
+         <div class="row">
+             <div class="ln_solid"></div>
+           <button class="btn btn-success">Search</button>
+           <button class="btn btn-danger">Cancel</button>
+         </div>
+
+</table></div></div></div>
+
+            
+      <div class="x_panel">
+                               
+                <div class="x_content">
+                    
+                     <div class="table-responsive">
+                                         
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                            
+                          <tr class="headings">
+                              <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                            <th class="column-title">Research Grant Type </th>
+                            <th class="column-title">Research Title </th>
+                            <th class="column-title">Researcher Name </th>
+                            <th class="column-title">University / College </th>
+                            <th class="column-title">Application Date </th>
+                            <th class="column-title">Email Address </th>
+                            <th class="column-title">Phone No </th>
+                            <th class="column-title">Ethic Approve No </th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a href="viewuniversityapplication">view detail</a></td>
+                        
+                      </tr>
+                      
+                      
+                      </tbody>
+                                            
+                      </table>
+                     </div></div></div></div></div></div>
+              

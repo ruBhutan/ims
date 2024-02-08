@@ -1,0 +1,272 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Budget Re-appropriation Proposal Form (college Finance Officer)';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+              
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                  // echo $this->formHidden($form->get('id'));   
+                ?>
+                  <h2>Re-appropriation from Detail</h2> <br/>   
+                  
+                <div class="row">  
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Budget Type
+                    </label>
+                <input type="text" placeholder="Auto-captured" class="form-control" readonly>
+                     </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Office/Department/Section
+                    </label>
+                <?php  echo $this->formRow($form->get('department')); ?>
+                </div>
+                 
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Activities
+                    </label>
+                <?php  echo $this->formRow($form->get('department')); ?>
+                    </div> 
+                     
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Sub Activity 
+                    </label>
+                <?php  echo $this->formRow($form->get('department')); ?>
+                    </div></div>
+                  
+                  <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Funding Agency
+                    </label>
+                <?php  echo $this->formRow($form->get('expenditure')); ?>
+                </div>
+            
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Budget Available
+                    </label>
+                <?php  echo $this->formRow($form->get('expenditure')); ?>
+                     </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Expenditure
+                    </label>
+                <?php  echo $this->formRow($form->get('expenditure')); ?>
+                    </div> 
+                     
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Balance
+                    </label>
+                <?php  echo $this->formRow($form->get('expenditure')); ?>
+                    </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Budget Re-appropriation Propose
+                    </label>
+                <?php  echo $this->formRow($form->get('funding_agency')); ?>
+                    </div>
+                  </div>
+                  
+                
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                  
+          </div>
+    
+                <div class="x_title">
+                  
+                 <div class="clearfix"></div>
+                </div>
+                   
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+                  <h2>Re-appropriation to Detail</h2><br/>
+                <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Office/Department/Section 
+                    </label>
+                <?php  echo $this->formRow($form->get('department')); ?>
+                </div>
+            
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Activity
+                    </label>
+                <?php  echo $this->formRow($form->get('department')); ?>
+                    </div> 
+                     
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Sub Activity 
+                    </label>
+                <?php  echo $this->formRow($form->get('department')); ?>
+                    </div></div>
+                     
+                     <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Funding Agency
+                    </label>
+                <?php  echo $this->formRow($form->get('expenditure')); ?>
+                    </div>
+                     
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Budget Re-appropriated Amount
+                    </label>
+                <?php  echo $this->formRow($form->get('funding_agency')); ?>
+                    </div>   
+                  
+                     </div>
+           <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/> 
+                  <h6>Notes: If the Budget type is current budget ,following fields will be enabled here and no need to forwarded to OVC-budget Officer.If Budget type is Capital,then following fields are hidden</h6>
+            <div class="x_content">
+                <form> <br/>
+                 <div class="row">
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Approved Reference No.</label>
+                    <input type="text" placeholder="" class="form-control" >
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Reference Date</label>
+                      <select class="form-control">
+                        <option></option>  
+                      </select>
+                  </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Office / Department / Section</label>
+                  <select class="form-control">
+                        <option></option>  
+                      </select>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Activities</label>
+                   <select class="form-control">
+                        <option></option>  
+                      </select>
+                  </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Sub Activity</label>
+                    <select class="form-control">
+                        <option></option>  
+                      </select>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Funding Agency</label>
+                      <input type="text" placeholder="auto-retrieve" class="form-control" readonly >
+                  </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Approved Budget  Amount</label>
+                    <input type="text" placeholder="" class="form-control" >
+                  </div>    </div><br/>
+                      </form>
+                      
+                  
+          </div>
+                  
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                    <button class="btn btn-success">Add</button>
+                     <button class="btn btn-danger">Cancel</button>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                  
+          </div>
+        </div>
+                  </div>
+          <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+            <div class="table-responsive">
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Sl.No </th>
+                        <th class="column-title">Office/Department/Section</th>
+                        <th class="column-title">Activity</th>
+                        <th class="column-title">Subactivity</th>
+                        <th class="column-title">Funding Agency</th>
+                        <th class="column-title">Budget available</th>
+                         <th class="column-title">Expenditure</th>
+                          <th class="column-title">Balance</th>
+                           <th class="column-title">Budget Re-appropriation Propose</th>
+                            <th class="column-title">Budget Re-appropriation amount</th>
+                            
+                        <th class="bulk-actions" colspan="7">
+                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr class="even pointer">
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                       <td class=" "></td>
+                      
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                 <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                             <button class="btn btn-success">Save & Close</button>
+                    <button class="btn btn-success">Submit</button>
+                 </div>
+                </div>
+               </div>
+                </div>
+              </div>
+            </div>
+          
+          
+          
+          </div></div>
+                
+                 

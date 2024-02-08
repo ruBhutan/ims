@@ -1,0 +1,123 @@
+<?php
+		
+	// Add a JavaScript file
+	$this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+        
+ $title = 'Human Resource Report';
+ $this->headTitle($title);
+ $position_category = array();
+ $position_level = array();
+ $i=1;
+ foreach($this->positionCategory as $category){
+	 $position_category[$i++] = $category;
+ }
+ $i=1;
+ foreach($this->positionLevel as $level){
+	 $position_level[$i++] = $level;
+ }
+ 
+ $organisation_list = array();
+foreach($this->organisationList as $key=>$organisation){
+	if($key != 1){
+		$organisation_list[$key] = $organisation;
+	}
+}
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                	
+                        <!-- Search Employees-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Report")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                </ul>
+                             <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                                $form->get('report_name')->setValueOptions($this->report_list);
+                                $form->get('organisation')->setValueOptions($this->organisationList);
+                                $form->get('five_year_plan')->setValueOptions($this->fiveYearPlanList);
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Report Type</label>
+                                    <?php echo $this->formRow($form->get('report_name')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Agency/College</label>
+                                    <?php echo $this->formRow($form->get('organisation')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Five Year Plan</label>
+                                    <?php echo $this->formRow($form->get('five_year_plan')); ?>
+                                  </div>
+                                  <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label>Report Type</label>
+                                    <?php echo $this->formRow($form->get('report_type')); ?>
+                                  </div>
+                             </div>
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                       </div>     
+                          
+                        <?php 
+                                if(!empty($this->report_details) && $this->report_details['report_name'] == 'hrd_planning' && $this->report_details['report_type'] == 'list'){
+                                        echo $this->partial('hrd_planning_details.phtml', 
+                                                                array( 
+                                                                    'hr_report' => $this->hr_report, 
+                                                                    'five_year_plan' => $this->five_year_plan,
+                                                                    'organisationList' =>  $this->organisationList)); 
+                                } else if(!empty($this->report_details) && $this->report_details['report_name'] == 'hrd_planning' && $this->report_details['report_type'] == 'summary'){
+                                        echo $this->partial('hrd_planning_summary.phtml', 
+                                                                array( 
+                                                                    'hr_report' => $this->hr_report, 
+                                                                    'five_year_plan' => $this->five_year_plan,
+                                                                    'organisationList' =>  $this->organisationList)); 
+                                } else if(!empty($this->report_details) && $this->report_details['report_name'] == 'hrm_planning' && $this->report_details['report_type'] == 'list'){
+                                        echo $this->partial('hrm_planning_details.phtml', 
+                                                                array( 
+                                                                    'hr_report' => $this->hr_report, 
+                                                                    'five_year_plan' => $this->five_year_plan,
+                                                                    'organisationList' =>  $this->organisationList)); 
+                                } else if(!empty($this->report_details) && $this->report_details['report_name'] == 'hrm_planning' && $this->report_details['report_type'] == 'summary'){
+                                        echo $this->partial('hrm_planning_summary.phtml', 
+                                                                array( 
+                                                                    'hr_report' => $this->hr_report, 
+                                                                    'five_year_plan' => $this->five_year_plan,
+                                                                    'organisationList' =>  $this->organisationList)); 
+                                }
+                        ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+           </div>
+     </div>

@@ -1,0 +1,101 @@
+<?php
+
+$title = 'Currency';
+$this->headTitle($title);
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="pull-right tableTools-container"></div>
+                <a class="pull-right btn btn-primary"
+                   href="<?php echo $this->url('master', array('action' => 'addcurrency')); ?>">
+                    <span class="white"><i class="fa fa-plus"></i> <span
+                                class="hidden-sm hidden-xs">&nbsp;Add Currency</span></span>
+                </a>
+                <div class="pull-right"></div>
+                <?php echo $this->partial('accounts/master/partial.phtml', array('active' => 'currency')); ?>
+                <?php $flashMessenger = $this->flashMessenger('error'); ?>
+                <?php if ( $flashMessenger->hasMessages() ): ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <?php foreach ( $flashMessenger->getMessages() as $message ): ?>
+                            <?php echo $message ?>
+                        <?php endforeach ?>
+                    </div>
+                <?php endif; ?>
+                <?php $flashMessenger->setNamespace('success'); ?>
+                <?php if ( $flashMessenger->hasMessages() ): ?>
+                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <?php foreach ( $flashMessenger->getMessages() as $message ): ?>
+                            <?php echo $message ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped jambo_table bulk_action">
+                            <thead>
+                            <tr class="headings">
+                                <th class="column-title">Sl No</th>
+                                <th class="column-title">Currency</th>
+                                <th class="column-title">Country</th>
+                                <th class="column-title">Code</th>
+                                <th class="column-title">Fraction</th>
+                                <th class="column-title">Status</th>
+                                <th class="column-title">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+
+                            $i = 1;
+                            foreach ( $this->currencyObj as $currency ): ?>
+                                <tr>
+                                    <td><?php echo $i++; ?> </td>
+                                    <td><b><?php echo $currency['currency']; ?></b></td>
+                                    <td><?php echo $currency['country']; ?></td>
+                                    <td><?php echo $currency['code']; ?></td>
+                                    <td><?php echo $currency['fraction']; ?></td>
+                                    <td class="center">
+                                        <?php
+
+                                        $status = ($currency['status'] == 1) ? "Activated" : "Blocked";
+                                        $color = ($currency['status'] == 1) ? "success" : "danger"; ?>
+                                        <span class="label label-sm label-<?php echo $color; ?>"><?php echo $status; ?></span>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info "
+                                           href="<?php echo $this->url('master', array('action' => 'editcurrency', 'id' => my_encrypt($currency['id'], $key))); ?>">
+                                            <i class="fa fa-pencil"> </i> Edit
+                                            <span class="hidden-lg hidden-xs"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

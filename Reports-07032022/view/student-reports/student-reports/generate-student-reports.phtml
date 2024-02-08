@@ -1,0 +1,118 @@
+<?php
+ $title = 'Student In-Take Reports';
+ $this->headTitle($title);
+
+ $organisation_list = array();
+ foreach($this->organisationList as $key=>$organisation){
+	$organisation_list[$key] = $organisation;
+ }
+ $study_level = array();
+ foreach($this->studyLevel as $k=>$level){
+	 if(!preg_match('/Class/', $level)){
+		 $study_level[$k] = $level;
+	 }
+ }
+
+ ?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+				<!-- Start of table listing of HR Report -->
+                <div class="x_panel">
+                  <div class="x_title">
+                    <hr>
+                    <h2><center><u><?php echo $this->escapeHtml($title); ?></u></center></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <hr>
+                  <br />
+                  <div class="x_content">
+                      <table class="table table-striped table-bordered" border="1px" width="100%" cellpadding="1" cellspacing="1">
+                        <thead>                        
+                             <tr>
+                                <td rowspan="3">College</td>
+                                <td colspan="6">Student Number</td>
+                                <td>Total</td>
+                              </tr>
+                              <tr>
+                                <td colspan="2">RGOB Scholarship</td>
+                                <td colspan="2">Self Financed</td>
+                                <td colspan="2">&nbsp;</td>
+                                <td>&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td>Male</td>
+                                <td>Female</td>
+                                <td>Male</td>
+                                <td>Female</td>
+                                <td>Male</td>
+                                <td>Female</td>
+                                <td></td>
+                              </tr>
+                        </thead>
+                        <tbody>
+                          <?php $i =2; foreach($this->student_report as $report) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $organisation_list[$i];?></td>
+                            <td class=" "><?php 
+                                if(array_key_exists($i, $this->student_report)){
+                                    echo count($this->student_report[$i]['Male']['Full Scholarship']);
+                                }
+                                 else
+                                    echo $this->escapeHtml(0);										
+                                ?></td>
+                            <td class=" "><?php 
+                                if(array_key_exists($i, $this->student_report)){
+                                    echo count($this->student_report[$i]['Female']['Full Scholarship']);
+                                }
+                                 else
+                                    echo $this->escapeHtml('0');
+                                ?></td>
+                            <td class=" "><?php 
+                                if(array_key_exists($i, $this->student_report)){
+                                    echo count($this->student_report[$i]['Male']['Self Finance']);
+                                }
+                                 else
+                                    echo $this->escapeHtml('0');
+                                ?></td>
+                            <td class=" "><?php 
+                                if(array_key_exists($i, $this->student_report)){
+                                    echo count($this->student_report[$i]['Female']['Self Finance']);
+                                }
+                                 else
+                                    echo $this->escapeHtml('0');
+                                ?></td>
+                            <td class=" "><?php 
+                                if(array_key_exists($i, $this->student_report)){
+                                    echo count($this->student_report[$i]['Male']['Full Scholarship'])+count($this->student_report[$i]['Male']['Self Finance']);
+                                }
+                                 else
+                                    echo $this->escapeHtml('0');
+                                ?></td>
+                            <td class=" "><?php 
+                                if(array_key_exists($i, $this->student_report)){
+                                    echo count($this->student_report[$i]['Female']['Full Scholarship'])+count($this->student_report[$i]['Female']['Self Finance']);
+                                }
+                                 else
+                                    echo $this->escapeHtml('0');
+                                ?></td>
+                            <td class=" "><?php 
+                                if(array_key_exists($i, $this->student_report)){	
+                                    echo count($this->student_report[$i]['Male']['Full Scholarship'])+count($this->student_report[$i]['Male']['Self Finance'])+count($this->student_report[$i]['Female']['Full Scholarship'])+count($this->student_report[$i]['Female']['Self Finance']); 
+                                } else
+                                    echo $this->escapeHtml('0');
+                                $i++;
+                                ?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     <br/>
+                 </div>               
+             </div>
+        </div> 
+    </div>
+</div>
+
+

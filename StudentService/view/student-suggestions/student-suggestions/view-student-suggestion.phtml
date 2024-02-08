@@ -1,0 +1,54 @@
+<?php
+ $title = 'Suggestion Suggestions';
+ $this->headTitle($title);
+ $category = array();
+ foreach($this->suggestionCategory as $cat){
+	 $category[$cat['id']] = $cat['suggestion_category'];
+ }
+ ?>
+
+
+<div class="right_col" role="main">
+  <div class="">
+    <div class="col-md-12 col-xs-12">                  
+      <div class="x_panel">
+        <div class="x_title">
+          <h2><?php echo $this->escapeHtml($title); ?></h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div class="table-responsive">
+            <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered"> 
+              <thead>
+                <tr class="headings">
+                  <th class="column-title">Sl. No</th>
+                  <th class="column-title">Suggestion Category </th>
+                  <th class="column-title">Subject </th>
+                  <th class="column-title">Suggestion </th>
+                  <th class="column-title">Organization </th>
+                  <th class="column-title">Posted Date</th>
+                  <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $index = 1; foreach($this->studentSuggestions as $suggestions): ?>
+                <tr class="headings">
+                  <td><?php echo $index++; ?></td>
+                  <td><?php echo $suggestions['suggestion_category']; ?></td>
+                  <td><?php echo $suggestions['subject'] ?></td>
+                  <td><?php echo $suggestions['suggestion'] ?></td>
+                  <td><?php echo $suggestions['abbr'] ?></td>
+                  <td><?php echo $suggestions['suggested_date']; ?></td>
+                  <td class="last">
+                    <a href="<?php //echo $this->url('viewpostedsuggestiondetails', array('id' => my_encrypt($suggestions['id'], $key))); ?>" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View Details</a>
+                  </td>                              
+                </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

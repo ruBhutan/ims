@@ -1,0 +1,104 @@
+<?php
+ $title = 'APA Self-Evaluation Form';
+ $this->headTitle($title);
+
+ $apa_date = array();
+foreach($this->apa_deadline as $date){
+  $apa_date = $date;
+}
+
+if(empty($apa_date))
+$apa_date['end_date'] = '2000-01-01';
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                 <?php if((strtotime($apa_date['end_date']) >= strtotime(date('Y-m-d'))) && (strtotime(date('Y-m-d')) >= strtotime($apa_date['start_date']))){?>
+                <div class="x_content">
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+                  ?>
+               <div class="row">
+                  <div class="x_content">
+                    <!-- blockquote -->
+                      <blockquote>
+                        <h4><i>Self Evaluation Form for the activities that were proposed</i></h4>
+                      </blockquote>
+                      <br />
+                    <!-- start evaluation list -->
+                    <table class="table table-striped projects">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Financial Year</th>
+                          <th>Activity Name</th>
+			                    <th>Weightage</th>
+                          <th>Self Evaluation</th>
+                          <th>Status</th>
+			                    <th>Means of Verification</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php $i=0; foreach($kpi as $activity): ?>
+                        <tr>
+                          <td><?php $i++; echo $i;?></td>
+                          <td>
+                            <?php echo $activity['financial_year']; ?>
+                          </td>
+                          <td>
+                            <?php echo $activity['activity_name']; ?>
+                          </td>
+			  <td>
+                            <?php echo $activity['weight']; ?>
+                          </td>
+                          <td>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+							<?php echo $this->formRow($form->get('evaluation_'.$activity['id'])); ?>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+							<?php echo $this->formRow($form->get('status_'.$activity['id'])); ?>
+                            </div>
+                          </td>
+			  <td>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+							<?php echo $this->formRow($form->get('verification_means_'.$activity['id'])); ?>
+                            </div>
+                          </td>
+                        </tr>
+                        <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    <!-- end evaluation list -->
+                    <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                          <?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($form->get('submit')); 
+						   echo $this->form()->closeTag(); 
+                        ?>
+                    </div>
+                </div>
+                    
+                </div>
+              </div>
+            </div>
+            <?php } else {?>
+            <div class="x_content">
+           <p>Self Evaluation date for Executive has been closed or not yet opened. Please try after some times! </p>
+           </div>
+           <?php } ?>
+           </div>
+          </div>
+        </div>
+      </div>
+  

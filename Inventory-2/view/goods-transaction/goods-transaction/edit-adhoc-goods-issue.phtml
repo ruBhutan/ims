@@ -1,0 +1,97 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Edit Adhoc Goods Issue';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class="">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><?php echo $this->escapeHtml($title); ?></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $editAdhocGoodsIssue = $form->get('issuegoods');
+                    echo $this->form()->openTag($form);
+                    $editAdhocGoodsIssue->get('id')->setValue($this->adhocGoodsIssue->getId());
+                    $editAdhocGoodsIssue->get('employee_details_id')->setValue($this->adhocGoodsIssue->getEmployee_Details_Id());
+                    echo $this->formHidden($editAdhocGoodsIssue->get('employee_details_id'));
+                    $editAdhocGoodsIssue->get('goods_received_id')->setValue($this->adhocGoodsIssue->getGoods_Received_Id());
+                    echo $this->formHidden($editAdhocGoodsIssue->get('goods_received_id'));
+                    $editAdhocGoodsIssue->get('goods_issued_by')->setValue($this->employee_details_id);
+                    echo $this->formHidden($editAdhocGoodsIssue->get('goods_issued_by'));
+
+                    $editAdhocGoodsIssue->get('issue_goods_status')->setValue($this->adhocGoodsIssue->getIssue_Goods_Status());
+                    echo $this->formHidden($editAdhocGoodsIssue->get('issue_goods_status'));
+
+                    $editAdhocGoodsIssue->get('emp_quantity')->setValue($this->adhocGoodsIssue->getEmp_Quantity());
+                    $editAdhocGoodsIssue->get('date_of_issue')->setValue($this->adhocGoodsIssue->getDate_Of_Issue());
+                    $editAdhocGoodsIssue->get('submit')->setValue('Update');
+                   // echo $this->formRow($adhocGoodsIssue->get('id'));
+                 ?>               
+                
+                <div class="form-group">
+                  <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff Name</label>
+                  <div class="col-md-3 col-sm-3 col-xs-12">
+                    <input type="text" placeholder="<?php 
+                    echo $this->adhocGoodsIssue->getFIrst_Name().' ';
+                    echo $this->adhocGoodsIssue->getMiddle_Name().' ';
+                    echo $this->adhocGoodsIssue->getLast_Name(); ?>" class="form-control" readonly> 
+                  </div>
+                  <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID</label>
+                  <div class="col-md-3 col=col-sm-3 col-xs-12">
+                    <input type="text" placeholder="<?php echo $this->adhocGoodsIssue->getEmp_Id(); ?>" class="form-control" readonly>
+                  </div>
+                </div>
+                
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="goods_received_id">Item Name</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <input type="text" placeholder="<?php 
+                    echo $this->adhocGoodsIssue->getGoods_Received_Id(); ?>" class="form-control" readonly> 
+                    </div>
+                </div>
+
+                <div class="form-group">           
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="emp_quantity">Issue Quantity:<span class="required">* <i> (It should not be more than Item In Stock displayed above)</i></span></label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($editAdhocGoodsIssue->get('emp_quantity')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12" for="date_of_issue">Issue Date</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php  echo $this->formRow($editAdhocGoodsIssue->get('date_of_issue')); ?>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <?php  
+                            echo $this->formRow($form->get('csrf'));
+                            echo $this->formRow($editAdhocGoodsIssue->get('submit'));
+                          ?>
+                        </div>
+                    </div>
+                </div> 
+
+                <?php 
+                //closing the form tag  
+                 echo $this->form()->closeTag();
+                 ?>
+                </div>
+              </div>           
+            </div>
+        </div>
+    </div>

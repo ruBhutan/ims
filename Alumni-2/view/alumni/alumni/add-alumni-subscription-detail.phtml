@@ -1,0 +1,139 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Add Alumni Subscription';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="x_content">
+                    <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $subscription = $form->get('alumnisubscriptiondetails');
+                        echo $this->formHidden($subscription->get('id')); 
+            						$subscription->get('organisation_id')->setValue($this->organisation_id);
+            						echo $this->formHidden($subscription->get('organisation_id'));
+                     ?>
+
+                     <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                        <h4><i>Please enter the list of subscription details of your organisation</i></h4><br/>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Subscription Details:<span class="required">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                        <?php  echo $this->formRow($subscription->get('subscription_details')); ?>
+                                    </div>
+                            </div>    
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12"> Remarks:</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <?php  echo $this->formRow($subscription->get('remarks')); ?>
+                                        </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <?php 
+                                                     echo $this->formHidden($form->get('csrf'));
+                                                      echo $this->formSubmit($subscription->get('submit')); ?>
+                                        </div>
+                                </div>
+                        </div>
+                            <?php
+                                echo $this->form()->closeTag();
+                            ?>
+                    </div><!--end of x-content-->
+                </div>
+	  
+
+         
+              <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel"> 
+                  <div class="x_title">
+                    <h2>Subscription Lists: <small>(Alumni Subscirption lists for the year)</small></h2>
+                  <div class="clearfix"></div>
+                  </div>
+            <div class="x_content">
+                    <div class="table-responsive">
+                      <table id="datatable-responsive" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered"> 
+                         <thead>
+                          <tr class="headings">
+                      <!--  <th>
+                          <input type="checkbox" id="check-all" class="flat" disabled>
+                        </th>-->                          
+                          <th class="column-title">Sl.No. </th>
+                          <th class="column-title">Subscription Details</th>
+                          <th class="column-title">Subscription Charge</th>
+                          <th class="column-title">Remarks</th>
+                          <th class="column-title">Actions</th>
+                          <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                         </tr>
+                        </thead>
+                          <tbody>
+                            <?php $i=1; foreach($this->subscriptionList as $subscription): ?>
+                            <tr>
+                              <td class=""><?php echo $i++; ?></td>
+                              <td class=" "><?php echo $this->escapeHtml($subscription['subscription_details']); ?></td>
+                              <td class=" "><?php echo $this->escapeHtml($subscription['subscription_charge']); ?></td>
+                              <td class=" "><?php echo $this->escapeHtml($subscription['remarks']); ?></td>
+                              <td class="last">
+                                <a href="<?php echo $this->url('editalumnisubscriptiondetail', array('id' => my_encrypt($subscription['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                              </td>
+                            </tr>
+                            <?php endforeach; ?>
+                          </tbody>
+                          </table>
+                    </div>
+            </div>
+		</div>
+  </div>
+</div>
+</div>
+

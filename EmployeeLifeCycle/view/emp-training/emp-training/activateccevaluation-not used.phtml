@@ -1,0 +1,124 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Activate Character Certificate Evaluation (DSA)';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                
+                    </ul>
+                 <div class="clearfix"></div>
+              
+                </div>
+                   
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+                  <div class="row">
+                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Programme</label>
+                    <select class="form-control"><option>--Select--</option><option>Student Service</option><option>Academic</option></select>
+                        </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Semester</label>
+                  <select class="form-control"><option>--Select--</option><option>DSA</option><option>Resident Coordinator</option></select>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Deadline</label>
+               <input type="date" class="form-control">
+                  </div>
+                </div>
+                   <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                  <button class="btn btn-success">Add</button>
+                    </div>
+                    </div>
+                    </div><br/>
+                  
+                  
+             <!--   <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Programme 
+                    </label>
+                <?php  echo $this->formRow($form->get('programme')); ?>
+                </div>
+            
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Year of Admission 
+                    </label>
+                <?php  echo $this->formRow($form->get('programme')); ?>
+                     </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Deadline
+                    </label>
+                <?php  echo $this->formRow($form->get('training_start_date')); ?>
+                     </div>
+                     </div>-->
+        
+                <div class="x_content">
+                           <div class="row">
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Sl.No </th>
+                        <th class="column-title">Programme</th>
+                        <th class="column-title">Semester</th>
+                                <th class="column-title">Deadline</th>
+                        <th class="column-title">Status</th>
+                        <th class="bulk-actions" colspan="7">
+                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr class="even pointer">
+                        <td class=" "></td>
+                         <td class=" "></td>
+                        <td class=" "></td>
+                        <td class=" "></td>
+                        <td class=" ">Started</td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                     
+               </div>
+                </div>
+           
+   
+                  
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                  <button class="btn btn-success">Activate Evaluation</button>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+          </div>
+        </div>
+                  </div>
+                          
+                 

@@ -1,0 +1,49 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('HRM Planning Report'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+               <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title">Sl.No </th>
+                     <th class="column-title">Agency </th>
+                     <th class="column-title">Title </th>
+                     <th class="column-title">Year 1</th>
+                     <th class="column-title">Year 2</th>
+                     <th class="column-title">Year 3</th>
+                     <th class="column-title">Year 4</th>
+                     <th class="column-title">Year 5</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php $i=1; foreach ($this->hr_report as $key=>$value) : ?>
+                   <?php foreach ($value as $key2 => $value2) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $this->escapeHtml($key);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($key2);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($value2['requirement_year_1']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($value2['requirement_year_2']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($value2['requirement_year_3']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($value2['requirement_year_4']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($value2['requirement_year_5']);?></td>
+                  </tr>
+                  <?php endforeach; 
+                        endforeach;
+                  ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

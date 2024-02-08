@@ -1,0 +1,7 @@
+<?php 
+  if($this->user_staff_type_id == 1){
+    echo $this->partial('dashboard_academic_staff.phtml');
+  } else {
+    echo $this->partial('dashboard_administrative_staff.phtml');
+  }
+?>

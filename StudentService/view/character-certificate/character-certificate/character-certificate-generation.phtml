@@ -1,0 +1,160 @@
+<?php
+ $title = 'Generate Character Certificate (DSA)';
+ $this->headTitle($title);
+
+ $student_list = $this->studentList;
+
+ $criteria_array = array();
+ foreach($this->criteria as $key => $value){
+   $criteria_array[] = $value['evaluation_criteria'];
+ } 
+
+  $secret_key = $this->keyphrase;
+ function my_encrypt($data, $secret_key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($secret_key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                        <!-- Adding Achievements-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Search for Students by Batch/Programme")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+                               
+                            <div class="x_content">
+                            <h5><i>*(In order to view/ generate the students' character certificate, search by Programme Name and Batch. Please note that in order to get the right batch,
+                            		 enter both the programme and the batch.)<br />
+                                    **Also note, search by name is done by "First Name" only</i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                								$form->get('programmes_id')->setValueOptions($this->programmeList);
+                								$form->get('batch')->setValueOptions($this->batchList);
+                								//need to set it so as to validate form
+                								$form->get('academic_module_tutors_id')->setValue('0');
+                								echo $this->formHidden($form->get('academic_module_tutors_id'));
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme</label>
+                                    <?php echo $this->formRow($form->get('programmes_id')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Batch/Year</label>
+                                    <?php echo $this->formRow($form->get('batch')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Student Name</label>
+                                    <?php echo $this->formRow($form->get('student_name')); ?>
+                                  </div>
+                              </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>     
+                              
+                          
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("List of Student(s)"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                            <?php if(!empty($this->evaluationList)) {?>
+                              <h5><i>(Below are the lists of student overall character certificate evaluation for particular programme, year or particular student for particular evaluation criteria based on the total evaluated from the enrollment)</i></h5>
+                              <br />
+                              <b><i class="blue">1. <=4.00 && >=3.50: Excelent,&nbsp;&nbsp;2. <=3.49 && >=2.50: Good,&nbsp;&nbsp;3. <=2.49 && >=1.50: Satisfactory,&nbsp;&nbsp;4: <=1.49 && >=0.00: Poor&nbsp;&nbsp;</i></b><br/>
+                              <div class="table-responsive">
+                                <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                  <thead>
+                                      <th class="column-title">Name, Id and Section</th>
+                                     <?php foreach($criteria_array as $key => $value): ?>
+                                      <th class="column-title" style="width:10%"><?php echo $value;?></th>
+                                     <?php endforeach; ?>
+                                     <td class="column-title">Action<small><br>(Generate complete PDF)</small></th>
+                                  </thead>
+                                  <tbody>
+                                      <?php $i =1; foreach($student_list as $key=>$value) : ?>
+                                      <tr class="even pointer">
+                                        <td class=" "><?php echo $value['name'].' ('.$value['student_id'].'), Sec:'.$value['section'];?></td>
+                                        <?php
+                                        foreach($criteria_array as $index => $evaluation_criteria): 
+                                        ?>
+                                        <td class=" ">
+                                        <?php if(array_key_exists($evaluation_criteria, $this->evaluationList[$key])){  ?>
+                                          <?php echo ($this->evaluationList[$key][$evaluation_criteria]); ?>
+                                     <?php } else {
+                                        echo $this->escapeHtml('NA'); 
+                                       }?>
+                                        </td>
+                                       
+                                        <?php endforeach; ?>
+                                        <td><a href="<?php echo $this->url('downloadccpdf', array('id' => my_encrypt($key, $secret_key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-file-pdf-o"></i> Generate PDF</a></td>
+                                    
+                                      </tr>
+                                      <?php endforeach; ?>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <?php } ?>
+                            </div>
+                          </div>
+                        </div>
+                            
+                           		<!-- End of Achievements-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
+              

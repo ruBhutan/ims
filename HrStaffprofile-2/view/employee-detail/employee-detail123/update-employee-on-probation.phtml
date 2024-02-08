@@ -1,0 +1,153 @@
+<?php
+ $title = 'Update Employee Probation';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+$employeeDetails = array();
+foreach($this->employeeDetails as $details){
+  $employeeDetail['id'] = $details['id'];
+  $employeeDetail['position_title_id'] = $details['position_title_id'];
+  $employeeDetail['date'] = $details['date'];
+  $employeeDetail['position_category_id'] = $details['position_category_id'];
+  $employeeDetail['position_level_id'] = $details['position_level_id'];
+  $employeeDetail['major_occupational_group_id'] = $details['major_occupational_group_id'];
+  $employeeDetail['organisation_id'] = $details['organisation_id'];
+}
+ ?>
+
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                     <h2><?php echo $this->escapeHtml("Staff Details"); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+					<?php
+					// Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $probation = $form->get('employeeonprobation');
+                    $probation->get('employee_details_id')->setValue($this->id);
+                    $probation->get('emp_type')->setValueOptions($this->empType);
+                    $probation->get('position_title_id')->setValue($employeeDetail['position_title_id']);
+                    $probation->get('date')->setValue($employeeDetail['date']);
+                    $probation->get('position_category_id')->setValue($employeeDetail['position_category_id']);
+                    $probation->get('position_level_id')->setValue($employeeDetail['position_level_id']);
+                    $probation->get('major_occupational_group_id')->setValue($employeeDetail['major_occupational_group_id']);
+                    $probation->get('organisation_id')->setValue($employeeDetail['organisation_id']);
+                    $probation->get('working_agency_type')->setValue('RUB');
+                    echo $this->formHidden($probation->get('id')); 
+					          echo $this->formHidden($probation->get('employee_details_id'));
+                    echo $this->formHidden($probation->get('date'));
+                    echo $this->formHidden($probation->get('position_title_id')); 
+                    echo $this->formHidden($probation->get('position_category_id')); 
+                    echo $this->formHidden($probation->get('position_level_id')); 
+                    echo $this->formHidden($probation->get('major_occupational_group_id')); 
+                    echo $this->formHidden($probation->get('organisation_id')); 
+                    echo $this->formHidden($probation->get('working_agency_type')); 
+                    ?>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Staff Name <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $this->employees->getFirst_Name(). ' '.$this->employees->getMiddle_Name(). ' '.$this->employees->getLast_Name(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      <label class="control-label col-md-3 col-sm-2 col-xs-12">Staff ID <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $this->employees->getEmp_Id(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <br />  
+                    <div class="ln_solid"></div>
+                    <br /><br /><br />
+                    <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Staff Type</label>
+                        <?php echo $this->formRow($probation->get('emp_type')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Office Order No:</label>
+						  <?php echo $this->formRow($probation->get('office_order_no')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Office Order Date</label>
+						  <?php echo $this->formRow($probation->get('office_order_date')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Evidence File: <small>(Optional)</small></label>
+						  <?php echo $this->formRow($probation->get('evidence_file')); ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Remarks:</label>
+						        <?php echo $this->formRow($probation->get('remarks')); ?>
+                        </div>
+                     </div>
+                    </div>
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+							                 echo $this->formSubmit($probation->get('submit'));
+                               echo $this->form()->closeTag();
+                            ?>
+                            <a href="<?php echo $this->url('employeeonprobation');?>"><span class="btn btn-primary">Done</span></a>
+                            </div>
+                    	  </div>
+                     </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+            

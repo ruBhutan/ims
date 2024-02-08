@@ -1,0 +1,151 @@
+<?php
+
+
+  // Add a JavaScript file
+  $this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+
+
+ $title = 'Academic Related Reports';
+ $this->headTitle($title);
+
+$organisation_list = array();
+foreach($this->organisationList as $key=>$organisation){
+  if($key != 1){
+    $organisation_list[$key] = $organisation;
+  }
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+                </div>
+                  <div class="x_content">
+                	<br/>
+                 	<?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $form->get('organisation_id')->setValueOptions($this->organisationList);
+                            //$form->get('organisation')->setValueOptions($this->organisationList);
+                          ?>
+                        
+                          <div class="row">
+                              <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>Report Type</label>
+                                <?php echo $this->formRow($form->get('report_type')); ?>
+                              </div>
+                              <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>Organisation Name</label>
+                                <?php echo $this->formRow($form->get('organisation_id')); ?>
+
+                              </div>
+                           </div>
+                         <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                  <?php
+                                   echo $this->formHidden($form->get('csrf'));
+                                   echo $this->formSubmit($form->get('submit')); 
+                                   echo $this->form()->closeTag(); 
+                                ?>
+                                </div>
+                            </div>
+                       </div>
+                     </div>
+                   </div>
+                </div>
+               <?php
+				 $title = 'Academic Related Report';
+				 $this->headTitle($title);
+			  ?>
+              <div class="col-md-12 col-xs-12">
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                     <div class="table-responsive">
+                     <?php if($this->report_type['report_type']== 'programmes_report'):?>
+                      <table id="datatable" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Programme Name</th>
+                            <th class="column-title">Duration</th>
+                            <th class="column-title">Programme Leader</th>
+                            <th class="column-title">Approval Date</th>
+                            <th class="column-title">APMR Date</th>
+                            <th class="column-title">CCR Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach ($this->report_details as $programme) : ?>
+                          <tr class="even pointer">
+                            <td class=" " style="width:8%"><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['programme_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['programme_duration']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['first_name'].' '.$programme['middle_name'].' '.$programme['last_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['programme_approval_date']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['programme_apmr_date']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['programme_ccr_date']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                      <?php endif; ?>
+                      <?php if($this->report_type['report_type']== 'external_examiner_report'):?>
+                      <table id="datatable" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" style="width:8%">Sl. No</th>
+                            <th class="column-title">Programme Name</th>
+                            <th class="column-title">Examiner Name</th>
+                            <th class="column-title">Address</th>
+                            <th class="column-title">Contact No</th>
+                            <th class="column-title">Email</th>
+                            <th class="column-title">AB Approval</th>
+                            <th class="column-title">From</th>
+                            <th class="column-title">To</th>
+                            <th class="column-title">Remarks</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach ($this->report_details as $programme) : ?>
+                          <tr class="even pointer">
+                            <td class=" " style="width:8%"><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['programme_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['examiner_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['address']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['contact_no']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['email']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['ab_approval']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['from_date']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['to_date']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['remarks']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                      <?php endif; ?>
+                    </div>
+                    </div>
+                </div>
+              </div>
+             </div>
+           </div>
+          </div>
+        </div> 
+     </div>
+     
+     

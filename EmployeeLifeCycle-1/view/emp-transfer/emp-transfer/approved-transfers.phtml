@@ -1,0 +1,101 @@
+<?php
+ $title = 'Transfer List (Approved by Both Organisations)';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+                    <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                             <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Current Working Agency </th>
+                             <th class="column-title">Request Working Agency </th>
+                             <th class="column-title">Staff Name </th>
+                             <th class="column-title">Staff ID </th>
+                             <th class="column-title">Status (From Agency)</th>
+                             <th class="column-title">Status (To Agency) </th>
+                             <th class="column-title">Application Date </th>
+                             <th class="column-title">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                           <?php $i=1; foreach ($this->approvedTransferList as $transfer) : ?>
+                              <tr class="even pointer">
+                                <td class=" "><?php echo $i++;?></td>
+                                <td class=" "><?php echo $this->escapeHtml($this->organisationList[$transfer['organisation_id']]);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($this->organisationList[$transfer['transfer_request_to']]);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($transfer['first_name'].' '.$transfer['middle_name'].' '.$transfer['last_name']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($transfer['emp_id']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($transfer['to_org_transfer_status']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($transfer['from_org_transfer_status']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($transfer['date_of_request']);?></td>
+                                <td>
+                                  <?php if($this->organisation_id == 1){ ?>
+                                  <a href="<?php echo $this->url('updatetransferapplicant', array('id' => my_encrypt($transfer['id'], $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> Update</a>
+                                <?php } else{
+
+                                  echo "<font color='red'>You are not authorize to update the information of approved transfer staff</font>";
+
+                                }?>
+                                </td>
+                              </tr>
+                           <?php endforeach; ?>
+                        </tbody>
+                      </table>
+
+                        
+             </div>
+          </div>
+        </div>
+       </div>
+   </div>
+ </div>
+            
+

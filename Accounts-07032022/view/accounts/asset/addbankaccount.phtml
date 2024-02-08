@@ -1,0 +1,130 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/AssetController/addbankaccountAction
+ * 
+ */
+ $title = 'New Bank Account';
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>			
+                <?php echo $this->partial('accounts/asset/partial.phtml', array('active' => 'bankaccount')); ?>
+				<div class="x_content">
+					<form id="form" method="post" action="<?php echo $this->url('asset', array('action' => 'addbankaccount')); ?>" enctype="multipart/form-data" >
+						<div class ="row">
+                            <div class="col-lg-2"></div>	
+                            <div class ="col-xs-8">	
+								<div class="form-group col-lg-6">
+									<label for="account" class="control-label">Account No. </label>
+									<input type="text" class="form-control" name="account" id="account" placeholder="Account" required>
+							    </div>
+								<div class="form-group col-lg-6">
+									<label for="branch" class="control-label">Branch</label>
+									<input type="text" class="form-control" name="branch" id="branch" placeholder="Branch" required>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="organisation" class="control-label">Select Organisation</label>
+									<select id="organisation" name="organisation" class="form-control" data-placeholder="Select" required >
+										<option value=""></option>
+										<?php 
+										foreach ($this->rows as $row):
+										$selected_org = ($organisation ==$row['id'])?'selected':'';
+										?>
+											<option value="<?php echo $row['id'];?>"<?php echo $selected_org;?>>
+											<?php echo $row['organisation_name']; ?>
+											</option>
+										<?php 
+										endforeach;
+										?>
+									</select>
+								</div> 					
+								<div class="form-group col-lg-6">
+									<label for="organisation" class="control-label">Ledger</label>
+									<select class="form-control head" id="head" name="head" data-placeholder="Select" required>
+										<option value=""></option>
+										<?php 
+										foreach ($this->head->getAll() as $head):
+										?>
+											<option value="<?php echo $head['id'];?>">
+												<?php echo $head['name'];?>
+											</option>
+										<?php
+										endforeach;
+										?>
+									</select>
+								</div>	
+							</div>	
+						    <div class="col-lg-2"></div>
+						</div>
+                        <div class ="x_title"></div>
+						<div class ="row">
+						    <div class ="col-lg-2"></div>
+						    <div class ="col-lg-8">
+							    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+                                <button type="reset" class="btn btn-warning" onclick="javascript:history.back();"><i class="fa fa-times"></i> Cancel </button>    
+							</div>
+						    <div class ="col-lg-2"></div>
+						</div>
+					</form>
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+<script>
+	$(function() {		
+		$('form').formValidation({
+			framework: 'bootstrap',
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				bank_account: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide account.'
+						}
+					}
+				},
+				code: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide code.'
+						}
+					}
+				},
+				branch: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide branch.'
+						}
+					}
+				},
+				organisation: {
+					validators: {
+						notEmpty: {
+							message: 'Please select organisation.'
+						}
+					}
+				},
+	            'head[]': {
+	                validators: {
+	                    notEmpty: {
+	                        message: 'Please select Head'
+	                    }
+	                }
+	            }, 
+			}
+		});
+	});
+</script>
+	

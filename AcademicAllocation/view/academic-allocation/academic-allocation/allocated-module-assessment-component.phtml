@@ -1,0 +1,94 @@
+<?php
+ $title = 'Allocated Module Assessment Component Details';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase; 
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                   <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>   
+                    <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action" width="100%"> 
+                         <div class="form-group">      
+                      </div> 
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Programme </th>
+                            <th class="column-title">Module </th>
+                            <th class="column-title">Year</th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title">Assessment Type</th>
+                            <th class="column-title">Weightage</th>
+                            <th class="column-title">Academic Year</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php $i=1; 
+                          foreach ($this->allocatedAssessmentComponent as $assessment) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $assessment['programme_name']; ?></td>
+                            <td class=" "><?php echo $assessment['module_title'].' ('.$assessment['module_code'].')'; ?></td>
+                            <td class=" "><?php echo $assessment['year']; ?></td>
+                            <td class=" "><?php echo $assessment['semester']; ?></td>
+                            <td class=" "><?php echo $assessment['assessment']; ?></td>
+                            <td class=" "><?php echo $assessment['weightage']; ?></td>
+                            <td class=" "><?php echo $assessment['academic_year']; ?></td>
+                            <td class=" "><a href="<?php echo $this->url('editmoduleassessmentcomponent', array('id' => my_encrypt($assessment['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Edit</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                     </table>
+                    </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+              
+       
+                

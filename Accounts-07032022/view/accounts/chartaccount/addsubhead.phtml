@@ -1,0 +1,126 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/ChartaccountController/addgroupAction
+ * 
+ */
+ $title = 'Add Sub Head';
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>			
+				<?php echo $this->partial('accounts/chartaccount/partial.phtml', array('active' => 'subhead')); ?>
+				<div class="x_content">
+                    <form role="form" data-toggle="validator" action="<?php echo $this->url('chartaccount', array('action' => 'addsubhead')); ?>" enctype="multipart/form-data" method="post" >
+						<div class ="row">
+                            <div class="col-lg-2"></div>	
+                            <div class ="col-xs-8">							
+								 <div class="form-group col-lg-6">
+									<label for="shcode" class="control-label">Sub Head Code</label>
+									<input type="text" id="shcode" name="shcode" class="form-control" placeholder="Enter Sub Head Code" required />
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="shname" class="control-label">Sub Head Name</label>
+									<input type="text" id="shname" name="shname" class="form-control" placeholder="Enter Sub Head Name" required />
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<label for="head" class="control-label">select Head</label>
+										<select id="head" name="head" class="form-control" data-placeholder="Select" required >
+											<option value=""></option>
+											<?php 
+											foreach ($this->headObj->getAll() as $head):
+											?>
+												<option value="<?php echo $head['id'];?>">
+												<?php echo $head['name']; ?>
+												</option>
+											<?php 
+											endforeach;
+											?>
+										</select>
+									</div> 
+								</div> 
+							</div> 
+                            <div class ="col-lg-2"></div>
+                        </div>
+						<div class ="x_title"></div>
+						<div class ="row">
+						    <div class ="col-lg-2"></div>
+						    <div class ="col-lg-8">
+							    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+								<button type="button" class="btn btn-warning" onclick="javascript:history.back();" ><i class="fa fa-times"></i> Cancel </button>
+							</div>
+						    <div class ="col-lg-2"></div>
+						</div>
+					</form>
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+<script >
+	//$('form select').chosen({ allow_single_deselect: true });		
+	$('document').ready(function(){
+		$('form').formValidation({
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				type:{
+					validators: {
+						notEmpty: {
+							message: 'Please provide type.'
+						}
+					}
+				},
+				shcode:{
+					validators: {
+						notEmpty: {
+							message: 'Please enter subhead code.'
+						}
+					}
+				},
+				shname:{
+					validators: {
+						notEmpty: {
+							message: 'Please enter sub head name.'
+						}
+					}
+				},
+				head:{
+					validators: {
+						notEmpty: {
+							message: 'Please select head.'
+						}
+					}
+				},
+				head_type: {
+					validators: {
+						notEmpty: {
+							message: 'Please select head type.'
+						}
+					}
+				},
+			}
+		});
+	});
+</script>
+                
+                    
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,177 @@
+<?php
+ $title = 'ANNUAL UNIVERSITY  RESEARCH GRANT APPLICATION FORM';
+ $this->headTitle($title);
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  
+                     <!-- Smart Wizard -->
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                      <ul class="wizard_steps">
+                          <li>
+                          <a href="#step-1" class="done">
+                            <span class="step_no">1</span>
+                            <span class="step_descr">
+                                              Step 1<br />
+                                              <small>GRANT TYPE AND TITLE</small> <br/>
+                                              <small>RESEARCHER(S)</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-2" class="done">
+                            <span class="step_no">2</span>
+                            <span class="step_descr">
+                                              Step 2<br />
+                                              <small>PROJECT <br/>DESCRIPTION</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-3" class="disabled">
+                            <span class="step_no">3</span>
+                            <span class="step_descr">
+                                              Step 3<br />
+                                              <small>ACTION PLAN AND BUDGET</small> <br/>
+                                              <small>RECEIVED GRANTS PREVIOUSLY OR NOT </small>
+                                          </span>
+                          </a>
+                        </li>
+                      </ul>
+                      
+                       <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $research = $form->get('aurgprojectdescription');
+					$data = $this->get('dbData');
+                    echo $this->form()->openTag($form);
+					
+					$research->get('id')->setValue($data->getId());
+					$research->get('employee_details_id')->setValue($data->getEmployee_Details_Id()); 
+					$research->get('application_step_status')->setValue('Step 2'); 
+					echo $this->formHidden($research->get('id'));
+					echo $this->formHidden($research->get('employee_details_id'));
+                 ?>
+                 <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+                    <div id="step-4">
+                      <h2 class="StepTitle">Step 4: Project Description and Methodology</h2>
+                 		<h2>Project Description :</h2>             
+                      	<div class="form-group">
+                          	<label class="control-label col-md-3 col-sm-3 col-xs-12">Problem Statement<br> (Between 200 - 250 words)</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                              <?php echo $this->formRow($research->get('problem_statement')); ?>
+                            </div>
+                		</div>
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Questions and Sub-questions</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <?php echo $this->formRow($research->get('research_questions')); ?>
+                          </div>
+                		</div>
+                        <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Review of Key Literature <br>(Between 400 - 500 words)</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <?php echo $this->formRow($research->get('review_key_literature')); ?>
+                          </div>
+                    	</div>
+                        <h2>Methodology (1000 words) :</h2>
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Approach/Paradigm Theory</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <?php echo $this->formRow($research->get('approach_paradigm_theory')); ?>
+                          </div>
+                    	</div>
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Collection Procedures</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <?php echo $this->formRow($research->get('data_collection_procedures')); ?>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Analysis Procedures</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <?php echo $this->formRow($research->get('data_analysis_procedures')); ?>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Presentation</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <?php echo $this->formRow($research->get('data_presentation')); ?>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Ethical Considerations</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <?php echo $this->formRow($research->get('ethical_considerations')); ?>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Significance of the Study<br>(in relation of knowledge,policy and practice)<br>(200 words)</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <?php echo $this->formRow($research->get('significance_of_study')); ?>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Dissemination <br>(for eg,publication in journals,periodicals,newspapers,etc.)</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <?php echo $this->formRow($research->get('research_dissemination')); ?>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">References</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <?php echo $this->formRow($research->get('references')); ?>
+                          </div>
+                        </div>
+                      </div>
+          		</div>
+                  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($research->get('application_step_status'));
+							               echo $this->formHidden($form->get('csrf'));
+                            echo $this->formRow($research->get('submit')); 
+                            echo $this->form()->closeTag($form);
+                         ?>
+                        </div>
+                      </div>
+                    
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+   </div>
+ </div>
+

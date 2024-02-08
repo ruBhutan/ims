@@ -1,0 +1,157 @@
+<?php
+/**
+ * 
+ * Index -- of Payroll
+ * 
+ */
+$title = "Payroll";
+?>
+<br/>
+<?php $minYear = date('Y', strtotime($minYear)); ?> 
+<div class="right_col" role="main">
+	<div class=" ">
+		<div class="col-md-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2><?php echo $this->escapeHtml($title);?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+				</div>
+                <div class="pull-right tableTools-container"></div>			
+				<a class="pull-right btn btn-primary" href="<?php echo $this->url('payroll', array('action'=>'definepayroll'));?>">
+				<span class="white"><i class="fa fa-plus"></i> <span class="hidden-sm hidden-xs">&nbsp;Define New Payroll </span></span>
+				</a>
+			    <?php echo $this->partial('accounts/payroll/partial.phtml', array('active' => 'payroll')); ?>
+				<div class="pull-right"></div>	
+				<div class="x_content">				
+					<form method="post" action="<?php echo $this->url('payroll'); ?>"  enctype="multipart/form-data">
+						<div class="form-group col-lg-2">
+							<label class="control-label" for="year">Year</label>
+							<select class="form-control" id="year" name="year" data-placeholder="Select" onchange='this.form.submit()'>
+								<option value=""></option>
+								<?php 
+									for($year=date('Y');$year>=$minYear;$year--):
+										$selected = ($year == $data['year'])?"selected":"";
+								?>
+									<option value="<?php echo $year;?>" <?php echo $selected;?> >
+										<?php echo $year;?> 
+									</option>
+								<?php endfor; ?>
+							</select>
+						</div>
+						<div class="form-group col-lg-3">
+							<label class="control-label" for="organisation">Organisation</label>
+							<select class="form-control" id="organisation" name="organisation" data-placeholder="Select" onchange='this.form.submit()'>
+								<option value="-1" <?php echo ($data['organisation'] == '-1')?'selected':'';?>>All</option>
+								<?php foreach($this->orgObj->get(array('id'=>$data['organisation'])) as $row):
+									$sel_org = ($row['id'] == $data['organisation'])?'selected':'';
+								?>
+								<option value="<?php echo $row['id'];?>" <?php echo $sel_org;?>>
+									<?php echo $row['organisation_name'];?>
+								</option>
+								<?php endforeach;?>
+							</select>
+						</div>
+					</form>
+		            <div class="table-responsive">
+						<table id="datatable" class="table table-striped jambo_table bulk_action">
+							<thead>
+								<tr class="headings">
+								<th>SL. No. </th>
+								<th>Payroll for the month</th>
+								<th>Total Entries</th>
+								<th>Total Gross Pay</th>
+								<th>Total Deduction</th>
+								<th>Total Net Pay</th>
+								<?php if($checkbooking != '1'):?>
+								<th class="no-sort no-printpdf">Action</th>
+								<?php endif; ?>
+							</tr>
+							</thead>
+							<tbody>
+								<?php
+									$i = 1; 
+									foreach ($this->temppayroll as $row):
+										$myo=$row['year']."-".$row['month']."-".$row['organisation_id'];
+										if(!$this->payrollObj->isPresent(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']))):
+								?>
+										<tr data-href="<?php echo $this->url('payroll', array('action'=>'definepayroll', 'id'=>$myo));?>">
+											<td><?php echo $i; ?> </td>
+											<td>
+												<strong><?php echo date("F, Y", strtotime("1-".$row['month']."-".$row['year']."-".$row['organisation_id'])); ?></strong> 
+												<span class='label label-danger'> Draft </span>
+											</td>
+											<td style="text-align:right"><?php echo $this->temppayrollObj->getCount(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']));?></td>
+											<td style="text-align:right"><?php echo $this->currency($this->temppayrollObj->getSum(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']),'gross'));?></td>
+											<td style="text-align:right">
+												<?php 
+													$deduction = $this->temppayrollObj->getSum(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']),'total_deduction');
+													$earning_dlwp = $this->temppayrollObj->getSum(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']),'earning_dlwp');
+													$deduction_dlwp = $this->temppayrollObj->getSum(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']),'deduction_dlwp');
+													$total_deduction = $deduction + $earning_dlwp + $deduction_dlwp;
+													echo $this->currency($total_deduction);
+												?>
+											</td>
+											<td style="text-align:right"><?php echo $this->currency($this->temppayrollObj->getSum(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']),'net_pay'));?></td>
+											<?php if($checkbooking != '1'):?>
+											<td><div class="btn-group">
+												<a class="btn btn-xs btn-info " data-tooltip="tooltip" data-placement="top" title="" href="<?php echo $this->url('payroll', array('action'=>'editpayroll', 'id'=>$row['id']));?>" >
+													<span class="white"><i class="fa fa-pencil bigger-120"></i> <span class="hidden-lg hidden-xs"></span></span>
+												</a></div>
+											</td> 
+											<?php endif; ?>							
+										</tr>
+								<?php 
+											$i++; 	
+										endif;
+									endforeach; 
+									foreach ($this->payroll as $row):
+										$myo=$row['year']."-".$row['month']."-".$row['organisation_id'];
+								?>
+										<tr data-href="<?php echo $this->url('payroll', array('action'=>'payroll', 'id'=>$myo));?>">
+											<td><?php echo $i; ?> </td>
+											<td><strong><?php echo date("F, Y", strtotime("1-".$row['month']."-".$row['year'])); ?></strong> </td>
+											<td style="text-align:right"><?php echo $this->payrollObj->getCount(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']));?></td>
+											<td style="text-align:right"><?php echo $this->currency($this->payrollObj->getSum(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']),'gross'));?></td>
+											<td style="text-align:right">
+												<?php 
+													$deduction = $this->payrollObj->getSum(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']),'total_deduction');
+													$earning_dlwp = $this->payrollObj->getSum(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']),'earning_dlwp');
+													$deduction_dlwp = $this->payrollObj->getSum(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']),'deduction_dlwp');
+													$total_deduction = $deduction + $earning_dlwp + $deduction_dlwp;
+													echo $this->currency($total_deduction);
+												?>
+											</td>
+											<td style="text-align:right"><?php echo $this->currency($this->payrollObj->getSum(array('month'=>$row['month'], 'year'=>$row['year'],'organisation_id'=>$row['organisation_id']),'net_pay'));?></td>
+											<?php if($checkbooking != '1'):?>
+											<td><div class="btn-group">
+												<a class="btn btn-xs btn-info " data-tooltip="tooltip" data-placement="top" title="" href="<?php echo $this->url('payroll', array('action'=>'editpayroll', 'id'=>$row['id']));?>" >
+													<span class="white"><i class="fa fa-pencil bigger-120"></i> <span class="hidden-lg hidden-xs"></span></span>
+												</a></div>
+											</td>
+											<?php endif; ?>
+										</tr>
+								<?php 
+										$i++;
+									endforeach;  
+								?>
+							</tbody>
+						</table>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+<script>
+	$("tr[data-href]").each(function(){ 
+		if($(this).attr('data-href')!='#'){
+			$(this).css('cursor','pointer');
+			$(this).bind('click',function() {
+				window.document.location = $(this).attr("data-href");
+			});
+		}
+	});
+</script>

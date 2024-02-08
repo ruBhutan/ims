@@ -1,0 +1,33 @@
+<?php 
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/bootstrap/dist/css/bootstrap.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/font-awesome/css/font-awesome.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/Ionicons/css/ionicons.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('dist/css/AdminLTE.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('dist/css/skins/_all-skins.min.css'));
+    
+    // Add a JavaScript file
+    $this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+
+    $key1 = $this->keyphrase; 
+    function my_encrypt($data, $key1) { 
+        // Remove the base64 encoding from our key
+        $encryption_key = base64_decode($key1);
+        // Generate an initialization vector
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+        // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+        $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+        // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+        return bin2hex(base64_encode($encrypted . '::' . $iv));
+    }
+        
+?>
+
+<!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              
+        
+            </section>
+            <!-- /.content -->
+          </div>

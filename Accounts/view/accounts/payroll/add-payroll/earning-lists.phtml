@@ -1,0 +1,81 @@
+<h3 class="header smaller lighter grey">Earnings</h3>
+<table id="earning_table" class="table table-striped jambo_table bulk_action">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Type</th>
+        <th>Default Amount(<?php echo $this->currency_code(); ?>)</th>
+        <th>Amount(<?php echo $this->currency_code(); ?>)
+            <small><span class="fa fa-exclamation-circle"><i> (DLWP)</i></span>
+            </small>
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <?php $i = 1;
+    $total_earning = 0;
+    foreach ( $this->employee_earning_data as $earning ):
+        $total_earning += $earning['amount']; ?>
+
+        <tr>
+            <td><?php echo $i++; ?> </td>
+
+            <td><?php echo $earning['pay_head']; ?></td>
+
+            <td><?php echo $earning['amount']; ?></td>
+
+            <td>
+                <input class="form-control"
+                       type="hidden"
+                       name="actual_earning_amt"
+                       id="actual_earning_amt"
+                       value="<?php echo $earning['amount']; ?>"
+                />
+
+                <input type="hidden"
+                       id="e_dlwp"
+                       value="<?php echo $earning['dlwp']; ?>"
+                />
+
+                <input type="hidden"
+                       id="e_roundup"
+                       value="<?php echo $earning['roundup']; ?>"
+                />
+
+                <?php if ( $earning['dlwp'] == '1' ): $actual_amt = $earning['amount']; ?>
+                    <span class="input-icon input-icon-right">
+                                                            <input type="text"
+                                                                   name="earning_amt"
+                                                                   id="earning_amt"
+                                                                   class="form-control"
+                                                                   value="<?php echo $actual_amt; ?>"
+                                                                   readonly
+                                                            />
+                                                            <i class="ace-icon fa fa-exclamation-circle"></i>
+                                                        </span>
+                <?php else: ?>
+                    <input class="form-control"
+                           type="text"
+                           name="earning_amt"
+                           id="earning_amt"
+                           value="<?php echo $earning['amount']; ?>"
+                           readonly
+                    />
+                <?php endif; ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+
+    <?php if ( $i === 1 ) : ?>
+        <tr>
+            <td colspan="4">
+                <p>
+                    Earnings records not found.
+                </p>
+            </td>
+        </tr>
+    <?php endif; ?>
+
+    </tbody>
+</table>

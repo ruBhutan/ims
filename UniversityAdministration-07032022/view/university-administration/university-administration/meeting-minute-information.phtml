@@ -1,0 +1,194 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Upload Meeting Minutes';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+  }
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <?php
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>                    
+                  <div class="x_content">
+                    <br/>
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $meetingminutes = $form->get('meetingminutes');
+                    echo $this->formHidden($meetingminutes->get('id'));
+
+                    $meetingminutes->get('meeting_type_id')->setValueOptions($this->meetingType);
+                   
+                    //setting the value of the std id
+                    //$meetingminutes->get('staff_id')->setValue($empId);
+                    $meetingminutes->get('recorded_by')->setValue($employee_details_id);
+                    $meetingminutes->get('evidence_file')->setValue('evidence_file');
+                    //echo $this->formHidden($meetingminutes->get('staff_id'));
+                    echo $this->formHidden($meetingminutes->get('recorded_by'));
+
+          				  ?>
+                    <?php if ($userrole == 'ADMIN' || preg_match('/_ICT_SECTION_HEAD/', $userrole) || preg_match('/_ADMINISTRATIVE_SECTION_HEAD/', $userrole)){ ?>
+                      <?php if ($userrole == 'ADMIN' || preg_match('/_ICT_SECTION_HEAD/', $userrole)){ ?>
+                        <div class="x_title">
+                          <h2><?php echo $this->escapeHtml($title); ?></h2>
+                          <div class="clearfix"></div>
+                        </div>
+                        <a href="<?php echo $this->url('meetingtype'); ?>" >
+                          <button type="button" class="btn btn-primary">Add Meeting Type</button>
+                        </a>
+                      <?php }  ?>
+                    <div class="row">
+                      <div class="form-group"> 
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Meeting Type <span class="required">:*</span></label>
+                        <div class="col-md-9 col-sm-2 col-xs-12">
+                          <?php 
+                          //echo $this->formRow($meetingminutes->get('meeting_type_id')); 
+                          echo $this->formRow($meetingminutes->get('meeting_type_id'));
+                          ?>    
+                        </div>
+                      </div>
+                      <div class="form-group"> 
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Meeting Detail (Number)<span class="required">:*</span></label>
+                        <div class="col-md-9 col-sm-2 col-xs-12">
+                          <?php                           
+                            echo $this->formRow($meetingminutes->get('meeting_details'));
+                          ?>    
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    </div>
+                    <div class="row">
+                      <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Meeting Date<span class="required">:*</span></label>
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php
+                          echo $this->formRow($meetingminutes->get('meeting_date'));
+                          ?>
+                        </div>
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Evidence File <span class="required">:(Optional)</span>
+                        </label>
+                        <div class="col-md-3 col-sm-8 col-xs-12">
+                          <?php
+                         echo $this->formRow($meetingminutes->get('evidence_file'));
+                        ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php
+                          echo $this->formRow($form->get('csrf'));
+						              echo $this->formSubmit($meetingminutes->get('submit')); 
+                        ?>
+                        </div>
+                    </div>
+                    </div>
+                   <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                  </div>
+               </div>
+            </div>
+            <?php }  ?>
+            <?php
+         $title = 'Individual OVC/College Minutes';
+         $this->headTitle($title);
+      ?>
+      <div class="col-md-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2><?php echo $this->escapeHtml($title); ?></h2>
+            <div class="clearfix">
+            </div>
+		<div class="row">
+		    <div class="col-md-12 text-right "><a href="../data/user_manual/UA-Meeting-User-Manual.pdf" target="_blank">Click Here To Download User Manual</a></div>
+		<br><br><b>Note:</b> To search for the meeting minutes please search by using the search text box at the right top corner of the table. For example, if the user wants to search cmc meeting minutes, the user can just type cmc in the search text box and the list will display only cmc meeting minutes.
+		</div>
+          </div>
+          <div class="x_content">
+            <div class="table-responsive">
+              <table id="datatable" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title">Sl. No</th>
+                    <th class="column-title">Meeting Type</th>
+                    <th class="column-title">Meeting ABBR</th>
+                    <th class="column-title">Meeting Details (Number) </th>
+                    <th class="column-title">Meeting Date </th>
+                    <th class="column-title">Uploaded By</th>
+                    <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <?php $i=1; foreach ($this->selectData as $selectData) : ?>
+                    <tr class="even pointer">
+                      <td class=" "><?php echo $i++;?></td>
+                      <td class=" "><?php echo $this->escapeHtml($selectData['meeting']);?></td>
+                      <td class=" "><?php echo $this->escapeHtml($selectData['meeting_abbr']);?></td>
+                      <td class=" "><?php echo $this->escapeHtml($selectData['meeting_details']);?></td>
+                      <td class=" "><?php echo $this->escapeHtml($selectData['meeting_date']);?></td>
+                      <td class=" "><?php echo $selectData['first_name'].' '.$selectData['middle_name'].' '.$selectData['last_name'].' <br>('.$selectData['emp_id'].')';?></td>                    
+                      <td>
+                      <?php if($selectData['evidence_file'] == NULL){ ?><p><i>No Meeting Minutes Uploaded</i></p>
+                      <?php } else { ?>
+                      <a href="<?php echo $this->url('downloadmeetingminutes', array('id' => my_encrypt($selectData['id'], $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-download"></i> Download</a>
+                      <?php } ?>
+                      <?php
+                        if ($selectData['emp_id'] == $username ){ ?>
+                          <a href="<?php echo $this->url('editmeetingminute', array('id' => my_encrypt($selectData['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit (<?php echo $this->escapeHtml($selectData['id']);?>)
+                        <?php } ?>
+                    </td>
+                      </a>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

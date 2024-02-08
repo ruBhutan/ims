@@ -1,0 +1,14 @@
+<?php // partial.phtml 
+	$payrollemployee = ($this->active == "payrollemployee")?"active":"";
+?>
+<br/>
+<ul class="nav nav-tabs padding-18" id="myTab">	
+    <li class="<?php echo $payrollemployee; ?>">
+		<a href="<?php echo $this->url('payroll', array('action' => 'payrollemployee')); ?>" title="Payroll Employe">
+			<i class="blue ace-icon fa fa-bar-chart bigger-120"></i>
+			<span class="hidden-xs">Employe and Pay Structure</span>
+		</a>
+	</li>
+</ul>
+
+

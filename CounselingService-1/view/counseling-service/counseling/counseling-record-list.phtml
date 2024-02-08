@@ -1,0 +1,172 @@
+<?php
+ $title = 'Student List';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+
+                <!-- Start of the tab-->
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                  <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Student</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Staff</a>
+                        </li>
+                  </ul>
+                  <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+
+                        <div id="myTabContent" class="tab-content">
+                          <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <div class="x_content">
+                        <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table bulk_action"> 
+                         <div class="form-group">      
+                      </div> 
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Student Name</th>
+                            <th class="column-title">Subject</th>
+                            <th class="column-title">Scheduled Time</th>
+                            <th class="column-title">Scheduled Date</th>
+                            <th class="column-title">Venue</th>
+                            <th class="column-title">Counseling Type</th>
+                            <th class="column-title">Recorded Date</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                            <?php $i=1; foreach($this->stdCounselingRecordList as $list): ?>
+                            <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><?php echo $list['first_name'].' '.$list['middle_name'].' '.$list['last_name'].' ('.$list['student_id'].')'; ?></td>
+                            <td><?php echo $list['subject']; ?></td>
+                            <td><?php echo date('h:i A', strtotime($list['scheduled_time'])); ?></td>
+                            <td><?php echo $list['scheduled_date']; ?></td>
+                            <td><?php echo $list['venue']; ?></td>
+                            <td><?php echo $list['counseling_type']; ?></td>
+                            <td><?php echo $list['date']; ?></td>
+                            <td class=" last"> <a href="<?php echo $this->url('counselingrecorddetails', array('id' => my_encrypt($list['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View Record</a>
+                            <a href="<?php echo $this->url('editcounselingrecorddetails', array('id' => my_encrypt($list['id'], $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+                            <?php if(!empty($list['documents'])){?>
+                              <a href="<?php echo $this->url('downloadcounselingrecorded', array('id' => my_encrypt($list['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download</a>
+                            <?php }else {?>
+                              <?php echo "No File Uploaded"; ?>
+                            <?php }?>
+                          </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>    
+                          </div>
+
+                          <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                            <div class="x_content">
+                        <div class="table-responsive">
+                      <table id="datatable" class="table table-striped jambo_table bulk_action"> 
+                         <div class="form-group">      
+                      </div> 
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Staff Name</th>
+                            <th class="column-title">Subject</th>
+                            <th class="column-title">Scheduled Time</th>
+                            <th class="column-title">Scheduled Date</th>
+                            <th class="column-title">Venue</th>
+                            <th class="column-title">Counseling Type</th>
+                            <th class="column-title">Recorded Date</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php $i=1; foreach($this->staffCounselingRecordList as $list): ?>
+                            <tr>
+                            <td><?php echo $i++; ?></td>
+                            <td><?php echo $list['first_name'].' '.$list['middle_name'].' '.$list['last_name'].' ('.$list['emp_id'].')'; ?></td>
+                            <td><?php echo $list['subject']; ?></td>
+                            <td><?php echo date('h:i A', strtotime($list['scheduled_time'])); ?></td>
+                            <td><?php echo $list['scheduled_date']; ?></td>
+                            <td><?php echo $list['venue']; ?></td>
+                            <td><?php echo $list['counseling_type']; ?></td>
+                            <td><?php echo $list['date']; ?></td>
+                            <td class=" last"> <a href="<?php echo $this->url('counselingrecorddetails', array('id' => my_encrypt($list['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View Record</a>
+                              <a href="<?php echo $this->url('editcounselingrecorddetails', array('id' => my_encrypt($list['id'], $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+                              <?php if(!empty($list['documents'])){?>
+                              <a href="<?php echo $this->url('downloadcounselingrecorded', array('id' => my_encrypt($list['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download</a>
+                            <?php }else {?>
+                              <?php echo "No File Uploaded"; ?>
+                            <?php }?>
+                            </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                          </div>
+                        </div>
+                </div>
+                
+                </div>
+             </div>
+          </div>
+       </div>   
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+    

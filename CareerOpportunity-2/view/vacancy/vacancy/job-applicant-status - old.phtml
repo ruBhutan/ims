@@ -1,0 +1,798 @@
+<?php
+ $title = 'Job Applicant Status Update';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Applied Candidate list</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">ShortListed Candidate</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Contract Candidate</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Selected Candidate</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Generate Employee ID</a>
+                      </li>
+                      
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                       <br/> 
+                       <p> <div class="x_panel"> 
+            <div class="x_content">
+                <div class="row">  
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position title</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div> </div><br/>
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                           <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                             <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Working Agency</th>
+                            <th class="column-title">Vacancy </th>
+                            <th class="column-title">Applicant </th>
+                            <th class="column-title">Date of Application </th>
+                             <th class="column-title">View Details</th>
+                            <th class="column-title">Status</th>
+                            <th class="column-title">Remarks</th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                          <tr>
+                           <td><input type="checkbox" id="check-all" class="flat"></td>
+                            <td>1</td>
+                            <td>Sherubtse College</td>
+                            <td>Finance Officer</td>
+                            <td>Dorji Wang Wang</td>
+                            <td>20/12/2017</td>
+                            <td><a href="applicationform">View</a></td>
+                             <td><select class="form-control">
+                                <option>Please Select</option>
+                                <option>Shortlisted</option>
+                                 <option>Reject/Not Shortlisted</option>
+                            </select></td>
+                            <td><input type="TextArea" class="form-control"></td>
+                          </tr>
+                        </tbody>
+                          </table>  <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12"></label>
+                              <div class="col-md-5 col-sm-5 col-xs-12">
+                                   <button class="btn btn-warning" type="submit">Print</button> 
+                                <button class="btn btn-default" type="submit">Save & Close</button>   
+                                  <button class="btn btn-success" type="submit">Submit</button> 
+                    </div>
+                    </div>
+                </div>    
+                    </div>
+            </div></div>
+                     </p>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                        <p>
+                         
+                        <div class="x_panel"> 
+            <div class="x_content">
+                 <div class="row"> 
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position title</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div> </div><br/>
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                           <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                             <th class="column-title">Sl.No. </th>
+                              <th class="column-title">Working Agency</th>
+                            <th class="column-title">Vacancy </th>
+                            <th class="column-title">Applicant </th>
+                            <th class="column-title">Date of Application </th>
+                             <th class="column-title">View Details</th>
+                            <th class="column-title">Status</th>
+                              <th class="column-title">Remarks</th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                          <tr>
+                           <td><input type="checkbox" id="check-all" class="flat"></td>
+                            <td>1</td>
+                            <td>Sherubtse College</td>
+                            <td>Finance Officer</td>
+                            <td>Dorji Wang Wang</td>
+                            <td>20/12/2017</td>
+                            <td><a href="applicationform">View</a></td>
+                             <td><select class="form-control">
+                                <option>Please Select</option>
+                                <option>Selected</option>
+                                <option>Not Selected</option>
+                                <option>Waiting List</option>
+                            </select></td>
+                            <td><input type="TextArea" class="form-control"></td>
+                          </tr>
+                        </tbody>
+                          </table>   <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12"></label>
+                              <div class="col-md-5 col-sm-5 col-xs-12">
+                                   <button class="btn btn-warning" type="submit">Print</button> 
+                                <button class="btn btn-default" type="submit">Save & Close</button>   
+                                  <button class="btn btn-success" type="submit">Submit</button> 
+                    </div>
+                    </div>
+                </div>   
+                    </div>
+            </div></div>
+                </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
+                        <p>
+            <div class="col-md-12 col-sm-12 col-xs-12">  
+              <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Contract Employee</h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+                <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">First Name </label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                </div>
+            
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Middle Name </label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Last Name</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>   
+                  
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Citizenship ID No.</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                     </div>
+                    
+                     <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Gender</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                   
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Date Of Birth</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                     
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Marital Status</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                      
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Nationality </label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                     </div>
+                    
+                     <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Dzongkhag</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Geog </label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                   
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Village</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                 
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Contact Number</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                     </div>
+                   
+                   <div class="row">  
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Email Address</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position Category</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position Title</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position Level</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                     </div>
+                   <div class="row">  
+                  <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Working Agency</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                       <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Date of Selection</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div> </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+          </div>
+             
+          <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/>
+                           <form class="form-horizontal form-label-left input_mask"><br/>                      
+                          <h2 class="StepTitle"> Current position, if employed </h2>
+                          <h4 class="StepTitle">(Please attach No Objection Certificate from the employer)</h4>
+ <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Yes</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="radio" Checked="" value="option1" id="optionsRadios1" name="optionsRadios">
+                        </div>
+                      </div>  
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">No</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="radio"Checked="" value="option1" id="optionsRadios1" name="optionsRadios" >
+                        </div>
+                      </div>  
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Designation</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Designation">
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="Position">
+                        </div>
+                       
+                      </div>
+                                     
+                     
+                        <div class="form-group">
+                            
+                         <label class="control-label col-md-2 col-sm-2 col-xs-12">Department</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Department">
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Organization</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Organization">
+                        </div>  
+                        </div>    
+                              
+                      <div class="form-group">
+                        
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Country</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <select class="form-control">
+                                <option>--Select--</option>
+                            </select>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Upload NOC</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="file" class="form-control" placeholder="Organization">
+                        </div>
+                       
+                      </div>
+                           </form>
+                    <br/>
+              <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/>
+                           <br/>                      
+                          <h2 class="StepTitle"> EMPLOYMENT RECORD (Most recent employment first) </h2>
+                <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th>Employer's Institution/ Company Name:</th>
+                                 <th>Period of service: From</th>
+                                 <th>Period of service: To</th>
+                                 <th>Position with the Institution/Company</th>
+                                  <th>File Upload</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td>Centre for Research Initiative</td>
+                                 <td>30/06/2012</td>
+                                 <td>30/11/2015</td>
+                                 <td>Research Officer</td>
+                                 <td><input type="file" class="form-control"></td>
+                             </tr>
+                            
+                         </tbody>
+                         </table>    
+                    <div class="form-group">
+                          <div class="control-label col-md-2 col-sm-2 col-xs-12"></div>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <input type="button" class="btn btn-success" value="Add more">
+                          </div>
+                      </div>
+                          
+                 <br/>
+              <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/>
+                           <br/>                      
+                          <h2 class="StepTitle"> EDUCATION </h2>
+                <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th>Institution (University, etc.), city and country</th>
+                                 <th>Aggregate marks obtained</th>
+                                 <th>Duration: From</th>
+                                 <th>Duration: To</th>
+                                 <th>Education/ Class</th>
+                                 <th>File Upload</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                             </tr>
+                            
+                         </tbody>
+                         </table>    
+                    <div class="form-group">
+                          <div class="control-label col-md-2 col-sm-2 col-xs-12"></div>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <input type="button" class="btn btn-success" value="Add more">
+                          </div>
+                      </div>         
+                          
+                     <br/>
+              <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/>      
+                  <h2 class="StepTitle"> LANGUAGE SKILLS OF RELEVANCE TO THE ASSIGNMENT</h2> 
+<h4 class="StepTitle">(Mention your competency in relation to speaking, reading and writing) (Excellent, Very Good, Good, Average)
+</h4>         
+                <div class="table-responsive">
+                         <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th>Language</th>
+                                 <th>Speaking</th>
+                                 <th>Reading</th>
+                                 <th>Writing</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td>Dzongkha</td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                             </tr>
+                             <tr>
+                                 <td>English</td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                             </tr>
+                             <tr>
+                                 <td><input type="text" class="form-control" placeholder="Others please specify language"></td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                                 <td><input type="text" class="form-control"></td>
+                             </tr>
+                         </tbody>
+                         </table>
+                     </div>
+                       <div class="form-group">
+                          <div class="control-label col-md-2 col-sm-2 col-xs-12"></div>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <input type="button" class="btn btn-success" value="Add more">
+                          </div>
+                      </div><br/>               
+                       <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/>
+                           <br/>                      
+                          <h2 class="StepTitle">TRAINING/SEMINAR/WORKSHOP/CONFERENCE (if attended)</h2>
+                <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th>Course Attended</th>
+                                 <th>Institution/Agency, City and Country</th>
+                                 <th>Period: From</th>
+                                 <th>Period: To</th>
+                                 <th>File Upload</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                             </tr>
+                         </tbody>
+                         </table>    
+                    <div class="form-group">
+                          <div class="control-label col-md-2 col-sm-2 col-xs-12"></div>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <input type="button" class="btn btn-success" value="Add more">
+                          </div>
+                      </div>         
+                     <br/> 
+         <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/>
+                           <br/>                      
+<h2 class="StepTitle">RESEARCH PUBLICATIONS (if any)</h2>
+<h4 class="StepTitle">(Research Papers, Books, Conference Papers, etc. if any, most recent publication first.)
+</h4><br/>                <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th>Year</th>
+                                 <th>Title</th>
+                                 <th>Type</th>
+                                 <th>Publisher</th>
+                                <th>File Upload</th>
+ 
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                  <td></td>
+                             </tr>
+                         </tbody>
+                         </table>    
+                    <div class="form-group">
+                          <div class="control-label col-md-2 col-sm-2 col-xs-12"></div>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <input type="button" class="btn btn-success" value="Add more">
+                          </div>
+                      </div>         
+                     <br/>      
+                       <br/> 
+         <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/>
+                           <br/>                      
+<h2 class="StepTitle"> REFERENCE </h2> 
+<h4 class="StepTitle">Please provide contact details of two references for your application, 
+    at least one of which should be a professional reference</h4>
+                      <br/>
+</h4><br/>                <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th>Name</th>
+                                 <th>Title</th>
+                                 <th>Position</th>
+                                 <th>Organization</th>
+                                  <th>Relationship to applicant</th>
+                                  <th>Telephone</th>
+                                   <th>Mobile</th>
+                                   <th>Email</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                             </tr>
+                         </tbody>
+                         </table>    
+                        <div class="form-group">
+                          <div class="control-label col-md-2 col-sm-2 col-xs-12"></div>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                              <input type="button" class="btn btn-success" value="Add ">
+                          </div>
+                      </div>         
+                     <br/>      
+               <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/>
+                           <form class="form-horizontal form-label-left input_mask"><br/>   
+                  <h2 class="StepTitle">UPLOAD DOCUMENTS (scanned copy)</h2><br/>
+                              
+                      
+                       <div class="form-group">
+                         <label class="control-label col-md-4 col-sm-4 col-xs-12">a.Citizenship Identity Card</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="file" class="form-control" placeholder="">
+                        </div>
+                        </div>    
+                              <div class="form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">b.	Security Clearance Certificate</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="file" class="form-control" placeholder="">
+                        </div>
+                              </div>
+                       <div class="form-group">
+                         <label class="control-label col-md-4 col-sm-4 col-xs-12">c.	Medical Fitness Certificate</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="file" class="form-control" placeholder="">
+                        </div>
+                        </div>    
+                       
+                       <div class="form-group">
+                         <label class="control-label col-md-4 col-sm-4 col-xs-12">d.	Work Permit </label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="file" class="form-control" placeholder="">
+                        </div>
+                        </div>  
+                    <div class="form-group">
+                         <label class="control-label col-md-4 col-sm-4 col-xs-12">e.	Merit Certificate, if any</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="file" class="form-control" placeholder="">
+                        </div>
+                        </div>  
+                     </form>
+                  <!--  <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/> 
+                   <h2 class="StepTitle">DECLARATION: Please Check to Confirm</h2>
+                        <div class="form-group">
+                        <div class="col-md-1 col-sm-1 col-xs-12">
+                            <input type="checkbox" class="flat"></div>
+                            <div class="col-md-11 col-sm-11 col-xs-12"><p> 
+                            I hereby declare that the information 
+                            given herewith is true and complete to the best of my knowledge. 
+                            In the event of detection of false or misleading information, 
+                            I understand that the Royal University of Bhutan (RUB) shall withdraw/terminate 
+                            my service without any recourse; confiscate all my transcription/testimonials; 
+                            debar from seeking employment in the RUB; and prosecute in the Court of Law for 
+                            legal actions. I also undertake to abide by all Rules and Regulations.</p>
+                           </div>
+                        </div> 
+              <div class="form-group">  
+                       <label class="control-label col-md-1 col-sm-1 col-xs-12">Name</label>
+                        <div class="col-md-2 col-sm-2 col-xs-12">
+                    <input type="text" placeholder="Dorji Wang Wang" class="form-control " readonly>
+                        </div></div>-->
+                    
+                   
+                   <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div><br/> 
+                   
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                                <button class="btn btn-success" type="submit">Submit</button>   
+                    </div>
+                   
+                  
+              </div>
+                      </div>
+                                          </div>
+                </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                        <p>
+                         
+                        <div class="x_panel"> 
+            <div class="x_content">
+                 <div class="row"> 
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position title</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div></div><br/> 
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                           <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                             <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Working Agency </th>
+                            <th class="column-title">Vacancy </th>
+                            <th class="column-title">Applicant </th>
+                            <th class="column-title">Date of Application </th>
+                             <th class="column-title">Employment Type</th>
+                            <th class="column-title">Status</th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                          <tr>
+                           <td><input type="checkbox" id="check-all" class="flat"></td>
+                            <td>1</td>
+                            <td>Sherubtse College</td>
+                            <td>Finance Officer</td>
+                            <td>Dorji Wang Wang</td>
+                            <td>20/12/2017</td>
+                            <td>Regular</td>
+                             <td><select class="form-control">
+                                <option>Please Select</option>
+                                <option>Generate EID(pdf print)</option>
+                            </select></td>
+                          </tr>
+                          <tr>
+                           <td><input type="checkbox" id="check-all" class="flat"></td>
+                            <td>1</td>
+                            <td>Samtse College</td>
+                            <td>Finance Officer</td>
+                            <td>Dorji Wang Wang</td>
+                            <td>20/12/2017</td>
+                            <td>Contract</td>
+                             <td><select class="form-control">
+                                <option>Please Select</option>
+                                <option>Generate EID(pdf print)</option>
+                            </select></td>
+                          </tr>
+                        </tbody>
+                          </table>
+                      <h6>notes: as you select the status Generate EID ,recruitment/appointment order is printed in pdf in dzongkha format</h6>
+
+                          <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-5 col-sm-5 col-xs-12"></label>
+                              <div class="col-md-5 col-sm-5 col-xs-12">
+                                   <button class="btn btn-warning" type="submit">Print</button> 
+                                <button class="btn btn-default" type="submit">Save & Close</button>   
+                                  <button class="btn btn-success" type="submit">Submit</button> 
+                    </div>
+                    </div>
+                </div> 
+                    </div>
+            </div></div>
+                </div>
+                        
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                        <p>
+                          <div class="x_panel">  
+                        <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+                  
+                <div class="row">  
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Appointment Order No.</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Employee Name</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                </div>
+                   <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Citizenship Identity Card No.</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                </div>
+            
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position Category</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div>
+                </div>  
+                  
+                  <div class="row"> 
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position title</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div> 
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Position Level</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                    </div> 
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Working Agency</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Selection Date</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                </div>
+                </div>  
+                 <div class="row"> 
+                <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Date of Appointment</label>
+                <?php  echo $this->formRow($form->get('id')); ?>
+                </div>
+                    
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee ID</label>
+                    <input type="text" placeholder="RUB001" class="form-control " readonly>
+                  </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Assign Supervisor</label>
+               <select class="form-control"><option></option></select>
+                </div>
+                 </div>
+                  <div class="row">  
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Upload Appointment order</label>
+              <?php  echo $this->formRow($form->get('id')); ?>
+                    </div></div>
+           
+               <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                                <button class="btn btn-success" type="submit">Save</button>   
+                    </div>
+                    </div>
+                </div>    
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div></div>
+                </div>
+                </div>
+              </p>
+             </div>
+          </div>
+        </div>
+       </div>
+   </div>
+ </div>
+            
+

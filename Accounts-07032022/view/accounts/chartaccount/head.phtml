@@ -1,0 +1,58 @@
+<?php 
+$title = 'Ledger';
+$this->headTitle($title);
+?>
+<div class="right_col" role="main">
+	<div class=" ">
+		<div class="col-md-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2><?php echo $this->escapeHtml($title);?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="pull-right tableTools-container"></div>			
+				<a class="pull-right btn btn-primary" href="<?php echo $this->url('chartaccount', array('action'=>'addhead'));?>">
+				<span class="white"><i class="fa fa-plus"></i> <span class="hidden-sm hidden-xs">&nbsp;Add Head </span></span>
+				</a>
+				<div class="pull-right"></div>			
+                <?php echo $this->partial('/accounts/chartaccount/partial.phtml', array('active' => 'head')); ?>
+				<div class="x_content">
+					<div class="table-responsive">
+						<table id="datatable" class="table table-striped jambo_table bulk_action">
+							<thead>
+								<tr class="headings">
+									<th>SL. No. </th>		
+									<th>Head</th>
+									<th>Code</th>
+									<th>Group</th>
+									<th class="no-sort no-printpdf">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+									$i = 1; 
+									foreach ($this->head as $head):
+								?>
+										<tr>
+											<td><?php echo $i++; ?> </td>
+											<td><b><?php echo $head['name']; ?></b></td>
+											<td><?php echo $head['code']; ?></td>
+											<td><?php echo $head['group']; ?></td>
+											<td><div class="btn-group">
+												<a class="btn btn-xs btn-info " href="<?php echo $this->url('chartaccount', array('action'=>'edithead', 'id'=>$head['id']));?>" >
+													<span class="white"><i class="fa fa-pencil bigger-120"> Edit</i> <span class="hidden-lg hidden-xs"></span></span>
+												</a>
+											</div></td>					
+										</tr>
+								<?php endforeach;?>
+							</tbody>
+						</table>
+		            </div>
+		        </div>
+		    </div>
+	    </div>
+	</div>
+</div>

@@ -1,0 +1,65 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">   
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('Student Intake By Year'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+           <div class="table-responsive">
+                <?php if($this->student_report != NULL) {?>
+                    <table id="datatable-buttons" class="table table-striped jambo_table table-bordered"width="100%">
+                    <thead>
+                      <tr class="headings">
+                         <th class="column-title">Sl.No </th>
+                         <th class="column-title">Organisation</th>
+                         <th class="column-title">Programme</th>
+                         <th class="column-title">Year</th>
+                         <th class="column-title">Male</th>
+                         <th class="column-title">Female</th>
+                         <th class="column-title">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+					  <?php $i=1;
+                        foreach ($this->student_report as $key => $value) : ?>
+                      <?php foreach ($value as $key2 => $value2) : 
+                            $male_ac = 0;
+                            $female_ac = 0;
+                            $male_adm = 0;
+                            $female_adm = 0;
+                      ?>
+                      <tr class="even pointer">
+                        <td class=" "><?php echo $i++;?></td>
+                        <td class=" "><?php echo $this->escapeHtml($key);?></td>
+                        <td class=" "><?php echo $this->escapeHtml($key2);?></td>
+                        <td class=" "><?php echo $this->enrollment_year;?></td>
+                        <td class=" "><?php 
+                                            if(array_key_exists('Male', $this->student_report[$key][$key2])){
+                                                    $male_ac = $this->student_report[$key][$key2]['Male'];
+                                                    echo $this->escapeHtml($male_ac);
+                                                }
+                                                else 
+                                                    echo $this->escapeHtml("0");?></td>
+                        <td class=" "><?php 
+                                                if(array_key_exists('Female', $this->student_report[$key][$key2])){
+                                                    $female_ac = $this->student_report[$key][$key2]['Female'];
+                                                    echo $this->escapeHtml($female_ac);
+                                                }
+                                                else 
+                                                    echo $this->escapeHtml("0");?></td>
+                        <td class=" "><?php 
+                                            echo $this->escapeHtml($male_ac + $female_ac + $male_adm + $female_adm);?></td>
+                      </tr>
+                      <?php endforeach; ?>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+               <?php } ?>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

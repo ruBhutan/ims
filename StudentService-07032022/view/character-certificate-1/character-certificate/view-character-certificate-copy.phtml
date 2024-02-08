@@ -1,0 +1,176 @@
+<?php
+ $title = 'View Student Evaluation';
+ $this->headTitle($title);
+ 
+ //get student list in an array
+ $studentName = array();
+ $studentId = array();
+ $studentSection = array();
+ $criteriaName = array();
+ $studentCriteria = array();
+ $i=1;
+ $j=1;
+ foreach($this->studentList as $student){
+	 $studentName[$i] = $student['first_name']. ' ' .$student['middle_name'].' '.$student['last_name'];
+	 $studentId[$i] = $student['studentId'];
+   $studentSection[$i] = $student['section'];
+	 $studentCriteria[$i][$j] = $student['evaluation'];
+	 
+	 $j++;
+	 $j = $j%($this->criteriaCount+1);
+	 if($j==0){
+	 	$j = 1;
+		$i++;
+	 }
+ } 
+ foreach($this->criteria as $criteria){
+	 $criteriaName[$j++] =$criteria['evaluation_criteria'];
+ } 
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                        <!-- Adding Achievements-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Search for Students by Batch/Programme")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+                               
+                            <div class="x_content">
+                            <h5><i>*(In order to evaluate the students' character, search by Programme Name and Batch. Please note that in order to get the right batch,
+                            		 enter both the programme and the batch. You can also evaluate single student at a time)<br />
+                                    **Also note, search by name is done by "First Name" only</i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                								$form->get('programmes_id')->setValueOptions($this->programmeList);
+                								$form->get('batch')->setValueOptions($this->batchList);
+                								//need to set it so as to validate form
+                								$form->get('academic_module_tutors_id')->setValue('0');
+                								echo $this->formHidden($form->get('academic_module_tutors_id'));
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Programme</label>
+                                    <?php echo $this->formRow($form->get('programmes_id')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Batch/Year</label>
+                                    <?php echo $this->formRow($form->get('batch')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Student Name</label>
+                                    <?php echo $this->formRow($form->get('student_name')); ?>
+                                  </div>
+                              </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>     
+                              
+                          
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("List of Student(s)"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                              <div class="table-responsive">
+                                <table class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                  <thead>
+                                      <th class="column-title">Name, Id and Section</th>
+                                      <?php for($i=1; $i<= $this->criteriaCount; $i++) {?>
+                                      <th class="column-title"><?php echo $criteriaName[$i]?></th>
+                                      <?php }?>
+                                      <th class="column-title">Action </th>
+                                  </thead>
+                                  <tbody>
+                                    <?php for($i = 1; $i<=($this->studentCount/$this->criteriaCount); $i++) {?>
+                                    <tr class="even pointer">
+                                    	<td class=" "><?php echo $studentName[$i].' ('.$studentId[$i].')'.' ('.$studentSection[$i].')'; ?></td>
+                                    	<?php for($j=1; $j<=$this->criteriaCount; $j++) {?>
+                                      <!--<td style="width: 12%">-->
+                                        <?php 
+                                        if($studentCriteria[$i][$j] >= 3.50 && $studentCriteria[$i][$j] <= 4.00){
+                                        echo '<td style="background:#57e32c; color:white; text-align:center;">'."Excellent".'</td>';
+                                      } if($studentCriteria[$i][$j] >= 2.50 && $studentCriteria[$i][$j] <= 3.49){
+                                       echo '<td style="background:#b7dd29; color:white; text-align:center;">'."Good".'</td>';
+                                      } if($studentCriteria[$i][$j] >= 1.50 && $studentCriteria[$i][$j] <= 2.49){
+                                       echo '<td style="background:#ffa534; color:white; text-align:center;">'."Satisfactory".'</td>';
+                                      } if($studentCriteria[$i][$j] >= 0.00 && $studentCriteria[$i][$j] <= 1.49){
+                                        echo '<td style="background:#ff4545; color:white; text-align:center;">'."Poor".'</td>';
+                                      } 
+                                      ?>
+                                        
+                                     <!-- </td>-->
+                                      <?php } ?>
+                                      <td><a href="<?php echo $this->url('editcharactercert', array('id' => my_encrypt($studentId[$i], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                                    </tr>
+                                    <?php }?>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                            
+                           		<!-- End of Achievements-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
+              

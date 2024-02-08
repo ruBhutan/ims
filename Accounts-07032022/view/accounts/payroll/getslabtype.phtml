@@ -1,0 +1,82 @@
+<?php
+    foreach ($this->payheadObj->get($this->pay_head) as $row):
+        extract($row);
+    endforeach;
+	if($type == 1 && $this->pay_head == 1):
+	    $pay_scale = $this->empljpObj->getColumn(array('employee_details' => $employee_details,'organisation_id'=>$organisation_id),'pay_scale');
+	    $position_level_id = $this->empljpObj->getColumn(array('employee_details' => $employee_details,'organisation_id'=>$organisation_id),'position_level_id');
+		$positionlevels = $this->positionlevelObj->get($position_level_id);
+		foreach($positionlevels as $level);
+	    $payscales = $this->PSObj->get(array('position_level'=>$level['position_level']));
+		foreach($payscales as $payscale);
+	?>
+	<label for="pay_scale" class="control-label"> Pay Scale </label>
+    <input type="text" class="form-control" name="pay_scale" id="pay_scale" value="<?php echo $pay_scale;?>" readonly > 
+    <input type="hidden" class="form-control" name="basic_pay" id="basic_pay" value="<?php echo str_replace(',','',$payscale['minimum_pay_scale']); ?>" readonly > 
+	<?php
+	elseif($type == 2)://Teaching Allowances === Percentage
+		if($against > 0):
+			$againstName = $this->payheadObj->getColumn($against,'pay_head');// others if $against is greater than zero
+			$baseamount = $this->paystructureObj->getColumn(array('employee_details' => $employee_details,'organisation_id'=>$organisation_id,'pay_head'=>$against),'amount');
+		elseif($against == '-1')://Health Tax if $against is greater than zero
+			$againstName = 'Gross Pay';
+			$baseamount = $this->tempPayrollObj->getColumn(array('employee_details' => $employee_details,'organisation_id'=>$organisation_id),'gross');
+		elseif($against == '-2'):
+			$againstName = 'PIT Net Pay';
+			$Gross_amount = $this->tempPayrollObj->getColumn(array('employee_details'=>$employee_details,'organisation_id'=>$organisation_id),'gross');
+			$PFDed = $this->paystructureObj->getColumn(array('employee_details'=>$employee_details,'organisation_id'=>$organisation_id,'pay_head'=>12),'amount');
+			$GISDed = $this->paystructureObj->getColumn(array('employee_details'=>$employee_details,'organisation_id'=>$organisation_id,'pay_head'=>13),'amount');
+			$baseamount = $Gross_amount - $PFDed - $GISDed;
+		endif;
+	?>
+		<label for="percent">Percent ( against <?php echo $againstName; ?> : <b><?php echo $baseamount;?></b> ) </label>
+		<input type="text" class="form-control" name="percent" id="percent" value="<?php echo $percentage; ?>" > 
+		<input type="hidden" class="form-control" name="baseamount" id="baseamount" value="<?php echo $baseamount;?>">
+	<?php
+	elseif($type == 3):
+		if($against > 0):
+			$againstName = $this->payheadObj->getColumn($against,'pay_head');
+			$basic = $this->paystructureObj->getColumn(array('employee_details' => $employee_details,'organisation_id'=>$organisation_id,'pay_head'=>$against),'amount');
+		elseif($against == '-1'):
+			$againstName = 'Gross Pay';
+			$basic = $this->tempPayrollObj->getColumn(array('employee_details' => $employee_details,'organisation_id'=>$organisation_id),'gross');
+		elseif($against == '-2'): //Personal Income Tax if $against is greater than zero
+			$againstName = 'PIT Net Pay';
+			$Gross_amount = $this->tempPayrollObj->getColumn(array('employee_details'=>$employee_details,'organisation_id'=>$organisation_id),'gross');
+			$PFDed = $this->paystructureObj->getColumn(array('employee_details'=>$employee_details,'organisation_id'=>$organisation_id,'pay_head'=>12),'amount');
+			$GISDed = $this->paystructureObj->getColumn(array('employee_details'=>$employee_details,'organisation_id'=>$organisation_id, 'pay_head'=>13),'amount');
+			$basic = $Gross_amount - $PFDed - $GISDed;
+		endif;
+		$rate=0;  $base=0;  $value=0;  $min=0;
+	?>
+		<label for="basic"><?php echo $againstName;?> </label>
+		<input type="text" class="form-control" name="basic" id="basic" value="<?php echo $basic;?>" readonly > 
+		<?php 
+			foreach($this->payslabTable->get(array('pay_head' =>$id)) as $payslab):
+				if(in_array($basic,range($payslab['from_range'],$payslab['to_range']))):
+					break;
+				endif;
+			endforeach;
+			if($payslab['formula'] == 1):
+				$rate = $payslab['rate'];
+				$base = $payslab['base'];
+				$min = $payslab['from_range'];
+			else:
+				$value=$payslab['value'];
+			endif;
+		?>		
+		<input type="hidden" class="form-control" name="rate" id="rate" value="<?php echo $rate;?>">
+		<input type="hidden" class="form-control" name="base" id="base" value="<?php echo $base;?>">
+		<input type="hidden" class="form-control" name="min" id="min" value="<?php echo $min;?>">
+		<input type="hidden" class="form-control" name="value" id="value" value="<?php echo $value;?>">
+	
+	<?php elseif($type == 4):?>
+		<label for="group" class="control-label"> Group </label>
+		<select id='group' name='group'class="form-control" data-placeholder="Select">
+			<option value=''></option>
+			<?php foreach($this->paygroupObj->get(array('pg.pay_head'=>$id)) as $paygroup): ?>
+				<option value='<?php echo $paygroup['value'];?>' ><?php echo $paygroup['group'];?></option>
+			<?php endforeach;?>
+		</select>
+	<?php endif; ?>
+	<input type="hidden" class="form-control" name="roundup" id="roundup" value="<?php echo $roundup;?>">

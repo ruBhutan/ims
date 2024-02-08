@@ -1,0 +1,108 @@
+<?php
+
+ $title = 'Alumni Subscription Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">   
+                    <br/>
+                    <?php
+                        $subscriptionDetails = array();
+                        foreach ($this->subscriberDetails as $details): {
+                            $subscriptionDetails['programme_name'] = $details['programme_name'];
+                            $subscriptionDetails['graduation_year'] = $details['graduation_year'];
+                            $subscriptionDetails['subscriber_id'] = $details['subscriber_id'];
+                            $subscriptionDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'];
+                            $subscriptionDetails['subscription_type'] = $details['subscription_type'];
+                            $subscriptionDetails['cid'] = $details['cid'];
+                            $subscriptionDetails['subscription_charge'] = $details['subscription_charge'];
+                            $subscriptionDetails['application_date'] = $details['application_date'];
+                            $subscriptionDetails['updated_date'] = $details['updated_date'];
+                            $subscriptionDetails['subscriber_details'] = $details['subscriber_details'];
+                            $subscriptionDetails['subscription_status'] = $details['subscription_status'];
+                            $subscriptionDetails['remarks'] = $details['remarks'];
+                        }
+                     ?>
+
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $subscriptionDetails['name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Batch:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $subscriptionDetails['graduation_year']; ?>
+                                        </div>
+                            </div><br/><br/> 
+                           
+                            <div class="form-group"> 
+                                 <?php if($subscriptionDetails['subscription_status'] == 'Approved') {?>
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Subscriber ID:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $subscriptionDetails['subscriber_id']; ?>
+                                        </div>
+                                        <?php } ?> 
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $subscriptionDetails['programme_name']; ?>
+                                        </div>
+                            </div>
+                            
+                             
+                            <br/>
+                               
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Subscription Type:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <?php echo $subscriptionDetails['subscription_type']; ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Subscription Charge:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $subscriptionDetails['subscription_charge']; ?>
+                                      </div>
+                            </div><br/><br/>    
+                            <div class="form-group">
+                                 <label class="control-label col-md-2 col-sm-2 col-xs-12">Application Date: </label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <?php echo $subscriptionDetails['application_date']; ?>
+                                    </div>
+                                    <?php if($subscriptionDetails['subscription_status'] != 'Pending'){?>
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Approved/ Rejected Date</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                             <?php echo $subscriptionDetails['updated_date']; ?>
+                                      </div>
+                                  <?php } ?>
+                            </div><br/><br/>
+                            <div class="form-group">
+                                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Subscriber Details:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <?php echo $subscriptionDetails['subscriber_details']; ?>
+                                    </div>
+                                    <?php if($subscriptionDetails['subscription_status'] != 'Pending'){?>
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                             <?php echo $subscriptionDetails['remarks']; ?>
+                                      </div>
+                                  <?php } ?>
+                                    <?php endforeach; ?>                                
+                            </div>
+                        
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+
+
+
+ 

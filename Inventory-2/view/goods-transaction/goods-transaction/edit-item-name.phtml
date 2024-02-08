@@ -1,0 +1,159 @@
+<?php
+ // module/Inventory/view/goods-transaction/goods-transaction/edit-item-name.phtml:
+
+ $title = 'Edit Item Name';
+ $this->headTitle($title);
+
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+<div class="right_col" role="main">
+    <div class="">            
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><?php echo $this->escapeHtml($title); ?></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $edititemname = $form->get('itemname');
+                    echo $this->form()->openTag($form);
+                    $edititemname->get('id')->setValue($this->itemName->getId());
+                   // $edititemname->get('item_category_id')->setValue($this->itemName->getItem_Category_Id());
+                    //$edititemname->get('item_sub_category_id')->setValue($this->itemName->getItem_Sub_Category_Id());
+                    $edititemname->get('item_quantity_type_id')->setValueOptions($this->itemQuantityType);
+                    $edititemname->get('item_quantity_type_id')->setValue($this->itemName->getItem_Quantity_Type_Id());
+                    $edititemname->get('item_name')->setValue($this->itemName->getItem_Name());
+                    $edititemname->get('description')->setValue($this->itemName->getDescription());
+                    $edititemname->get('submit')->setValue('Update Item Details');
+                    echo $this->formHidden($edititemname->get('id'));
+
+                 ?> 
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="major_class_id">Select Major Class<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($form->get('major_class_id')); ?>
+                        </div>
+                </div>
+
+                 <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item_category_id">Category Type</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($form->get('item_category_id')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item_sub_category_id">Sub Category Type</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($form->get('item_sub_category_id')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item_quantity_type_id">Item Quantity Type</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($edititemname->get('item_quantity_type_id')); ?>
+                    </div>
+                </div>              
+                
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item_name">Item Name</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($edititemname->get('item_name')); ?>
+                    </div>
+                </div>
+                
+                <div class="form-group">           
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php  echo $this->formRow($edititemname->get('description')); ?>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                       <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf'));
+                            echo $this->formSubmit($edititemname->get('submit'));
+                            echo $this->form()->closeTag();
+                          ?>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>       
+<?php
+ // module/Inventory/view/goods-transaction/goods-transaction/view-item-name.phtml:
+
+ $title = 'Item Name Lists';
+ $this->headTitle($title);
+?>     
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id = "datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Sl. No</th>
+                                    <th class="column-title">Item Name </th>
+                                    <th class="column-title">Item Quantity Type</th>
+                                    <th class="column-title">Item Sub Category </th>
+                                    <th class="column-title">Item Category </th>
+                                    <th class="column-title">Item Description </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <?php $i=1; ?>
+                            <?php foreach ($this->itemNameList as $item) : ?>
+                                <tr class="even pointer">
+                                    <td class=" "><?php echo $i; ?></td>
+                                    
+                                    <td class=" "><?php echo $this->escapeHtml($item->getItem_Name()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($item->getItem_Quantity_Type()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($item->getSub_Category_Type()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($item->getCategory_Type()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($item->getDescription()); ?></td>
+                                </tr>
+                            <?php $i++; ?>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

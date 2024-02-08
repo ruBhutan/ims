@@ -1,0 +1,152 @@
+<?php
+
+ $title = 'Search Hostel';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+$hostel_details = array();
+foreach($this->hostelDetail as $det){
+  $hostel_details = $det;
+}//var_dump($hostel_details); die();
+ ?>
+
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $form->get('hostels_list_id')->setValueOptions($this->hostelList);
+                    ?>  
+               	 <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Hostel Name</label>
+                        <?php echo $this->formRow($form->get('hostels_list_id')); ?>
+                      </div>
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                        <label>Room No</label>
+                        <?php echo $this->formRow($form->get('room_no')); ?>
+                      </div>
+                 </div>
+               	 <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<?php
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formRow($form->get('submit'));
+                        ?>
+                   </div>
+                  </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        </div>
+
+
+        <?php
+				 $title = 'Hostel Room Details';
+				 $this->headTitle($title);
+			  ?>
+              <div class="col-md-12 col-xs-12">
+                  
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    (Please click on "Add Additional Room" Button to add additional room for the selected hostel.)
+                      <?php if(!empty($hostel_details)){ ?>
+                        <a href="<?php echo $this->url('addadditionalhostelroom', array('id' => my_encrypt($hostel_details['id'], $key))); ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Additional Room</a>
+                        <?php } else { ?>
+                          <button class="btn btn-danger pull-right">Hostel Not Selected!</button>
+                        <?php } ?>
+                      
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                        <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No</th>
+                            <th class="column-title">Hostel Name </th>
+                            <th class="column-title">Room No.</th>
+                            <th class="column-title">Room Capacity</th>
+                            <th class="column-title">Room Availability</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <?php $i=1; foreach ($this->hostelRoomsList as $hostel) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($hostel['hostel_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($hostel['room_no']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($hostel['room_capacity']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($hostel['room_available']);?></td>
+                            <td><a href="<?php echo $this->url('edithostelroom', array('id' => my_encrypt($hostel['id'], $key)));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+                            <a href="<?php echo $this->url('deleteaddedhostelroom', array('id' => my_encrypt($hostel['id'], $key))); ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                
+                </div>
+             </div>
+          </div>
+        </div>   
+      </div>
+                

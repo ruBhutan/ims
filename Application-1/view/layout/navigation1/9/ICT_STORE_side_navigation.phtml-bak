@@ -1,0 +1,63 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+<div class="menu_section">
+<br><br><br>
+<ul class="nav side-menu">
+	<li><a><i class="fa fa-home"></i>Administration<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?php echo $this->url('changepassword') ?>">Change Password</a></li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-database"></i>Property and Inventory<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Goods Transaction<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Goods Issue<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('add-adhoc-goods-issue') ?>">Adhoc</a></li>
+						<li><a href="<?php echo $this->url('requisition-goods-issue') ?>">Requisition</a></li>
+						<li><a href="<?php echo $this->url('sub-store-issue-goods') ?>">Sub Store</a></li>
+						<li><a href="<?php echo $this->url('add-sub-store-to-ind-issue-goods') ?>">Sub Store to Individual</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Goods Surrender<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('goods-surrender-list') ?>">Status</a></li>
+						<li><a href="<?php echo $this->url('applied-goods-surrender-list') ?>">All Status</a></li>
+						<li><a href="<?php echo $this->url('emp-goods-surrender-list') ?>">Store Approval</a></li>
+						<li><a href="<?php echo $this->url('emp-sub-store-goods-surrender-list') ?>">Sub Store Approval</a></li>
+						<li><a href="<?php echo $this->url('sub-store-surrender-list') ?>">Sub Store To Store Approval</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Goods Transfer<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('dept-goods-transfer-from-list') ?>">From Department</a></li>
+						<li><a href="<?php echo $this->url('dept-goods-transfer-list') ?>">Goods Transfer Status</a></li>
+						<li><a href="<?php echo $this->url('org-goods-transfer-approval-list') ?>">From Organisation Approval List</a></li>
+						<li><a href="<?php echo $this->url('org-goods-transfer-list') ?>">Organisation Goods Transfer Status</a></li>
+					</ul>
+					</li>
+					<li><a href="<?php echo $this->url('view-item-details') ?>">Add Item Details</a></li>
+					<li><a href="<?php echo $this->url('add-item-supplier') ?>">Supplier</a></li>
+					<li><a href="<?php echo $this->url('add-item-donor') ?>">Donor</a></li>
+					<li><a href="<?php echo $this->url('add-goods-received') ?>">Stock Entry</a></li>
+					<li><a href="<?php echo $this->url('supplied-goods-list') ?>">Generate Receipt Voucher</a></li>
+					<li><a href="<?php echo $this->url('view-goods-in-stock') ?>">Goods in Stock</a></li>
+					<li><a href="<?php echo $this->url('emp-goods-list') ?>">My Goods List</a></li>
+					<li><a href="<?php echo $this->url('view-dept-goods-list') ?>">Sub Stock Lists</a></li>
+					<li><a href="<?php echo $this->url('dept-all-goods-in-stock') ?>">All Department Goods in Stock</a></li>
+					<li><a href="<?php echo $this->url('view-emp-issued-goods') ?>">Staff Issued Goods List</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Goods Requisition<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('apply-goods-requisition') ?>">Apply Requisition</a></li>
+	`		<li><a href="<?php echo $this->url('view-requisition') ?>">Requisition List</a></li>
+					<li><a href="<?php echo $this->url('requisition-approval-list') ?>">Requisition Approval</a></li>
+					<li><a href="<?php echo $this->url('all-goods-requisition-list') ?>">All Requisition List</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+</div>
+</div>

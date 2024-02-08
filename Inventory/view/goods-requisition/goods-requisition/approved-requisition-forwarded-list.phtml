@@ -1,0 +1,66 @@
+
+<?php
+ // module/Inventory/view/goods-requisition/goods_requisition/requisition-requisition-approval.phtml:
+
+ $title = 'Approved Requisition Forwarded List';
+ $this->headTitle($title);
+?>     
+<div class="right_col" role="main">
+    <div class="">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Sl.No. </th>
+                                      <th class="column-title">Requistion By</th>
+                                      <th class="column-title">Item </th>
+                                      <th class="column-title">Requisition Date </th>
+                                      <th class="column-title">Forward Quantity </th>
+                                      <th class="column-title">Forward Approved Quantity </th>
+                                      <th class="column-title">Forward Date </th>
+                                      <th class="column-title">Approval No</th>
+                                      <th class="column-title">Approved Date</th>
+                                      <th class="column-title">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <?php $i=1; ?>
+                            <?php foreach ($this->approvedRequisitionForwarded as $approvedList) : ?>
+                                <tr class="even pointer">
+                                    <td class=" "><?php echo $i; ?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($approvedList->getFirst_Name()).' ';
+                                                            echo $this->escapeHtml($approvedList->getMiddle_Name()).' ';
+                                                            echo $this->escapeHtml($approvedList->getLast_Name()).' (';
+                                                            echo $this->escapeHtml($approvedList->getEmp_Id()).')'; ?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($approvedList->getItem_Name()); ?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($approvedList->getRequisition_Date());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($approvedList->getRequisition_Forward_Quantity());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($approvedList->getForward_Approved_Quantity());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($approvedList->getRequisition_Forward_Date());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($approvedList->getApproval_No());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($approvedList->getForward_Approval_Date());?></td>
+                                      <td class="last"> <a href="<?php echo $this->url('update-approved-req-forwarded', array('id' => $approvedList->getId()));?>" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> Update </button></a></td>
+                                </tr>
+                            <?php $i++; ?>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

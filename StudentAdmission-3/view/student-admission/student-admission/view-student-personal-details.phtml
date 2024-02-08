@@ -1,0 +1,161 @@
+<?php
+
+ $title = 'Student Personal Details';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">   
+                    <br/>
+                    <?php
+                        $personalDetails = array();
+                        foreach ($this->stdPersonalDetails as $details): {
+                            $personalDetails['id'] = $details['id'];
+                            $personalDetails['programme_name'] = $details['programme_name'];
+                            $personalDetails['enrollment_year'] = $details['enrollment_year'];
+                            $personalDetails['student_id'] = $details['student_id'];
+                            $personalDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'];
+                            $personalDetails['date_of_birth'] = $details['date_of_birth'];
+                            $personalDetails['cid'] = $details['cid'];
+                            $personalDetails['stdgender'] = $details['stdgender'];
+                            $personalDetails['student_type'] = $details['student_type'];
+                             $personalDetails['contact_no'] = $details['contact_no'];
+                             $personalDetails['email'] = $details['email'];
+                        }
+                     ?>
+                            <h2>Step 1.Official Details:</h2>
+
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['programme_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Enrollment Year:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['enrollment_year']; ?>
+                                        </div>
+                            </div><br/><br/> 
+                            <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php echo $personalDetails['student_id']; ?>
+                                        </div>
+                            </div> 
+                            <br/>
+                            <div class="x_title">
+                            <div class="clearfix"></div>
+                            </div><br/> 
+
+                            <h2>Step 2.Personal  Details:</h2>
+                         
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <?php echo $personalDetails['name']; ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $personalDetails['date_of_birth']; ?>
+                                      </div>
+                            </div><br/><br/>    
+                            <div class="form-group">
+                                 <label class="control-label col-md-2 col-sm-2 col-xs-12">CID No: </label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <?php echo $personalDetails['cid']; ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                             <?php echo $personalDetails['stdgender']; ?>
+                                      </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <?php echo $personalDetails['student_type']; ?>
+                                    </div>
+                                    <?php endforeach; ?>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Category:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <?php
+                                            $stdCategory = array();
+                                            foreach ($this->stdCategoryDetails as $category): {
+                                                 $stdCategory['student_category'] = $category['student_category'];
+                                             } 
+                                        ?>
+                                        <?php 
+                                          if(empty($stdCategory)){
+                                                   $stdCategory['student_category'] = 'NA';
+                                          ?>
+                                        <?php echo $stdCategory['student_category']; ?>
+                                    <?php } else {?>
+                                        <?php echo $stdCategory['student_category']; ?>
+                                    <?php } ?>
+                                    <?php endforeach; ?>
+                                    </div>
+                                
+                            </div><br/><br/>
+
+                            <div class="form-group">
+                                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Contact Number:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <?php if($personalDetails['contact_no'] != NULL){
+                                            echo $personalDetails['contact_no']; 
+                                        }else{
+                                            echo 'NA';
+                                        }
+                                        ?>
+                                        
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Email ID:</label>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <?php 
+                                        if($personalDetails['email'] != NULL){
+                                             echo $personalDetails['email'];
+                                        }else{
+                                            echo 'NA';
+                                        }
+                                        ?>
+                                       
+                                    </div>
+                                
+                            </div>
+
+                            <div class="ln_solid"></div>
+                          <div class="row">
+                            <div class="form-group">
+                              <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a href="<?php echo $this->url('studentpersonaldetails');?>"><span class="btn btn-primary"><i class="fa fa-angle-double-left"></i> Back</span></a>
+                                <a href="<?php echo $this->url('viewstudentrelationdetails', array('id' => my_encrypt($personalDetails['id'], $key)));?>"><span class="btn btn-info">Next <i class="fa fa-angle-double-right"></i></span></a>
+                              </div>
+                            </div>
+                          </div>
+                        
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+
+
+ 

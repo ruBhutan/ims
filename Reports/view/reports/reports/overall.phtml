@@ -1,0 +1,128 @@
+<!-- page content -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+            
+<div class="x_panel">
+<div class="x_title">
+    <h2><?php echo $this->escapeHtml('List of Staff By Employee Type'); ?></h2>
+     <div class="clearfix"></div>
+    </div>
+    <br/>
+    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+        <br/>
+       
+           <div class="table-responsive">
+               <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                <tr class="headings">
+                     <th class="column-title" rowspan="3">Sl.No </th>
+                     <th class="column-title" rowspan="3">Organisation</th>
+                     <?php 
+                     foreach ($occupationalGroup as $orow) {
+                         echo '<th class="column-title" colspan="6">'.$orow.'</th>'; 
+                     }
+                     ?>
+                    
+                    <th class="column-title" colspan="2">Type of Employment</th>
+                    <th class="column-title">Total</th>  
+                  </tr>
+                  <tr class="headings">
+                   
+                     <th class="column-title" colspan="3">National</th>
+                     <th class="column-title" colspan="3">International</th>
+                     <th class="column-title" colspan="3">National</th>
+                     <th class="column-title" colspan="3">International</th>
+                     <th class="column-title" colspan="2"></th>
+                     <th class="column-title"></th>
+                  </tr>
+                  <tr class="headings">
+                    <?php
+                       foreach ($gender as $grow)
+                          echo '<th class="column-title">'.$grow['gender'].'</th>';
+                       foreach ($gender as $grow)
+                          echo '<th class="column-title">'.$grow['gender'].'</th>';
+
+                       foreach ($gender as $grow)
+                          echo '<th class="column-title">'.$grow['gender'].'</th>';
+                       foreach ($gender as $grow)
+                          echo '<th class="column-title">'.$grow['gender'].'</th>';
+                    ?>
+                    <th class="column-title" >Regular</th>
+                    <th class="column-title" >Fixed</th>
+                    <th></th>
+                     
+                    
+                   
+                  </tr>
+                 
+                    
+               
+                </thead>
+                <tbody>
+
+
+                <?php $i=1; 
+                $nationality = array('national','international');
+
+                $emptype = array('regular','fixed');
+
+                 foreach ($organisationList as $list)
+                 {
+                      if ($list != 'All Colleges/Agency')
+                      { 
+                           echo "<tr><td>".$i++."</td><td>".$list."</td>";
+                           foreach ($occupationalGroup as $olist)
+                           {
+                              foreach ($nationality as $nation) 
+                              { 
+                                  foreach ($gender as $gen)
+                                  {
+                                                              
+                                      if (!empty($this->hr_report[$list][$olist][$nation][$gen['gender']]))
+
+                                          echo "<td>".$this->hr_report[$list][$olist][$nation][$gen['gender']] .'</td>';
+
+                                      else  
+
+                                            echo "<td></td>";
+                                  }
+                              }
+                           }
+                          
+                          $total = 0;
+
+                          foreach ($emptype as $type)
+                           {
+                            if (!empty($this->hr_report[$list] [$type])) {
+
+                                     echo '<td>'.$this->hr_report[$list] [$type].'</td>';
+
+                                      $total +=  $this->hr_report[$list] [$type];  
+
+                            }
+                                 else 
+
+                                     echo '<td></td>';
+
+                                 
+
+
+                           }
+                            echo '<td>'.$total.'</td>';
+
+                           echo "</tr>";
+                      } 
+
+
+
+                 }   
+
+                        
+                      ?>
+                </tbody>
+              </table>
+            </div>
+    </div>
+  </div>
+</div>          
+<!-- /page content -->
+                  

@@ -1,0 +1,663 @@
+<?php
+ $title = 'Personal Details';
+ $this->headTitle($title);
+  //Store details of employees as they should be printed only once
+ $staff=array();
+ foreach ($this->employees as $employee)
+ {
+	 $staff = $employee;
+ }
+?>
+
+  <div class="right_col" role="main">
+
+        <div class="">
+         
+          <div class="clearfix"></div>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                   <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                  <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+
+                    <div class="profile_img">
+
+                      <!-- end of image cropping -->
+                      <div id="crop-avatar">
+                        <!-- Current avatar -->
+                      	<img class="img-responsive avatar-view" src="../images/subba.jpg" alt="Avatar" title="Change the avatar">
+                        <!-- Cropping modal -->
+                        <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                              <form class="avatar-form" action="crop.php" enctype="multipart/form-data" method="post">
+                                <div class="modal-header">
+                                  <button class="close" data-dismiss="modal" type="button">&times;</button>
+                                  <h4 class="modal-title" id="avatar-modal-label">Change Avatar</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="avatar-body">
+
+                                    <!-- Upload image and data -->
+                                    <div class="avatar-upload">
+                                      <input class="avatar-src" name="avatar_src" type="hidden">
+                                      <input class="avatar-data" name="avatar_data" type="hidden">
+                                      <label for="avatarInput">Local upload</label>
+                                      <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+                                    </div>
+
+                                    <!-- Crop and preview -->
+                                    <div class="row">
+                                      <div class="col-md-9">
+                                        <div class="avatar-wrapper"></div>
+                                      </div>
+                                      <div class="col-md-3">
+                                        <div class="avatar-preview preview-lg"></div>
+                                        <div class="avatar-preview preview-md"></div>
+                                        <div class="avatar-preview preview-sm"></div>
+                                      </div>
+                                    </div>
+
+                                    <div class="row avatar-btns">
+                                      <div class="col-md-9">
+                                        <div class="btn-group">
+                                          <button class="btn btn-primary" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees">Rotate Left</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="-15" type="button">-15deg</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="-30" type="button">-30deg</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="-45" type="button">-45deg</button>
+                                        </div>
+                                        <div class="btn-group">
+                                          <button class="btn btn-primary" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees">Rotate Right</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="15" type="button">15deg</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="30" type="button">30deg</button>
+                                          <button class="btn btn-primary" data-method="rotate" data-option="45" type="button">45deg</button>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                        <button class="btn btn-primary btn-block avatar-save" type="submit">Done</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- <div class="modal-footer">
+                                                  <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+                                                </div> -->
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- /.modal -->
+
+                        <!-- Loading state -->
+                        <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+                      </div>
+                      <!-- end of image cropping -->
+
+                    </div>
+                    <h4><?php echo $staff->getFirst_Name().' '.$staff->getMiddle_Name().' '.$staff->getLast_Name(); ?></h4>
+
+                    <ul class="list-unstyled user_data">
+                      <li><i class="">Staff ID: </i> <?php echo $staff->getEmp_Id(); ?>,</li>
+                      <li><i class="">Unit Name: </i> <?php echo $staff->getDepartments_Units_Id(); ?> </li>
+                      <li><i class="">Department: </i> <?php echo $staff->getDepartments_Id(); ?> </li>
+                      <li><i class="">Organisation: </i> <?php echo $staff->getOrganisation_Id(); ?> </li>
+                    </ul>
+                    <br />
+                     </div>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#tab_content1" id="profile-tab" role="tab" data-toggle="tab" aria-expanded="true">Personal Details</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Qualifications</a>
+                      </li>
+                       <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Other Activities</a>
+                      </li>
+                       <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Other Responsibility Shouldered</a>
+                       </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="profile-tab">
+                       <br/> 
+                       <p> 
+                <div class="x_panel">
+                <div class="x_content">
+                      <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                      ?>
+                        
+                   <!-- start accordion -->
+                    <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
+                      <div class="panel">
+                        <a class="panel-heading" role="tab" id="headingOne1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne1" aria-expanded="true" aria-controls="collapseOne">
+                          <h4 class="blue panel-title"><i class="fa fa-ellipsis-v"></i> Employment Details</h4>
+                        </a>
+                        <div id="collapseOne1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                          <div class="panel-body">
+                           	  <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Emp ID:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <i><label class="control-label col-md-6 col-sm-2 col-xs-12"><?php echo $this->escapeHtml($staff->getFirst_Name()); ?></label></i>
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <i><label class="control-label col-md-6 col-sm-2 col-xs-12"><?php echo $this->escapeHtml($staff->getFirst_Name()); ?></label></i>
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Village:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <i><label class="control-label col-md-6 col-sm-2 col-xs-12"><?php echo $this->escapeHtml($staff->getFirst_Name()); ?></label></i>
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <i><label class="control-label col-md-6 col-sm-2 col-xs-12"><?php echo $this->escapeHtml($staff->getFirst_Name()); ?></label></i>
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Second -->
+                      <div class="panel">
+                        <a class="panel-heading collapsed" role="tab" id="headingTwo1" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo">
+                          <h4 class="red panel-title"><i class="fa fa-ellipsis-v"></i> Permanent Address</h4>
+                        </a>
+                        <div id="collapseTwo1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                          <div class="panel-body">
+                            <?php
+								$form->prepare();
+								echo $this->form()->openTag($form);
+								echo $this->formHidden($form->get('id'));
+							?>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">House No:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <i><label class="control-label col-md-6 col-sm-2 col-xs-12"><?php echo $this->escapeHtml($staff->getFirst_Name()); ?></label></i>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Thram No:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <i><label class="control-label col-md-6 col-sm-2 col-xs-12"><?php echo $this->escapeHtml($staff->getFirst_Name()); ?></label></i>
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Village:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <i><label class="control-label col-md-6 col-sm-2 col-xs-12"><?php echo $this->escapeHtml($staff->getFirst_Name()); ?></label></i>
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <i><label class="control-label col-md-6 col-sm-2 col-xs-12"><?php echo $this->escapeHtml($staff->getFirst_Name()); ?></label></i>
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <i><label class="control-label col-md-6 col-sm-2 col-xs-12"><?php echo $this->escapeHtml($staff->getFirst_Name()); ?></label></i>
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Third -->
+                      <div class="panel">
+                        <a class="panel-heading collapsed" role="tab" id="headingThree1" data-toggle="collapse" data-parent="#accordion1" href="#collapseThree1" aria-expanded="false" aria-controls="collapseThree">
+                          <h4 class="green panel-title"><i class="fa fa-ellipsis-v"></i> Present Address</h4>
+                        </a>
+                        <div id="collapseThree1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                          <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">House No:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Thram No:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Village:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Gewog:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Dzongkhag:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Fourth -->
+                      <div class="panel">
+                        <a class="panel-heading collapsed" role="tab" id="headingFour1" data-toggle="collapse" data-parent="#accordion1" href="#collapseFour1" aria-expanded="false" aria-controls="collapseFour">
+                          <h4 class="blue panel-title"><i class="fa fa-ellipsis-v"></i> Parent's Details</h4>
+                        </a>
+                        <div id="collapseFour1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                          <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Father's Name:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Father CID:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother's Name:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Mother CID:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- Fifth-->
+                      <div class="panel">
+                        <a class="panel-heading collapsed" role="tab" id="headingFive1" data-toggle="collapse" data-parent="#accordion1" href="#collapseFive1" aria-expanded="false" aria-controls="collapseFive">
+                          <h4 class="blue panel-title"><i class="fa fa-ellipsis-v"></i> Spouse Details</h4>
+                        </a>
+                        <div id="collapseFive1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                          <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Spouse's Name:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Spouse CID:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $this->escapeHtml(' '); ?>">
+                                    </div>
+                                </div>
+                            </div> <!-- end of row-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end of accordion -->
+
+
+                    
+                    <div class="ln_solid"></div>
+
+                   <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                     </div></div> 
+                  </div>
+                        
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                        <br/> 
+                       <p>
+                            
+                   <div class="x_panel">     
+                      <div class="x_content">
+                        <?php
+							$form->prepare();
+							echo $this->form()->openTag($form);
+							echo $this->formHidden($form->get('id'));
+                        ?>
+                        <!-- start accordion -->
+                    <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                      <div class="panel">
+                        <a class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          <h4 class="red panel-title"><i class="fa fa-ellipsis-v"></i> Work Experience</h4>
+                        </a>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                          <div class="panel-body">
+                            <!-- start work experience -->
+                            <table class="data table table-striped no-margin" width="100%">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Company</th>
+                                  <th>Position Title</th>
+                                  <th class="hidden-phone">From</th>
+                                  <th class="hidden-phone">To</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>1</td>
+                                  <td>New Company Takeover Review</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">2017-01-01</td>
+                                  <td class="hidden-phone">2017-01-01</td>
+                                </tr>
+                                <tr>
+                                  <td>2</td>
+                                  <td>New Company Takeover Review</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">2017-01-01</td>
+                                  <td class="hidden-phone">2017-01-01</td>
+                                </tr>
+                                <tr>
+                                  <td>3</td>
+                                  <td>New Company Takeover Review</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">2017-01-01</td>
+                                  <td class="hidden-phone">2017-01-01</td>
+                                </tr>
+                                <tr>
+                                  <td>4</td>
+                                  <td>New Company Takeover Review</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">2017-01-01</td>
+                                  <td class="hidden-phone">2017-01-01</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <!-- end work experience -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel">
+                        <a class="panel-heading collapsed" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          <h4 class="blue panel-title"><i class="fa fa-ellipsis-v"></i> Education Details</h4>
+                        </a>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                          <div class="panel-body">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th class="column-title">Company</th>
+                                  <th class="column-title">Position Title </th>
+                                  <th class="column-title">From </th>
+                                  <th class="column-title">To </th>
+                                  <th class="column-title">Comments </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <th scope="row">1</th>
+                                  <td>eDruk</td>
+                                  <td>ICT</td>
+                                  <td>2/2/2012</td>
+                                  <td>2/2/2017</td>
+                                </tr>
+                                <tr>
+                                  <th scope="row">2</th>
+                                  <td>OVC</td>
+                                  <td>ICT</td>
+                                  <td>2/2/2012</td>
+                                  <td>2/2/2017</td>
+                                </tr>
+                                <tr>
+                                  <th scope="row">3</th>
+                                  <td>RUB</td>
+                                  <td>ICT</td>
+                                  <td>2/2/2012</td>
+                                  <td>2/2/2017</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end of accordion -->
+                  </div>  
+                </div>  
+               </div>
+                  
+                  <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                       <br/> 
+                       <p> 
+                       <div class="x_panel"> 
+						 <div class="x_title">                  
+                            <div class="clearfix"></div>
+                                
+                                <!-- start accordion -->
+                    <div class="accordion" id="accordion3" role="tablist" aria-multiselectable="true">
+                      <div class="panel">
+                        <a class="panel-heading" role="tab" id="headingOne3" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne3" aria-expanded="true" aria-controls="collapseOne">
+                          <h4 class="blue panel-title"><i class="fa fa-ellipsis-v"></i> Awards</h4>
+                        </a>
+                        <div id="collapseOne3" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                          <div class="panel-body">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>First Name</th>
+                                  <th>Last Name</th>
+                                  <th>Username</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <th scope="row">1</th>
+                                  <td>Mark</td>
+                                  <td>Otto</td>
+                                  <td>@mdo</td>
+                                </tr>
+                                <tr>
+                                  <th scope="row">2</th>
+                                  <td>Jacob</td>
+                                  <td>Thornton</td>
+                                  <td>@fat</td>
+                                </tr>
+                                <tr>
+                                  <th scope="row">3</th>
+                                  <td>Larry</td>
+                                  <td>the Bird</td>
+                                  <td>@twitter</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel">
+                        <a class="panel-heading collapsed" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo3" aria-expanded="false" aria-controls="collapseTwo">
+                          <h4 class="green panel-title"><i class="fa fa-ellipsis-v"></i> Community Services</h4>
+                        </a>
+                        <div id="collapseTwo3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                          <div class="panel-body">
+                            <p><strong>Collapsible Item 2 data</strong>
+                            </p>
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel">
+                        <a class="panel-heading collapsed" role="tab" id="headingThree3" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree3" aria-expanded="false" aria-controls="collapseThree">
+                          <h4 class="red panel-title"><i class="fa fa-ellipsis-v"></i> Contributions</h4>
+                        </a>
+                        <div id="collapseThree3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                          <div class="panel-body">
+                            <p><strong>Collapsible Item 3 data</strong>
+                            </p>
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end of accordion -->
+                    
+                         </div>                    
+                        <div class="x_content">
+                        </div>
+                       </div>
+                     </div>      
+                        
+              <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                       <br/> 
+                       <p> 
+                           
+                       <div class="x_panel"> 
+                        <div class="x_title" >
+                       <h2>Responsibility Shouldered</h2>    
+                        <div class="clearfix"></div></div>
+                        <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                    
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Responsibility Taken<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                    <?php
+                    
+                        echo $this->formRow($form->get('id'));
+                        ?>
+                    </div>
+                    </div>
+                    </div>
+                   
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date:To<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                            <?php
+                        echo $this->formRow($form->get('id'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row"> 
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date:From<span class="required">*</span>
+                        </label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                            <?php
+                        echo $this->formRow($form->get('id'));
+                    ?>
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12"> 
+                    <?php
+                        echo $this->formSubmit($form->get('submit')); 
+                        echo $this->formSubmit($form->get('reset')); 
+                      ?>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                    
+                         
+                        <div class="x_content">
+                       <table class="table table-striped jambo_table bulk_action">
+     
+                    <div class="row">
+                    <div class="ln_solid"></div>
+                <button class="btn btn-success">Add </button>
+                    </div>
+                    </table></div>
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                        <th>
+                          <input type="checkbox" id="check-all" class="flat">
+                        </th>                          
+                        <th class="column-title">Responsibility </th>
+                        <th class="column-title">Date:From </th>
+                        <th class="column-title">Date:To </th>
+                         </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                         <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td>Provost</td>
+                        <td>2/2/2013</td>
+                        <td>2/2/2016</td>
+                      </tr>
+                      </tbody>
+                      </table>
+                     </div></div></div>
+                      </div> 
+          </div>
+        </div>
+                      </div>
+                    </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      <!-- /page content -->
+    </div>
+
+  </div>
+
+  <div id="custom_notifications" class="custom-notifications dsp_none">
+    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+    </ul>
+    <div class="clearfix"></div>
+    <div id="notif-group" class="tabbed_notifications"></div>
+  </div>

@@ -1,0 +1,331 @@
+<?php
+ $title = 'COLLEGE ANNUAL RESEARCH GRANT APPLICATION FORM';
+ $this->headTitle($title);
+ 
+  //getting the aurg details
+ $researchers = array();
+ $actionPlan = array();
+ $budgetPlan = array();
+ $carg = array();
+ $i = 0;
+ $j = 0;
+ $k = 0;
+ foreach($this->cargDetails as $detail){
+	 $i++;
+	 foreach($detail as $key=>$value){
+		 if($key == "name" || $key == "first_name" || $key == "middle_name" || $key == "last_name" || $key == "researcher_type" || $key == "qualification" ||$key == "position_level" || $key == "recruitment_date" || $key == "email" || $key == "contact_no" || $key == "researcher_category"  || $key == "recruitment_date"){
+		 $researchers[$i][$key] = $value;
+		 }else {
+			 $carg[$key] = $value;
+		 }
+	 }
+ }
+ foreach($this->actionPlanDetails as $detail){
+	 $j++;
+	 foreach($detail as $key=>$value){
+		 if($key == 'activity_name' || $key == 'time_frame' || $key == 'remarks'){
+			 $actionPlan[$j][$key] = $value;
+		 }
+	 }
+
+ }
+ foreach($this->budgetPlanDetails as $detail){
+	 $k++;
+	 foreach($detail as $key=>$value){
+		 if($key == 'purpose' || $key == 'amount' || $key == 'remarks'){
+			 $budgetPlan[$j][$key] = $value;
+		 }
+	 }
+
+ }
+ ?>
+ <div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><?php echo $this->escapeHtml($title); ?></h2>                   
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <div id="wizard" class="form_wizard wizard_horizontal">
+					<div id="step-1">
+                      <h2 class="StepTitle">Step 1: GRANT</h2>
+                      <form class="form-horizontal form-label-left input_mask"><br/>
+                      <div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12">Grant applied for</label>
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<input type="text" class="form-control" placeholder="<?php echo $carg['grant_applied_for']; ?>" readonly="">
+						</div>
+                      </div>
+                      </form>
+                    </div>                
+                    <div id="step-2">
+                      <h2 class="StepTitle">Step 2:PRINCIPAL RESEARCHER</h2>
+                      <form class="form-horizontal form-label-left input_mask"><br/>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Name</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $researchers[1]['first_name'].' '.$researchers[1]['middle_name'].' '.$researchers[1]['last_name']; ?>" readonly="">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Qualification</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="MBA" readonly="">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Position level</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $researchers[1]['position_level'];?>" readonly="">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Appointment Year</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $researchers[1]['recruitment_date']; ?>" readonly="">
+                        </div>
+                      </div>         
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">E-mail</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="test@yahoo.com" readonly="">
+                        </div>
+                      </div>         
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Contact No.</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="99999999" readonly="">
+                        </div>
+                      </div>    
+					  </form>
+					</div>
+					<div id="step-3">
+                    <h2 class="StepTitle">Step 3: CO-RESEARCHER</h2>
+                      <form class="form-horizontal form-label-left input_mask"><br/>
+                        <div class="table-responsive">
+                          <table class="table table-striped jambo_table bulk_action">
+							<thead>
+							  <tr class="headings">
+								<th class="column-title">Name </th>
+								<th class="column-title">Faculty/Student </th>
+								<th class="column-title">Qualification </th>
+								<th class="column-title">Position level </th>
+								<th class="column-title">Appointment Year </th>
+								<th class="column-title">Email </th>
+								<th class="column-title">Contact No </th>
+								<th class="column-title">CARG Category </th>
+							  </tr>
+							</thead>  
+							<tbody>
+							  <?php foreach($researchers as $detail):?>
+								 <tr class="even pointer">
+								  <td style="width:20%"><?php echo $detail['name']; ?></td>
+								  <td><?php echo $detail['researcher_type']; ?></td>
+								  <td><?php echo $detail['qualification']; ?></td>
+								  <td><?php echo $detail['position_level']; ?></td>
+								  <td><?php echo $detail['appointment_date']; ?></td>
+								  <td><?php echo $detail['email']; ?></td>
+								  <td><?php echo $detail['contact_no']; ?></td>
+								  <td><?php echo $detail['researcher_category']; ?></td>
+								</tr>
+							  <?php endforeach; ?>
+							</tbody>                                                    
+                          </table>
+                        </div>
+					  </form>
+					</div>
+                    <div id="step-4">
+					<h2 class="StepTitle">Step 4: Research/Project Title</h2>
+                    <form class="form-horizontal form-label-left input_mask"><br/>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Research Title</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $carg['research_title']; ?>" readonly="">
+                        </div>
+                      </div>                
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Total Amount Requested</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $carg['amount_applied_for']; ?>" readonly="">
+                        </div>
+                      </div>         
+                    </form>
+                    </div>
+					<div id="step-5">
+                    <h2 class="StepTitle">Step 5: Research/Project Summary</h2>
+                    <form class="form-horizontal form-label-left input_mask">        
+                      <div class="form-group">
+                        <h6><b>Note</b> :( Write a Plain English summary in no more than 150 words focusing on the overall goals and significance of the research/project )</h6>
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Research/Project Summary</label>
+						  <div class="col-md-9 col-sm-9 col-xs-12">
+							<textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $carg['research_summary']; ?></textarea>
+						  </div>
+                      </div>
+					  <br>
+                      <div class="table-responsive">
+                         <table class="table table-striped jambo_table">
+                         <thead>
+                             <tr>
+                                 <th style="width:40%">Previously Received Grants</th>
+                                 <th style="width:10%">Yes/No</th>
+                                 <th style="width:10%">Year</th>
+                                 <th style="width:15%">Amount</th>
+                                 <th style="width:10%">Year</th>
+                                 <th style="width:15%">Amount</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td><label>Has the Principal Researcher previously received Annual Research University Grant(AURG)in past two years:</label></td>
+                                 <td><?php echo "Yes";?></td>
+                                 <td><?php echo "";?></td>
+                            	 <td><?php echo "";?></td>
+                                 <td><?php echo "";?></td>
+                            	 <td><?php echo "";?></td>
+                             </tr>
+                             <tr>
+                                 <td><label>Has the Principal Researcher previously received Annual Research College Grantin past two years::</label></td>
+                                 <td><?php echo "No";?></td>
+                                 <td><?php echo "";?></td>
+                            	 <td><?php echo "";?></td>
+                                 <td><?php echo "";?></td>
+                           	 	 <td><?php echo "";?></td>
+                             </tr>
+                         </tbody>
+                       </table>
+                     </div> 
+                      
+                    </form>
+                    </div>
+                    <div id="step-6">
+                    <h2 class="StepTitle">Step 6: Action Plan</h2>
+                    <h4 class="StepTitle">(Detail plan of action to implement this research/project)</h4>
+                    <form class="form-horizontal form-label-left input_mask"><br/>
+                      <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                               <tr class="headings">
+                               <th style="width:33%" class="column-title">Activity </th>
+                               <th style="width:33%" class="column-title">Time Frame </th>
+                               <th style="width:33%" class="column-title">Remarks </th>
+                               </tr>
+                            </thead>  
+                            <tbody>
+                               <?php foreach($actionPlan as $detail):?>
+                               <tr>
+                                <td><?php echo $detail['activity_name']; ?></td>
+                                <td><?php echo $detail['time_frame']; ?></td>
+                                <td><?php echo $detail['remarks']; ?></td>
+                               </tr>
+                               <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                      </div>
+                    </form>
+					</div>
+                        
+                    <div id="step-7">
+                 	<h2 class="StepTitle">Step 7: Budget</h2> 
+       				<h4 class="StepTitle">(Provide detailed breakdown of budget requested in item 4 above)</h4>
+                    <form class="form-horizontal form-label-left input_mask"><br/>
+                      <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                          <thead>
+                            <tr class="headings">
+                              <th class="column-title">Purpose </th>
+                              <th class="column-title">Amount </th>
+                              <th class="column-title">Remarks </th>
+                            </tr>
+                          </thead>  
+                          <tbody>
+                          <?php foreach($budgetPlan as $detail):?>
+                            <tr>
+                              <td><?php echo $detail['purpose']; ?></td>
+                              <td><?php echo $detail['amount']; ?></td>
+                              <td><?php echo $detail['remarks']; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    <br>
+                    <div class="form-group">     
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">College Ethics Committee Approval Number </label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                          <input type="text" class="form-control" placeholder="555555" readonly="">
+                      </div>
+                    </div>                                     
+                    <div class="form-group">     
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Total Amount Granted by CRC </label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                         <input type="text" class="form-control" placeholder="2323232" readonly="">
+                      </div>
+                    </div>             
+				</form>
+				</div>
+                <div id="step-8">
+                <h2 class="StepTitle">Step 8: UPLOADED DOCUMENTS</h2><br/>
+                <form class="form-horizontal form-label-left input_mask">             
+					<div class="form-group">
+                      <label class="control-label col-md-4 col-sm-4 col-xs-12">Certification duly signed by all Researchers</label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                         <a href="<?php echo $this->url('downloadresearchdocument', array('filename' => 'signed_certification_researchers_'.$this->id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-4 col-sm-4 col-xs-12">Certification duly signed by all CRC Members</label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                         <a href="<?php echo $this->url('downloadresearchdocument', array('filename' => 'signed_certification_crc_'.$this->id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-4 col-sm-4 col-xs-12">Research Proposal Document</label>
+                      <div class="col-md-4 col-sm-4 col-xs-12">
+                          <a href="<?php echo $this->url('downloadresearchdocument', array('filename' => 'research_proposal_'.$this->id));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i>Download</a>
+                      </div>
+                    </div>                                      
+                    <div class="clearfix"></div>
+                    <div class="ln_solid"></div>
+                    </form>
+                  <br>
+                   <?php
+						// Opening of the form tag
+						$form->prepare();
+						echo $this->form()->openTag($form);
+						$research = $form->get('researchrecommendation');
+						$research->get('id')->setValue($this->id);
+						echo $this->formHidden($research->get('id'));       
+					?>
+                  <h2 class="StepTitle">OVER ALL RECOMMENDATION</h2>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select the status</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <?php echo $this->formRow($research->get('application_status')); ?>
+                         </div>
+                     </div>
+                     <br />
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <?php echo $this->formRow($research->get('remarks')); ?>
+                        </div>
+                     </div> 
+                     <center>
+					 	<?php  
+							echo $this->formHidden($form->get('csrf'));
+                            echo $this->formRow($research->get('submit')); 
+                            echo $this->form()->closeTag($form);
+                         ?>
+                    </center>
+                </div>
+			</div>
+		</div>
+       </div>
+   </div>
+  </div>
+ </div>
+ </div>
+   

@@ -1,0 +1,245 @@
+<?php 
+        $this->headLink()->appendStylesheet($this->basePath('bower_components/bootstrap/dist/css/bootstrap.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/font-awesome/css/font-awesome.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/Ionicons/css/ionicons.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('dist/css/AdminLTE.min.css'));
+    $this->headLink()->appendStylesheet($this->basePath('dist/css/skins/_all-skins.min.css'));
+    
+    // Add a JavaScript file
+    $this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+        
+?>
+<!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              <!-- Small boxes (Stat box) -->
+              <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-aqua">
+                    <div class="inner">
+                      <h3>150</h3>
+                      <p>Leave/ Tour Notifications</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-green">
+                    <div class="inner">
+                      <h3>53<sup style="font-size: 20px">%</sup></h3>
+        
+                      <p>Inventory</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-red">
+                    <div class="inner">
+                      <h3>65</h3>
+                      <p>Notifications</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-yellow">
+                    <div class="inner">
+                      <h3>44</h3>
+                      <p>Others</p>
+                    </div>
+                    <div class="icon">
+                      <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+              </div>
+              <!-- /.row -->
+              <!-- Main row -->
+              <div class="row">
+               <div class="clearfix"></div>
+                <div class="row">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Important! <small>Upcoming Dates</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <article class="media event">
+                          <a class="pull-left date">
+                            <p class="month">April</p>
+                            <p class="day">23</p>
+                          </a>
+                          <div class="media-body">
+                            <a class="title" href="#">Item One Title</a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                          </div>
+                        </article>
+                        <article class="media event">
+                          <a class="pull-left date">
+                            <p class="month">April</p>
+                            <p class="day">23</p>
+                          </a>
+                          <div class="media-body">
+                            <a class="title" href="#">Item Two Title</a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                          </div>
+                        </article>
+                        <article class="media event">
+                          <a class="pull-left date">
+                            <p class="month">April</p>
+                            <p class="day">23</p>
+                          </a>
+                          <div class="media-body">
+                            <a class="title" href="#">Item Two Title</a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                          </div>
+                        </article>
+                        <article class="media event">
+                          <a class="pull-left date">
+                            <p class="month">April</p>
+                            <p class="day">23</p>
+                          </a>
+                          <div class="media-body">
+                            <a class="title" href="#">Item Two Title</a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                          </div>
+                        </article>
+                        <article class="media event">
+                          <a class="pull-left date">
+                            <p class="month">April</p>
+                            <p class="day">23</p>
+                          </a>
+                          <div class="media-body">
+                            <a class="title" href="#">Item Three Title</a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                          </div>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+
+    
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Student Graph <small>By Colleges</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <canvas id="popChart"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <div class="clearfix"></div>
+
+
+              </div>
+              <!-- /.row (main row) -->
+        
+            </section>
+            <!-- /.content -->
+          </div>
+          <!-- /.content-wrapper -->
+        </div>
+        <!-- /page content -->
+        
+<script type="text/javascript">
+
+<?php
+$sherbutse = '692';
+$cnr = '659';
+$GCBS = '752';
+$PCE ='';
+$SCE ='713';
+$CST ='795';
+$GIT ='';
+$CLCS='';
+$YC ='';
+$JNCE = '802';
+$this->inlineScript()->captureStart();
+echo <<<JS
+var popCanvas = document.getElementById("popChart");
+var barChart = new Chart(popCanvas, {
+  type: 'bar',
+  data: {
+    labels: ["Sherubtse", "GCBS", "CST", "SCE", "PCE", "CNR", "CLCS", "GIT", "YC","JNCE"],
+    datasets: [{
+      label: 'Students',
+      data: [ $sherbutse, $GCBS, $CST, $SCE, $PCE, $cnr, $CLCS, $GIT, $YC, $JNCE],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)',
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)'
+      ]
+    }]
+  }
+});
+JS;
+$this->inlineScript()->captureEnd();
+
+$this->inlineScript()->captureStart();
+echo <<<JS2
+new Chart(document.getElementById("bar-chart-grouped"), {
+    type: 'bar',
+    data: {
+      labels: ["Sherubtse", "CST", "Geadu", "Samtse"],
+      datasets: [
+        {
+          label: "Boys",
+          backgroundColor: "#3e95cd",
+          data: [133,221,783,478]
+        }, {
+          label: "Girls",
+          backgroundColor: "#8e5ea2",
+          data: [408,547,675,734]
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Total Number'
+      }
+    }
+});
+JS2;
+$this->inlineScript()->captureEnd();

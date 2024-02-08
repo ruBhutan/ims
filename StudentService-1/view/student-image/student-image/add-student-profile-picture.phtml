@@ -1,0 +1,122 @@
+<?php
+ $level = 'Add/Edit Student Profile Picture';
+ $this->headTitle($level);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($level); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                  <h5><i>*Uploading Profile Picture will replace the previous profile picture uploaded or add new if you have not yet uploaded/i></i></h5>
+                    <br/>
+                 <?php
+                 // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $level = $form->get('profilepicture');
+                    $level->get('student_details_id')->setValue($this->id);
+                    echo $this->formHidden($level->get('id')); 
+                     echo $this->formHidden($level->get('student_details_id'));
+                    ?>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                     echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                     echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                      $messages = $this->flashMessenger()->getMessages();
+                      foreach($messages as $message) {
+                        echo '<strong>Success!</strong>'. $message;
+                      }
+                      echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                     <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                      <div class="profile_img">
+                        <div id="crop-avatar">
+                          <?php 
+                          $image = $this->profilePicture; 
+
+                          if(!empty($image))
+                          {?>
+                            <img class="img-responsive avatar-view" src="<?php echo '../../'.$image; ?>" alt="Avatar"  title="Change the avatar">
+                         <?php } else{?>
+
+                          <?php
+                          echo "There is no profile picture uploaded. Please upload it.";
+                        }?>
+                        </div>                        
+                      </div>                       
+                     </div>
+
+                     <div class="col-md-9 col-sm-9 col-xs-12">
+                      <div class="profile_title">
+                        <div class="col-md-6">
+                          <h2>Upload Profile Picture</h2>
+                        </div>
+                      </div><br>
+                      <?php 
+                      $student = array();
+                      foreach($this->studentDetails as $details){
+                        $student['first_name'] = $details['first_name'];
+                        $student['middle_name'] = $details['middle_name'];
+                        $student['last_name'] = $details['last_name'];
+                        $student['student_id'] = $details['student_id'];
+                      }
+                      ?>
+
+                      <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Student Name <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" placeholder="<?php echo $student['first_name']. ' '.$student['middle_name']. ' '.$student['last_name']; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Student ID <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" placeholder="<?php echo $student['student_id']; ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row"> 
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload Profile Picture<span class="required">*</span></label>
+                         <div class="col-md-3 col-sm-3 col-xs-12">
+                         <?php echo $this->formRow($level->get('profile_picture')); ?>
+                         </div>
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                        <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+                                echo $this->formSubmit($level->get('submit'));
+                               echo $this->form()->closeTag();
+                            ?>
+			     <a href="<?php echo $this->url('studentlists');?>"><span class="btn btn-primary"><i class="fa fa-angle-double-right"></i> Finish</span></a>
+                            </div>
+                        </div>
+                     </div>
+                       
+                     </div>                 
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>

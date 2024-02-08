@@ -1,0 +1,121 @@
+<?php
+ $title = 'List of Budget Proposals of Colleges/OVC to RUB';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    /*
+					// Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $proposal = $form->get('budgetproposal');
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($proposal->get('id')); 
+					$proposal->get('five_year_plan')->setValue('12th Five Year Plan'); */
+				  ?>  
+          <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?> 
+      
+                     <div class="table-responsive">
+                      <table id = "datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl. No. </th>
+                            <th class="column-title">Reference No</th>
+                            <th class="column-title">Reference Date</th>
+                            <th class="column-title">Organisation</th>
+                            <th class="column-title">Department</th>
+                            <th class="column-title">From Proposal</th>
+                            <th class="column-title">To Proposal</th>
+                            <th class="column-title">Budget Type</th>
+                            <th class="column-title">Reappropriated Amount</th>
+                            <th class="column-title">Status</th>
+                            <th class="column-title">Action</th>
+                            
+                             </tr>
+                        </thead>  
+                        <tbody>
+                         <?php $i =1; foreach ($this->budget as $budget) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['reference_no']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['reference_date']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['organisation_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['department_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['from_activity_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['to_activity_name']);?></td>
+                            <td class=" ">
+                            <?php 
+                              if($budget['budget_type'] == 'capital'){
+                                echo "Capital Budget";
+                              }else{
+                                echo "Current Budget";
+                              }
+                            ?>
+                            </td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['from_amount']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($budget['status']);?></td>
+                            <td class=" last">
+                            <?php if($budget['status'] == 'Submitted'){ ?>
+                            <a href="<?php echo $this->url('updatebudgetreappropriationproposal', array('id' => my_encrypt($budget['id'], $key), 'status' => my_encrypt('Approved', $key), 'type' => my_encrypt('capital', $key)));?>" class="btn btn-success btn-xs"><i class="fa fa-check-square"></i> Approve</a>
+                            <a href="<?php echo $this->url('updatebudgetreappropriationproposal', array('id' => my_encrypt($budget['id'], $key), 'status' => my_encrypt('Rejected', $key), 'type' => my_encrypt('capital', $key)));?>" class="btn btn-danger btn-xs"><i class="fa fa-ban"></i> Reject</a>
+                            <?php } ?>
+                              <a href="<?php echo $this->url('viewcapitalbudgetreappropriationdetail', array('id' => my_encrypt($budget['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View Details</a>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                      </table>
+                     </div>
+                 </div>
+             </div>
+    
+          </div>
+        </div> 
+     </div>

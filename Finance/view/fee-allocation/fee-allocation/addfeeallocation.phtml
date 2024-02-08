@@ -1,0 +1,132 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Fee Allocation';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Fee Allocation</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Fee List</a>
+                      </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                      <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                       <br/> 
+                       <p> <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Fees Category: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('fees_category')); ?>
+                    </div>
+                </div>
+                </div> 
+                  
+                 <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">Fee Sub Category : <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('fee_sub_category')); ?>
+                    </div>
+                </div>
+                </div>   
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Amount: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($form->get('fee_amount')); ?>
+                    </div>
+                    </div>
+                    </div>
+                
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                    <?php
+                        echo $this->formSubmit($form->get('submit')); 
+                      ?>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                     </p>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                        <p>
+                         <div class="title_right">
+              <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search by fees category / fee sub category...">
+                  <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                </div>
+              </div>
+            </div>
+                        <div class="x_content">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="card-box table-responsive">
+                           <table class="table table-striped jambo_table bulk_action"> 
+                          <thead>
+                            <tr>
+                              <th>Sl.No</th>
+                              <th>Fee Category</th>
+                              <th>Fee Sub Category</th>
+                              <th>Amount</th>
+                              <th>Manage</th>
+                            </tr>
+                          </thead>
+
+
+                          <tbody>
+                           
+                            <tr>
+                              <td>1</td>
+                              <td>Sports</td>
+                              <td>badminton</td>
+                              <td>66</td>
+                             <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                            </tr>
+                            <tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                </div>
+              </p>
+             </div>
+          </div>
+        </div>
+       </div>
+   </div>
+ </div>
+            

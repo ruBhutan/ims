@@ -1,0 +1,141 @@
+<?php
+ $title = 'Edit External Examiner';
+ $this->headTitle($title);
+
+ $external_examiner = array();
+ foreach($this->examinerDetails as $detail){
+   $external_examiner = $detail;
+ }//var_dump($external_examiner); die();
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $examiner = $form->get('externalexaminer');
+                    $examiner->get('id')->setValue($external_examiner['id']);
+                    $examiner->get('examiner_name')->setValue($external_examiner['examiner_name']);
+                    $examiner->get('address')->setValue($external_examiner['address']);
+                    $examiner->get('contact_no')->setValue($external_examiner['contact_no']);
+                    $examiner->get('email')->setValue($external_examiner['email']);
+                    $examiner->get('ab_approval')->setValue($external_examiner['ab_approval']);
+                    $from_date = explode("-", $external_examiner['from_date']);
+                    $to_date = explode("-", $external_examiner['to_date']);
+                    $examiner->get('from_date')->setValue($from_date[01].'/'.$from_date[02].'/'.$from_date[00]);
+                    $examiner->get('to_date')->setValue($to_date[01].'/'.$to_date[02].'/'.$to_date[00]);
+                    $examiner->get('remarks')->setValue($external_examiner['remarks']);
+                    $form->get('organisation_id')->setValue($external_examiner['organisation_id']);
+                    $form->get('programmes_id')->setValue($external_examiner['programmes_id']);
+                    $examiner->get('submit')->setValue('Update');
+                    echo $this->formHidden($form->get('organisation_id'));
+                    echo $this->formHidden($form->get('programmes_id'));
+                    echo $this->formHidden($examiner->get('id')); 
+                    ?>  
+                <div class="row">    
+                   <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <input type="text" class="form-control" value="<?php echo $external_examiner['organisation_name']; ?>" readonly>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <input type="text" class="form-control" value="<?php echo $external_examiner['programme_name']; ?>" readonly>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                    <div class="col-md-8 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('examiner_name')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Address:</label>
+                    <div class="col-md-8 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('address')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Contact No:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('contact_no')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Email:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('email')); ?>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">From:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('from_date')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">To:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                      <?php  echo $this->formRow($examiner->get('to_date')); ?>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">AB Approval:</label>
+                    <div class="col-md-7 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('ab_approval')); ?>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:</label>
+                    <div class="col-md-7 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('remarks')); ?>
+                    </div>
+                  </div> 
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Evidence File:<small>(Optional)</small></label>
+                    <div class="col-md-7 col-sm-12 col-xs-12 form-group">
+                    <?php 
+                    if(!$external_examiner['evidence_file']){
+                      echo $this->formRow($examiner->get('evidence_file')); 
+                    } 
+                    else{
+                      echo "<i>File Already Uploaded!</>";
+                    }
+                    ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php
+                           echo $this->formHidden($form->get('csrf'));
+                           echo $this->formSubmit($examiner->get('submit')); 
+                        ?>
+                      </div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+       <!-- Start of table listing examiners -->
+        
+             </div>    
+          </div>
+        </div> 
+     </div>
+    </div>
+

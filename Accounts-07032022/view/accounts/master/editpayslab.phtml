@@ -1,0 +1,210 @@
+<?php
+/**
+ * 
+ * View -- of Hr/MasterController/editpayslabAction
+ * 
+ */
+ $title = 'Edit Pay Slab';
+ $this->headTitle($title);
+?>
+<?php 
+foreach($this->payslab as $payslab):
+	extract($payslab);
+endforeach;?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>			
+				<?php echo $this->partial('accounts/master/partial.phtml', array('active' => 'payslab')); ?>
+				<div class="x_content">                           
+                    <form method="post" action="<?php echo $this->url('master', array('action' => 'editpayslab', 'id' =>$id)); ?>"  enctype="multipart/form-data" >                 
+				        <div class ="row">
+                            <div class ="col-lg-2"></div>
+                            <div class ="col-lg-8">					
+								<div class="form-group col-lg-6">
+									<label for="pay_head" class="control-label">Pay head</label>
+									<select class="form-control" style="width:100%" placeholder="Select Pay Head Type" name="pay_head" id="pay_head" required >
+										<option value=""></option>
+										<?php foreach($this->payheadObj->get(array('type' => 3)) as $payhead):
+											$selected = ($pay_head == $payhead['id'])?"selected":"";?>
+											<option value="<?php echo $payhead['id'];?>" <?php echo $selected;?>><?php echo $payhead['pay_head'];?></option>
+										<?php endforeach;?>				
+									</select>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="formula" class="control-label">Formula</label>
+									<?php 
+										$yes = ($formula =='1')?'checked':'';
+										$no = ($formula =='0')?'checked':'';
+										  
+									?>
+									<div class="radio">
+										<label>
+											<input type="radio" name="formula" id="formula" value="1" <?php echo $yes; ?> required>
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yes
+										</label>
+										<label>
+											<input type="radio" name="formula" id="formula" value="0" <?php echo $no; ?> required>
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No
+										</label>
+									</div>
+								</div>
+							
+								<div class="form-contorl col-lg-12">
+									<label>&nbsp;&nbsp;&nbsp;Monthly Salary Range:</label>
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="from" class="control-label">From</label>
+									<input type="text" class="form-control" name="from" id="from" value="<?php echo $from_range;?>" required> 
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="to" class="control-label">To</label>
+									<input type="text" class="form-control" name="to" id="to" value="<?php echo $to_range;?>" required> 
+								</div>
+								<div class="form-group col-lg-4">
+									<label for="rate" class="control-label">Rate</label>
+									<input type="text" class="form-control" name="rate" id="rate" required value="<?php echo $rate;?>"> 
+								</div>
+								<div class="form-group col-lg-4">
+									<label for="base" class="control-label">Base</label>
+									<input type="text" class="form-control" name="base" id="base" required value="<?php echo $base;?>"> 
+								</div>
+								<div class="form-group col-lg-4">
+									<label for="value" class="control-label">Value</label>
+									<input type="text" class="form-control" name="value" id="value" required value="<?php echo $value;?>"> 
+								</div>
+							</div>
+                            <div class ="col-lg-2"></div>	
+                        </div>							
+			            <div class ="x_title"></div>
+						<div class ="row">
+						    <div class ="col-lg-2"></div>
+						    <div class ="col-lg-8">
+							    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+                                <button type="reset" class="btn btn-warning" onclick="javascript:history.back();"><i class="fa fa-times"></i> Cancel </button>    
+							</div>
+						    <div class ="col-lg-2"></div>
+						</div>
+					</form>
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+</div>  
+<script>
+	$('document').ready(function(){
+		$('form select').chosen({ allow_single_deselect: true });
+		$('form').formValidation({
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				pay_head: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide pay head.'
+						}
+					}
+				},
+				from: {
+					validators: {
+						notEmpty: {
+							message: 'Minimum for range.'
+						},
+						regexp: {
+		                    regexp: /^\d*\.?\d*$/,
+		                    message: 'Please enter valid amount'
+		                }			
+					}
+				},
+				formula: {
+					validators: {
+						notEmpty: {
+							message: 'Is this deduction.'
+						}
+					}
+				},
+				to: {
+					validators: {
+						notEmpty: {
+							message: 'Maximum for range'
+						},
+						regexp: {
+		                    regexp: /^\d*\.?\d*$/,
+		                    message: 'Please enter valid amount'
+		                }	
+					}
+				},
+				rate: {
+					validators: {
+						notEmpty: {
+							message: 'Enter rate'
+						},
+						regexp: {
+		                    regexp: /^\d*\.?\d*$/,
+		                    message: 'Please enter valid amount'
+		                }	
+					}
+				},
+				base: {
+					validators: {
+						notEmpty: {
+							message: 'Provide base amount'
+						},
+						regexp: {
+		                    regexp: /^\d*\.?\d*$/,
+		                    message: 'Please enter valid amount'
+		                }	
+					}
+				},
+				value: {
+					validators: {
+						notEmpty: {
+							message: 'Amount'
+						},
+						regexp: {
+		                    regexp: /^\d*\.?\d*$/,
+		                    message: 'Please enter valid amount'
+		                }	
+					}
+				},
+				
+				
+			}
+		});
+		var formula = '<?php echo $formula;?>';
+		if(formula == '1') {
+	        $("#value").prop('disabled','disabled');
+	        $("#rate").prop('disabled',false);
+	        $("#base").prop('disabled',false);
+	    } else {
+	    	$("#rate").prop('disabled','disabled');
+	        $("#base").prop('disabled','disabled');
+	        $("#value").prop('disabled',false);
+	    }
+	    
+		$("input[name='formula']").change(function(e){
+		    if($(this).val() == '1') {
+		        $("#value").prop('disabled','disabled');
+		        $("#rate").prop('disabled',false);
+		        $("#base").prop('disabled',false);
+		    } else {
+		    	$("#rate").prop('disabled','disabled');
+		        $("#base").prop('disabled','disabled');
+		        $("#value").prop('disabled',false);
+		    }
+
+		});
+	});
+</script>
+
+                                
+
+      

@@ -1,0 +1,345 @@
+<?php
+ $title = 'UNIVERSITY ANNUAL RESEARCH GRANT APPLICATION FORM - TO BE APPROVED BY DRIL';
+ $this->headTitle($title);
+ 
+ //getting the aurg details
+ $chief_researcher = array();
+ $researchers = array();
+ $actionPlan = array();
+ $aurg = array();
+ $i =0;
+ $j =0;
+ foreach($this->researcherDetails as $detail){
+	 $chief_researcher = $detail;
+ }
+ foreach($this->aurgDetails as $detail){
+	 $i++;
+	 foreach($detail as $key=>$value){
+		 if($key == "coresearcher_name" || $key == "working_agency" || $key == "position_level" ||$key == "sex" || $key == "email" || $key == "phone_no" ){
+		 $researchers[$i][$key] = $value;
+		 }else {
+			 $aurg[$key] = $value;
+		 }
+	 }
+ }
+ 
+ foreach($this->actionPlanDetails as $detail){
+	 $j++;
+	 foreach($detail as $key=>$value){
+		 if($key == 'particulars' || $key == 'start_date' || $key == 'end_date' || $key == 'budget'){
+			 $actionPlan[$j][$key] = $value;
+		 }
+	 }
+ }
+
+?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  <form class="form-horizontal form-label-left input_mask">
+                    <div id="step-1">
+                        <h2 class="StepTitle">Step 1: Grant Type and Research Title</h2>
+                        <br />
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Grant applied for</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" placeholder="<?php echo $aurg['grant_applied_for']; ?>" readonly>
+                            </div>
+                           </div>
+                           <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Title</label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                              <input type="text" class="form-control" placeholder="<?php echo $aurg['research_title']; ?>" readonly>
+                            </div>
+                          </div>
+                    </div>
+                    <br />
+                    <div id="step-2">
+                      <h2 class="StepTitle">Step 2:Principal Researcher Details</h2>
+                      <br />
+                      <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Name</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $chief_researcher['first_name'].' '.$chief_researcher['middle_name'].' '.$chief_researcher['last_name']; ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">College</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $chief_researcher['organisation_name']; ?>"readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-3 col-xs-12">Position level</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $chief_researcher['position_level'];?>"readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Contact</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $chief_researcher['phone_no'];?>"readonly>
+                        </div>
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">E-mail</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $chief_researcher['email'];?>" readonly>
+                        </div>
+                      </div>
+                </div>
+                <br />
+                <div id="step-3">
+                   <h2 class="StepTitle">Step 3: Co-Researcher(s)</h2>
+                      <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl.No </th>
+                            <th class="column-title">Co-Researcher Name</th>
+                            <th class="column-title">Working Agency</th>
+                            <th class="column-title">Position Level</th>
+                            <th class="column-title">Sex </th>
+                            <th class="column-title">Email</th>
+                            <th class="column-title">Contact No </th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php $i=1; foreach($researchers as $detail):?>
+                             <tr class="even pointer">
+                              <td><?php echo $i++; ?></td>
+                              <td><?php echo $detail['coresearcher_name']; ?></td>
+                              <td><?php echo $detail['working_agency']; ?></td>
+                              <td><?php echo $detail['position_level']; ?></td>
+                              <td><?php echo $detail['sex']; ?></td>
+                              <td><?php echo $detail['email']; ?></td>
+                              <td><?php echo $detail['contact_no']; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+               	</div>
+              </div>
+              <div id="step-4">
+              <h2 class="StepTitle">Step 4: Project Description and Methodology</h2>
+                   <h2>Project Description :</h2> 
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Problem Statement<br> (Between 200 - 250 words)</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['problem_statement']; ?></textarea>
+          			  </div>
+                    </div>
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Questions and Sub-questions</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['research_questions']; ?></textarea>
+          			  </div>
+                    </div>
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Review of Key Literature <br>(Between 400 - 500 words)</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['review_key_literature']; ?></textarea>
+          			  </div>
+                    </div>
+                    <h2>Methodology (1000 words) :</h2>
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Approach/Paradigm Theory</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['approach_paradigm_theory']; ?></textarea>
+          			  </div>
+                    </div>
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Collection Procedures</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['data_collection_procedures']; ?></textarea>
+          			  </div>
+                    </div>
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Analysis Procedures</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['data_analysis_procedures']; ?></textarea>
+          			  </div>
+                    </div>
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Presentation</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['data_presentation']; ?></textarea>
+          			  </div>
+                    </div>
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Ethical Considerations</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['ethical_considerations']; ?></textarea>
+          			  </div>
+                    </div>
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Significance of the Study<br>(in relation of knowledge,policy and practice)<br>(200 words)</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['significance_of_study']; ?></textarea>
+          			  </div>
+                    </div>
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Research Dissemination <br>(for eg,publication in journals,periodicals,newspapers,etc.)</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['research_dissemination']; ?></textarea>
+          			  </div>
+                    </div>
+                    <div class="form-group">
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">References</label>
+                      <div class="col-md-9 col-sm-9 col-xs-12">
+                       <textarea class="resizable_textarea form-control" style="width: 90%; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 87px;" readonly=""><?php echo $aurg['references']; ?></textarea>
+          			  </div>
+                    </div>
+              </div>
+              <br />        
+              <div id="step-5">
+                <h2 class="StepTitle">Step 5: Action Plan and Budget</h2>
+                  <div class="table-responsive">
+                  	<table class="table table-striped jambo_table">
+                     <thead>
+                      <tr>
+                         <th style="width:25%">Particulars</th>
+                         <th style="width:25%">Start Date</th>
+                         <th style="width:25%">End Date</th>
+                         <th style="width:25%">Budget</th>
+                      </tr>
+             		</thead>
+             		<tbody>
+                    <?php foreach($actionPlan as $detail):?>
+                    	<tr>
+                         <td><?php echo $detail['particulars']; ?></td>
+                         <td><?php echo $detail['start_date']; ?></td>
+                         <td><?php echo $detail['end_date']; ?></td>
+                         <td><?php echo $detail['budget']; ?></td>
+                 	   </tr>
+                    <?php endforeach; ?>
+             	   </tbody>
+                  </table>
+             </div>                
+			</div>
+            <div id="step-6">
+             <h2 class="StepTitle">Step 6: Grants Previously Received or not by the Principal Researcher </h2> 
+                 <div class="table-responsive">
+                   <table class="table table-striped jambo_table">
+                     <thead>
+                      <tr>
+                         <th style="width:40%">Previously Received Grants</th>
+                         <th style="width:10%">Yes / No</th>
+                         <th style="width:10%">Year</th>
+                         <th style="width:10%">Amount</th>
+                         <th style="width:10%">Year</th>
+                         <th style="width:10%">Amount</th>
+                      </tr>
+                     </thead>
+                     <tbody>
+                       <tr>
+                         <td><label>Has the Principal Researcher previously received Annual Research University Grant (AURG) in past two years:</label></td>
+                         <td><?php echo "Yes";?></td>
+                         <td><?php echo " ";?></td>
+                         <td><?php echo " ";?></td>
+                         <td><?php echo " ";?></td>
+                         <td><?php echo " ";?></td>
+                       </tr>
+                       <tr>
+                         <td><label>Has the Principal Researcher previously received Annual Research College Grant in past two years::</label></td>
+                         <td><?php echo "Yes";?></td>
+                         <td><?php echo " ";?></td>
+                         <td><?php echo " ";?></td>
+                         <td><?php echo " ";?></td>
+                         <td><?php echo " ";?></td>
+                       </tr>
+                     </tbody>
+                   </table>
+                 </div>                
+                    
+                 <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">College Research Committee Approval Number:</label>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" class="form-control" value="<?php echo $chief_researcher['crc_approval_no']; ?>" readonly="readonly">
+                      </div>
+                  </div>
+                 <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Ethic Committee Approval Number:</label>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" class="form-control" value="<?php echo $chief_researcher['ethical_committee_approval_no']; ?>" readonly="readonly">
+                      </div>
+                  </div> 
+                  <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Attached Related Documents (Optional):</label>
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                          <?php
+                          if(empty($chief_researcher['related_documents'])){
+                            echo "File Not Uploaded";
+                          }else{?>
+                            <a href="<?php echo $this->url('downloadaurgresearchdocument', array('filename' => 'related_documents_'.$chief_researcher['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download</a>
+                          <?php }?>
+                      </div>
+                  </div>  
+                </form>
+                <div class="clearfix"></div>
+                    <div class="ln_solid"></div>
+                  <br>
+                   <?php
+      						if($aurg['application_status'] == 'Pending'){
+      						// Opening of the form tag
+      						$form->prepare();
+      						echo $this->form()->openTag($form);
+      						$research = $form->get('researchrecommendation');
+      						$research->get('id')->setValue($this->id);
+      						$research->get('application_status')->setValue('Accept as is, all ratings are 3 or better');
+      						echo $this->formHidden($research->get('id'));   
+      						echo $this->formHidden($research->get('application_status'));           
+      					?>
+                  <h2 class="StepTitle">CERTIFICATION</h2>
+                    <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12"></label>
+                    	<div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo 'This is to certify that the details provided in this application form are true and complete and evaluated
+						  				and endorsed by the College'; ?>
+                        </div>
+                    </div>
+                  </div>
+                   <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Certification by CRC<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($research->get('college_endorsement')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12"></label>
+                    	<div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo 'The research/project can be accomodated within the general understanding of the college in relation
+						  				to workloads, leave availability and overall research facilities'; ?>
+                        </div>
+                    </div>
+                  </div>
+                   <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Endorsement by President<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($research->get('president_endorsement')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                     <center>
+					 	<?php  
+							echo $this->formHidden($form->get('csrf'));
+              echo $this->formRow($research->get('submit')); 
+              echo $this->form()->closeTag($form);
+						} // end of if
+                         ?>
+                    </center>
+          	</div>
+           </div>
+        </div>
+   	  </div>
+    </div>
+   </div>
+ </div>

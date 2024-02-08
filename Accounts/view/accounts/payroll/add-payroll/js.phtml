@@ -1,0 +1,436 @@
+<?php
+
+foreach ( $this->payrollService->getPayrollStrucutreData(
+    array(
+        'deduction' => 0,
+       // 'employee_details' => $this->employee_detail['id']
+    )
+) as $paystructure ):
+    if ( $paystructure['pay_head'] == 'Basic' ):
+        $basic = $paystructure['amount'];    // this basic is used in javascript below 
+    endif;
+endforeach; 
+?>
+
+<script>
+
+    function validationMessage(type, extraString = null) {
+        var message = "";
+
+        switch (type) {
+            case 'number':
+                message = "The input must be between 0-31";
+                break;
+            case 'digit':
+                message = "The input must contain only numbers and two decimal digits";
+                break;
+            case 'graterThen':
+                message = "This input field should not be greater then " + extraString;
+                break;
+            case 'required':
+                message = "This input field should not be left blank";
+                break;
+            default:
+        }
+
+        if (message.length > 0) {
+            return "<ul class='not-valid'><li>" + message + "</li></ul>";
+        }
+
+        return true;
+    }
+
+    function isNumber(evt, element) {
+        var regex = /^(0?[1-9]|[12][0-9]|3[01])$/;
+
+        return regex.test($(element).val());
+    }
+
+    function isDigit(evt, element) {
+        var regex = /^[0-9]*(?:\.\d{1,2})?$/;
+
+        return regex.test($(element).val());
+    }
+
+    $(document).ready(function () {
+
+        $('#working_days, #leave_without_pay').change(function (e) {
+
+            if (isNumber(e, this) === false) {
+
+                $(this).parent().find('.not-valid').remove();
+
+                $(this).after(validationMessage('number'));
+
+                $('button[type="submit"]').prop('disabled', true);
+            } else if ($(this).attr('id') === "leave_without_pay") {
+
+                if ((parseInt($(this).val()) > parseInt($('#working_days').val()))) {
+
+                    $(this).parent().find('.not-valid').remove();
+
+                    $(this).after(validationMessage('graterThen', 'working days'));
+
+                    $('button[type="submit"]').prop('disabled', true);
+                } else {
+
+                    $(this).parent().find('.not-valid').remove();
+
+                    if ($(".not-valid").length === 0) {
+                        $('button[type="submit"]').prop('disabled', false);
+                    }
+                }
+            } else if ($(this).attr('id') === "working_days") {
+                if(isNumber(e, this) === true){
+                    $(this).parent().find('.not-valid').remove();
+                }
+                if ((parseInt($(this).val()) >= parseInt($('#leave_without_pay').val()))) {
+                    $('#leave_without_pay').parent().find('.not-valid').remove();
+                    if ($(".not-valid").length === 0) {
+                        $('button[type="submit"]').prop('disabled', false);
+                    }
+                } else {
+                    $('#leave_without_pay').parent().find('.not-valid').remove();
+                    $('#leave_without_pay').after(validationMessage('graterThen', 'working days'));
+                    $('button[type="submit"]').prop('disabled', true);
+                }
+            } else {
+                $(this).parent().find('.not-valid').remove();
+
+                if ($(".not-valid").length === 0) {
+                    $('button[type="submit"]').prop('disabled', false);
+                }
+            }
+        });
+
+        $('#bonus,#leave_encashment').change(function (e) {
+            if (isDigit(e, this) === false) {
+
+                $(this).parent().find('.not-valid').remove();
+
+                $(this).after(validationMessage('digit'));
+
+                $('button[type="submit"]').prop('disabled', true);
+            } else {
+
+                $(this).parent().find('.not-valid').remove();
+
+                $('button[type="submit"]').prop('disabled', false);
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $("select[data-readonly='true']").attr('readonly', 'readonly').attr("style", "pointer-events: none;").prop("disabled", false);
+
+        $(".deletePayroll").on('click', function () {
+            if (confirm('Are you sure you want to delete this record?')) {
+                window.location = $(this).data('url');
+            }
+        });
+    });
+    $(window).load(function () {
+        $("select[data-readonly='true']").prop("disabled", false);
+    });
+
+    if ($('#cash').prop('checked') == true) {
+        $('#bank_account_no').prop('disabled', true);
+    } else {
+        $('#bank_account_no').prop('disabled', false);
+    }
+
+    $('#cash').on('change', function () {
+        if ($(this).prop('checked') === true) {
+            $('#bank_account_no').val('').prop('disabled', true);
+        } else {
+            $('#bank_account_no').val('').prop('disabled', false);
+        }
+    });
+
+    $('#employee').change(function () {
+        var id = $('#employee').val();
+
+        location.href = "<?php echo $this->url('payroll', array('action' => 'editpayroll'));?>/" + id;
+    });
+
+    //reasigning the id
+    var e_id = 0;
+
+    $('#earning_table tbody tr').each(function () {
+        e_id++;
+
+        $(this).attr('id', e_id);
+
+        $(this).find('input').each(function () {
+            var old_id = $(this).attr('id');
+
+            $(this).attr('id', old_id + '_' + e_id);
+        });
+    });
+
+    var d_id = 0;
+    $('#deduction_table tbody tr').each(function () {
+        d_id++;
+
+        $(this).attr('id', d_id);
+
+        $(this).find('input').each(function () {
+            var old_id = $(this).attr('id');
+
+            $(this).attr('id', old_id + '_' + d_id);
+        });
+    });
+
+    //dynamic calculation
+    var e_length = e_id;
+    var d_length = d_id;
+    var i = 0;
+    var j = 0;
+    var old_earning_amt = [];
+    var old_deduction_amt = [];
+    var e_dlwp = [];
+    var d_dlwp = [];
+    var e_roundup = [];
+    var d_roundup = [];
+    var total_earning = 0;
+    var total_deduction = 0;
+    var actual_total_earning = 0;
+    var actual_total_deduction = 0;
+    var leave_encashment = 0;
+    var bonus = 0;
+
+    var e_dlwp_sum = 0;
+    for (i = 1; i <= e_length; i++) {
+        old_earning_amt[i] = parseFloat($('#earning_amt_' + i).val());
+
+        e_dlwp[i] = $('#e_dlwp_' + i).val();
+
+        e_roundup[i] = $('#e_roundup_' + i).val();
+
+        e_dlwp_sum += parseFloat($('#e_dlwp_' + i).val()) || 0;
+    }
+    $('#earning_dlwp').val(e_dlwp_sum);
+
+    var d_dlwp_sum = 0;
+    for (j = 1; j <= d_length; j++) {
+        old_deduction_amt[j] = parseFloat($('#deduction_amt_' + j).val());
+
+        d_dlwp[j] = $('#d_dlwp_' + j).val();
+
+        d_roundup[j] = $('#d_roundup_' + j).val();
+
+        d_dlwp_sum += parseFloat($('#d_dlwp_' + i).val()) || 0;
+    }
+    $('#deduction_dlwp').val(d_dlwp_sum);
+
+    //for earning
+    for (i = 1; i <= e_length; i++) {
+        var amount = parseFloat(old_earning_amt[i]).toFixed(2);
+
+        $('#actual_earning_amt_' + i).val(amount);
+
+        if (e_dlwp[i] === '1') {
+            if (parseInt($('#working_days').val()) > 0 && parseInt($('#leave_without_pay').val()) > 0) {
+                working_days = parseFloat($('#working_days').val());
+
+                leave_without_pay = parseFloat($('#leave_without_pay').val());
+
+                var final_amt = parseFloat((old_earning_amt[i] / working_days) * leave_without_pay);
+
+                amount = parseFloat(Math.round(old_earning_amt[i] - final_amt));
+
+                if (e_roundup[i] === '1') {
+                    amount = amount.toFixed();
+                } else {
+                    amount = amount.toFixed(2);
+                }
+            }
+        }
+
+        $('#earning_amt_' + i).val(amount);
+    }
+
+    //for deduction
+    for (j = 1; j <= d_length; j++) {
+        var amount = parseFloat(old_deduction_amt[j]).toFixed(2);
+
+        $('#actual_deduction_amt_' + j).val(amount);
+
+        if (d_dlwp[j] === '1') {
+            if (parseInt($('#working_days').val()) > 0 && parseInt($('#leave_without_pay').val()) > 0) {
+                working_days = parseFloat($('#working_days').val());
+
+                leave_without_pay = parseFloat($('#leave_without_pay').val());
+
+                var final_amt = parseFloat((old_deduction_amt[j] / working_days) * leave_without_pay);
+
+                amount = parseFloat(Math.round(old_deduction_amt[j] - final_amt));
+
+                if (d_roundup[j] === '1') {
+                    amount = amount.toFixed();
+                } else {
+                    amount = amount.toFixed(2);
+                }
+            }
+        }
+
+        $('#deduction_amt_' + j).val(amount);
+    }
+
+    if (parseFloat($('#bonus').val()) > 0) {
+        bonus = parseFloat($('#bonus').val());
+    }
+
+    if (parseFloat($('#leave_encashment').val()) > 0) {
+        leave_encashment = parseFloat($('#leave_encashment').val());
+    }
+
+    $('input[name="earning_amt"]').each(function () {
+        total_earning = Number(parseFloat(total_earning).toFixed(2)) + Number(parseFloat($(this).val()).toFixed(2));
+    });
+
+    $('input[name="actual_earning_amt"]').each(function () {
+        actual_total_earning = Number(parseFloat(actual_total_earning).toFixed(2)) + Number(parseFloat($(this).val()).toFixed(2));
+    });
+
+    $('input[name="deduction_amt"]').each(function () {
+        total_deduction = Number(parseFloat(total_deduction).toFixed(2)) + Number(parseFloat($(this).val()).toFixed(2));
+    });
+
+    $('input[name="actual_deduction_amt"]').each(function () {
+        actual_total_deduction = Number(parseFloat(actual_total_deduction).toFixed(2)) + Number(parseFloat($(this).val()).toFixed(2));
+    });
+
+    $("#gross").val(parseFloat(actual_total_earning).toFixed(2));
+
+    $("#total_deduction").val(parseFloat(actual_total_deduction).toFixed(2));
+
+    var net_pay = parseFloat((actual_total_earning + leave_encashment + bonus) - actual_total_deduction - $('#earning_dlwp').val() - $('#deduction_dlwp').val()).toFixed(2);
+
+    $('#net_pay').val(net_pay);
+
+    $('#leave_without_pay').change(function () {
+        update();
+    });
+
+    $('#working_days').change(function () {
+        update();
+    });
+
+    $('#bonus').change(function () {
+        var bonus = parseFloat(Math.round($('#bonus').val())).toFixed(2);
+
+        var leave_encashment = Number($('#leave_encashment').val());
+
+        var gross = parseFloat(total_earning).toFixed(2);
+
+        var tot_deduction = parseFloat(actual_total_deduction).toFixed(2);
+
+        $('#bonus').val(bonus);
+
+        var net_pay = parseFloat(Number(gross) + Number(leave_encashment) + Number(bonus) - Number(tot_deduction)).toFixed(2);
+
+        $('#net_pay').val(net_pay);
+    });
+
+    $('#leave_encashment').change(function () {
+        var leave_encashment = parseFloat(Math.round($('#leave_encashment').val())).toFixed(2);
+
+        var bonus = Number($('#bonus').val());
+
+        var gross = parseFloat(total_earning).toFixed(2);
+
+        var tot_deduction = parseFloat(actual_total_deduction).toFixed(2);
+
+        $('#leave_encashment').val(leave_encashment);
+
+        var net_pay = parseFloat(Number(gross) + Number(leave_encashment) + Number(bonus) - Number(tot_deduction)).toFixed(2);
+
+        $('#net_pay').val(net_pay);
+    });
+
+    //general function to update the form on input change
+    function update() {
+        i = 0;
+        j = 0;
+        var bonus = 0;
+        var leave_encashment = 0;
+        var working_day = 0;
+        var leave_without_pay = 0;
+        var total_deduction = 0;
+        var total_earning = 0;
+
+        //for earning
+        for (i = 1; i <= e_length; i++) {
+            var amount = parseFloat(old_earning_amt[i]).toFixed(2);
+
+            if (e_dlwp[i] === '1') {
+                if (parseInt($('#working_days').val()) > 0 && parseInt($('#leave_without_pay').val()) > 0) {
+                    working_days = parseFloat($('#working_days').val());
+
+                    leave_without_pay = parseFloat($('#leave_without_pay').val());
+
+                    var final_amt = parseFloat((old_earning_amt[i] / working_days) * leave_without_pay);
+
+                    amount = parseFloat(old_earning_amt[i] - final_amt);
+
+                    if (e_roundup[i] == '1') {
+                        amount = amount.toFixed();
+                    } else {
+                        amount = amount.toFixed(2);
+                    }
+                }
+            }
+
+            $('#earning_amt_' + i).val(amount);
+        }
+
+        //for deduction
+        for (j = 1; j <= d_length; j++) {
+            var amount = parseFloat(old_deduction_amt[j]).toFixed(2);
+
+            if (d_dlwp[j] === '1') {
+                if (parseInt($('#working_days').val()) > 0 && parseInt($('#leave_without_pay').val()) > 0) {
+                    working_days = parseFloat($('#working_days').val());
+
+                    leave_without_pay = parseFloat($('#leave_without_pay').val());
+
+                    var final_amt = parseFloat((old_deduction_amt[j] / working_days) * leave_without_pay);
+
+                    amount = parseFloat(old_deduction_amt[j] - final_amt);
+
+                    if (d_roundup[j] == '1') {
+                        amount = amount.toFixed();
+                    } else {
+                        amount = amount.toFixed(2);
+                    }
+                }
+            }
+
+            $('#deduction_amt_' + j).val(amount);
+        }
+
+        leave_encashment = Number($('#leave_encashment').val());
+
+        bonus = Number($('#bonus').val());
+
+        gross = Number($('#gross').val());
+
+        tot_deduction = Number($('#total_deduction').val());
+
+        var net_pay = parseFloat(Number(gross) + Number(leave_encashment) + Number(bonus) - Number(tot_deduction)).toFixed(2);
+
+        $('#net_pay').val(net_pay);
+    }
+    
+    $("#year").change(function() {
+        var month = $('#month').val();
+        var days = new Date(this.value, month, 0).getDate();
+        $('#working_days').val(days);
+    });
+    $("#month").change(function() {
+        var year = $('#year').val();
+        var days = new Date(year,this.value, 0).getDate();
+        $('#working_days').val(days);
+    });
+</script>

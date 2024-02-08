@@ -1,0 +1,83 @@
+<?php
+ $title = 'HRM Plan Approval Form';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $plan = $form->get('hrmplan');
+                    echo $this->form()->openTag($form);
+					$plan->get('id')->setValue($this->hrmProposal->getId());
+                    echo $this->formHidden($plan->get('id'));
+					echo $this->formHidden($plan->get('proposal_status'));
+					//$plan->get('approval_date')->setValue(date('Y-m-d'));
+					echo $this->formHidden($plan->get('approval_date'));
+				  ?>   
+                 <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Position Title</label>
+                    <input type="text" placeholder="<?php echo $this->hrmProposal->getPosition_Title_Id(); ?>" class="form-control" readonly="readonly"/>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Position Category</label>
+                    <input type="text" placeholder="<?php echo $this->hrmProposal->getPosition_Category_Id(); ?>" class="form-control" readonly="readonly"/>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Position Level</label>
+                    <input type="text" placeholder="<?php echo $this->hrmProposal->getPosition_Level_Id(); ?>" class="form-control" readonly="readonly"/>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Five Year Plan</label>
+                    <input type="text" placeholder="<?php echo $this->hrmProposal->getFive_Year_Plan(); ?>" class="form-control" readonly="readonly"/>
+                    </div>
+                  	<div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Working Agency</label>
+                    <input type="text" placeholder="<?php echo $this->hrmProposal->getWorking_Agency(); ?>" class="form-control" readonly>
+                  	</div>
+                  	<div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Department Name</label>
+                    <input type="text" placeholder="<?php echo $this->hrmProposal->getDepartment_Name(); ?>" class="form-control" readonly>
+                  	</div>
+
+                  	<div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Existing No.</label>
+                    <input type="text" placeholder="<?php echo $this->hrmProposal->getExisting_No(); ?>" class="form-control" readonly>
+                  	</div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Required No.</label>
+                    <input type="text" placeholder="<?php echo $this->hrmProposal->getRequired_No(); ?>" class="form-control" readonly>
+                  	</div>
+                </div>
+                <br  /> 
+                 <div class="row" > 
+                 <div class="ln_solid"></div>
+               	 <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                   <?php
+					echo $this->form()->closeTag($form);
+				   ?>
+                  </div>
+                </div>  
+             </div>
+          </div>
+      </div>
+   </div>
+ </div>
+</div> 
+
+              
+              
+   
+            
+    

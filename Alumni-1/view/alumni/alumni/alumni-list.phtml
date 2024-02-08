@@ -1,0 +1,54 @@
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Alumni List';
+ $this->headTitle($title);
+ 
+ ?>
+ <div class="right_col" role="main">
+      <div class="">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                  <div class="x_title">
+                      <h2><?php echo $this->escapeHtml($title); ?></h2>
+                      <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="table-responsive">
+                          <table class="table  table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                              <thead>
+                                  <tr class="headings">     
+                                      <th class="column-title">Sl.No. </th>
+                                      <th class="column-title">Name </th>
+                                      <th class="column-title">CID</th>
+                                      <th class="column-title">D.O.B</th>
+                                      <th class="column-title">Programme</th>
+                                      <th class="column-title">Graduation Year</th>
+                                      <th class="column-title">Status</th>
+                                  </tr>
+                              </thead>
+                              <?php $i=1; ?>
+                              <?php foreach ($this->approvals as $alumni) : ?>
+                                  <tr>
+                                      <td class=" "><?php echo $i; ?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($alumni->getFirst_Name());?>&nbsp;<?php echo $this->escapeHtml($alumni->getMiddle_Name());?><br/><?php echo $this->escapeHtml($alumni->getLast_Name());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($alumni->getCid());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($alumni->getDate_Of_Birth());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($alumni->getProgramme_Name());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($alumni->getGraduation_Year());?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($alumni->getALumni_Status());?></td>
+                                      </tr>
+                              <?php $i++; ?>
+                              <?php endforeach; ?>
+                          </table>
+                      </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+            
+         
+              
+       
+                

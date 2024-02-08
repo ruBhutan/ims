@@ -1,0 +1,885 @@
+<?php
+$this->headLink()->appendStylesheet($this->basePath('bower_components/bootstrap/dist/css/bootstrap.min.css'));
+$this->headLink()->appendStylesheet($this->basePath('bower_components/font-awesome/css/font-awesome.min.css'));
+$this->headLink()->appendStylesheet($this->basePath('bower_components/Ionicons/css/ionicons.min.css'));
+$this->headLink()->appendStylesheet($this->basePath('dist/css/AdminLTE.min.css'));
+$this->headLink()->appendStylesheet($this->basePath('dist/css/skins/_all-skins.min.css'));
+
+// Add a JavaScript file
+$this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+
+$key1 = $this->keyphrase;
+function my_encrypt($data, $key1)
+{
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key1);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+
+<!-- page content -->
+
+<?php
+$organisation_list = array();
+foreach ($this->organisationList as $key => $organisation) {
+    $organisation_list[$key] = $organisation;
+} ?>
+<!-- Main content -->
+<?php
+$organisation_lists = array();
+foreach ($this->organisationLists as $key => $organisation) {
+    $organisation_lists[$key] = $organisation;
+}
+?>
+<marquee>
+    <b>Basic protective measures against the new coronavirus</b> - Stay aware of the latest information on the COVID-19
+    outbreak, available on the WHO website and through your national and local public health authority. Most people who
+    become infected experience mild illness and recover, but it can be more severe for others. Take care of your health
+    and protect others by doing the following steps:
+    |Step1: Wash your hands frequently|
+    |Step2: Maintain social distancing|
+    |Step3: Avoid touching eyes, nose and mouth|
+    |Step4: Practice respiratory hygiene|
+    |Step5: If you have fever, cough and difficulty breathing, seek medical care early|
+    |Step5: Stay informed and follow advice given by your healthcare provider|
+
+</marquee>
+<?= $this->render('test-partial.phtml') ?>
+<div class="right_col" role="main">
+    <section class="content">
+        <strong>
+            <div id="clockbox"></div>
+        </strong>
+        <script type="text/javascript">
+            var tday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var tmonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                "November", "December"
+            ];
+
+            function GetClock() {
+                var d = new Date();
+                var nday = d.getDay(),
+                    nmonth = d.getMonth(),
+                    ndate = d.getDate(),
+                    nyear = d.getFullYear();
+                var nhour = d.getHours(),
+                    nmin = d.getMinutes(),
+                    nsec = d.getSeconds(),
+                    ap;
+
+                if (nhour == 0) {
+                    ap = " AM";
+                    nhour = 12;
+                } else if (nhour < 12) {
+                    ap = " AM";
+                } else if (nhour == 12) {
+                    ap = " PM";
+                } else if (nhour > 12) {
+                    ap = " PM";
+                    nhour -= 12;
+                }
+
+                if (nmin <= 9) nmin = "0" + nmin;
+                if (nsec <= 9) nsec = "0" + nsec;
+
+                var clocktext = "" + tday[nday] + ", " + tmonth[nmonth] + " " + ndate + ", " + nyear + " " + nhour + ":" +
+                    nmin + ":" + nsec + ap + "";
+                document.getElementById('clockbox').innerHTML = clocktext;
+            }
+
+            GetClock();
+            setInterval(GetClock, 1000);
+        </script>
+
+        <!-- Main row -->
+        <div class="clearfix"></div>
+
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-2 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h4>Leave Notifications</h4>
+                            <p><i><?php
+                                    if (!empty($this->leave_notifications)) {
+                                        echo count($this->leave_notifications);
+                                    } else {
+                                        echo 'No';
+                                    }
+                                    ?> Leave Application Pending</i></p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </div>
+                        <a href="empleaveencashmentapplication" class="small-box-footer">Apply Leave Encashment <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="leavestatus" class="small-box-footer">Apply Leave <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="empleaveapproval" class="small-box-footer">Approve Leave <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="staffleavestatus" class="small-box-footer">My Leave Status <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-2 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h4>Travel Details</h4>
+                            <p><i><?php
+                                    if (!empty($this->tour_notifications)) {
+                                        echo count($this->tour_notifications);
+                                    } else {
+                                        echo 'No';
+                                    }
+                                    ?> Travel Application Pending</i></p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-bars"></i>
+                        </div>
+                        <a href="emptravelauthorization" class="small-box-footer">Apply Travel <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="emptravellist" class="small-box-footer">Approve Travel <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="stafftourstatus" class="small-box-footer">My Travel Status <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-2 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h4>Goods and Requisitions</h4>
+                            <p><i><?php
+                                    if (!empty($this->goods_requisition_notifications)) {
+                                        echo count($this->goods_requisition_notifications);
+                                    } else {
+                                        echo 'No';
+                                    }
+                                    ?> New Goods Requisition</i></p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-bars"></i>
+                        </div>
+                        <a href="requisition-approval-list" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="apply-goods-requisition" class="small-box-footer">Apply Goods Requisition <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="emp-goods-list" class="small-box-footer">My Good List <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h4>HR Lifecycle Alerts</h4>
+                            <p><i>
+                                    <div class="row">
+                                        <div class="col-xs-4 col-sm-4 col-lg-4">
+                                            <a href="transferfromapproval">
+                                                <font color="white"><?php
+                                                                    if (!empty($this->staff_transfer_notification)) {
+                                                                        echo count($this->staff_transfer_notification);
+                                                                    } else {
+                                                                        echo 'No';
+                                                                    }
+                                                                    ?> Transfer</font>
+                                            </a><br>
+                                            <a href="applytransferform" class="small-box-footer">Apply Transfer </a><br>
+                                            <a href="stafftransferstatus" class="small-box-footer">My Transfer
+                                                Status</a>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-4 col-lg-4">
+                                            <a href="promotionapplicantstatus">
+                                                <font color="white"><?php
+                                                                    if (!empty($this->staff_promotion_notification)) {
+                                                                        echo count($this->staff_promotion_notification);
+                                                                    } else {
+                                                                        echo 'No';
+                                                                    }
+                                                                    ?> Promotion</font>
+                                            </a><br>
+                                            <a href="empapplypromotion" class="small-box-footer">Apply Promotion
+                                            </a><br>
+                                            <a href="staffpromotionstatus" class="small-box-footer">My Promotion
+                                                Status</a>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-4 col-lg-4">
+                                            <a href="resignationapprovallist">
+                                                <font color="white"><?php
+                                                                    if (!empty($this->staff_resignation_notification)) {
+                                                                        echo count($this->staff_resignation_notification);
+                                                                    } else {
+                                                                        echo 'No';
+                                                                    }
+                                                                    ?> Separation</font>
+                                            </a><br>
+                                            <a href="empresignation" class="small-box-footer">Apply Resignation</a><br>
+                                            <a href="staffresignationstatus" class="small-box-footer">My Resignation
+                                                Status</a>
+                                        </div>
+                                    </div>
+                                </i></p>
+
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-flag-o"></i>
+                        </div>
+                        <a class="small-box-footer">Click on each link above </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h4>Other Notifications</h4>
+                            <p><i><?php
+                                    if (!empty($this->other_notifications)) {
+                                        echo count($this->other_notifications);
+                                    } else {
+                                        echo 'No';
+                                    }
+                                    ?> New</i></p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-bell-o"></i>
+                        </div>
+                        <a href="applyuniversitygrant" class="small-box-footer">Apply University Grant <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="applycollegegrant" class="small-box-footer">Apply College Grant <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+            <!-- /.row -->
+        </div> <!-- Main row -->
+        <div class="clearfix"></div>
+
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h4>Assessment Mark Allocation</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </div>
+                        <a href="addallocationmark" class="small-box-footer">Allocate Assessment Marks <i class="fa fa-arrow-circle-right"></i></a>
+                        <!--<a href="empleaveapproval" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                      <a href="leavestatus" class="small-box-footer">Apply Leave <i class="fa fa-arrow-circle-right"></i></a>
+                      <a href="staffleavestatus" class="small-box-footer">My Leave Status <i class="fa fa-arrow-circle-right"></i></a> -->
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h4>Time Table</h4>
+
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-bars"></i>
+                        </div>
+                        <a href="addtimetable" class="small-box-footer">Add Timetable <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="viewtutortimetable" class="small-box-footer">View Time Table <i class="fa fa-arrow-circle-right"></i></a>
+                        <!--<a href="emp-goods-list" class="small-box-footer">My Good List <i class="fa fa-arrow-circle-right"></i></a>-->
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h4>Student Attendance</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-flag-o"></i>
+                        </div>
+                        <a href="studentattendance" class="small-box-footer">Enter Regular Attendance <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="extraclassattendance" class="small-box-footer">Enter Extra Class Attendance <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="editstudentattendance" class="small-box-footer">Edit Attendance <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="cancelledlectures" class="small-box-footer">Cancel Lecturer <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h4>Academic Assessment</h4>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-bell-o"></i>
+                        </div>
+                        <!--<a href="requisition-approval-list" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                      <a href="apply-goods-requisition" class="small-box-footer">Apply Goods Requisition <i class="fa fa-arrow-circle-right"></i></a>
+                      <a href="emp-goods-list" class="small-box-footer">My Good List <i class="fa fa-arrow-circle-right"></i></a>-->
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+            <!-- /.row -->
+        </div>
+
+        <div class="row">
+            <!--Start of Left Row -->
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <!-- Your Profile Details -->
+                <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                    <div class="well profile_view">
+                        <?php
+                        $details = array();
+                        foreach ($this->staffDetails as $sdetail) : {
+                                $details['name'] = $sdetail['first_name'] . ' ' . $sdetail['middle_name'] . ' ' . $sdetail['last_name'];
+                                $details['emp_id'] = $sdetail['emp_id'];
+                                $details['email'] = $sdetail['email'];
+                                $details['unit_name'] = $sdetail['unit_name'];
+                                $details['department_name'] = $sdetail['department_name'];
+                                $img_location = $sdetail['profile_picture'];
+                            }
+                        ?>
+                            <div class="col-sm-12">
+                                <h4 class="brief"><i>Personal Information in Briefiii</i></h4>
+                                <div class="left col-xs-7">
+                                    <h2><?php echo $details['name'] . ' (' . $details['emp_id'] . ')'; ?></h2>
+                                    <p><strong>Department: </strong> <?php echo $details['department_name']; ?> </p>
+                                    <p><strong>Unit: </strong> <?php echo $details['unit_name']; ?> </p>
+                                    <p><strong>Position Title: </strong> <?php echo $this->presentPositionTitle; ?> </p>
+                                    <p><strong>Position Level: </strong> <?php echo $this->presentPositionLevel; ?> </p>
+                                    <p><strong>Role: </strong> <?php echo $this->userrole; ?> </p>
+                                    <p><strong>Email ID: </strong> <?php echo $details['email']; ?> </p>
+                                    <p><strong>Probation Due Date: </strong> <?php echo $details['probation_end_date']; ?>
+                                    </p>
+                                    <p><strong>Promotion Due Date: </strong> <?php echo $details['probation_due_date']; ?>
+                                    </p>
+                                </div>
+                                <div class="right col-xs-5 text-center">
+                                    <?php if (!empty($img_location)) { ?>
+                                        <img src="<?php echo '../' . $img_location; ?>" alt="..." class="img-circle profile_img">
+                                    <?php } else { ?>
+                                        <p><i>Notice: No profile image uploaded!</i></p>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 bottom text-center">
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <p><i>For details click view profile button</i></p>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 emphasis">
+                                    <a href="<?php echo $this->url('staffprofile', array('action' => 'staffProfile')); ?>" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> View Profile</a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+            <!--End of Left Row -->
+            <!--Start of Right Row -->
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <!--Start of information Row -->
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><i class="fa fa-align-left"></i> Information, Help and Support </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <!-- start accordion -->
+                            <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel">
+                                    <a class="panel-heading collapsed" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <h4 class="panel-title">RUB-IMS User Manual</h4>
+                                    </a>
+                                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                        <div class="panel-body">
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="../data/user_manual/RUB-IMS-HRM-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Human Resources
+                                                    User Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="../data/user_manual/HRM-StaffManagement-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i>HRM-Staff Management
+                                                    Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="../data/user_manual/HRM-StaffTask-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i>HRM-Staff Task
+                                                    Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#"><i class="fa fa-file-pdf-o"></i> Admission User Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#" target="_blank"><i class="fa fa-file-pdf-o"></i> Academic User
+                                                    Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="#" target="_blank"><i class="fa fa-file-pdf-o"></i> Examination User
+                                                    Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="../data/user_manual/RUB-IMS-PBM-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Planning User
+                                                    Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="../data/user_manual/RUB-IMS-PBM-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Budgeting User
+                                                    Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="../data/user_manual/RUB-IMS-SSM-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Student Services
+                                                    User Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="../data/user_manual/RUB-IMS-RM-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Research Management
+                                                    User Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="../data/user_manual/RUB-IMS-HRM-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Counseling User
+                                                    Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="../data/user_manual/RUB-IMS-Alumni-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Alumni User
+                                                    Manual</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12"><a href="../data/user_manual/RUB-IMS-Inventory-User-Manual.pdf" target="_blank"><i class="fa fa-file-pdf-o"></i> Property and
+                                                    Inventory User Manual</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <a class="panel-heading collapsed" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <h4 class="panel-title">RUB-IMS Modules</h4>
+                                    </a>
+                                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Admission,
+                                                    Academic and Assessment Module</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Human Resource
+                                                    Management Module</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Property and
+                                                    Invemtory Management Module</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Student Service
+                                                    Management Module</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Finance
+                                                    Module</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Planning and
+                                                    Budgeting Module</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Research
+                                                    Management Module</a>
+                                            </div>
+                                            <div class="fa-hover col-md-12 col-sm-12 col-xs-12">
+                                                <a href="#/file-pdf-o"><i class="fa fa-file-pdf-o"></i> Alumni
+                                                    Management Module</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <a class="panel-heading" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <h4 class="panel-title">Meeting Minutes</h4>
+                                    </a>
+                                    <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+                                        <div class="panel-body">
+                                            <!-- Type you text Here -->
+                                            <div class="table-responsive">
+                                                <table class="table table-striped jambo_table table-bordered">
+                                                    <thead>
+                                                        <tr class="headings">
+                                                            <th class="column-title">OVC/College Minutes</th>
+                                                            <th class="column-title">RUB Minutes</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="even pointer">
+                                                            <td><a href="<?php echo $this->url('meetingminuteinformation'); ?>" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i>Click Here to View</a>
+                                                            </td>
+                                                            <td><a href="<?php echo $this->url('rubmeetingminuteinformation'); ?>" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i>Click Here to View</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <a class="panel-heading" role="tab" id="headingFive" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                        <h4 class="panel-title">Department e-filing</h4>
+                                    </a>
+                                    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                        <div class="panel-body">
+                                            <!-- Type you text Here -->
+                                            <div class="table-responsive">
+                                                <table class="table table-striped jambo_table table-bordered">
+                                                    <thead>
+                                                        <tr class="headings">
+                                                            <th class="column-title">Department e-filing</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="even pointer">
+                                                            <td><a href="<?php echo $this->url('viewfilingdocument'); ?>" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i>Click Here to View</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <a class="panel-heading collapsed" role="tab" id="headingFour" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseTwo">
+                                        <h4 class="panel-title">News Paper</h4>
+                                    </a>
+                                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                        <div class="panel-body">
+                                            <!-- Type you text Here -->
+                                            <div class="table-responsive">
+                                                <table class="table table-striped jambo_table table-bordered">
+                                                    <thead>
+                                                        <tr class="headings">
+                                                            <th class="column-title">Newspaper</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="even pointer">
+                                                            <td><a href="<?php echo $this->url('newspaperinformation', array('action' => 'newspaperInformation')); ?>" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i>Newspaper</a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of accordion -->
+                        </div>
+                    </div>
+                </div>
+                <!--End of information Row -->
+            </div>
+            <!--End of Right Row -->
+        </div><!-- /.row (main row) -->
+        <div class="row">
+            <!-- Start of /.row (main row - 1.1) -->
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <!--Module Allocation -->
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><i class="fa fa-align-left"></i> Module Allocation
+                                <small>(<?php echo date('d-M-Y'); ?>)</small>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div class="table-responsive">
+                                <table class="table table-striped jambo_table table-bordered">
+                                    <thead>
+                                        <tr class="headings">
+                                            <th class="column-title">Sl/No</th>
+                                            <th class="column-title">Programme Code</th>
+                                            <th class="column-title">Module Name</th>
+                                            <th class="column-title">Module Type</th>
+                                            <th class="column-title">Assessment</th>
+                                            <th class="column-title">Weightage</th>
+                                            <th class="column-title">Academic Year</th>
+                                            <th class="column-title">Academic Session</th>
+                                            <th class="column-title">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 1;
+                                        foreach ($this->module_allocation as $key => $module_allo) : ?>
+                                            <tr>
+                                                <td class=" "><?php echo $i++; ?></td>
+                                                <td class=" "><?php echo $module_allo['programme_code']; ?></td>
+                                                <td class=" "><?php echo $module_allo['module_title']; ?>
+                                                    (<?php echo $module_allo['module_code']; ?>)</td>
+                                                <td class=" "><?php echo $module_allo['module_type']; ?></td>
+                                                <td class=" "><?php echo $module_allo['assessment']; ?></td>
+                                                <td class=" "><?php echo $module_allo['weightage']; ?></td>
+                                                <td class=" "><?php echo $module_allo['academic_year']; ?></td>
+                                                <td class=" "><?php echo $module_allo['academic_session']; ?></td>
+                                                <td class=" ">
+                                                    <a href="<?php echo $this->url('individualassessmentdetail', array('id' => my_encrypt($module_allo['id'], $key1))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Details</a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End of Stafff on Leave -->
+            </div>
+        </div><!-- End of /.row (main row - 1.1) -->
+        <div class="row">
+            <!-- Start of /.row (main row - 1) -->
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <!--Start of Staff on Leave -->
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><i class="fa fa-align-left"></i> Staff on Leave
+                                <small>(<?php echo date('d-M-Y'); ?>)</small>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div class="table-responsive">
+                                <table class="table table-striped jambo_table table-bordered">
+                                    <thead>
+                                        <tr class="headings">
+                                            <th class="column-title">Staff</th>
+                                            <th class="column-title">Leave Type</th>
+                                            <th class="column-title">Substitution</th>
+                                            <th class="column-title">Division/Section</th>
+                                            <th class="column-title">Duration</th>
+                                            <th class="column-title">Approved By</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($this->staff_on_leave as $leave) : ?>
+                                            <tr>
+                                                <td class=" ">
+                                                    <?php echo $leave['first_name'] . ' ' . $leave['middle_name'] . ' ' . $leave['last_name']; ?>
+                                                </td>
+                                                <td class=" "><?php echo $leave['leave_category']; ?></td>
+                                                <td class=" ">
+                                                    <?php echo $leave['sf_name'] . ' ' . $leave['sm_name'] . ' ' . $leave['sl_name']; ?>
+                                                </td>
+                                                <td class=" "><?php echo $leave['unit_name']; ?></td>
+                                                <td class=" "><?php echo $leave['from_date'] . ' - ' . $leave['to_date']; ?>
+                                                </td>
+                                                <td class=" ">
+                                                    <?php echo $leave['fname'] . ' ' . $leave['mname'] . ' ' . $leave['lname'] . ' (' . $leave['aemp_id'] . ')'; ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End of Stafff on Leave -->
+                <!--Start of Stafff on Tour -->
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><i class="fa fa-align-left"></i> Staff on Tour
+                                <small>(<?php echo date('d-M-Y'); ?>)</small>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div class="table-responsive">
+                                <table class="table table-striped jambo_table table-bordered">
+                                    <thead>
+                                        <tr class="headings">
+                                            <th class="column-title">Staff</th>
+                                            <th class="column-title">Department</th>
+                                            <th class="column-title">Division/Section</th>
+                                            <th class="column-title">Duration</th>
+                                            <th class="column-title">Approved By</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($this->staff_on_tour as $key => $tour) {
+                                        ?>
+                                            <tr>
+                                                <td class=" ">
+                                                    <?php echo $tour['first_name'] . ' ' . $tour['middle_name'] . ' ' . $tour['last_name'] . ' (' . $tour['emp_id'] . ')'; ?>
+                                                </td>
+                                                <td class=" "><?php echo $tour['department_name']; ?></td>
+                                                <td class=" "><?php echo $tour['unit_name']; ?></td>
+                                                <td class=" ">
+                                                    <?php echo $tour['start_date'] . ' to ' . $tour['end_date']; ?></td>
+                                                <td class=" ">
+                                                    <?php echo $tour['fname'] . ' ' . $tour['mname'] . ' ' . $tour['lname'] . ' (' . $tour['aemp_id'] . ')'; ?>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End of Stafff on Tour -->
+            </div>
+        </div><!-- End of /.row (main row - 1) -->
+        <div class="row">
+            <!-- Start of /.row (main row - 2) -->
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <!--Start of Number of Student -->
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <table class="table table-striped jambo_table table-bordered">
+                                <h2>Number of Student <br><small>By Colleges as of
+                                        (<?php echo date('d-M-Y'); ?>)</small></h2>
+                                <thead>
+                                    <tr>
+                                        <td rowspan="3">College</td>
+                                        <td rowspan="3">Male</td>
+                                        <td rowspan="3">Female</td>
+                                        <td rowspan="3">Total No of Student</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i = 1;
+                                    $total_student_male = 0;
+                                    $total_student_female = 0;
+                                    $total_student = 0; ?>
+
+                                    <?php foreach ($this->no_of_student as $key => $value) :
+                                        $male_count = 0;
+                                        $female_count = 0;
+                                    ?>
+                                        <tr class="even pointer">
+                                            <td class=" "><?php echo $this->escapeHtml($key); ?></td>
+                                            <td class=" ">
+                                                <?php
+                                                if (array_key_exists('1', $this->no_of_student[$key])) {
+                                                    $male_count = $this->no_of_student[$key]['1'];
+                                                    echo $this->escapeHtml($male_count);
+                                                } else
+                                                    echo $this->escapeHtml("0");
+                                                ?>
+                                            </td>
+                                            <td class=" ">
+                                                <?php
+                                                if (array_key_exists('2', $this->no_of_student[$key])) {
+                                                    $female_count = $this->no_of_student[$key]['2'];
+                                                    echo $this->escapeHtml($female_count);
+                                                } else
+                                                    echo $this->escapeHtml("0");
+                                                ?>
+                                            </td>
+                                            <td class=" ">
+                                                <?php echo $this->escapeHtml($male_count + $female_count); ?>
+                                            </td>
+                                        </tr>
+                                        <?php $i++; ?>
+                                        <?php
+                                        $total_student_male += $male_count;
+                                        $total_student_female += $female_count;
+                                        $total_student += ($male_count + $female_count);
+                                        ?>
+                                    <?php endforeach; ?>
+                                    <tr style="border-top:1px solid #ddd;border-bottom:1px solid #ddd;">
+                                        <th style="font-size:13px"><b>Total : </b></th>
+                                        <td style="font-size:13px"><b><?php echo $total_student_male; ?></b></td>
+                                        <td style="font-size:13px"><b><?php echo $total_student_female; ?></b></td>
+                                        <td style="font-size:13px"><b><?php echo $total_student; ?></b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--End of Number of Student -->
+                <!--Start of Number of Staff -->
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <table class="table table-striped jambo_table table-bordered">
+                                <h2>Number of Staff <br><small>by OVC/Colleges as of
+                                        (<?php echo date('d-M-Y'); ?>)</small></h2>
+                                <thead>
+                                    <tr>
+                                        <td rowspan="3">College/ Organisation</td>
+                                        <td rowspan="3">Male</td>
+                                        <td rowspan="3">Female</td>
+                                        <td rowspan="3">Total No of Staff</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i = 1;
+                                    $total_staff_male = 0;
+                                    $total_staff_female = 0;
+                                    $total_staff = 0; ?>
+                                    <?php foreach ($this->no_of_staff as $key => $value) :
+                                        $e_male_count = 0;
+                                        $e_female_count = 0;
+                                    ?>
+                                        <tr class="even pointer">
+                                            <td class=" "><?php echo $key; ?></td>
+                                            <td class=" ">
+                                                <?php
+                                                if (array_key_exists('1', $this->no_of_staff[$key])) {
+                                                    $e_male_count = $this->no_of_staff[$key]['1'];
+                                                    echo $this->escapeHtml($e_male_count);
+                                                } else
+                                                    echo $this->escapeHtml("0");
+                                                ?>
+                                            </td>
+                                            <td class=" ">
+                                                <?php
+                                                if (array_key_exists('2', $this->no_of_staff[$key])) {
+                                                    $e_female_count = $this->no_of_staff[$key]['2'];
+                                                    echo $this->escapeHtml($e_female_count);
+                                                } else
+                                                    echo $this->escapeHtml("0");
+                                                ?>
+                                            </td>
+                                            <td class=" ">
+                                                <?php echo $this->escapeHtml($e_male_count + $e_female_count); ?>
+                                            </td>
+                                            <?php $i++; ?>
+                                            <?php
+                                            $total_staff_male += $e_male_count;
+                                            $total_staff_female += $e_female_count;
+                                            $total_staff += ($e_male_count + $e_female_count);
+                                            ?>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <tr style="border-top:1px solid #ddd;border-bottom:1px solid #ddd;">
+                                        <th style="font-size:13px"><b>Total : </b></th>
+                                        <td style="font-size:13px"><b><?php echo $total_staff_male; ?></b></td>
+                                        <td style="font-size:13px"><b><?php echo $total_staff_female; ?></b></td>
+                                        <td style="font-size:13px"><b><?php echo $total_staff; ?></b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--End of Number of Staff -->
+            </div>
+        </div><!-- End of /.row (main row - 2) -->
+    </section>
+</div>

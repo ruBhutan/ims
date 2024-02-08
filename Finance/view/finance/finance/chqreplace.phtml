@@ -1,0 +1,59 @@
+
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Add Bank Name and Account Number';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          
+              <div class="col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+                    
+                        <div class="row">
+                            
+                          <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Bank Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                        <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                    <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Bank Account Number<span class="required">*</span>
+                        </label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                        <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div>
+                    
+                       
+                    <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-success">Cancel</button>
+     </div>
+                    </div>
+                    </div>
+                    </div>
+                    
+                       
+                    
+                  </div></div></div>
+              
+             </div>
+            

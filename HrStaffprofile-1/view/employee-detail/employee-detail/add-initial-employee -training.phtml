@@ -1,0 +1,164 @@
+<?php
+ $title = 'Add Employee';
+ $this->headTitle($title);
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                  
+                     <!-- Smart Wizard -->
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                      <ul class="wizard_steps">
+                          <li>
+                          <a href="#step-1" class="done">
+                            <span class="step_no">1</span>
+                            <span class="step_descr">
+                                      Step 1<br />
+                                      <small>PERSONAL DETAILS</small>
+                                  </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-2" class="disabled">
+                            <span class="step_no">2</span>
+                            <span class="step_descr">
+                                      Step 2<br />
+                                      <small>EMPLOYMENT<br/>RECORD</small>
+                                  </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-3" class="disabled">
+                            <span class="step_no">3</span>
+                            <span class="step_descr">
+                                      Step 3<br />
+                                      <small>EDUCATION</small> <br/>
+                                      <small>DETAILS</small>
+                                  </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-4" class="disabled">
+                            <span class="step_no">4</span>
+                            <span class="step_descr">
+                                      Step 3<br />
+                                      <small>TRAININGS and</small> <br/>
+                                      <small>WORKSHOPS</small>
+                                  </span>
+                          </a>
+                        </li>
+                      </ul>
+                      <?php
+						// Opening of the form tag
+						$form->prepare();
+						echo $this->form()->openTag($form);
+						$employee = $form->get('employeedetail');
+						echo $this->formHidden($employee->get('id'));
+					 ?> 
+                     <div id="step-1">
+                        <h2 class="StepTitle">Step 1: Staff Details</h2>
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">First Name<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('first_name')); ?>
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Middle Name</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('middle_name')); ?>
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Last Name</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('last_name')); ?>
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth<span class="required">*</span></label>
+                               <div class="col-md-3 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('date_of_birth')); ?>
+                                </div>
+                               <label class="control-label col-md-2 col-sm-3 col-xs-12">Employee Category</label>
+                               <div class="col-md-3 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('emp_category')); ?>
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">CID<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('cid')); ?>
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Gender</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('gender')); ?>
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Nationality</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('nationality')); ?>
+                                </div>
+                            </div>
+                          </div>
+                          <br />
+                          <div class="row">
+                            <div class="form-group">  
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Village<span class="required">*</span></label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('emp_village')); ?>
+                                </div>
+                               <label class="control-label col-md-1 col-sm-3 col-xs-12">Gewog</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('emp_gewog')); ?>
+                                </div>
+                                <label class="control-label col-md-1 col-sm-2 col-xs-12">Dzongkhag</label>
+                               <div class="col-md-2 col-sm-2 col-xs-12">
+                                  <?php echo $this->formRow($employee->get('emp_dzongkhag')); ?>
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+                    <br />
+                
+          		<div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf'));
+                            echo $this->formRow($employee->get('submit')); 
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 
+
+<script>
+     function add_category() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+ </script>

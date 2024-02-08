@@ -1,0 +1,157 @@
+<?php
+// module/Album/view/album/album/edit.phtml:
+
+$title = 'Alumni Details';
+$this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+<div class=" ">              
+<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="x_panel">
+		<div class="x_title">
+			<h2><?php echo $this->escapeHtml($title); ?></h2>
+			<div class="clearfix"></div>
+		</div> <!--end of x-title-->    
+				<div class="table">
+										 
+					<?php
+					// Opening of the form tag
+					 $form->prepare();
+						echo $this->form()->openTag($form);
+						$alumnees= $form->get('alumniprofile');
+						echo $this->form()->openTag($form);
+						$alumnees->get('id')->setValue($this->details->getId());
+						$alumnees->get('first_name')->setValue($this->details->getFirst_Name());
+						$alumnees->get('middle_name')->setValue($this->details->getMiddle_Name());
+						$alumnees->get('last_name')->setValue($this->details->getLast_Name());
+						$alumnees->get('cid')->setValue($this->details->getCid());
+						$alumnees->get('date_of_birth')->setValue($this->details->getDate_Of_Birth());
+						$alumnees->get('programme_name')->setValue($this->details->getProgramme_Name());
+						$alumnees->get('alumni_programmes_id')->setValue($this->details->getAlumni_Programmes_Id());
+						echo $this->formHidden($alumnees->get('alumni_programmes_id'));
+						$alumnees->get('organisation_id')->setValue($this->details->getOrganisation_Id());
+						echo $this->formHidden($alumnees->get('organisation_id'));
+						$alumnees->get('graduation_year')->setValue($this->details->getGraduation_Year());
+						$alumnees->get('contact_no')->setValue($this->details->getContact_No());
+						$alumnees->get('email_address')->setValue($this->details->getEmail_Address());
+						$alumnees->get('present_address')->setValue($this->details->getPresent_Address());
+						$alumnees->get('current_job')->setValue($this->details->getCurrent_Job());
+						$alumnees->get('qualification')->setValue($this->details->getQualification());
+						$alumnees->get('alumni_status')->setValue($this->details->getAlumni_Status());
+						$alumnees->get('subscription')->setValue($this->details->getSubscription());
+						$alumnees->get('submit')->setValue('Submit');
+						echo $this->formRow($alumnees->get('id')); 
+					?><br>
+											<div class="row">
+												<div class="form-group">
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">First Name</label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																		<?php  echo $this->formRow($alumnees->get('first_name')); ?>
+																</div>
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Middle Name</label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																		<?php  echo $this->formRow($alumnees->get('middle_name')); ?>
+																</div>
+												</div>
+										</div> 
+										<br/>    
+										<div class="row">
+												<div class="form-group">
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Last Name</label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																		<?php  echo $this->formRow($alumnees->get('last_name')); ?>
+																</div>
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">CID No# </label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																		<?php  echo $this->formRow($alumnees->get('cid')); ?>
+																</div>
+												</div>
+										</div> 
+										<br/>    
+										<div class="row">
+												<div class="form-group">
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">D.O.B</label>
+																		<div class="col-md-3 col-sm-3 col-xs-12">
+																				<?php  echo $this->formRow($alumnees->get('date_of_birth')); ?>
+																	</div>
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Programme</label>
+																		<div class="col-md-3 col-sm-3 col-xs-12">
+																				<?php  echo $this->formRow($alumnees->get('programme_name')); ?>
+																		</div>
+												</div>
+										</div>
+										<br/>
+										<div class="row">
+												<div class="form-group"> 
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Graduation Year </label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																				<?php  echo $this->formRow($alumnees->get('graduation_year')); ?>
+																</div>
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Contact No# </label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																			 <?php  echo $this->formRow($alumnees->get('contact_no')); ?>
+																</div>
+												</div>
+										</div>
+										<br/>
+										<div class="row">
+												<div class="form-group"> 
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Email Address</label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																				<?php  echo $this->formRow($alumnees->get('email_address')); ?>
+																</div>
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Present Address</label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																				<?php  echo $this->formRow($alumnees->get('present_address')); ?>
+																</div>
+												</div>
+										</div>
+										 <br/>
+										<div class="row">
+												<div class="form-group"> 
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Current Job</label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																				<?php  echo $this->formRow($alumnees->get('current_job')); ?>
+																</div>
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Qualification</label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																				<?php  echo $this->formRow($alumnees->get('qualification')); ?>
+																</div>
+												</div>
+										</div>
+										<div class="row">
+												<div class="form-group"> 
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Alumni Status</label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																				<?php  echo $this->formRow($alumnees->get('alumni_status')); ?>
+																</div>
+														<label class="control-label col-md-2 col-sm-2 col-xs-12">Subscription approval</label>
+																<div class="col-md-3 col-sm-3 col-xs-12">
+																				<?php  echo $this->formRow($alumnees->get('subscription')); ?>
+																</div>
+												</div>
+										</div>
+										<br/>
+										<div class="row">
+												<div class="form-group">
+														<div class="ln_solid"></div>
+																<div class="form-group">
+																		<div class="col-md-5 col-sm-12 col-xs-12">
+																				<?php 
+																						echo $this->formRow($alumnees->get('submit')); 
+																				?>
+																		</div>
+																</div>
+												</div>
+										</div>
+
+												<br><!-- end of row-->
+										
+												<?php echo $this->form()->closeTag(); ?> <!--//closing the form tag -->
+										</div><!--end of X-content-->
+								</div><!--end of table-responsive-->
+						</div><!--end of x-panel -->
+		</div><!--end of col-md-12 col-sm-12 col-xs-12 -->
+</div><!--end of nav_menu-->
+</div><!--end of top_nav-->

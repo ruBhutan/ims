@@ -1,0 +1,262 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Staff Attendance';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+                <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Section/Department: <span class="required">*</span>
+                    </label>
+                <?php  echo $this->formRow($form->get('section')); ?>
+                </div>  
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Month <span class="required">*</span>
+                    </label>
+                <?php  echo $this->formRow($form->get('month')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Month <span class="required">*</span>
+                    </label>
+                <?php  echo $this->formRow($form->get('multi-checkbox')); ?>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Month <span class="required">*</span>
+                    </label>
+                <?php  echo $this->formRow($form->get('multi-checkbox')); ?>
+                    </div>
+                    
+        </div>
+                  <h2><b>Attendance for the month of January.</b></h2>
+             <br/>   
+                  <div cdivlass="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_content">
+                  <table class="table table-bordered">
+                    <?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Staff Attendance';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+                <div class="row">    
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Section/Department: <span class="required">*</span>
+                    </label>
+                <?php  echo $this->formRow($form->get('section')); ?>
+                </div>  
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label class="control-label">Month <span class="required">*</span>
+                    </label>
+                <?php  echo $this->formRow($form->get('month')); ?>
+                    </div>
+
+                    
+        </div>
+                  <h2><b>Attendance for the month of January.</b></h2>
+             <br/>   
+                  <div cdivlass="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_content">
+                  <table class="table table-bordered">
+                    <tbody>
+                    <?php 
+					 for($i=0; $i<=10; $i++){
+						 if($i==0){ ?>
+                         <thead>
+                         <?php for($j=0; $j<=10; $j++){ ?>
+						 <td><?php echo date('d-m'); ?> </td> 
+					<?php	 }?>
+                         </thead>
+                     
+					<?php	 } else{ ?>
+						<tr>
+                         <?php for($j=0; $j<=10; $j++){ 
+						 		if($j == 0) {
+						 ?>
+						 <td><?php echo "Employee Name"; ?></td> 
+					<?php	} else { ?>
+					 	 <td><input type="checkbox" id="check-all" class="flat"> </td>
+					 <?php  }
+					 	}?>
+                         </tr>
+					<?php	 }
+					 }
+					?>
+                    </tbody>
+                  </table>
+                   <h2>P-Present,L-Leave,A-Absent,T-Tour,EL-Extra-Ordinary Leave</h2>
+                     <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                    <?php
+                        echo $this->formSubmit($form->get('submit')); 
+                      ?>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+         </div>
+       </div>
+      </div>
+    </div>
+   
+               
+                    <tbody>
+                      <tr>
+                         <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td> 
+                        <td class="center ">RUB131410127 (Dorjee)</td>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                         <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th> <th >P</th>
+                        <tr>
+                        <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td class="center ">RUB131410128 (Penjor)</td>
+                        <th >P</th>
+                        <th >L</th>
+                        <th >L</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >EL</th>
+                        <th >EL</th>
+                        <th >EL</th>
+                        <th >EL</th>
+                        <th >EL</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >C</th>
+                        <th >C</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >EL</th>
+                        <th >EL</th>
+                        <th >EL</th>
+                        <th >EL</th>
+                        <th >EL</th>
+                        <th >P</th>
+                       
+                        <tr>
+                        <td class="a-center ">
+                          <input type="checkbox" class="flat" name="table_records">
+                        </td>
+                        <td class="center ">RUB131410129 (Namgay)</td>
+                        <th >P</th>
+                        <th >EL</th>
+                        <th >EL</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                          <th >P</th>
+                      <th ><span class="redText">EL</span></th>
+                        <th >EL</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >T</th>
+                        <th >T</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                        <th >P</th>
+                         <th >A</th>
+                      </tr>
+                    </tbody>
+                  </table>
+                   <h2>P-Present,L-Leave,A-Absent,T-Tour,EL-Extra-Ordinary Leave</h2>
+                     <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                    <?php
+                        echo $this->formSubmit($form->get('submit')); 
+                      ?>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+               

@@ -1,0 +1,151 @@
+<?php
+ $title = 'Edit Education Details';
+ $this->headTitle($title);
+
+ $education_details = array();
+ foreach($this->educationDetails as $details){
+  $education_details = $details;
+ } //var_dump($education_details); die();
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $registrant = $form->get('education');
+                    $registrant->get('id')->setValue($this->id);
+                    $registrant->get('job_applicant_id')->setValue($education_details['job_applicant_id']);
+                    $registrant->get('college_name')->setValue($education_details['college_name']);
+                    $registrant->get('college_location')->setValue($education_details['college_location']);
+                    $registrant->get('field_study')->setValue($education_details['field_study']);
+                    $registrant->get('study_mode')->setValue($education_details['study_mode']);
+                    $registrant->get('study_level')->setValue($education_details['study_level']);
+                    $registrant->get('funding')->setValue($education_details['funding']);
+                    $registrant->get('marks_obtained')->setValue($education_details['marks_obtained']);
+                    $registrant->get('college_country')->setValue($education_details['college_country']);
+                    $start_date = explode("-", $education_details['start_date']);
+                    $end_date = explode("-", $education_details['end_date']);
+                    $registrant->get('start_date')->setValue($start_date[01].'/'.$start_date[02].'/'.$start_date[00]);
+                    $registrant->get('end_date')->setValue($end_date[01].'/'.$end_date[02].'/'.$end_date[00]);
+                    date_default_timezone_set("Asia/Thimphu");
+                    $registrant->get('last_updated')->setValue(date("Y-m-d h:i:s"));
+                    $registrant->get('college_country')->setValueOptions($this->country);
+                    $registrant->get('study_level')->setValueOptions($this->studyLevel);
+                    $registrant->get('funding')->setValueOptions($this->fundingCategory);
+                    $registrant->get('submit')->setValue('Update');
+                    echo $this->formHidden($registrant->get('id'));
+                     echo $this->formHidden($registrant->get('last_updated'));
+                    echo $this->formHidden($registrant->get('job_applicant_id'));
+                    ?>
+
+                
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">College Name<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('college_name')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">College City/Address<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('college_location')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Country<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('college_country')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Start Date<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('start_date')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">End Date<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('end_date')); ?>
+                    </div>
+                   </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Field of Study<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('field_study')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Mode of Study<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('study_mode')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Study Level<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('study_level')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Funding<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('funding')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Agg. Marks Obtained<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('marks_obtained')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Scanned Copy of Academic Transcript<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php
+                    if($education_details['academic_transcript']){?>
+                      <a href="<?php echo $this->url('downloadapplicanteducationfile', array('filename'=> 'academic_transcript'.$education_details['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download and View</a>
+                    <?php }else{
+                      echo $this->formRow($registrant->get('academic_transcript'));
+                    }  
+                    
+                    ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Scanned Copy of Pass Certificate<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php
+                    if($education_details['pass_certificate']){?>
+                      <a href="<?php echo $this->url('downloadapplicanteducationfile', array('filename'=> 'pass_certificate'.$education_details['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download and View</a>
+                    <?php }else{
+                      echo $this->formRow($registrant->get('pass_certificate'));
+                    }  
+                    
+                    ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php
+                           echo $this->formHidden($form->get('csrf'));
+                           echo $this->formSubmit($registrant->get('submit')); 
+                        ?>
+                      </div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+             </div>     
+          </div>
+        </div> 
+     </div>

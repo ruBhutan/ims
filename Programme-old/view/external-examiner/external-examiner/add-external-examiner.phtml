@@ -1,0 +1,146 @@
+<?php
+ $title = 'Add External Examiner';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $examiner = $form->get('externalexaminer');
+                    echo $this->formHidden($examiner->get('id')); 
+				            ?>  
+                       <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                      echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                      echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                      $messages = $this->flashMessenger()->getMessages();
+                      foreach($messages as $message) {
+                        echo '<strong>Success!</strong>'. $message;
+                      }
+                      echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     } ?>
+                <div class="row">    
+                   <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('organisation_id')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($form->get('programmes_id')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                    <div class="col-md-8 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('examiner_name')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Address:</label>
+                    <div class="col-md-8 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('address')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Contact No:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('contact_no')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Email:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('email')); ?>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">From:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('from_date')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">To:</label>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                      <?php  echo $this->formRow($examiner->get('to_date')); ?>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">AB Approval:</label>
+                    <div class="col-md-7 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('ab_approval')); ?>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:</label>
+                    <div class="col-md-7 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('remarks')); ?>
+                    </div>
+                  </div> 
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Evidence File:<small>(Optional)</small></label>
+                    <div class="col-md-7 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($examiner->get('evidence_file')); ?>
+                    </div>
+                  </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						            <?php
+                           echo $this->formHidden($form->get('csrf'));
+                           echo $this->formSubmit($examiner->get('submit')); 
+                        ?>
+                    	</div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+       <!-- Start of table listing examiners -->
+        
+             </div>    
+          </div>
+        </div> 
+     </div>
+    </div>

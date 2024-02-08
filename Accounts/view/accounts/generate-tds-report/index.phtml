@@ -1,0 +1,330 @@
+<?php
+
+$title = 'Generate TDS Report';
+
+$minYear = (int) date('Y', strtotime($this->minDate));
+
+$currentYear = (int) date('Y');
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>
+
+
+                <div class="x_content">
+                    <form data-toggle="validator" method="post" action="" enctype="multipart/form-data">
+
+                        <div class="form-group col-lg-6 group-section">
+                            <label for="tds_group" class="control-label">Group</label>
+                            <select class="form-control" name="tds_group" id="tds_group"
+                                    data-placeholder="Select" required="required">
+                                <option <?php echo ($this->tdsGroup == 'tds_group_certificate') ? 'selected' : ''; ?>
+                                        value="tds_group_certificate">Tds Certificate
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-lg-6 report-section">
+                            <label for="tds_report" class="control-label">Reports</label>
+                            <?php echo ($this->tdsReport == 'tds_report_salary') ? 'selected' : ''; ?>
+                            <select class="form-control" name="tds_report" id="tds_report"
+                                    data-placeholder="Select" required="required">
+                                <option value="">Select Report</option>
+                                <option <?php echo ($this->tdsReport == 'tds_report_salary') ? 'selected' : ''; ?>
+                                        value="tds_report_salary">Salary
+                                </option>
+                                <option <?php echo ($this->tdsReport == 'tds_report_supplier') ? 'selected' : ''; ?>
+                                        value="tds_report_supplier">Supplier
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-lg-4 organisation-section">
+                            <label for="organisation_id" class="control-label">Organisation</label>
+                            <select class="form-control" name="organisation_id" id="organisation_id"
+                                    data-placeholder="Select" required="required">
+                                <option value="">Select Organisation</option>
+                                <?php
+
+                                foreach ( $this->organisationList as $organisation ):
+                                    $selected = ($this->organisation_id == $organisation['id']) ? 'selected' : '';
+                                    ?>
+                                    <option value="<?php echo $organisation['id']; ?>" <?php echo $selected; ?>>
+                                        <?php echo $organisation['organisation_name']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <?php $isSupplier =  ($this->tdsReport == 'tds_report_supplier') ? 'style="display: none;"' : ''; ?>
+                        <div class="form-group col-lg-4 department-section" <?php echo $isSupplier; ?>>
+                            <label for="department_id" class="control-label">Department</label>
+                            <select class="form-control" name="department_id" id="department_id"
+                                    data-placeholder="Select" <?php echo ($this->tdsReport == 'tds_report_supplier') ? '' : 'required' ; ?>>
+                                <option value="">Select Department</option>
+                                <?php
+
+                                foreach ( $this->departmentList as $key => $value ):
+                                    $selected = ($this->department_id == $key) ? 'selected' : '';
+                                    ?>
+                                    <option value="<?php echo $key; ?>" <?php echo $selected; ?>>
+                                        <?php echo $value; ?>
+                                    </option>
+                                <?php
+                                endforeach;
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-lg-4 employee-section">
+                            <label for="employee_id" class="control-label">Employee</label>
+                            <select class="form-control" name="employee_id" id="employee_id"
+                                    data-placeholder="Select" required="required">
+                                <option value="">Select Employee</option>
+                                <?php
+
+                                foreach ( $this->employerList as $key => $value ):
+                                    $selected = ($this->employee_id == $key) ? 'selected' : '';
+                                    ?>
+                                    <option value="<?php echo $key; ?>" <?php echo $selected; ?>>
+                                        <?php echo $value; ?>
+                                    </option>
+                                <?php
+                                endforeach;
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-lg-4">
+                            <label for="year" class="control-label">Year</label>
+                            <select name="year" id="year" class="form-control" required="required">
+                                <option value="">Select Year</option>
+                                <?php for ( $year = $currentYear; $year >= $minYear; $year-- ):
+                                    $selected = ($this->year == $year) ? 'selected' : '';
+                                    ?>
+                                    <option value="<?php echo $year; ?>" <?php echo $selected; ?>> <?php echo $year; ?> </option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-4 bl-col first">
+                            <div class="form-group">
+                                <label for="start_month" class="control-label">Start Month</label>
+                                <select name="start_month" id="start_month" class="form-control" required="required">
+                                    <option value="">Select Year</option>
+                                    <?php for ( $month = 1; $month <= 12; $month++ ):
+                                        $selected = ($this->start_month == $month) ? 'selected' : '';
+                                        ?>
+                                        <option value="<?php echo $month; ?>" <?php echo $selected; ?>> <?php echo date('F', strtotime($currentYear . "-" . $month)); ?> </option>
+                                    <?php endfor; ?>
+                                </select>
+                                <span class="text-danger error-message"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 bl-col first">
+                            <div class="form-group">
+                                <label for="end_month" class="control-label">End Month</label>
+                                <select name="end_month" id="end_month" class="form-control" required="required">
+                                    <option value="">Select Year</option>
+                                    <?php for ( $month = 1; $month <= 12; $month++ ):
+                                        $selected = ($this->end_month == $month) ? 'selected' : '';
+                                        ?>
+                                        <option value="<?php echo $month; ?>" <?php echo $selected; ?>> <?php echo date('F', strtotime($currentYear . "-" . $month)); ?> </option>
+                                    <?php endfor; ?>
+                                </select>
+                                <span class="text-danger error-message"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-2" style="margin-top: 23px;">
+                            <button type="submit" class="btn btn-sm btn-success form-control">Generate</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-xs-12">
+            <!-- Start of table listing -->
+
+            <?php
+
+            if ( $this->tdsReport == 'tds_report_salary' ) :
+                echo $this->render('accounts/generate-tds-report/render-table/salary-table-lists.phtml');
+            elseif ( $this->tdsReport == 'tds_report_supplier' ) :
+                echo $this->render('accounts/generate-tds-report/render-table/supplier-table-lists.phtml');
+            endif;
+            ?>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function calculateColumn(index) {
+        var arrayExcept = [0, 6, 7, 11];
+
+        var total = 0.00;
+
+        if ($.inArray(index, arrayExcept) === -1) {
+
+            $('#generated_tds_report_list .ROW_GTR').each(function () {
+                var value = parseFloat($('td', this).eq(index).text());
+
+                if (!isNaN(value)) {
+                    total += value;
+                }
+            });
+
+            $('#generated_tds_report_list tfoot th').eq(index).text(total.toFixed(2));
+        }
+    }
+
+    function convertToSlug(Text) {
+        return Text.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    }
+
+    $(function () {
+
+        $("#organisation_id").change(function () {
+            var URL = "<?php echo $this->url('generate-tds-report', array('action' => 'getDepartment')); ?>";
+
+            var tds_report = $('#tds_report').val();
+
+            if (tds_report.length > 0 && tds_report === 'tds_report_supplier') {
+                URL = "<?php echo $this->url('generate-tds-report', array('action' => 'getSupplierList')); ?>";
+            }
+
+            $.post(URL, {
+                    organisation_id: $(this).val()
+                },
+                function (data) {
+                    $('#department_id').empty();
+
+                    if (tds_report.length > 0 && tds_report === 'tds_report_supplier') {
+
+                        $('#employee_id').empty();
+
+                        if (data.status === true) {
+
+                            $('#employee_id').append($("<option></option>").attr("value", '').text('Select Employee'))
+
+                            $.each(data.data, function (key, value) {
+                                $('#employee_id').append($("<option></option>").attr("value", key).text(value));
+                            });
+
+                            $('#employee_id option:selected').removeAttr('selected');
+                            $('#employee_id').trigger('chosen:updated');
+                        }
+
+                    } else {
+                        if (data.status === true) {
+
+                            $('#department_id').append($("<option></option>").attr("value", '').text('Select Department'))
+
+                            $.each(data.data, function (key, value) {
+                                $('#department_id').append($("<option></option>").attr("value", key).text(value));
+                            });
+
+                            $('#department_id option:selected').removeAttr('selected');
+                            $('#department_id').trigger('chosen:updated');
+                        }
+                    }
+                },
+                'json'
+            );
+        });
+
+        $("#department_id").change(function () {
+            $.post("<?php echo $this->url('generate-tds-report', array('action' => 'getEmployee')); ?>",
+                {
+                    department_id: $(this).val()
+                },
+                function (data) {
+                    $('#employee_id').empty();
+
+                    if (data.status === true) {
+
+                        $('#employee_id').append($("<option></option>").attr("value", '').text('Select Employee'));
+
+                        $.each(data.data, function (key, value) {
+                            $('#employee_id').append($("<option></option>").attr("value", key).text(value));
+                        });
+                        $('#employee_id option:selected').removeAttr('selected');
+                        $('#employee_id').trigger('chosen:updated');
+                    }
+                },
+                'json'
+            );
+        });
+
+        $('#generated_tds_report_list #generated_tds_report_thead th').each(function (i) {
+            calculateColumn(i);
+        });
+
+        $('#start_month').change(function () {
+            var startMonthValue = $(this).val();
+
+            var endMonthValue = $('#end_month').val();
+
+            $(this).closest('div').find('.error-message').html('');
+
+            if (endMonthValue.length > 0) {
+                if (startMonthValue >= endMonthValue) {
+                    $(this).val('');
+                    $(this).closest('div').find('.error-message').html('Not grater then end month');
+                }
+            }
+        });
+
+        $('#end_month').change(function () {
+            var endMonthValue = $(this).val();
+
+            var startMonthValue = $('#start_month').val();
+
+            $(this).closest('div').find('.error-message').html('');
+
+            if (startMonthValue.length > 0) {
+                if (endMonthValue <= startMonthValue) {
+                    $(this).val('');
+                    $(this).closest('div').find('.error-message').html('Not less then start month');
+                }
+            }
+        });
+
+        $('#tds_report').change(function () {
+            var reportName = $(this).val();
+
+            $('.department-section').show();
+            $('#department_id').prop('required', true);
+
+            if (reportName === 'tds_report_supplier') {
+                $('.department-section').hide();
+                $('#department_id').prop('required', false);
+                $('#organisation_id').val('');
+            }
+
+        });
+    });
+</script>

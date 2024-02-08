@@ -1,0 +1,141 @@
+<?php
+$title = 'List of Travel/Tour Proposal(s)';
+$this->headTitle($title);
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+  // Remove the base64 encoding from our key
+  $encryption_key = base64_decode($key);
+  // Generate an initialization vector
+  $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+  // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+  $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+  // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+  return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <?php
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                      echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                      echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                      $messages = $this->flashMessenger()->getMessages();
+                      foreach ($messages as $message) {
+                        echo '<strong>Success!</strong>' . $message;
+                      }
+                      echo '</div>';
+                    } else if ($this->message == 'Failure' && $this->flashMessenger()->hasMessages()) {
+                      echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                      echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                      $messages = $this->flashMessenger()->getMessages();
+                      foreach ($messages as $message) {
+                        echo '<strong>Failure!</strong>' . $message;
+                      }
+                      echo '</div>';
+                    }
+                    ?>
+                    <div class="row">
+                        <form name="searchEmpTravel" class="" method="post">
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                              <label>Organization </label>
+                              <select name="organization" class="form-control">
+                                  <option value="">Select Organization</option>
+                                <?php
+                                  foreach ($this->organizations as $id => $organization):
+                                ?>
+                                  <option value="<?php echo my_encrypt($id, $this->keyphrase); ?>"><?php echo $organization; ?></option>
+                                <?php
+                                  endforeach;
+                                ?>
+                              </select>
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12 form-group" style="margin-top: 23px;">
+                              <input type="submit" name="submit" class="btn btn-success" id="submitbutton" value="Search">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Start of Tab-->
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <br/>
+                        <div class="table-responsive">
+                            <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="column-title">Sl.No.</th>
+                                        <th class="column-title">Emp ID </th>
+                                        <th class="column-title">Emp Name </th>
+                                        <th class="column-title">Department </th>
+                                        <th class="column-title">Purpose of Tour </th>
+                                        <th class="column-title">No of Days </th>
+                                        <th class="column-title">Total Allowance </th>
+                                        <th class="column-title">Advance Allowance </th>
+                                        <th class="column-title">Balance Amount </th>
+                                        <th class="column-title">Status </th>
+                                        <th class="column-title">Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                      $i = 1;
+                                      foreach ($this->travelList as $travels):
+                                    ?>
+                                      <tr class="even pointer">
+                                          <td class=" "><?php echo $i++; ?></td>
+                                          <td class=" "><?php echo $this->escapeHtml($travels['emp_id']); ?></td>
+                                          <td class=" "><?php echo $this->escapeHtml($travels['first_name'] . ' ' . $travels['middle_name'] . ' ' . $travels['last_name']); ?></td>
+                                          <td class=" "><?php echo $this->escapeHtml($travels['department_name']); ?></td>
+                                          <td class=" "><?php echo $this->escapeHtml($travels['purpose_of_tour']); ?></td>
+                                          <td class=" "><?php echo $this->escapeHtml($travels['no_of_days']); ?></td>
+                                          <td class=" "><?php echo $this->escapeHtml($travels['estimated_expenses']); ?></td>
+                                          <td class=" "><?php echo $this->escapeHtml($travels['advance_required']); ?></td>
+                                          <td class=" "><?php echo $this->escapeHtml($travels['pending_amount']); ?></td>
+                                          <td class=" "><?php echo $this->escapeHtml($travels['tour_status']); ?></td>
+                                          <td class=" last" width="20%">
+                                              <?php if ($this->escapeHtml($travels['tour_status']) === 'Approved'): ?>
+                                              <a href="/public/emptravelreport/makepayment/<?php echo my_encrypt($travels['id'], $key); ?>" class="btn btn-info btn-xs">
+                                                  <?php if (floatval($travels['pending_amount'] > 0)): ?>
+                                                      <i class="fa fa-credit-card"></i> Make Payment
+                                                  <?php else: ?>
+                                                      <i class="fa fa-list"></i> View Payments
+                                                  <?php endif ?>
+                                              </a>
+                                              <?php endif ?>
+                                              <button data-id="<?php echo my_encrypt($travels['id'], $key); ?>" class="btn btn-danger btn-xs deleteFeePayment">
+                                                  <i class="fa fa-trash"></i> Delete
+                                              </button>
+                                          </td>
+                                      </tr>
+                                    <?php 
+                                      endforeach; 
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- End of Tabs-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+  
+  $(document).ready(function () {
+      $(document).on('click', '.deleteFeePayment', function () {
+        if (confirm('Are you sure you want to delete this record?')) {
+          window.location = "/public/emptravel/deletepayment/"+$(this).data('id');
+        }
+      });
+  });
+  
+</script>

@@ -1,0 +1,61 @@
+<?php
+ $title = 'Transfer Approval Lists [President(to college)]';
+ $this->headTitle($title);
+ 
+ //need to store employee details in an array
+ $employeeName = array();
+ $employeeID = array();
+ foreach($this->transferEmployee as $transfer){
+	 $employeeName[$transfer['id']] = $transfer['first_name'];
+	 $employeeName[$transfer['id']] .= ' '. $transfer['middle_name'];
+	 $employeeName[$transfer['id']] .= ' '. $transfer['last_name'];
+	 $employeeID[$transfer['id']] = $transfer['emp_id'];
+ }
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                     <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                             <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Staff Name </th>
+                             <th class="column-title">Application Date </th>
+                             <th class="column-title">Status (To College/Org.)</th>
+                             <th class="column-title">Status (From College/Org.)</th>
+                             <th class="column-title no-link last"><span class="nobr">Actions</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                           <?php $i=1; foreach ($this->transferList as $transfer) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($employeeName[$transfer['employee_details_id']]);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($transfer['date_of_request']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($transfer['to_org_transfer_status']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($transfer['from_org_transfer_status']);?></td>
+                            <td><a href="<?php echo $this->url('addunit', array('id' => $transfer['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i>View</a>
+                            	<a href="<?php echo $this->url('addunit', array('id' => $transfer['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a>
+                                <a href="<?php echo $this->url('addunit', array('id' => $transfer['id']));?>" class="btn btn-danger btn-xs"><i class="fa fa-thrash-o"></i>Delete</a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

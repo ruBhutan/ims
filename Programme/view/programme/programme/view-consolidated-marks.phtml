@@ -1,0 +1,132 @@
+<?php
+ $title = 'Student Assessment Marks';
+ $this->headTitle($title);
+ 
+ $assessment_components = array();
+ $student_id = array();
+ $student_names = array();
+ $assessment_types = array();
+ foreach($this->studentAssessmentList as $key=>$value){
+	 foreach($value as $key2=>$value2){
+		 $assessment_types[$key] = $key;
+		 $student_id[$key2] = $key2;
+		 $assessment_components[$key2][$key] = $value2;
+	 }
+ }
+ 
+ foreach($this->studentNameList as $key=>$value){
+	 $student_names[$key] = $value;
+ }
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                        <!-- Adding Achievements-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Search for Students by Module")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                          
+                            </div>
+                               
+                            <div class="x_content">
+                            <h5><i>*(In order to view the students' mark, search by Module Name. Please note that the search is only done
+                            		 by Module Name.</i></h5>
+                              <br />
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+								$form->get('assessment_component_id')->setValueOptions($this->moduleList);
+								$form->get('section')->setValueOptions($this->sectionList);
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Module</label>
+                                    <?php echo $this->formRow($form->get('assessment_component_id')); ?>
+                                  </div>
+                                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                    <label>Section</label>
+                                    <?php echo $this->formRow($form->get('section')); ?>
+                                  </div>
+                              </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                              
+                          </div>
+                        </div>
+                       </div>     
+                              
+                          
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("List of Student(s)"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                              <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered" width="100%">
+                                <thead>
+                                    <th style="width: 5%" class="column-title">Sl No</th>
+                                    <th style="width: 15%" class="column-title">Student Name </th>
+                                    <th style="width: 8%" class="column-title">SID </th>
+                                    <?php foreach($assessment_types as $type): ?>
+									<th style="width: 8%" class="column-title"><?php echo $type; ?></th>
+									<?php endforeach; ?>
+                                    <th style="width: 8%" class="column-title">Total </th>
+                                </thead>
+            
+                                <tbody>
+                                  <?php $i = 1; foreach($assessment_components as $key=>$value){
+									  ?>
+                                  <tr class="even pointer">
+                                  	<td class=" "><?php echo $i++; $total = 0; ?></td>
+                                    <td class=" "><?php echo $student_names[$key];  ?></td>
+                                    <td class=" "><?php echo $key;  ?></td>
+                                    <?php foreach($assessment_types as $type): ?>
+									<td class=" "><?php echo $value[$type]; $total += $value[$type]; ?></td>
+									<?php endforeach; ?>
+                                    <td class=" "><?php echo $total;  ?></td>
+                                  </tr>
+                                  <?php } ?>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                           		<!-- End of Achievements-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              

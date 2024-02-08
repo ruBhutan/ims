@@ -1,0 +1,190 @@
+<?php
+
+ $title = 'Edit Suggestion Committee';
+ $this->headTitle($title);
+
+ $committeeDetails = array();
+ foreach($this->committeeDetails as $details)
+ {
+  $committeeDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'].' ('.$details['emp_id'].')';
+  $committeeDetails['organisation_name'] = $details['organisation_name'];
+  $committeeDetails['organisation'] = $details['organisation_id'];
+  $committeeDetails['employee_details_id'] = $details['employee_details_id'];
+ }
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+                       <?php
+            						// Opening of the form tag
+            						$form->prepare();
+            						echo $this->form()->openTag($form);
+            						$suggestion = $form->get('suggestioncommittee');
+                        echo $this->form()->openTag($form);
+                        $suggestion->get('id')->setValue($this->suggestionCommitteeDetails->getId());
+                        $suggestion->get('student_suggestion_category_id')->setValueOptions($this->suggestionList);
+                        $suggestion->get('student_suggestion_category_id')->setValue($this->suggestionCommitteeDetails->getStudent_Suggestion_Category_Id());
+                        $form->get('organisation')->setValue($committeeDetails['organisation']);
+                        $form->get('employee_details_id')->setValue($committeeDetails['employee_details_id']);
+                        $from_date = explode('-', $this->suggestionCommitteeDetails->getFrom_Date());
+                        $to_date = explode('-', $this->suggestionCommitteeDetails->getTo_Date());
+                        $suggestion->get('from_date')->setValue($from_date[01].'/'.$from_date[02].'/'.$from_date[00]);
+                        $suggestion->get('to_date')->setValue($to_date[01].'/'.$to_date[02].'/'.$to_date[00]);
+                        $suggestion->get('status')->setValue($this->suggestionCommitteeDetails->getStatus());
+            						echo $this->formHidden($suggestion->get('status'));
+                        $suggestion->get('submit')->setValue('Update Committee');
+                        echo $this->formHidden($form->get('organisation')); 
+                        echo $this->formHidden($form->get('employee_details_id')); 
+            						echo $this->formHidden($suggestion->get('id')); 
+            					  ?>
+                        <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                        <div class="row">    
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"> Committe Member: <span class="required">*</span></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $committeeDetails['name']; ?>">
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">    
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"> Member Organisation: <span class="required">*</span></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $committeeDetails['organisation_name']; ?>">
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">    
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"> Suggestion Category: <span class="required">*</span></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?php  echo $this->formRow($suggestion->get('student_suggestion_category_id')); ?>
+                            </div>
+                        </div>
+                        </div> 
+                         <div class="row">    
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"> From Date: <span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                              <?php  echo $this->formRow($suggestion->get('from_date')); ?>
+                            </div>
+
+                            <label class="control-label col-md-2 col-sm-3 col-xs-12"> To Date: <span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                              <?php  echo $this->formRow($suggestion->get('to_date')); ?>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <?php
+                                   
+                                   echo $this->formHidden($form->get('csrf'));
+                                   echo $this->formSubmit($suggestion->get('submit')); 
+                                ?>
+                                </div>
+                            </div>
+                       </div>
+                            <?php
+                            echo $this->form()->closeTag();
+                            ?>
+                        </div>
+                      </div>
+                </div>
+               <?php
+				        $title = 'Committee Members';
+				        $this->headTitle($title);
+			         ?>
+              <div class="col-md-12 col-xs-12">
+                  
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                
+                    <div class="x_content">
+                      <div class="table-responsive">
+                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered"> 
+                          <thead>
+                            <tr class="headings">
+                              <th class="column-title">Sl. No</th>
+                              <th class="column-title">Suggestion Category </th>
+                               <th class="column-title">Committee Members </th>
+                               <th class="column-title">Members Organisation</th>
+                               <th class="column-title">From Date</th>
+                               <th class="column-title">To Date</th>
+                               <th class="column-title">Status</th>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i=1; foreach ($this->suggestionCommitteeList as $list) : ?>
+                            <tr>
+                              <td><?php echo $i++; ?></td>
+                              <td><?php echo $this->escapeHtml($list['suggestion_category']); ?></td>
+                              <td><?php echo $this->escapeHtml($list['first_name'].' '.$list['middle_name'].' '.$list['last_name'].' ('.$list['emp_id'].')'); ?></td>
+                              <td><?php echo $this->escapeHtml($list['organisation_name']); ?></td>
+                              <td><?php echo $this->escapeHtml($list['from_date']); ?></td>
+                              <td><?php echo $this->escapeHtml($list['to_date']); ?></td>
+                              <td><?php echo $this->escapeHtml($list['status']); ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                
+                </div>
+              </div>
+            </div>
+          </div>
+             

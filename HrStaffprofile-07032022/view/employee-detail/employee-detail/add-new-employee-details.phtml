@@ -1,0 +1,180 @@
+<?php
+ $title = 'Add Employee';
+ $this->headTitle($title);
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                     <!-- Smart Wizard -->
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                      <ul class="wizard_steps">
+                          <li>
+                          <a href="#step-1" class="done">
+                            <span class="step_no">1</span>
+                            <span class="step_descr">
+                                      Step 1<br />
+                                      <small>PERSONAL DETAILS</small>
+                                  </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-2" class="done">
+                            <span class="step_no">2</span>
+                            <span class="step_descr">
+                                      Step 2<br />
+                                      <small>OTHER<br/>DETAILS</small>
+                                  </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-3" class="disabled">
+                            <span class="step_no">3</span>
+                            <span class="step_descr">
+                                      Step 3<br />
+                                      <small>DOCUMENT</small> <br/>
+                                      <small>UPLOAD</small>
+                                  </span>
+                          </a>
+                        </li>
+                      </ul>
+                      <?php
+						// Opening of the form tag
+						$form->prepare();
+						echo $this->form()->openTag($form);
+						$employee = $form->get('employeefields');
+						//echo $this->formHidden($employee->get('id'));
+					 ?> 
+                        <!-- Dynamically adding rows for education -->  
+                        <br /><br />
+                        <div class="clear"></div>
+                        <br />
+                        <div class="clear"></div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Education Details: </label>
+                           <?php   echo $this->formCollection($employee->get('neweducationdetails')); ?>
+                        <br />
+                        <div class="form-horizontal form-label-left">
+                            <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-9">
+                              <button class="btn btn-success" type="button"  onclick="return add_education()"> Add More Education Details</button>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+               			<!-- End of Dynamically added rows -->
+                    <br />
+                    
+                        <!-- Dynamically adding rows for work experience -->  
+                        <br /><br />
+                        <div class="clear"></div>
+                        <br />
+                        <div class="clear"></div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Work Experience Details: </label>
+                           <?php   echo $this->formCollection($employee->get('newworkexperiencedetails')); ?>
+                        <br />
+                        <div class="form-horizontal form-label-left">
+                            <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-9">
+                              <button class="btn btn-success" type="button"  onclick="return add_workexperience()"> Add More Work Experience</button>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+               			<!-- End of Dynamically added rows -->
+                    <br />
+                        <!-- Dynamically adding rows for education -->  
+                        <br /><br />
+                        <div class="clear"></div>
+                        <br />
+                        <div class="clear"></div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12"> Training Details: </label>
+                           <?php   echo $this->formCollection($employee->get('newtrainingdetails')); ?>
+                        <br />
+                        <div class="form-horizontal form-label-left">
+                            <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-9">
+                              <button class="btn btn-success" type="button"  onclick="return add_training()"> Add More Training Details</button>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+               			<!-- End of Dynamically added rows -->
+                    <br />
+                        <!-- Dynamically adding rows for education -->  
+                        <br /><br />
+                        <div class="clear"></div>
+                        <br />
+                        <div class="clear"></div>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12">Publication Details: </label>
+                           <?php   echo $this->formCollection($employee->get('newpublicationdetails')); ?>
+                        <br />
+                        <div class="form-horizontal form-label-left">
+                            <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-9">
+                              <button class="btn btn-success" type="button"  onclick="return add_publications()"> Add More Publications</button>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+               			<!-- End of Dynamically added rows -->
+                    <br />
+                    
+                
+          		<div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf'));
+                            echo $this->formRow($employee->get('submit')); 
+							echo $this->form()->closeTag($form);
+						 ?>
+                        </div>
+                      </div>
+
+       			</div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+   </div>
+ </div>
+
+<script>
+     function add_education() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+	 
+	 function add_workexperience() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+	 
+	 function add_training() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+	 
+	 function add_publications() {
+         var currentCount = $('form > fieldset > fieldset').length;
+         var template = $('form > fieldset > span').data('template');
+         template = template.replace(/__index__/g, currentCount);
+
+         $('form > fieldset').append(template);
+
+         return false;
+     }
+ </script>

@@ -1,0 +1,109 @@
+<?php
+
+ $title = 'Student Club Members';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">   
+                    <?php
+                        $club = array();
+                        foreach ($this->clubDetails as $details): {
+                            $club['club_name'] = $details['club_name'];
+                            $club['maximum_members'] = $details['maximum_members'];
+                            $club['advisor_name'] = $details['advisor_name'];
+                            $club['coordinator_name'] = $details['coordinator_name'];
+                            $club['description'] = $details['description'];
+                           // $club['student_id'] = $details['student_id'];
+                        }
+                     ?>
+                            <h2>Club Details</h2>
+
+                            <div class="form-group">
+                               <label class="control-label col-md-2 col-sm-2 col-xs-12">Club Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $club['club_name']; ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Maximum Members:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $club['maximum_members']; ?>
+                                        </div>
+                            </div><br/><br/> 
+                            <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Advisor Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $club['advisor_name']; ?>
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Coordinator Name:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $club['coordinator_name']; ?>
+                                        </div>
+                            </div><br/><br/>
+                            <div class="form-group">
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Club Description:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo $club['description']; ?>
+                                        </div>
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-12">No. of Members:</label>
+                                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                            <?php echo count($this->noOfMembers); ?>
+                                        </div>
+                            </div>
+                            <?php endforeach; ?>
+                            <br/><br/>  
+                            <div class="x_title">
+                            <div class="clearfix"></div>
+                            </div><br/> 
+
+                            <h2>Club Member Lists</h2>
+                            <div class="table-responsive">
+                                <table id ="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                                    <thead>
+                                        <tr class="headings">
+                                             <th class="column-title">Sl No</th>
+                                             <th class="column-title">Name</th>
+                                             <th class="column-title">Student ID</th>
+                                             <th class="column-title">Gender</th>
+                                             <th class="column-title">Programme</th>
+                                             <th class="column-title">Joined From</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i=1; ?>
+                                    <?php foreach ($this->studentClubMembers as $member) : ?>
+                                    <tr class="even pointer">
+                                      <td class=" "><?php echo $i; ?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member['first_name']) . ' ' .
+                                                               $this->escapeHtml($member['middle_name']) . ' ' .
+                                                               $this->escapeHtml($member['last_name']);?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member['student_id']);?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member['stgender']);?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member['programme_name']);?></td>
+                                      <td class=" "><?php echo $this->escapeHtml($member['date']);?></td>
+                                    </tr>
+                                    <?php $i++; ?>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                                
+                            </div>
+                        
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+
+
+ 

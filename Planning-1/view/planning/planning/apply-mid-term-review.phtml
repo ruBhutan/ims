@@ -1,0 +1,104 @@
+<?php
+ $title = 'Success Indicator';
+ $this->headTitle($title);
+ 
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+$apa_date = array();
+foreach($this->apa_deadline as $date){
+  $apa_date = $date;
+}
+
+if(empty($apa_date))
+$apa_date['end_date'] = '2000-01-01';
+
+$current_financial_year = NULL;
+if(date('m') <= 6){
+    $current_financial_year = (date('Y')-1)."-".(date('Y'));
+  } else {
+    $current_financial_year = (date('Y'))."-".(date('Y')+1);
+  } 
+
+?>
+<div class="right_col" role="main">
+     <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml("Success Indicators"); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <?php if((strtotime($apa_date['end_date']) >= strtotime(date('Y-m-d'))) && (strtotime(date('Y-m-d')) >= strtotime($apa_date['start_date']))){?>
+                <div class="x_content">
+                <!-- blockquote -->
+                      <blockquote>
+                        <h4><i>The following is a list of Success Indicators that had been proposed. With approval from the board, changes can be 
+                        		to the Success Indicators during the Mid Term Review</i></h4>
+                      </blockquote>
+                      <br />
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Sl.No.</th>
+                         <th class="column-title">Financial Year</th>
+                         <th class="column-title">Success Indicator</th>
+                         <th class="column-title">Unit </th>
+                         <th class="column-title">Weight</th>
+                         <th class="column-title">Excellent</th>
+                         <th class="column-title">Very Good</th>
+                         <th class="column-title">Good</th>
+                         <th class="column-title">Fair</th>
+			 <th class="column-title">Poor</th>
+                         <th class="column-title">Mid Remarks</th>
+                         <th class="column-title">Review</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <?php
+					  $i=1;  foreach($this->kpi as $kpi): ?>
+                      <tr class="even pointer">
+                        <?php if($kpi['financial_year'] == $current_financial_year){?>
+                        <td class=" "><?php echo $i++;?></td>
+                        <td class=" "><?php echo $kpi['financial_year'];?></td>
+                        <td class=" "><?php echo $kpi['activity_name'];?></td>
+                        <td class=" "><?php echo $kpi['unit'];?></td>
+                        <td class=" "><?php echo $kpi['weight'];?></td>
+                        <td class=" "><?php echo $kpi['excellent_rating'];?></td>
+                        <td class=" "><?php echo $kpi['very_good_rating'];?></td>
+                        <td class=" "><?php echo $kpi['good_rating'];?></td>
+                        <td class=" "><?php echo $kpi['fair_rating'];?></td>
+			<td class=" "><?php echo $kpi['poor_rating'];?></td>
+			<td class=" "><?php echo $kpi['remarks'];?></td>
+                        <td class=" "><a href="<?php echo $this->url('addmidtermreview', array('id' => my_encrypt($kpi['id'], $key))); ?>"class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i>Review</a>
+                        <?php } ?>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <?php } else {?>
+            <div class="x_content">
+           <p>Mid Term Review Date has been closed or not yet opened. Please try after some times! </p>
+           </div>
+           <?php } ?>
+            </div>
+         
+          </div>
+        </div> 

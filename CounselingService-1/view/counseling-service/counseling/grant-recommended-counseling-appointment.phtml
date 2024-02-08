@@ -1,0 +1,173 @@
+<?php
+ $title = 'Grant Counseling Appointment';
+ $this->headTitle($title);
+ $appointmentDetails = array();
+ foreach($this->recommendCounselingDetail as $details)
+ {
+	 $appointmentDetails['id'] = $details['id'];
+	 $appointmentDetails['subject'] = $details['subject'];
+	 $appointmentDetails['reason'] = $details['reason'];
+	 $appointmentDetails['suggested_by'] = $details['suggested_by'];
+	 $appointmentDetails['suggested_id'] = $details['suggested_id'];
+	 $appointmentDetails['suggested_type'] = $details['suggested_type'];
+	 $appointmentDetails['suggested_date'] = $details['suggested_date'];
+   $appointmentDetails['counselor_id'] = $details['counselor_id'];
+   $appointmentDetails['suggested_status'] = $details['suggested_status'];
+   $appointmentDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'].' ('.$details['emp_id'].')';
+ }
+
+ $recommendedDetails = array();
+ foreach($this->recommendedDetails as $details){
+  if($recommendedType == 1){
+    $recommendedDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'].' ('.$details['emp_id'].')';
+  }
+  else if($recommendedType == 2){
+    $recommendedDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'].' ('.$details['student_id'].')';
+  }
+ }
+ 
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <?php 
+                      if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                          echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Success!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+
+                      else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                          echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                          $messages = $this->flashMessenger()->getMessages();
+                          foreach($messages as $message) {
+                              echo '<strong>Failure!</strong>'. $message;
+                          }
+                          echo '</div>';
+                      }
+                  ?>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+				           $counsel = $form->get('scheduledappointment');
+                   $counsel->get('applicant_id')->setValue($appointmentDetails['suggested_id']);
+                   $counsel->get('applicant_type')->setValue($appointmentDetails['suggested_type']);
+                   $counsel->get('counseling_type')->setValue('Recommended');
+                   $counsel->get('scheduled_status')->setValue('Pending');
+                   $counsel->get('counselor')->setValue($this->employee_details_id);
+				            //need to get the counseling details
+				          $counsel->get('counseling_appointment_id')->setValue($this->counseling_appointment_id);
+                  echo $this->formHidden($counsel->get('id'));
+                  echo $this->formHidden($counsel->get('counseling_type'));
+				          echo $this->formHidden($counsel->get('counseling_appointment_id'));
+                  echo $this->formHidden($counsel->get('scheduled_status'));
+                  echo $this->formHidden($counsel->get('counselor'));
+                  echo $this->formHidden($counsel->get('applicant_id'));
+                  echo $this->formHidden($counsel->get('applicant_type'));
+                ?>
+                <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Recommended:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $recommendedDetails['name']?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Recommended/ Suggested By:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['name']?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Subject:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php echo $appointmentDetails['subject']?>">
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reasons:</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" disabled="disabled" rows="3" placeholder="<?php echo $appointmentDetails['reason']; ?>"></textarea>
+                    </div>
+                </div> 
+                </div>      
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Scheduled Time:<br /><small>(e.g. 04:30 PM)</small> <span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counsel->get('scheduled_time')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Scheduled Date:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counsel->get('scheduled_date')); ?>
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Venue:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counsel->get('venue')); ?>
+                    </div>
+                </div> 
+                </div>
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <?php  echo $this->formRow($counsel->get('counselor_remarks')); ?>
+                    </div>
+                </div> 
+                </div>
+           
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                   		<?php 
+						  echo $this->formHidden($form->get('csrf'));
+						  echo $this->formSubmit($counsel->get('submit')); 
+						?>
+                    	</div>
+                    </div>
+                </div>
+                    <?php echo $this->form()->closeTag(); ?>
+                       
+                </div>
+              </div>
+            </div>
+       </div>       
+ 	</div>
+  </div>
+ </div>   
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+    

@@ -1,0 +1,52 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/TransactionController/reject
+ * 
+ */
+ foreach($this->transactionrow as $row):
+    extract($row);
+ endforeach;
+?>
+<form method="post" action="<?php echo $this->url('transaction', array('action' => 'reject')); ?>"  enctype="multipart/form-data" >
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"> <i class="fa fa-asterisk"></i>Remark</h4>
+    </div>  <!-- /modal-header -->
+    <div class="modal-body">
+		<div class="panel panel-default">                       
+			<div class="panel-body">   
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="form-group">
+						    <input type="hidden" class="form-control" name="id" id="id" value ="<?php echo $id?>">
+							<label for="remarks">Remark</label>
+							<textarea class="form-control" name="remark" id="remark" ><?php echo $remark;?></textarea>  
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div> <!-- /modal-body -->
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" ><i class="fa fa-times"></i> Cancel </button> 
+    </div>  
+</form>
+<script>
+	$('document').ready(function(){
+		$('form').formValidation({
+			excluded: ':disabled',
+			message: 'Please enter a value.',
+			fields: {
+				remark: {
+					validators: {
+						notEmpty: {
+							message: 'Please provide Remark.'
+						}
+					}
+				},
+			}
+		});
+	});
+</script>

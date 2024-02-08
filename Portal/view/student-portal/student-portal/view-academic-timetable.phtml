@@ -1,0 +1,76 @@
+<?php
+ $title = 'Timetable (Student)';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <?php 
+                      $studentSemester = array();
+                      foreach ($this->studentSemesterYear as $semester): {
+                        $studentSemester['semester'] = $semester['semester'];
+                        $studentSemester['section'] = $semester['section'];
+                        $studentSemester['academic_year'] = $semester['academic_year'];
+                        $studentSemester['programme_name'] = $semester['programme_name'];
+                      }
+                      ?>
+                      <div class="x_title">
+                        <h2>Academic Timetable <small>Assigned Modules of the semester <b><?php echo "&nbsp;&nbsp;".$semester['semester']; ?></b> For Section: <b><?php echo "&nbsp;&nbsp;".$semester['section']; ?></b> of Academic Year <b><?php echo "&nbsp;&nbsp;".$semester['academic_year']; ?><?php echo "&nbsp;&nbsp;(".$semester['programme_name']; ?>)</b></small></h2>
+                        <div class="clearfix"></div>
+                      </div>
+                      <?php endforeach; ?>
+                    <!-- Second Column Start -->
+                <?php 
+                 $days_week = array(
+                    'Monday' => 'Monday',
+                    'Tuesday' => 'Tuesday',
+                    'Wednesday' => 'Wednesday',
+                    'Thursday' => 'Thursday',
+                    'Friday' => 'Friday'
+                   );
+                   
+                   $timetable_data = array();
+                   foreach($this->stdAcademicTimetable as $table){
+                     $timetable_data[$table['day']][$table['from_time'].'-'.$table['to_time']][] = $table['module_code']
+                                                      .'<br>(Tutor-'.$table['first_name'].' '.$table['middle_name'].' '.$table['last_name'].')'.'<br>(Room-'.$table['classroom'].')';
+                   }
+                ?>
+                    <div class="x_content">
+                              <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <thead>
+                                    <th style="width: 15%" class="column-title"></th>
+                                    <?php foreach($this->timetableTimings as $key=>$value): ?>
+                                    <th class="column-title"><?php echo substr($value,0,5).'-'.substr($value,9,5); ?></th>
+                                    <?php endforeach; ?>
+                                </thead>
+                                <tbody>
+                                  <?php 
+                                  foreach($days_week as $day):
+                                  foreach($timetable_data as $key=>$value): 
+                                  if($day == $key) { ?>
+                                    <tr class="even pointer">
+                                      <td><?php echo $key; ?></td>
+                                    <?php for($i=0; $i<count($this->timetableTimings); $i++){ ?>
+                                      <td align="center"><?php if(array_key_exists($this->timetableTimings[$i], $value))
+                                    echo $value[$this->timetableTimings[$i]][0]; 
+                                    else
+                                    echo " "; 
+                                  ?></td>
+                                    <?php } ?>
+                                    </tr>
+                                  <?php 
+                                  } //end if loop
+                                endforeach;
+                                endforeach; ?>
+                                </tbody>
+                              </table>
+                            </div>
+                  </div>
+                </div>     
+                           		<!-- End of Achievements-->
+                  </div>
+                </div>
+              

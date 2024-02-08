@@ -1,0 +1,487 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Add Deductions and Allowance';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#loantype" role="tab" id="loantype-tab" data-toggle="tab" aria-expanded="true">Loan Type</a>
+                      </li>
+                      
+                      <li role="presentation" class=""><a href="#pf" role="tab" id="pf-tab" data-toggle="tab" aria-expanded="false">Fixed Deduction</a>
+                      </li>
+                      
+                      <li role="presentation" class=""><a href="#loan" role="tab" id="loan-tab" data-toggle="tab" aria-expanded="false">Other Deduction</a>
+                      </li>
+                      <li role="presentation" class=""><a href="#allowance" role="tab" id="allowance-tab" data-toggle="tab" aria-expanded="false">Allowance</a>
+                      </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        
+                        <div role="tabpanel" class="tab-pane fade active in" id="loantype" aria-labelledby="loantype-tab">
+                        <p>
+                    
+                            
+                            <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      
+                      <div class="x_content">
+                          
+                      
+                          
+<div>
+                                            
+     <table class="table table-striped jambo_table bulk_action">
+  
+         
+         
+         <div class="row">
+             <div class="row">
+                            
+                          <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Code Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="text" id="code_name" required="required" class="form-control col-md-7 col-xs-12">
+                        
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Loan Type<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="code_name" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="number" id="loan_amount" required="required" class="form-control col-md-7 col-xs-12" placeholder="%">
+                          </div>
+                        </div>  
+                        </div><br>
+                                            
+         <div class="row">
+             <div class="col-md-12 form-group">
+           <button class="btn btn-success">Add</button>
+           <button class="btn btn-danger">Cancel</button>
+             </div></div>
+            
+</div></div></div></table></div></div></div>
+    
+
+            
+      <div class="x_panel">
+                               
+                <div class="x_content">
+                    
+                     <div class="table-responsive">
+                                         
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl.No </th>
+                            <th class="column-title">Code Name </th>
+                            <th class="column-title">Loan Type </th>
+                            <th class="column-title">Percentage </th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>AD</td>
+                        <td>Advance</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>VEL</td>
+                        <td>Vehicle Loan</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>GEL</td>
+                        <td>Government Employee Loan</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>EDL</td>
+                        <td>Education Loan</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      
+                      </tbody>
+                                            
+                      </table>
+                     </div></div></div></div></div>
+                            
+                        </p>
+                        </div>
+                       
+                        <div role="tabpanel" class="tab-pane fade" id="pf" aria-labelledby="pf-tab">
+                        <p>
+                         
+                            <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      
+                      <div class="x_content">
+                          
+                      
+                          
+<div>
+                                            
+     <table class="table table-striped jambo_table bulk_action">
+  
+         
+         
+         <div class="row">
+             <div class="row">
+                            
+                          <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Code Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="text" id="code_name" required="required" class="form-control col-md-7 col-xs-12">
+                        
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="code_name" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="number" id="loan_amount" required="required" class="form-control col-md-7 col-xs-12" placeholder="%">
+                          </div>
+                        </div>  
+                        </div><br>
+                                            
+         <div class="row">
+             <div class="col-md-12 form-group">
+           <button class="btn btn-success">Add</button>
+           <button class="btn btn-danger">Cancel</button>
+             </div></div>
+            
+</div></div></div></table></div></div></div>
+    
+
+            
+      <div class="x_panel">
+                               
+                <div class="x_content">
+                    
+                     <div class="table-responsive">
+                                         
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl.No </th>
+                            <th class="column-title">Code Name </th>
+                            <th class="column-title">Name </th>
+                            <th class="column-title">Percentage </th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>GIS</td>
+                        <td>Government Insurance Scheme</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>HC</td>
+                        <td>Health Contribution</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>PF</td>
+                        <td>Provident Fund</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>TDS</td>
+                        <td>Tax Deducted at Source</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      
+                      
+                      </tbody>
+                                            
+                      </table>
+                     </div></div></div></div></div>
+                            
+                            
+                            
+                        </p>
+                        
+                        </div>
+                  
+                  <div role="tabpanel" class="tab-pane fade" id="loan" aria-labelledby="loan-tab">
+                        <p>
+                    
+                            
+                            <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      
+                      <div class="x_content">
+                          
+                      
+                          
+<div>
+                                            
+     <table class="table table-striped jambo_table bulk_action">
+  
+         
+         
+         <div class="row">
+             <div class="row">
+                            
+                          <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Code Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="text" id="code_name" required="required" class="form-control col-md-7 col-xs-12">
+                        
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="code_name" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="number" id="loan_amount" required="required" class="form-control col-md-7 col-xs-12" placeholder="%">
+                          </div>
+                        </div>  
+                        </div><br>
+                                            
+         <div class="row">
+             <div class="col-md-12 form-group">
+           <button class="btn btn-success">Add</button>
+           <button class="btn btn-danger">Cancel</button>
+             </div></div>
+            
+</div></div></div></table></div></div></div>
+    
+
+            
+      <div class="x_panel">
+                               
+                <div class="x_content">
+                    
+                     <div class="table-responsive">
+                                         
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl.No </th>
+                            <th class="column-title">Code Name </th>
+                            <th class="column-title">Name </th>
+                            <th class="column-title">Percentage </th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>SSS</td>
+                        <td>Salary Savings Schemes</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>SWS</td>
+                        <td>Staff Welfare Scheme</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>SEM</td>
+                        <td>Semso</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      
+                      </tbody>
+                                            
+                      </table>
+                     </div></div></div></div></div>
+                            
+                        </p>
+                        </div>
+                  <div role="tabpanel" class="tab-pane fade" id="allowance" aria-labelledby="allowance-tab">
+                        <p>
+                      
+                            <div class="">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      
+                      <div class="x_content">
+                          
+                      
+                          
+<div>
+                                            
+     <table class="table table-striped jambo_table bulk_action">
+  
+         
+         
+         <div class="row">
+             <div class="row">
+                            
+                          <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Code Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="text" id="code_name" required="required" class="form-control col-md-7 col-xs-12">
+                        
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Name<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="code_name" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>  
+                        </div><br>
+                        <div class="row">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage<span class="required">*</span>
+                        </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="number" id="loan_amount" required="required" class="form-control col-md-7 col-xs-12" placeholder="%">
+                          </div>
+                        </div>  
+                        </div><br>
+                                            
+         <div class="row">
+             <div class="col-md-12 form-group">
+           <button class="btn btn-success">Add</button>
+           <button class="btn btn-danger">Cancel</button>
+             </div></div>
+            
+</div></div></div></table></div></div></div>
+    
+
+            
+      <div class="x_panel">
+                               
+                <div class="x_content">
+                    
+                     <div class="table-responsive">
+                                         
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl.No </th>
+                            <th class="column-title">Code Name </th>
+                            <th class="column-title">Name </th>
+                            <th class="column-title">Percentage </th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                             </tr>
+                        </thead>  
+                        <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>HRA</td>
+                        <td>House Rent Allowance</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>TA</td>
+                        <td>Teaching Allowance</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>KATBC</td>
+                        <td>Entertainment Allowance</td>
+                        <td>0</td>
+                        <td class="fa fa-pencil"></td><td class="fa fa-close"></td>
+                      </tr>
+                      
+                      </tbody>
+                                            
+                      </table>
+                     </div></div></div></div></div>
+                            
+                            
+                            
+                            
+                            
+              </p>
+             </div>
+          </div>
+        </div>
+       </div>
+   </div>
+ </div>
+        </div>
+        </div>
+        
+
+            

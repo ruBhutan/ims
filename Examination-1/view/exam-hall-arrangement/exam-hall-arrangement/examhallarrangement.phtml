@@ -1,0 +1,423 @@
+
+
+<?php
+ // module/EmployeeDetail/view/employee-detail/employee-detail/emppersonaldetail.phtml:
+
+ $title = 'Exam Hall Arrangement';
+ $this->headTitle($title);
+ ?>
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Hall Arrangement</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Student List(Semester Wise)</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Student List(Hall Wise)</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                  <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">        
+                <div class="x_panel">
+                    
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                     <!-- <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                     <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>-->
+                    </ul>
+                    
+                  <div class="clearfix"></div>
+                  </div>
+              
+                  <div class="x_content"><br/>
+                      
+                      <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                      
+                    <form>   
+                 <div class="form-group">
+                     <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Hall Name</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_hall_name'));
+                        ?>
+                  </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Hall No</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_hall_no'));
+                        ?>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Course</label>
+                      <?php
+                         echo $this->formRow($form->get('std_course'));
+                        ?>
+                  </div>
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Semester</label>
+                    <?php
+                         echo $this->formRow($form->get('std_semester'));
+                        ?>
+                  </div>                                   
+                </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Name</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_name'));
+                        ?>
+                  </div>
+                            <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Time</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_time'));
+                        ?>
+                  </div>
+                        </div>
+                    
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                          <div class="col-md-12 col-sm-12 col-xs-12">
+                            <?php 
+                            echo $this->formSubmit($form->get('submit'));
+                            ?>
+                          
+                        </div>
+                      </div>
+                      </form>
+                       <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                  </div>
+                  </div>
+                  
+<?php
+$title = 'Exam Hall Arrangement';
+$this->headTitle($title);
+?>
+              <div class="x_panel"> 
+                 <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                  <div class="clearfix"></div>
+                  </div>
+            <div class="x_content">
+                              
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                           <!-- <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>-->
+                            <th class="column-title">SL No </th>
+                            <th class="column-title">Course </th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title">Exam Name</th>
+                            <th class="column-title">No of Seats</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                     
+                                                  
+                        </tbody>
+                          </table>
+                      
+                    </div>
+            </div></div>
+                  <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>Save</button>
+                        </div>
+                  </div></div>
+                      
+<?php
+$title = 'Hall List';
+$this->headTitle($title);
+?>                      
+                          <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                              <div class="x_panel">
+                    
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    
+                  <div class="clearfix"></div>
+                  </div>
+              
+                  <div class="x_content"><br/>
+                      
+                      <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                      
+                    <form>   
+                 <div class="form-group">
+                     <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Hall Name</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_hall_name'));
+                        ?>
+                  </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Hall No</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_hall_no'));
+                        ?>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Course</label>
+                      <?php
+                         echo $this->formRow($form->get('std_course'));
+                        ?>
+                  </div>
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Semester</label>
+                    <?php
+                         echo $this->formRow($form->get('std_semester'));
+                        ?>
+                  </div>                                   
+                </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Name</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_name'));
+                        ?>
+                  </div>
+                  </div>
+                    
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" class="btn btn-danger"><i class="fa fa-print"></i>Print List</button>
+                        </div>
+                      </div>
+                      </form>
+                       <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                  </div>
+                  </div>
+                  
+<?php
+$title = 'List of Students';
+$this->headTitle($title);
+?>
+              <div class="x_panel"> 
+                 <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                  <div class="clearfix"></div>
+                  </div>
+            <div class="x_content">
+                              
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                           <!-- <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>-->
+                            <th class="column-title">SL No </th>
+                            <th class="column-title">Student ID</th>
+                            <th class="column-title">Student Name</th>
+                            <th class="column-title">Course </th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                     
+                                                  
+                        </tbody>
+                          </table>
+                      
+                    </div>
+            </div></div>
+                          </div>
+                          
+<?php
+$title = 'Hall List';
+$this->headTitle($title);
+?>                        
+
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                          <div class="x_panel">
+                    
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                     <!-- <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                     <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>-->
+                    </ul>
+                    
+                  <div class="clearfix"></div>
+                  </div>
+              
+                  <div class="x_content"><br/>
+                      
+                      <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        
+                        echo $this->formHidden($form->get('id'));
+                        ?>
+                      
+                    <form>   
+                 <div class="form-group">
+                     <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Date</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_date'));
+                        ?>
+                  </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Start Time</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_time'));
+                        ?>
+                  </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Hall Name</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_hall_name'));
+                        ?>
+                  </div>
+                     <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Hall No</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_hall_no'));
+                        ?>
+                  </div>
+                                                 
+                </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-12 col-xs-12">
+                      <label>Exam Name</label>
+                    <?php
+                         echo $this->formRow($form->get('exam_name'));
+                        ?>
+                  </div>
+                            
+                        </div>
+                    
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" class="btn btn-danger"><i class="fa fa-print"></i>Print List</button>
+                        </div>
+                      </div>
+                      </form>
+                       <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                  </div>
+                  </div>
+                  
+<?php
+$title = 'List of Students';
+$this->headTitle($title);
+?>
+              <div class="x_panel"> 
+                 <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                  <div class="clearfix"></div>
+                  </div>
+            <div class="x_content">
+                              
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action"> 
+                        <thead>
+                          <tr class="headings">
+                           <!-- <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>-->
+                           <th class="column-title">SL No </th>
+                            <th class="column-title">Student ID</th>
+                            <th class="column-title">Student Name</th>
+                            <th class="column-title">Course </th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                     
+                                                  
+                        </tbody>
+                          </table>
+                      
+                    </div>
+            </div></div>
+                        </div>
+                      
+                      </div>
+                  
+                  </div></div></div></div>
+            
+         
+              
+       
+                

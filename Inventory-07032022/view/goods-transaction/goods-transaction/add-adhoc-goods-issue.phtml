@@ -1,0 +1,207 @@
+<?php
+ $title = 'Adhoc Issue Goods';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+                    
+                  <div class="x_content">
+                    <h5><i>***Please select item that you are suppose to issue to individual at adhoc. You have to select staff whom to issue an item and item to issue. If you have more than one staff then one staff or other category item, you keep on adding in list below form, enter the quantity and click on submit button.</i></h5>
+                    <br/>
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            //$form = $form->get('issuegoods');
+                    echo $this->form()->openTag($form);
+                    //$adhocIssueGoods->get('id')->setValue($this->id);
+          				  //echo $this->formHidden($adhocIssueGoods->get('id'));
+                    $form->get('goods_issued_by')->setValue($this->employee_details_id);
+                    echo $this->formHidden($form->get('goods_issued_by'));
+                    echo $this->formHidden($form->get('id'));
+
+                    $form->get('issue_goods_status')->setValue('Not Issued'); 
+                    echo $this->formHidden($form->get('issue_goods_status'));
+
+                    $form->get('date_of_issue')->setValue(date('Y-m-d'));
+                    echo $this->formHidden($form->get('date_of_issue'));
+
+                  
+					
+				  ?>  
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="departments_id">Division/ Section<span class="required">*</span></label>
+                      <div class="col-md-3 col-sm-3 cold-xs-12">
+                        <?php echo $this->formRow($form->get('departments_id')); ?>
+                      </div>
+                      <label class="control-label col-md-2 col-sm-2 col-xs-12" for="employee_details_id">Staff Name<span class="required">*</span></label>
+                      <div class="col-md-3 col-sm-3 cold-xs-12">
+                        <?php echo $this->formRow($form->get('employee_details_id')); ?>
+                      </div>
+                    </div>
+
+                    <br><br>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_sub_category_id">Item Sub Category<span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 cold-xs-12">
+                          <?php echo $this->formRow($form->get('item_sub_category_id')); ?>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_name_id">Item Name<span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 cold-xs-12">
+                          <?php echo $this->formRow($form->get('item_name_id')); ?>
+                        </div>
+                      </div> 
+
+                      <div class="form-group">
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Item Details <span class="required">*</span><br />
+                              <small>(To select more than one item, press the "shift key" and select)</small></label>
+                           <div class="col-md-8 col-sm-8 col-xs-12">
+                              <?php echo $this->formRow($form->get('goods_received_id')); ?>
+                           </div>
+                     </div> 
+
+                     <div class="form-group">
+                           <label class="control-label col-md-2 col-sm-2 col-xs-12">Remark (s) <span class="required">*</span><br />
+                              <small>(Here you can enter the details of item that you are issueing)</small></label>
+                           <div class="col-md-8 col-sm-8 col-xs-12">
+                              <?php echo $this->formRow($form->get('goods_issued_remarks')); ?>
+                           </div>
+                     </div>              
+                   
+                    <div class="ln_solid"></div>
+                    <div class="row">
+                      <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php
+                						  echo $this->formHidden($form->get('csrf'));
+                						  echo $this->formSubmit($form->get('submit')); 
+                            ?>
+                          </div>
+                      </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                  </div>
+                </div>
+
+                <!-- Start of table listing item to issue -->
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml('Item List to Issue'); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <h5><i>*The following are the list of the item to issue to particular staff. You can view/edit/delete the item before you finally issue.<br/><br/>
+                    <b>Note: Issue Quantity Should not be more than the Item in Stock. Please take care when you issue, if same item is going to issue more than one, there sum of issue quantity should not exceed the item in stock.</b></i></h5>
+                  <br />
+                  <?php
+                  // Opening of the form tag
+                    $goodsForm->setAttribute('action', $this->url('updateadhocgoodsissue', array('action' => 'updateAdhocGoodsIssue')));
+                    $goodsForm->prepare();
+                    echo $this->form()->openTag($goodsForm);
+                    ?>
+                  <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">     
+                            <th class="column-title">Sl.No. </th>
+                            <th class="column-title">Item Issue To </th>
+                            <th class="column-title">Department</th>
+                          <th class="column-title">Item Name</th>
+                          <th class="column-title">Item In Stock</th>
+                           <th class="column-title">Item Received Date</th>
+                            <th class="column-title">Issue Quantity *<small>(Required, this shoule be numerical value only)</th>
+                            <th class="column-title">Item Code <small>(Optional: it is especially for fixed asset item)</small></th>
+                            <th class="column-title">Action </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i=1; ?>
+                        <?php foreach ($this->indAdhocIssueGoods as $indAdhoc) : ?>
+                            <tr>
+                                  <td class=" "><?php echo $i; ?></td>
+                                  <td class=" "><?php echo $this->escapeHtml($indAdhoc->getFirst_Name()). ' ';
+                                                      echo $this->escapeHtml($indAdhoc->getMiddle_Name()). ' ';
+                                                      echo $this->escapeHtml($indAdhoc->getLast_Name()). ' (';
+                                                      echo $this->escapeHtml($indAdhoc->getEmp_Id()). ')'; ?></td>
+                                  <td class=" "><?php echo $this->escapeHtml($indAdhoc->getDepartment_Name());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($indAdhoc->getItem_Name());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($indAdhoc->getItem_In_Stock());?></td>
+                                   <td class=" "><?php echo $this->escapeHtml($indAdhoc->getItem_Received_Date());?></td>
+                                   <td class=" "><?php echo $this->formRow($goodsForm->get('emp_quantity'.$indAdhoc->getId()));?></td>
+                                   <td class=" "><?php echo $this->formRow($goodsForm->get('goods_code'.$indAdhoc->getId()));?></td>
+                                   <td class=" ">
+                                    <a href="<?php echo $this->url('delete-adhoc-goods-issue', array('id' => my_encrypt($indAdhoc->getId(), $key))); ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete </a>
+                                              </td>
+                                   
+                                   
+                            </tr>
+                            <?php $i++; ?>
+                         <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                     </div>
+                 </div>
+                 <?php
+                    echo $this->formHidden($goodsForm->get('csrf'));
+                    echo $this->formSubmit($goodsForm->get('submit'));
+                    echo $this->form()->closeTag();
+                  ?>
+             </div>
+      </div>
+  </div>
+</div>

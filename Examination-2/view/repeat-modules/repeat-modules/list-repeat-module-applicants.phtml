@@ -1,0 +1,47 @@
+<?php
+ $title = 'List of Applicants for Backlog Modules';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+      <div class="">
+        <div class="col-md-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><?php echo $this->escapeHtml($title); ?></h2>
+             <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <br />
+             <div class="table-responsive">
+              <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                  <tr class="headings">
+                     <th class="column-title" width="5%">Sl.No.</th>
+                     <th class="column-title">Student Name</th>
+                     <th class="column-title">SID</th>
+                     <th class="column-title">Programme</th>
+                     <th class="column-title">Module Name (with Code)</th>
+                     <th class="column-title">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $i=1;  foreach($this->assessmentList as $activity): ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $i++;?></td>
+                    <td class=" "><?php echo $activity['first_name'];?></td>
+                    <td class=" "><?php echo $activity['student_id'];?></td>
+                    <td class=" "><?php echo $activity['programme_name'];?></td>
+                    <td class=" "><?php echo $activity['module_name'];?></td>
+                    <td class=" "><a href="<?php echo $this->url('editnatureofactivity', array('id' => $activity['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+         </div>
+       </div>
+     </div>
+  </div>
+</div>
+            

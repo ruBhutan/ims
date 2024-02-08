@@ -1,0 +1,179 @@
+<?php
+/**
+ *
+ * View -- of Accounts/TransactionController/viewtransactionAction
+ *
+ */
+$title = "Voucher Details";
+
+$key = $this->keyphrase;
+
+function my_encrypt($data, $key) {
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+foreach ($this->transactionrow as $row):
+    extract($row);
+    $transaction_id = $row['id'];
+    $voucher_name = $row['voucher_type'];
+    $cheque_id = $row['cheque_id'];
+endforeach;
+foreach ($this->parties as $party):
+    extract($party);
+endforeach;
+foreach ($this->employeepfs as $employeepfs);
+?>
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <?php $flashMessenger = $this->flashMessenger('error'); ?>
+                <?php if ($flashMessenger->hasMessages()): ?>
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <?php foreach ($flashMessenger->getMessages() as $message): ?>
+                            <?php echo $message ?>
+                        <?php endforeach ?>
+                    </div>
+                <?php endif; ?>
+                <?php $flashMessenger->setNamespace('success'); ?>
+                <?php if ($flashMessenger->hasMessages()): ?>
+                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <?php foreach ($flashMessenger->getMessages() as $message): ?>
+                            <?php echo $message ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <div class="x_content">
+                    <div class="row" id="convert-tb0">
+                        <div class="col-lg-9" id="convert-tb1">
+                            <ul class="list-unstyled spaced">
+                                <li>
+                                    <i class="ace-icon fa fa-caret-left blue"></i>&nbsp;&nbsp;&nbsp;<b>Voucher Type :</b> <?php echo $voucher_name; ?>
+                                </li>
+                                <li>
+                                    <i class="ace-icon fa fa-caret-left blue"></i>&nbsp;&nbsp;&nbsp;<b>Voucher Date :</b> <?php echo $voucher_date; ?>
+                                </li>
+                                <?php if (sizeof($this->parties) > 0): ?>
+                                    <li>
+                                        <i class="ace-icon fa fa-caret-left blue"></i>&nbsp;&nbsp;&nbsp;<b>Party Name :</b> <?php echo $master_details; ?>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                        <div class="col-lg-3" id="convert-tb3">
+                            <ul class="list-unstyled spaced">
+                                <li>
+                                    <i class="ace-icon fa fa-caret-left blue"></i>&nbsp;&nbsp;&nbsp;<b>Voucher No :</b> <?php echo $voucher_no; ?>
+                                </li>
+                                <li>
+                                    <i class="ace-icon fa fa-caret-left blue"></i>&nbsp;&nbsp;&nbsp;<b>Voucher Amount :	<?php echo $this->currency($voucher_amount); ?> </b>
+                                </li>
+                            <?php if( !empty($cheque_no) ): ?>
+                                <li>
+                                    <i class="ace-icon fa fa-caret-left blue"></i>&nbsp;&nbsp;&nbsp;<b>Cheque No :</b><?php echo $cheque_no; ?>
+                                </li>
+                            <?php elseif (sizeof($this->service->getDatabyParam($this->chequeDtlsObj,$cheque_id,'')) > 0): ?>
+                                    <li>
+                                        <i class="ace-icon fa fa-caret-left blue"></i>&nbsp;&nbsp;&nbsp;<b>Cheque No :</b><?php $check_data = $this->service->getDatabyParam($this->chequeDtlsObj,$row['cheque_id'], 'instrument_no');
+                                        echo $check_data[0]['instrument_no']; ?>
+                                    </li>
+                            <?php endif; ?>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="list-unstyled spaced">
+                                <li>
+                                    <i class="ace-icon fa fa-caret-right blue">&nbsp;&nbsp;&nbsp;<b></i>Naration : </b> <?php echo $remark; ?>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="table table-striped table-bordered table-condensed">
+                                <thead>
+                                <th style="font-size:14px">Details</th>
+                                <th style="font-size:14px">Amount Dr(<?php echo $this->currency_code(); ?>)</th>
+                                <th style="font-size:14px">Amount Cr(<?php echo $this->currency_code(); ?>)</th>
+                                </thead>
+                                <tbody>
+                                    <?php $total_debit = 0;
+                                    $total_credit = 0;
+                                        foreach ($this->transactiondetails as $tdrow): ?>
+                                        <tr>
+                                            <?php if ($tdrow['sub_head'] == '28'):
+                                                $sub_head_name = $this->service->getDatabyParam($this->masterObj,array('id' => $tdrow['master_details']),'name')
+                                            ?>
+                                                <td style="font-size:13px"><?php echo $sub_head_name[0]['name']; ?></td>
+                                            <?php else:
+                                                $sub_head_name = $this->service->getDatabyParam($this->subheadObj,array('id' => $tdrow['sub_head']),'name')
+                                            ?>
+                                                <td style="font-size:13px"><?php echo $sub_head_name[0]['name']; ?></td>
+                                            <?php endif; ?>
+                                            <td style="font-size:13px; text-align:right"><?php echo $tdrow['debit']; ?></td>
+                                            <td style="font-size:13px; text-align:right"><?php echo $tdrow['credit']; ?></td>
+                                        </tr>
+                                        <?php $total_debit += $tdrow['debit'];
+                                            $total_credit += $tdrow['credit']; ?>
+                                    <?php endforeach; ?>
+                                    <tr style="border-top:2px solid #ddd;border-bottom:2px solid #ddd;">
+                                        <th colspan="1" style="font-size:13px"> Total : </th>
+                                        <th style="font-size:13px; text-align:right"><?php echo number_format((float) $total_debit, 2, '.', ','); ?></th>
+                                        <th style="font-size:13px; text-align:right"><?php echo number_format((float) $total_credit, 2, '.', ','); ?></th>
+                                    </tr>
+                                    <tr style="border-top:2px solid #ddd;border-bottom:2px solid #ddd;">
+                                        <th colspan="7" style="font-size:13px; text-align:left"><?php echo $this->numtoWords($voucher_amount); ?></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-6">
+                            &nbsp;
+                        </div>
+                        <div class="col-lg-3">
+                            <?php if ($status == '1'): ?>
+                                <a class="btn btn-sm btn-info hidden-xs" style ="text-decoration:none" href="<?php echo $this->url('transaction', array('action' => 'edittransaction', 'id' => my_encrypt($transaction_id, $key))); ?>" ><i class ="fa fa-check-square-o"></i>&nbsp;&nbsp;Edit</a>
+                                <a class="btn btn-sm btn-success hidden-xs" style ="text-decoration:none" href="<?php echo $this->url('transaction', array('action' => 'commit', 'id' => my_encrypt($transaction_id, $key))); ?>" ><i class ="fa fa-check-square-o"></i>&nbsp;&nbsp;Verified</a>
+                            <?php endif;?>
+                        </div>
+                    </div>
+                    <?php
+                        $emp_fname = $this->service->getDatabyParam($this->emplObj,$author,'first_name');
+                        $emp_mname = $this->service->getDatabyParam($this->emplObj,$author,'middle_name');
+                        $emp_lname = $this->service->getDatabyParam($this->emplObj,$author,'last_name');
+                    ?>
+                    <div class="row" id="convert-tb0">
+                        <div class="col-lg-6" id="convert-tb1">
+                            <ul class="list-unstyled spaced pull-left">
+                                <li>
+                                    <label style="font-size:13px"> Prepared by: <?php echo $emp_fname[0]['first_name'].' '.$emp_mname[0]['middle_name'].' '.$emp_lname[0]['last_name']; ?></label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6" id="convert-tb2">
+                            <ul class="list-unstyled spaced center"><li><label> Verified & Approved  by: </label></li></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

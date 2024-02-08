@@ -1,0 +1,56 @@
+<?php
+
+ $title = 'Applied Leave Status';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+
+                        <div class="table-responsive">
+                          <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                              <tr class="headings">
+                                 <th class="column-title">Sl.No </th>
+                                 <th class="column-title">Leave Category</th>
+                                 <th class="column-title">Leave Approval</th>
+                                 <th class="column-title">From Date</th>
+                                 <th class="column-title">To Date</th>
+                                 <th class="column-title">Leave Status</th>
+                                 <th class="column-title">Action</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                           <?php $i=1; foreach ($this->leaveStatus as $leave) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                                <td class=" "><?php echo $this->escapeHtml($leave['leave_category']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($leave['approval_by']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($leave['from_date']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($leave['to_date']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($leave['leave_status']);?></td>
+                                <td class=" last" width="14%"> <a href="<?php echo $this->url('viewstudentleavedetails', array('id' => $leave['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View Details</a></td>
+                              </tr>
+                              <?php endforeach; ?>
+                            </tbody>
+                          </table>
+                        </div>
+                        </div>                        
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

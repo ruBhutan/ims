@@ -1,0 +1,266 @@
+<?php
+/**
+ * 
+ * View -- of Accounts/AssetController/addtransactionAction
+ * 
+ */
+ $title = 'Add New Transaction';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>			
+				<div class="x_content">
+					<form  id="transForm" method="post" action="<?php echo $this->url('transaction', array('action' => 'addtransaction')); ?>"  enctype="multipart/form-data" >    
+						<div class="row"> 
+						    <div class ="col-lg-12">
+								<div class="form-group col-lg-3">
+									<label for="voucher_date" class="control-label">Voucher Date</label>
+									<div class="date input-group" id="voucher_date" data-date="<?php echo date('Y-m-d');?>" data-date-format="yyyy-mm-dd">
+										<input class="form-control span2" name="voucher_date" id="voucher_date" type="text" placeholder="Payment Date" value="<?php echo date('Y-m-d'); ?>" readonly required>
+										<span class="input-group-addon add-on"><i class="fa fa-calendar"></i> </span>
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<label for="voucher_type" class="control-label">Voucher Type</label>
+									<select id="voucher_type" name="voucher_type" class="form-control" data-placeholder="Select" required >
+										<option value=""></option>
+										<?php 
+										foreach ($journals as $journal):
+										?>
+											<option value="<?php echo $journal['id'];?>">
+											<?php echo $journal['journal']; ?>
+											</option>
+										<?php 
+										endforeach;
+										?>
+									</select>
+								</div>
+								<div class="form-group col-lg-3">
+									<label for="voucher_amount" class="control-label">Voucher Amount(<?php echo "Nu.";?>)</label>
+									<input type="text" class="form-control" name="voucher_amount" id="voucher_amount" value="0.00" required readonly />
+								</div>
+								<div class="form-group col-lg-3">
+									<label for="bank_balance" class="control-label">Bank Balance (<?php echo "Nu.";?>)</label>
+									<input type="text" class="form-control" name="bank_balance" id="bank_balance" value="<?php echo ($bank_balance > 0)?$bank_balance:'0.00';?>"  readonly />
+									<div class = "error1" style ="display:none"> Payment is more than Bank Balance</div>
+								</div>
+							</div>
+							<div class ="col-lg-12">
+								<div class="form-group col-lg-3">
+									<label for="cash_balance" class="control-label">Cash Balance(<?php echo "Nu.";?>)</label>
+									<input type="text" class="form-control" name="cash_balance" id="cash_balance" value="<?php echo ($cash_balance > 0)?$cash_balance:'0.00';?>"  readonly />
+								    <div class ="error2" style ="display:none"> Payment is more than Cash Balance</div>
+								</div>    
+								<div class="form-group col-lg-3">
+									<label for="party" class="control-label">Party</label> 
+									<select id="party" name="party" class="form-control" data-placeholder="Select" >
+										<option value=""></option>
+										<?php foreach ($masterDtls as $masterDtl):?>
+										<option value="<?php echo $masterDtl['ref_id'].'-'.$masterDtl['type_id'];?>">
+											<?php echo $masterDtl['name']." "."-"." ".$masterDtl['type']; ?>
+										</option>
+										<?php endforeach; ?>
+										<option value="1">
+											<?php echo "Bulk Transaction"; ?>
+										</option>
+									</select>
+								</div>
+								<div id="tds">
+									<div class="form-group col-lg-3">
+										<label for="tds" class="control-label">Tax Deduction at Source</label> 
+										<select id="tds" name="tds[]" class="form-control" data-placeholder="Select" >
+											<option value=""></option>
+											<?php
+												foreach ($this->tdsObj->getAll() as $row):
+												$sel_tds = ($row['id'] == '3')?'selected':'';										
+											?>
+												<option value="<?php echo $row['percentage'];?>" <?php echo $sel_tds; ?>>
+													<?php echo $row['tds']; ?>
+												</option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+							    <div id="cheque">
+									<div class="form-group col-lg-3">
+										<label for="cheque_no" class="control-label">Cheque No.</label>
+										<select class="form-control" id="cheque_no" name="cheque_no" data-placeholder="Select" >
+											<option value=""></option>
+											<?php
+											$cheque_books = $this->chObj->get(array('organisation_id'=>$user_org));
+											foreach($cheque_books as $row);
+											$cbook_dtls = $this->chdtlsObj->get(array('cheque_id'=>$row['id'],'status'=>2));
+											foreach($cbook_dtls as $cbook_dtl):
+											?>
+												<option value="<?php echo $cbook_dtl['id']?>" >
+													<?php echo $cbook_dtl['instrument_no'];?>
+												</option>
+											<?php endforeach;?>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12"> 
+								<h5>Transaction Details</h5>
+								<div>
+									<table id="trdetails_table" class="table small-padding">
+										<thead>
+											<tr>
+												<th>Details</th>
+												<th>Debit(<?php echo "Nu.";?>)</th>
+												<th>Credit(<?php echo "Nu.";?>)</th>
+												<th>&nbsp;</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="col-lg-4">
+													<div class="form-group">
+														<select id="sub_head" name="sub_head[]" class="form-control" data-placeholder="Select" >
+															<option value=""></option>																													
+														</select>
+													</div>
+												</td>
+												<td class="col-lg-4">
+													<div class="form-group">
+														<input type="text" class="form-control tr_debit" name="debit[]"  value="0.00" id="debit" >
+													</div>         
+												</td>
+												<td class="col-lg-4">
+													<div class="form-group">
+														<input type="text" class="form-control tr_credit" name="credit[]"  value="0.00" id="credit" >
+													</div>         
+												</td>
+												<td></td>
+											</tr>									
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6"></div>
+							<div class="col-lg-3">
+								<div class="form-group">
+									<label for="total_debit">Total Debit(<?php echo "Nu.";?>)</label>
+									<input type="text" class="form-control" name="total_debit" id="total_debit" value="0.000" readonly />
+								</div>
+							</div> 
+							<div class="col-lg-3">
+								<div class="form-group">
+									<label for="total_credit">Total Credit(<?php echo "Nu.";?>)</label>
+									<input type="text" class="form-control" name="total_credit" id="total_credit"  value="0.000" readonly />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label for="remarks">Remark (Narration)</label>
+									<textarea class="form-control" name="remark" id="remark" ></textarea>  
+								</div>
+							</div>
+						</div>
+						<br/>
+						<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+						<button type="button" class="btn btn-warning" onclick="javascript:history.back();" ><i class="fa fa-times"></i> Cancel </button> 
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(function() {		
+	/*** onChange of Credit ***/
+	$('#cheque,#tds').ready(function(){
+		$('div#cheque').hide();
+		$('div#tds').hide();
+	});
+	
+	$('#voucher_date').datepicker();
+	$('#voucher_date').on('changeDate',function(){
+		$('form').formValidation('revalidateField', $(this).attr('id'));
+	});
+	$('#trdetails_table').transaction({
+		getMatDetail:'<?php echo $this->url("transaction", array("action" => "getmasterdtl"));?>',
+	});
+	//formValidation
+	 $('form').formValidation({
+		framework: 'bootstrap',
+		excluded: ':disabled',
+		message: 'This value is not valid',
+		fields: {
+			'voucher_date': {
+				validators: {
+					notEmpty: {
+						message: 'Please enter voucher date'
+					}
+				}
+			},
+			'voucher_type': {
+				validators: {
+					notEmpty: {
+						message: 'Please select voucher type'
+					}
+				}
+			}, 
+			'sub_head[]': {
+				validators: {
+					notEmpty: {
+						message: 'Please select subhead'
+					}
+				}
+			},		
+			'credit[]': {
+				validators: {
+					notEmpty: {
+						message: 'Please enter either credit or debit'
+					}
+				}
+			},  
+			'debit[]': {
+				validators: {
+					notEmpty: {
+						message: 'Please enter either credit or debit'
+					}
+				}
+			},  
+			'total_debit': {
+				validators: {
+					 identical: {
+						 field: 'total_credit',
+						 message: 'Total credit must be equal to total dedit'
+					 }
+				}
+			}, 
+			'total_credit': {
+				validators: {
+					 identical: {
+						 field: 'total_debit',
+						 message: 'Total debit must be equal to total credit'
+					 }
+				}
+			},  			
+		}
+	})
+	.on('success.field.fv', function(e, data) {
+		if (data.fv.getInvalidFields().length > 0) {    // There is invalid field
+			data.fv.disableSubmitButtons(true);
+		}
+	});
+});
+</script> 
+

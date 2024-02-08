@@ -1,0 +1,151 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+<div class="menu_section">
+<br><br><br>
+<ul class="nav side-menu">
+	<li><a><i class="fa fa-home"></i>Home<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?php echo $this->url('index') ?>">Dashboard</a></li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-users"></i>Human Resource<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>HR Planning<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>HRD Planning<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('hrdapprovedlist') ?>">HRD Plan Approved List</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>HRM Planning<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('hrmapprovedlist') ?>">Work Force Approved List</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>HR Administration<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Leave<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('leavestatus') ?>">Apply Leave</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Leave Encashment<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('empleaveencashmentapplication') ?>">Leave Encashment</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Staff Lifecycle<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Transfer<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('applytransferform') ?>">Apply Transfer</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Promotion<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('empapplypromotion') ?>">Apply Promotion</a></li>
+						<li><a href="<?php echo $this->url('empmeritoriouspromotion') ?>">Meritorious Promotion</a></li>
+						<li><a href="<?php echo $this->url('staffpromotionstatus') ?>">My Promotion Status</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Separation<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('staffresignationstatus') ?>">My Resignation Status</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>PMS<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Appraisals<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('administrativeappraisal') ?>">Administrative Appraisal</a></li>
+					</ul>
+					</li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>HR Development<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('applytrainings') ?>">Apply Trainings & Workshops</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-calendar"></i>Planning<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>RUB Vision and Mission<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('viewfiveyearplan') ?>">View Vision and Mission</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-database"></i>Property and Inventory<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a><i class=""></i>Goods Transaction<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a><i class=""></i>Goods Issue<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('add-adhoc-goods-issue') ?>">Adhoc</a></li>
+						<li><a href="<?php echo $this->url('requisition-goods-issue') ?>">Requisition</a></li>
+						<li><a href="<?php echo $this->url('sub-store-issue-goods') ?>">Sub Store</a></li>
+						<li><a href="<?php echo $this->url('add-sub-store-to-ind-issue-goods') ?>">Sub Store to Individual</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Goods Surrender<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('goods-surrender-list') ?>">Status</a></li>
+						<li><a href="<?php echo $this->url('applied-goods-surrender-list') ?>">All Status</a></li>
+						<li><a href="<?php echo $this->url('emp-goods-surrender-list') ?>">Store Approval</a></li>
+						<li><a href="<?php echo $this->url('emp-sub-store-goods-surrender-list') ?>">Sub Store Approval</a></li>
+						<li><a href="<?php echo $this->url('sub-store-surrender-list') ?>">Sub Store To Store Approval</a></li>
+					</ul>
+					</li>
+					<li><a><i class=""></i>Goods Transfer<span class="fa fa-chevron-down"></span></a>
+					<ul class="nav child_menu">
+						<li><a href="<?php echo $this->url('dept-goods-transfer-from-list') ?>">From Department</a></li>
+						<li><a href="<?php echo $this->url('dept-goods-transfer-list') ?>">Goods Transfer Status</a></li>
+						<li><a href="<?php echo $this->url('org-goods-transfer-approval-list') ?>">From Organisation Approval List</a></li>
+						<li><a href="<?php echo $this->url('org-goods-transfer-list') ?>">Organisation Goods Transfer Status</a></li>
+					</ul>
+					</li>
+					<li><a href="<?php echo $this->url('view-item-details') ?>">Add Item Details</a></li>
+					<li><a href="<?php echo $this->url('add-item-supplier') ?>">Supplier</a></li>
+					<li><a href="<?php echo $this->url('add-item-donor') ?>">Donor</a></li>
+					<li><a href="<?php echo $this->url('add-goods-received') ?>">Stock Entry</a></li>
+					<li><a href="<?php echo $this->url('supplied-goods-list') ?>">Generate Receipt Voucher</a></li>
+					<li><a href="<?php echo $this->url('view-goods-in-stock') ?>">Goods in Stock</a></li>
+					<li><a href="<?php echo $this->url('emp-goods-list') ?>">My Goods List</a></li>
+					<li><a href="<?php echo $this->url('view-dept-goods-list') ?>">Sub Stock Lists</a></li>
+					<li><a href="<?php echo $this->url('dept-all-goods-in-stock') ?>">All Department Goods in Stock</a></li>
+					<li><a href="<?php echo $this->url('view-emp-issued-goods') ?>">Staff Issued Goods List</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Goods Requisition<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('apply-goods-requisition') ?>">Apply Requisition</a></li>
+					<li><a href="<?php echo $this->url('view-requisition') ?>">Requisition List</a></li>
+					<li><a href="<?php echo $this->url('requisition-approval-list') ?>">Requisition Approval</a></li>
+					<li><a href="<?php echo $this->url('all-goods-requisition-list') ?>">All Requisition List</a></li>
+			</ul>
+			</li>
+			<li><a><i class=""></i>Goods Depreciation<span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+					<li><a href="<?php echo $this->url('view-fixed-asset-list') ?>">Fixed Assets List</a></li>
+					<li><a href="<?php echo $this->url('view-depreciation-value') ?>">Depreciation Table</a></li>
+			</ul>
+			</li>
+		</ul>
+	</li>
+	<li><a><i class="fa fa-user"></i>Counseling Service<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="<?php echo $this->url('counselingappointment') ?>">Seek Appointment</a></li>
+			<li><a href="<?php echo $this->url('recommendcounseling') ?>">Recommend for Counseling</a></li>
+		</ul>
+	</li>
+</ul>
+</div>
+</div>

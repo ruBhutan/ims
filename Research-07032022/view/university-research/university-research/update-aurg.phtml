@@ -1,0 +1,107 @@
+<?php
+ $title = 'ANNUAL UNIVERSITY RESEARCH GRANT REPORT';
+ $this->headTitle($title);
+ $researcher = array();
+ foreach($this->researcherDetails as $detail){
+	 $researcher = $detail;
+ }
+
+ ?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><?php echo $this->escapeHtml($title); ?></h2>                   
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">    
+              <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $research = $form->get('aurggrant');
+                    echo $this->form()->openTag($form);
+                    $research->get('aurg_grant_id')->setValue($this->id);
+                    $research->get('aurg_update_date')->setValue(date('Y-m-d'));
+                    echo $this->formHidden($research->get('id'));
+                    echo $this->formHidden($research->get('aurg_grant_id'));
+                    echo $this->formHidden($research->get('aurg_update_date'));       
+                  ?>         
+                      <h2>PRINCIPAL RESEARCHER</h2>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Name:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $researcher['first_name'].' '.$researcher['middle_name'].' '.$researcher['last_name']; ?>" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Position level:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $researcher['position_level']; ?>"readonly>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Appointment Year:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                          <?php $date = explode("-", $researcher['recruitment_date']);
+                          ?>
+                            <input type="text" class="form-control" placeholder="<?php echo $date[0];?>" readonly="readonly">
+                        </div>
+                      </div>
+                            
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">E-mail:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $researcher['email'] ?>" readonly="">
+                        </div>
+                      </div>        
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Contact No:</label>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <input type="text" class="form-control" placeholder="<?php echo $researcher['phone_no'] ?>" readonly="">
+                        </div>
+                      </div> 
+
+                  <div class="clear"></div><br/><br/>        
+                  <h2>Update Annual Unversity Grant Progress</h2>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select the status<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                          <?php echo $this->formRow($research->get('aurg_research_status')); ?>
+                         </div>
+                     </div>
+                     <br />
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                            <?php echo $this->formRow($research->get('aurg_remarks')); ?>
+                        </div>
+                     </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Evidence File<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                            <?php echo $this->formRow($research->get('aurg_evidence_file')); ?>
+                        </div>
+                     </div> 
+                   </div>
+                    <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                           <?php  
+                            echo $this->formHidden($form->get('csrf'));
+                            echo $this->formRow($research->get('submit')); 
+                            echo $this->form()->closeTag($form);
+                         ?>
+                        </div>
+                      </div>
+                    </div>
+			</div>
+		</div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+   

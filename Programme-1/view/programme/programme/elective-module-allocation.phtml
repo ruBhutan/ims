@@ -1,0 +1,126 @@
+<?php
+ $title = 'Elective Module Allocation';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <!-- Adding Achievements-->
+                <div class="col-md-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2><?php echo $this->escapeHtml($title)?></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+                    
+                        </ul>
+                     <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                    <h5><i>Select Programme Name and the Module</i></h5>
+                       <?php
+                        // Opening of the form tag
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                      ?>
+                    
+                      <div class="row">
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <label>Programme</label>
+                            <?php echo $this->formRow($form->get('programmes_id')); ?>
+                          </div>
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <label>Module</label>
+                            <?php echo $this->formRow($form->get('academic_modules_allocation_id')); ?>
+                          </div>
+                      </div>
+                      <h5><i>Year is taken care by the "year" the programme is offered. Please select the section to get the list of the students by section</i></h5>
+                     <div class="row">
+                          <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                            <label>Section</label>
+                            <?php echo $this->formRow($form->get('section_id')); ?>
+                          </div>
+                      </div>
+                     <div class="row">
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <?php
+                               echo $this->formHidden($form->get('csrf'));
+                               echo $this->formSubmit($form->get('submit')); 
+                               echo $this->form()->closeTag(); 
+                            ?>
+                        </div>
+                    </div>
+                      
+                  </div>
+                </div>
+               </div>     
+                      
+                  
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2><?php echo $this->escapeHtml("List of Student(s)"); ?></h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                     <?php
+						// Opening of the form tag
+                        $assignElectiveModuleForm->setAttribute('action', $this->url('assignelectivemodule', array('action' => 'assignElectiveModule')));
+                        $assignElectiveModuleForm->prepare();
+                        echo $this->form()->openTag($assignElectiveModuleForm);
+                        //not used. set for form validation
+						$academic_modules_allocation_id = $this->module_data['academic_modules_allocation_id'];
+						$assignElectiveModuleForm->get('academic_modules_allocation_id')->setValue($academic_modules_allocation_id);
+                        echo $this->formHidden($assignElectiveModuleForm->get('id'));
+						echo $this->formHidden($assignElectiveModuleForm->get('academic_modules_allocation_id'));
+                      ?>
+                    <div class="x_content">
+                      <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                            <th style="width: 5%" class="column-title">Sl No</th>
+                            <th style="width: 25%" class="column-title">Name </th>
+                            <th style="width: 25%" class="column-title">SID </th>
+                            <th style="width: 20%" class="column-title">Action</th>
+                        </thead>
+    
+                        <tbody>
+                          <?php $i =1; foreach($this->studentList as $key=>$value) {?>
+                          <tr class="even pointer">
+                            <td class=" "><?php  echo $i++;?></td>
+                            <td class=" "><?php echo $key; ?></td>
+                            <td class=" "><?php echo $value; ?></td>
+                            <td style="width: 12%"><?php echo $this->formRow($assignElectiveModuleForm->get($key)); ?></td>
+                          </tr>
+                          <?php  }?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row">
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                              <?php
+                               echo $this->formHidden($assignElectiveModuleForm->get('csrf'));
+                               echo $this->formSubmit($assignElectiveModuleForm->get('submit')); 
+                               echo $this->form()->closeTag();
+                            ?>
+                        </div>
+                    </div>
+                    
+                        <!-- End of Achievements-->
+                </div>
+              </div>
+            </div>
+            </div>
+            
+              

@@ -1,0 +1,203 @@
+<?php
+ $title = 'Petition of Backlog/Repeat Module';
+ $this->headTitle($title);
+ $student_details = array();
+ foreach($this->studentDetails as $detail){
+	 $student_details = $detail;
+ }
+ 
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <?php if($this->student_id) {?>
+                  <div class="x_content">
+				          <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $marks = $form->get('repeatmodules');
+                    $marks->get('student_id')->setValue($this->student_id);
+                    $marks->get('academic_modules_allocation_id')->setValueOptions($this->moduleList);
+                    $marks->get('registration_status')->setValue('Pending');
+                    $marks->get('registration_date')->setValue(date('Y-m-d'));
+                    echo $this->formHidden($marks->get('id'));
+                    echo $this->formHidden($marks->get('student_id'));
+                    echo $this->formHidden($marks->get('registration_status'));
+                 ?> 
+                  <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+                  <h2 class="StepTitle">Instructions:</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h5><i>
+                          		1. In strict adherence with the clause REPEAT in the Wheel of Academic Law, both the component course works and examinations will have to be repeated. <br />
+                                2. A module will be assessed through coursework alone where examination part is not required programme document. <br />
+                                3. New marks will replace the earlier marks seccured in the course work and examination.
+                          </i></h5>
+                       </div>
+                    </div>
+                  </div>
+                   <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-4 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $student_details['first_name'].' '.$student_details['middle_name'].' '.$student_details['last_name']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Student ID:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $student_details['student_id']; ?></i></h4>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Programme:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $student_details['programme_name']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <?php 
+                  if($this->duration['from_date'] <= date('Y-m-d') && date('Y-m-d') <= $this->duration['to_date']){
+                  ?>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Module Name (and Code)<span class="required">*</span></label>
+                       <div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($marks->get('academic_modules_allocation_id')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-3 col-sm-2 col-xs-12">Application Date</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($marks->get('registration_date')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <br/><br/>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo 'I, hereby declare that the information provided above are true to the best of my knowledge and I bear full responsibility for any anamoly'; ?></label>
+                        <br />
+                    	<div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($marks->get('agreement')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <br />                    
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+                            echo $this->formRow($marks->get('submit'));
+                            echo $this->form()->closeTag($form);
+                          ?>
+                        </div>
+                      </div>
+                      <?php } else { ?>
+                          <div class="x_content">
+                            <?php 
+                                                  
+                                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                                      echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                                          echo '<strong>Alert! You are not allow to apply for module repeat registration since period has been expired or not yet announced.</strong>';
+                                          echo '</div>';
+                                  ?>
+                          </div>
+                        <?php } ?>
+                  
+       			 </div> <!-- End of x_content-->
+              <?php
+            $title1 = "List of backlog or repeat module";
+            ?>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2><?php echo $this->escapeHtml($title1); ?></h2>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                            <th style="width: 5%" class="column-title">Sl No</th>
+                            <th class="column-title">Module </th>
+                            <th class="column-title">Module Type </th>
+                            <th class="column-title">Academic Year</th>
+                            <th class="column-title">Year</th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title">Status</th>
+                        </thead>
+    
+                        <tbody>
+                          <?php 
+                            $i = 1;
+                            foreach($registered_repeat_module_list as $list):
+                          ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $list['module_title'].' ('.$list['module_code'].')'; ?></td>
+                            <td class=" "><?php echo $list['module_type']; ?></td>
+                            <td class=" "><?php echo $list['backpaper_academic_year']; ?></td>
+                            <td class=" "><?php echo $list['backpaper_in']; ?></td>
+                            <td class=" "><?php echo $list['backpaper_semester']; ?></td>
+                            <td class=" "><?php echo $list['registration_status']; ?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+              </div>
+              <?php } else {?> <!-- end of loop-->
+                <div class="x_content">
+                <?php 
+                            
+                     echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                    echo '<strong>Alert! You are not allow.</strong>';
+                    echo '</div>';
+                  ?>
+                </div>
+                  <?php } ?>
+        	  </div> <!-- End of x_panel-->
+
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

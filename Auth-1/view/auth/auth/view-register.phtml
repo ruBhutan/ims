@@ -1,0 +1,74 @@
+<?php
+$basepath = $this->basePath();
+$this->headScript()
+        ->appendFile($basepath . '/js/jquery/dist/jquery.min.js')
+        ->appendFile($basepath . '/js/jquery-validation/dist/jquery.validate.js')
+        ->appendFile($basepath . '/js/user/register.js');
+?>
+
+<body class="hold-transition register-page">
+<div class="register-box">
+    <div class="register-logo">
+    <b>RUB - </b>IMS
+  </div>
+  <div class="register-box-body">
+    <p class="login-box-msg">Job Applicant Registration Form</p>
+    <form class="form-horizontal" name="f" method="post" id="registerForm" data-url="<?= $this->url('auth'); ?>/register">
+      <div class="form-group has-feedback">
+		<div class="col-xs-12">
+			<label>First Name <font color="red">*</font></label>
+			<input type="text" class="form-control" placeholder="First Name" id="firstName" name="firstName" tabindex="1">
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+		</div>
+      </div>
+	  <div class="form-group has-feedback">
+		<div class="col-xs-12">
+			<label>Middle Name</label>
+			<input type="text" class="form-control" placeholder="Middle Name" id="middleName" name="middleName" tabindex="2">
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+		</div>
+      </div>
+	  <div class="form-group has-feedback">
+		<div class="col-xs-12">
+			<label>Last Name</label>
+			<input type="text" class="form-control" placeholder="Last Name" id="lastName" name="lastName" tabindex="3">
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+		</div>
+      </div>
+	  <div class="form-group has-feedback">
+		<div class="col-xs-12">
+			<label>Email ID <font color="red">* (Email ID will be your USERNAME)</font></label>
+			<input type="email" class="form-control" placeholder="Email" id="email" name="email" tabindex="4">
+			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+		</div>
+      </div>
+	  <div class="form-group has-feedback">
+		<div class="col-xs-12">
+			<label>Citizenship ID Card No/ Passport No <font color="red">*</font></label>
+			<input type="text" class="form-control" placeholder="CID/ Passport No" id="cid" name="cid" tabindex="5">
+			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+		</div>
+      </div>
+	  <div class="form-group has-feedback">
+		<div class="col-xs-12">
+			<label>Date of Birth <font color="red">*</font></label>
+			<input type="date" class="form-control" placeholder="yyyy-mm-dd" id="dateOfBirth" name="dateOfBirth" tabindex="6">
+			<span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+		</div>
+      </div>
+      <div class="row">
+	  <div class="col-xs-8">
+          <button type="submit" id='signUp' tabindex="5" class="btn btn-primary" data-spinner="right"><i class="fa fa-user-plus"></i> Register</button>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+           <a href="<?= $this->url('auth') . '/view-login'; ?>" tabindex="6" class="btn btn-default" data-spinner="right"><i class="fa fa-arrow-circle-right"></i> Login</a>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+  </div>
+  <!-- /.form-box -->
+</div>
+<!-- /.register-box -->
+</body>

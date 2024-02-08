@@ -1,0 +1,162 @@
+<?php
+ $title = 'Edit Employee RUB Work Experience';
+ $this->headTitle($title);
+
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">                    
+                  <div class="x_content">
+                    <br/>
+                    
+                   <?php
+					// Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				            $experience = $form->get('employeerubworkexperience');
+                    $experience->get('id')->setValue($this->employeeWorkExperience->getId());
+                    $experience->get('working_agency')->setValue($this->employeeWorkExperience->getWorking_Agency());
+                    $experience->get('working_agency')->setValueOptions($this->organisationList);
+                    //$experience->get('occupational_group')->setValue($this->employeeWorkExperience->getOccupational_Group());
+                    //$experience->get('position_category')->setValue($this->employeeWorkExperience->getPosition_Category());
+                    //$experience->get('position_title')->setValue($this->employeeWorkExperience->getPosition_Title());
+                     //$experience->get('position_level')->setValue($this->employeeWorkExperience->getPosition_Level());
+                     $experience->get('office_order_no')->setValue($this->employeeWorkExperience->getOffice_Order_No());
+                     $experience->get('office_order_date')->setValue(date("m/d/Y", strtotime($this->employeeWorkExperience->getOffice_Order_Date())));
+                     $experience->get('start_period')->setValue(date("m/d/Y", strtotime($this->employeeWorkExperience->getStart_Period())));
+                     $experience->get('end_period')->setValue(date("m/d/Y", strtotime($this->employeeWorkExperience->getEnd_Period())));
+                     //$experience->get('date_range')->setValue(date("m/d/Y", strtotime($this->employeeWorkExperience->getStart_Period())).'-'.date("m/d/Y", strtotime($this->employeeWorkExperience->getEnd_Period())));
+                     $experience->get('remarks')->setValue($this->employeeWorkExperience->getRemarks());
+                    $experience->get('working_agency_type')->setValue($this->employeeWorkExperience->getWorking_Agency_Type());
+                    $experience->get('employee_details_id')->setValue($this->employeeWorkExperience->getEmployee_Details_Id());
+                    echo $this->formHidden($experience->get('working_agency_type'));
+                    echo $this->formHidden($experience->get('id')); 
+					           echo $this->formHidden($experience->get('employee_details_id'));
+                     $experience->get('submit')->setValue('Update');
+                    ?>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                      echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                      echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                      $messages = $this->flashMessenger()->getMessages();
+                      foreach($messages as $message) {
+                        echo '<strong>Success!</strong>'. $message;
+                      }
+                     echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Staff Name <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" placeholder="<?php echo $this->employeeWorkExperience->getFirst_Name(). ' '.$this->employeeWorkExperience->getMiddle_Name(). ' '.$this->employeeWorkExperience->getLast_Name(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      <label class="control-label col-md-3 col-sm-2 col-xs-12">Staff ID <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <input type="text" placeholder="<?php echo $this->employeeWorkExperience->getEmp_Id(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                  <div class="ln_solid"></div>
+                    <br />
+
+                    <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Working Agency</label>
+						                <?php echo $this->formRow($experience->get('working_agency')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Occupational Group</label>
+						                <?php echo $this->formRow($form->get('occupational_group')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Position Category</label>
+						                <?php echo $this->formRow($form->get('position_category')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Position Title</label>
+						                <?php echo $this->formRow($form->get('position_title')); ?>
+                        </div>
+                     </div>
+                    </div>
+                     <div class="row">
+                     <div class="col-md-12 center-margin">
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Position Level</label>
+                            <?php echo $this->formRow($form->get('position_level')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>From Date</label>
+                            <?php echo $this->formRow($experience->get('start_period')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>To Date</label>
+                            <?php echo $this->formRow($experience->get('end_period')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Office Order No:</label>
+                            <?php echo $this->formRow($experience->get('office_order_no')); ?>
+                        </div>
+                     </div>
+                    </div>
+
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Office Order Date:</label>
+                            <?php echo $this->formRow($experience->get('office_order_date')); ?>
+                        </div>
+                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Document (s):</label>
+                           <?php echo $this->formRow($experience->get('evidence_file')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Remarks:</label>
+                            <?php echo $this->formRow($experience->get('remarks')); ?>
+                        </div>
+                     </div>
+                    </div>
+
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+							                 echo $this->formSubmit($experience->get('submit'));
+                               echo $this->form()->closeTag();
+                            ?>
+                            </div>
+                    	  </div>
+                     </div>
+                   
+              </div>
+           </div>
+              <!-- End of Non RUB Work Experience-->              
+           </div>
+        </div>
+     </div>
+   </div>
+
+           
+            
+         
+              
+       
+                

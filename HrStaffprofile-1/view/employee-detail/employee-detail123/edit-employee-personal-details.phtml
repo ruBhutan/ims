@@ -1,0 +1,152 @@
+<?php
+ $level = 'Edit Employee Personal Details';
+ $this->headTitle($level);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($level); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                  <h5><i>*Uploading Profile Picture will replace the previous profile picture uploaded</i></h5>
+                    <br/>
+					<?php
+					// Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $staff = $form->get('employeedetails');
+                    $staff->get('employee_details_id')->setValue($this->id);
+                    $staff->get('first_name')->setValue($this->employees->getFirst_Name());
+                    $staff->get('middle_name')->setValue($this->employees->getMiddle_Name());
+                    $staff->get('last_name')->setValue($this->employees->getLast_Name());
+                    $staff->get('date_of_birth')->setValue($this->employees->getDate_Of_Birth());
+                    $staff->get('marital_status')->setValue($this->employees->getMarital_Status());
+                    $staff->get('gender')->setValue($this->employees->getGender());
+                    $staff->get('cid')->setValue($this->employees->getCid());
+                    $staff->get('nationality')->setValue($this->employees->getNationality());
+                    $staff->get('phone_no')->setValue($this->employees->getPhone_No());
+                    $staff->get('email')->setValue($this->employees->getEmail());
+                    $staff->get('blood_group')->setValue($this->employees->getBlood_Group());
+                    $staff->get('religion')->setValue($this->employees->getReligion());
+                    echo $this->formHidden($staff->get('id')); 
+					echo $this->formHidden($staff->get('employee_details_id'));
+                    ?>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                    <h2 class="StepTitle">Employee Details:</h2>
+                    <div class="row">
+                      <div class="form-group">  
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">First Name<span class="required">*</span></label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('first_name')); ?>
+                          </div>
+                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Middle Name</label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('middle_name')); ?>
+                          </div>
+                          <label class="control-label col-md-1 col-sm-2 col-xs-12">Last Name</label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('last_name')); ?>
+                          </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                      <div class="form-group">  
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth<span class="required">*</span></label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('date_of_birth')); ?>
+                          </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                      <div class="form-group">  
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Marital Status<span class="required">*</span></label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('marital_status')); ?>
+                          </div>
+                         <label class="control-label col-md-1 col-sm-3 col-xs-12">Gender</label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('gender')); ?>
+                          </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                      <div class="form-group">  
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">CID<span class="required">*</span><br />
+                          <small>(In case of non-national, plese enter work permit no.)</small></label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('cid')); ?>
+                          </div>
+                          <label class="control-label col-md-1 col-sm-2 col-xs-12">Nationality</label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('nationality')); ?>
+                          </div>
+                      </div>
+                    </div>
+                    <br />
+                     <div class="row">
+                      <div class="form-group">  
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Phone No:<span class="required">*</span></label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('phone_no')); ?>
+                          </div>
+                          <label class="control-label col-md-1 col-sm-2 col-xs-12">E-mail</label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('email')); ?>
+                          </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                      <div class="form-group">  
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12">Blood Group<span class="required">*</span></label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('blood_group')); ?>
+                          </div>
+                          <label class="control-label col-md-1 col-sm-2 col-xs-12">Religion</label>
+                         <div class="col-md-2 col-sm-2 col-xs-12">
+                            <?php echo $this->formRow($staff->get('religion')); ?>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+							   echo $this->formSubmit($staff->get('submit'));
+                               echo $this->form()->closeTag();
+                            ?>
+                            </div>
+                    	  </div>
+                     </div>
+                 
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>

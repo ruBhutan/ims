@@ -1,0 +1,151 @@
+<?php
+
+ $title = 'New Registered Student Details';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">   
+                    <br/>
+                    <?php 
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $register = $form->get('updatestudent');
+                        echo $this->formHidden($register->get('id'));
+                        echo $this->form()->openTag($form);
+                        $register->get('id')->setValue($this->details->getId());
+                        $register->get('student_registration_id')->setValue($this->details->getId());
+                        echo $this->formHidden($register->get('student_registration_id'));
+                        $register->get('organisation_name')->setValue($this->details->getOrganisation_Name());
+                        $register->get('programme_id')->setValue($this->details->getProgramme_Name());
+                        $register->get('organisation_id')->setValue($this->details->getOrganisation_Id());
+                        echo $this->formHidden($register->get('organisation_id'));
+                        $register->get('cid')->setValue($this->details->getCid());
+                        $register->get('registration_no')->setValue($this->details->getRegistration_No());
+                        $register->get('date_of_birth')->setValue($this->details->getDate_Of_Birth());
+                        $register->get('gender')->setValue($this->details->getGender());
+                        $register->get('admission_year')->setValue($this->details->getAdmission_Year());
+                        $register->get('enrollment_year')->setValue($this->details->getAdmission_Year());
+                        echo $this->formHidden($register->get('enrollment_year'));
+                        $register->get('student_type_id')->setValue($this->details->getStudent_Type());
+                        $register->get('submission_date')->setValue($this->details->getSubmission_Date());
+                        $register->get('parent_name')->setValue($this->details->getParent_Name());
+                        $register->get('parents_contact_no')->setValue($this->details->getParents_Contact_No());
+                        $register->get('relationship_id')->setValue($this->details->getRelationship_Id());
+                        $register->get('relation')->setValue($this->details->getRelation());
+
+                        $register->get('student_id')->setValue('Incomplete');
+                        echo $this->formHidden($register->get('student_id'));
+
+                        $register->get('submit')->setValue('Update');
+                        echo $this->formRow($register->get('id')); 
+                     ?>
+                            <h2><i>Official Details:</i></h2>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Registration/Index No.</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($register->get('registration_no')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Registered Date</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($register->get('submission_date')); ?>
+                                        </div>
+                            </div> 
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Admission Year</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($register->get('admission_year')); ?>
+                                        </div>
+                            </div> 
+                            <br/>
+                            <div class="x_title">
+                            <div class="clearfix"></div>
+                            </div><br/> 
+
+                            <h2><i>Personal  Details:</i></h2>
+                         
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <input type="text" class="form-control" placeholder="<?php 
+                                        echo $this->details->getFirst_Name().' ';
+                                        echo $this->details->getMiddle_Name().' ';
+                                        echo $this->details->getLast_Name(); ?>" readonly>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">CID No# </label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($register->get('cid')); ?>
+                                    </div>
+                            </div>    
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($register->get('gender')); ?>
+                                      </div>
+                                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($register->get('date_of_birth')); ?>
+                                      </div>                               
+                            </div>
+                            
+                            
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation/ College</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($register->get('organisation_name')); ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($register->get('programme_id')); ?>
+                                        </div>                                
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Scholarship Type</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($register->get('student_type_id')); ?>
+                                    </div>
+                            </div>
+
+                            <br/>
+                            <div class="x_title">
+                            <div class="clearfix"></div>
+                            </div><br/>
+
+                            <h2><i>Parent/ Guardian  Details:</i></h2>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Parent/ Guardian Name</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($register->get('parent_name')); ?>
+                                        </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Relationship</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($register->get('relation')); ?>
+                                        </div>                                
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Contact No</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($register->get('parents_contact_no')); ?>
+                                    </div>                               
+                            </div>
+
+                            <div class="clearfix"></div> 
+                            <?php
+                                echo $this->form()->closeTag();
+                            ?>
+                            </div>
+                        </div><!--end of x-content-->
+                    </div><!--end of x-Panel-->
+                </div><!--end of col-md-12 col-xs-12-- >
+        </div><!--end of ""-->
+</div><!--end of right_col-- >
+
+ 

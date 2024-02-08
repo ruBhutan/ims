@@ -1,0 +1,163 @@
+<?php
+
+ $title = 'Update Student Details Form';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                 <div class="x_content">   
+                    <br/>
+                    <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $guardian = $form->get('updatestudentguardiandetails');
+                        echo $this->form()->openTag($form);
+                        $guardian->get('id')->setValue($this->guardianDetails->getId());
+
+                        echo $this->form()->openTag($form);
+                        $guardian->get('id')->setValue($this->guardianDetails->getId());
+                        $guardian->get('programme_name')->setValue($this->guardianDetails->getProgramme_Name());
+                        $guardian->get('first_name')->setValue($this->guardianDetails->getFirst_Name());
+                        $guardian->get('middle_name')->setValue($this->guardianDetails->getMiddle_Name());
+                        $guardian->get('last_name')->setValue($this->guardianDetails->getLast_Name());
+                        $guardian->get('student_gender')->setValue($this->guardianDetails->getStudent_Gender());
+                        $guardian->get('enrollment_year')->setValue($this->guardianDetails->getEnrollment_Year());
+                        $guardian->get('scholarship_type')->setValue($this->guardianDetails->getScholarship_Type());
+                        echo $this->formHidden($guardian->get('scholarship_type'));
+
+                       $guardian->get('student_type')->setValue($this->guardianDetails->getStudent_Type());
+                       $guardian->get('studentID')->setValue($this->guardianDetails->getStudent_Id());
+                      // $guardian->get('student_id')->setValue($this->guardianDetails->getId());
+
+                       $guardian->get('student_id')->setValue($this->id);
+                       //echo $this->formHidden($guardian->get('id'));
+
+                       echo $this->formHidden($guardian->get('student_id'));
+
+                       $guardian->get('guardian_name')->setValue($this->guardianDetails->getGuardian_Name());
+                       $guardian->get('guardian_cid')->setValue($this->guardianDetails->getGuardian_Cid());
+                       $guardian->get('guardian_occupation')->setValue($this->guardianDetails->getGuardian_Occupation());
+                       $guardian->get('guardian_relation')->setValue($this->guardianDetails->getGuardian_Relation());
+                       $guardian->get('guardian_relation')->setValueOptions($this->guardianRelation);
+                       $guardian->get('guardian_address')->setValue($this->guardianDetails->getGuardian_Address());
+                       $guardian->get('guardian_contact_no')->setValue($this->guardianDetails->getGuardian_Contact_No());
+                       $guardian->get('remarks')->setValue($this->guardianDetails->getRemarks()); 
+
+                       $guardian->get('submit')->setValue('Update');
+                       echo $this->formHidden($guardian->get('id')); 
+
+
+
+                     ?> 
+
+                            <h2>Step 2.Personal  Details:</h2>
+                         
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <input type="text" placeholder="<?php 
+                                                    echo $this->guardianDetails->getFirst_Name().' ';
+                                                    echo $this->guardianDetails->getMiddle_Name().' ';
+                                                    echo $this->guardianDetails->getLast_Name(); 
+                                                    ?>" class="form-control col-md-7 col-xs-12" readonly="readonly">
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($guardian->get('studentID')); ?>
+                                      </div>
+                            </div>    
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($guardian->get('student_gender')); ?>
+                                      </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($guardian->get('student_type')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                      <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($guardian->get('programme_name')); ?>
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Enrollment Year</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($guardian->get('enrollment_year')); ?>
+                                    </div>
+                                
+                            </div>
+                            <br/>
+
+                            <h2>Step 5. Guardian Details:</h2>
+
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($guardian->get('guardian_name')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian CID</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($guardian->get('guardian_cid')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian Occupation</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($guardian->get('guardian_occupation')); ?>
+                                    </div> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian Relation</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($guardian->get('guardian_relation')); ?>
+                                    </div>
+                            </div>
+                            <div class="form-group"> 
+                            <h4>Guardian Contact Address:</h4>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian Address</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($guardian->get('guardian_address')); ?>
+                                    </div>
+                                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Guardian Contact No</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($guardian->get('guardian_contact_no')); ?>
+                                    </div>
+                                
+                            </div>
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Remarks</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($guardian->get('remarks')); ?>
+                                    </div>
+                            </div>                            
+
+                            <div class="form-group">
+                            <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <?php  echo $this->formHidden($form->get('csrf')); ?>
+                                            <?php  echo $this->formSubmit($guardian->get('submit')); ?>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <?php
+                                echo $this->form()->closeTag();
+                            ?>
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+</div>
+</div>
+</div>
+
+ 

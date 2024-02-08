@@ -1,0 +1,100 @@
+<?php
+ $title = 'Examination Timetable';
+ $this->headTitle($title);
+
+ //calculate the no of days between the two selected dates
+ $start = strtotime($this->examDates['start_date']);
+ $end = strtotime($this->examDates['end_date']);
+ $date_diff = $end-$start;
+ $no_days = floor($date_diff/(60*60*24)) + 1;
+ $day = (int) substr($this->examDates['start_date'],8,2);
+ $exam_dates = array();
+ $exam_timetable = array();
+ $exam_dates[1]['date'] = $this->examDates['start_date'];
+ $exam_dates[1]['day'] = date('l', strtotime($exam_dates[1]['date']));
+ if($no_days > 1){
+	 for($i=2; $i<= $no_days; $i++) {
+		$exam_dates[$i]['date'] = date('Y-m-d', strtotime("+1 day", strtotime($exam_dates[$i-1]['date'])));
+		$exam_dates[$i]['day'] = date('l', strtotime($exam_dates[$i]['date']));
+	 }
+ }
+ $index = 1;
+ if($this->examTimetable != NULL){
+	 foreach($this->examTimetable as $timetable){
+		 $exam_timetable[$index++] = $timetable;
+	 }
+ }
+ if($this->nonEligibleModule != NULL){
+  foreach($this->nonEligibleModule as $noneligible){
+    
+  }
+ }
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>    
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Timetable"); ?></h2>
+                              <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                              <div class="clearfix"></div>
+                            </div>
+            
+                            <div class="x_content">
+                              <div  class="table-responsive">
+                                <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                  <thead>
+                                      <th class="column-title">Day/Date </th>
+                                      <th class="column-title">Exam </th>
+                                      <th class="column-title">Hall </th>
+                                      <th class="column-title">Remarks </th>
+                                  </thead>
+                                  <tbody>
+                                    <?php foreach($exam_dates as $date): ?>
+                                    	<tr class="even pointer">
+                                      	<td><?php echo date('d-m-Y', strtotime($date['date'])).' <br> ('.$date['day'].')'; ?></td>
+                    											<?php $i = 1; foreach($exam_timetable as $key=>$exam): 
+                    												if($exam['exam_date'] == $date['date']){
+                    													if(substr($exam['start_time'],0,5) == '09:00'){  ?>
+                    														<td align="center"><?php echo $exam['module_title'].'<br>('.$exam['module_code'].')<br>('.$exam['start_time'].'-'.$exam['end_time'].')<br><br>';  ?></td>
+                                                      <?php } else { ?>
+            														<td align="center"><?php ++$i; echo "Break"; ?></td>
+            													<?php } if(substr($exam['start_time'],0,5) == '13:00'){ ?>
+            														<td align="center"><?php echo $exam['module_title'].'<br>('.$exam['module_code'].')<br>('.$exam['start_time'].'-'.$exam['end_time'].')<br><br>';  ?></td>
+                                                       <?php } else { ?>
+  														<td align="center"><?php ++$i; echo "Break"; ?></td>
+  													<?php } ?>
+  													<?php  unset($exam_timetable[$key]);
+  												} else if($i < 2){ ?>
+  													<td align="center"><?php echo "Break"; ?></td>
+                                                      <td align="center"><?php $i++; echo "Break"; ?></td>
+  											 <?php	} ?>
+                                           <?php endforeach; ?>
+                                      </tr>
+                                    <?php 
+  									endforeach; ?>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                            
+                           		<!-- End of Achievements-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              

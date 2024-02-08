@@ -1,0 +1,127 @@
+<?php
+ $title = 'Student Character Evaluator Identification (DSA)';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+             <div class="row">
+                       <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Department</label>
+                    <select class="form-control"><option>--Select--</option><option>Student Service</option><option>Academic</option></select>
+                        </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Title</label>
+                  <select class="form-control"><option>--Select--</option><option>DSA</option><option>Resident Coordinator</option></select>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee</label>
+                <select class="form-control"><option>--Select--</option><option>Wangmo(RUB002)</option></select>
+                  </div>
+                </div>     
+                  
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                    <button class="btn btn-success">Add</button>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        </div>
+              
+     <?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Student Character Evaluator List';
+ $this->headTitle($title);
+?>     
+              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+
+                  <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                    <thead>
+                      <tr class="headings">
+                        </th>
+                         <th class="column-title">Sl.No </th>
+                        <th class="column-title">Evaluator Name</th>
+                        <th class="column-title">EmployeeID</th>
+                                <th class="column-title">Department</th>
+                        <th class="column-title">Position Title</th>
+                        <th class="bulk-actions" colspan="7">
+                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr class="even pointer">
+                        <td class=" ">1</td>
+                         <td class=" ">Dorjee</td>
+                        <td class=" ">R001</td>
+                        <td class=" ">Student Service</td>
+                        <td class=" ">DSA</td>
+                      </tr>
+                      <tr class="even pointer">
+                        <td class=" ">2</td>
+                         <td class=" ">Dorwang</td>
+                         <td class=" ">R002</td>
+                          <td class=" ">Student Service</td>
+                        <td class=" ">Resident Coordinator</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                 <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                    <button class="btn btn-default">Save & Close</button>
+                    <button class="btn btn-success">Submit</button>
+                 </div>
+                </div>
+               </div>
+                </div>
+              </div>
+            </div>
+         
+          </div>
+        </div> 
+
+              
+              
+   
+            
+    

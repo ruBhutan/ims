@@ -1,0 +1,768 @@
+<?php
+ $title = 'Job Application';
+ $this->headTitle($title);
+
+  $personal = array();
+ foreach($this->personalDetails as $detail){
+   $personal = $detail;
+ } 
+
+  $addressDetails = array();
+ foreach($applicantAddress as $address){
+  $addressDetails = $address;
+ }
+
+ $reference_count = count($this->referenceDetails);
+
+ $applicant_details = array();
+ foreach($this->job_applicant_details as $details){
+  $applicant_details = $details;
+ } 
+
+ $vacancy = array();
+ foreach($this->vacancyDetail as $detail){
+   $vacancy = $detail;
+ }
+
+$study_level_list0 = array();
+$study_level_list1 = array();
+$study_level_list2 = array();
+$study_level_list3 = array();
+$study_level_list4 = array();
+$study_level_list5 = array();
+if(!empty($applicantEducationLevel)){
+   if(!empty($applicantEducationLevel[2]) || !empty($applicantEducationLevel[3]) || !empty($applicantEducationLevel[4]) || !empty($applicantEducationLevel[5]) || !empty($applicantEducationLevel[6])){
+    $study_level_list0 = array(
+      2 => '2',
+      3 => '3',
+      4 => '4',
+      5 => '5',
+      6 => '6',
+    );
+   }
+if(!empty($applicantEducationLevel)){
+   if(!empty($applicantEducationLevel[6]) || !empty($applicantEducationLevel[7]) || !empty($applicantEducationLevel[8])){
+    $study_level_list1 = array(
+      6 => '6',
+      7 => '7',
+      8 => '8',
+    );
+  }
+if(!empty($applicantEducationLevel[9]) || !empty($applicantEducationLevel[10]) || !empty($applicantEducationLevel[11])){
+    $study_level_list2 = array(
+      9 => '9',
+      10 => '10',
+      11 => '11',
+    );
+  }
+if(!empty($applicantEducationLevel[12]) || !empty($applicantEducationLevel[13])){
+    $study_level_list3 = array(
+      12 => '12',
+      13 => '13',
+    );
+  }
+
+if(!empty($applicantEducationLevel[14]) || !empty($applicantEducationLevel[15])){
+    $study_level_list4 = array(
+      14 => '14',
+      15 => '15',
+    );
+  }
+
+  if(!empty($applicantEducationLevel[16]) || !empty($applicantEducationLevel[17])){
+    $study_level_list5 = array(
+      16 => '16',
+      17 => '17',
+    );
+  }
+}
+/*var_dump($applicantEducationLevel);
+var_dump($study_level_list1);
+var_dump($study_level_list2);
+var_dump($study_level_list3);
+var_dump($study_level_list4);
+var_dump($study_level_list5);
+echo $minimum_study_level_id;
+die(); */
+
+?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+<?php if((array_key_exists($minimum_study_level_id, $study_level_list0)) || (array_key_exists($minimum_study_level_id, $study_level_list1)) || (array_key_exists($minimum_study_level_id, $study_level_list2)) || (array_key_exists($minimum_study_level_id, $study_level_list3)) || (array_key_exists($minimum_study_level_id, $study_level_list4)) || (array_key_exists($minimum_study_level_id, $study_level_list5)) || (array_key_exists($minimum_study_level_id, $applicantEducationLevel))){ ?>		  
+		<div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				          <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $employee = $form->get('jobapplication');
+          					$employee->get('vacancy_announcements_id')->setValue($this->vacancy_announcements_id);
+          					$employee->get('status')->setValue('Submitted');
+          					$employee->get('employee_details_id')->setValue($this->employee_details_id);
+          					$employee->get('job_applicant_id')->setValue($this->job_applicant_id);
+      							$employee->get('application_date')->setValue(date('Y-m-d'));
+      							echo $this->formHidden($employee->get('id'));
+      							echo $this->formHidden($employee->get('vacancy_announcements_id'));
+          					echo $this->formHidden($employee->get('application_date'));
+          					echo $this->formHidden($employee->get('employee_details_id'));
+          					echo $this->formHidden($employee->get('job_applicant_id'));
+          					echo $this->formHidden($employee->get('status'));
+                 ?> 
+                 <?php 
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Success!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach($messages as $message) {
+                            echo '<strong>Failure!</strong>'. $message;
+                        }
+                        echo '</div>';
+                    }
+
+                ?>
+                  <h2 class="StepTitle">Important Note:</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h5><i>
+                          		1. Before applying for job/ vacancy, please visit your "personal details" and ensure that it is upto date and correct.
+                                   For e.g.: Check whether your educational details, training details and other personal records are current and upto date. <br />
+                                2. Before uploading any documents, please ensure that they are valid (e.g. medical clearance, security clearance, etc)
+                          </i></h5>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Post Applied For:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $vacancy['position_title']; ?></i></h4>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">College/ Office Applied For:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $organisations[$vacancy['working_agency']]; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <br/>
+                  <h2 class="StepTitle">1. Personal Details</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['first_name'].' '.$personal['middle_name'].' '.$personal['last_name']; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">CID Number:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['cid']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $this->gender[$personal['gender']]; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Date of Birth:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['date_of_birth']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Marital Status:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $this->maritalStatus[$personal['maritial_status']]; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Nationality:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $addressDetails['nationality']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12">Permanent Address:</label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">House No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['house_no']; ?>"readonly>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Thram No:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['thram_no']; ?>"readonly>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Village:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $addressDetails['village_name']; ?>"readonly>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Gewog:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $addressDetails['gewog_name']; ?>"readonly>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Dzongkhag:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $addressDetails['dzongkhag_name']; ?>"readonly>
+                       </div>
+                       <label class="control-label col-md-1 col-sm-2 col-xs-12">Country:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $addressDetails['country']; ?>"readonly>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Contact Number:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['contact_no']; ?>"readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Email ID:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php echo $personal['email']; ?>"readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <br/>
+                  <h2 class="StepTitle">2. I have</h2>
+                  <font color="red">(Please Tick / check the checkbox to accept the statement)</font><br/>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12"></label>
+                      <div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo 'a. Not been convicted of a criminal offence'; ?>
+                        </div>
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('agreement')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12"></label>
+                    	<div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo 'b. Not been terminated or compulsorily retired from any agency except in case of insolvency'; ?>
+                        </div>
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('agreement')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12"></label>
+                    	<div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo 'c. Not been adjudged medically unfit for employment by a competent medical doctor'; ?>
+                        </div>
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('agreement')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12"></label>
+                    	<div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo 'd. Not intentionally provided false information in this application for employment'; ?>
+                        </div>
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('agreement')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12"></label>
+                    	<div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo 'e. Not furnished fake/forged testimonials/documents'; ?>
+                        </div>
+                        <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('agreement')); ?>
+                        </div>
+                    </div>
+                  </div>
+                   
+                  <br/>
+                  <h2 class="StepTitle">3. Current Position/ Latest employment record. if employed</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Title:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php 
+                          if(!empty($this->presentJobDescription['position_title'])){
+                            echo $this->presentJobDescription['position_title']; 
+                          }else{
+                            echo "No Record Found";
+                          }
+                      
+                          ?>" readonly>
+                        </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php
+                          if(!empty($this->presentJobDescription['position_level'])){
+                            echo $this->presentJobDescription['position_level'];
+                          }else{
+                            echo "No Record Found";
+                          }
+                           
+                          ?> "readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Organisation:</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <input type="text" class="form-control" placeholder="<?php 
+                          if(!empty($this->presentJobDescription['working_agency'])){
+                            echo $this->presentJobDescription['working_agency'];
+                          }else{
+                            echo "No Record Found";
+                          }
+                         
+                           ?>" readonly>
+                        </div>
+                    </div>
+                  </div>
+                  <br />
+                  <h2 class="StepTitle">4. Employment Record <small>(Most recent employment first)</small></h2>
+                  <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Working Agency</th>
+                            <th style="width:20%" class="column-title">Occupational Group</th>
+                            <th style="width:15%" class="column-title">Title</th>
+                            <th style="width:15%" class="column-title">Level</th>
+                            <th style="width:15%" class="column-title">From</th>
+                            <th style="width:15%" class="column-title">To</th>
+                            <th style="width:15%" class="column-title">Remarks</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->employmentDetails as $detail): ?>                      
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($detail['working_agency']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['position_category']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['position_title']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['position_level']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['start_period']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['end_period']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['remarks']); ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+                    <h2 class="StepTitle">5. Education <small>(Recent institute/ college attended at top)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Name of School/College</th>
+                            <th class="column-title">Location and Country</th>
+                            <th class="column-title">Field of Study</th>
+                            <th class="column-title">Start</th>
+                            <th class="column-title">End</th>
+                            <th class="column-title">Degree/Certificate Obtained</th>
+                            <th class="column-title">Aggregate Marks Obtained</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->educationDetails as $detail):?>
+                             <tr class="even pointer">
+                              <td><?php echo $detail['college_name']; ?></td>
+                              <td><?php echo $detail['college_location']; ?></td>
+                              <td><?php echo $detail['field_study']; ?></td>
+                              <td><?php echo $detail['start_date']; ?></td>
+                              <td><?php echo $detail['end_date']; ?></td>
+                              <td><?php echo $detail['study_level']; ?></td>
+                              <td><?php echo $detail['marks_obtained']; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+					<h2 class="StepTitle">6. Marks Detail <small>(If Updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" colspan="6" style="text-align:center">Class 10 Marks</th>
+							<th class="column-title" colspan="5" style="text-align:center">Class 12 Marks</th>
+                          </tr>
+						  <tr>
+							<th>English</th>
+							<th>Best 1</th>
+							<th>Best 2</th>
+							<th>Best 3</th>
+							<th>Best 4</th>
+							<th>Aggregate Marks Obtained</th>
+							<th>English</th>
+							<th>Best 1</th>
+							<th>Best 2</th>
+							<th>Best 3</th>
+							<th>Aggregate Marks Obtained</th>
+						</tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->marksDetail as $marks):?>
+                             <tr class="even pointer">
+								<td class=" "><?php echo $marks['x_english']; ?></td>
+								<td class=" "><?php echo $marks['x_sub1_mark']; ?></td>
+								<td class=" "><?php echo $marks['x_sub2_mark']; ?></td>
+								<td class=" "><?php echo $marks['x_sub3_mark']; ?></td>
+								<td class=" "><?php echo $marks['x_sub4_mark']; ?></td>
+								<td class=" "><?php echo (($marks['x_english']+$marks['x_sub1_mark']+$marks['x_sub2_mark']+$marks['x_sub3_mark']+$marks['x_sub4_mark'])/500*100)?></td>
+								<td class=" "><?php echo $marks['xll_english']; ?></td>
+								<td class=" "><?php echo $marks['xll_sub1_mark']; ?></td>
+								<td class=" "><?php echo $marks['xll_sub2_mark']; ?></td>
+								<td class=" "><?php echo $marks['xll_sub3_mark']; ?></td>
+								<td class=" "><?php echo (($marks['xll_english']+$marks['xll_sub1_mark']+$marks['xll_sub2_mark']+$marks['xll_sub3_mark'])/400*100)?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+                    <h2 class="StepTitle">7. Language Skills of Relevance to the Assignment <small>(Competency that you updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Language</th>
+                            <th class="column-title">Speaking</th>
+                            <th class="column-title">Reading</th>
+                            <th class="column-title">Writing</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->languageDetails as $detail):?>
+                             <tr class="even pointer">
+                              <td><?php echo $detail['language']; ?></td>
+                              <td><?php echo $detail['spoken']; ?></td>
+                              <td><?php echo $detail['reading']; ?></td>
+                              <td><?php echo $detail['writing']; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+                     <h2 class="StepTitle">8. Training/ Seminar/ Workshop/ Conference <small>(If Updated)</small></h2>
+                     <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Name of School/College</th>
+                            <th class="column-title">Location and Country</th>
+                            <th class="column-title">Field of Study</th>
+                            <th class="column-title">Start</th>
+                            <th class="column-title">End</th>
+                            <th class="column-title">Degree/Certificate Obtained</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->trainingDetails as $detail):
+                  foreach($detail as $value):
+              ?>
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($value['institute_name']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['institute_location']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['start_date']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['end_date']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                            </tr>
+                          <?php endforeach; 
+                  endforeach;
+              ?>
+                      </tbody>
+                    </table>
+                    </div>
+                    <h2 class="StepTitle">9.Research Publications <small>(If Updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Year</th>
+                            <th style="width:30%" class="column-title">Title</th>
+                            <th style="width:15%" class="column-title">Type</th>
+                            <th style="width:55%" class="column-title">Publisher</th>
+                            <th style="width:55%" class="column-title">ISSN/ISBN</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->researchDetails as $detail):
+                  foreach($detail as $value):
+              ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($value['year']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['title']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['type']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['publisher']); ?></td>
+                              <td><?php echo $this->escapeHtml($value['publication_no']); ?></td>
+                            </tr>
+                          <?php endforeach; 
+                  endforeach;
+              ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <h2 class="StepTitle">10. References: <small>(Based on your updated)</small></h2>
+                  <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Name</th>
+                            <th class="column-title">Title</th>
+                            <th class="column-title">Position</th>
+                            <th class="column-title">Organisation</th>
+                            <th class="column-title">Relation</th>
+                            <th class="column-title">Telephone</th>
+                            <th class="column-title">Mobile</th>
+                            <th class="column-title">Email</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php if($reference_count != 0){ ?>
+                          <?php foreach($this->referenceDetails as $key=>$value): 
+                            ?> 
+                             <tr class="even pointer">
+                              <td><?php echo $value['name'];  ?></td>
+                              <td><?php echo $value['title']; ?></td>
+                              <td><?php echo $value['position']; ?></td>
+                              <td><?php echo $value['organisation']; ?></td>
+                              <td><?php echo $value['relation_applicant']; ?></td>
+                              <td><?php echo $value['telephone']; ?></td>
+                              <td><?php echo $value['mobile']; ?></td>
+                              <td><?php echo $value['email']; ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                          <?php }else{?>
+                            <font color="red"><i>***If your reference details list is empty then please update your references details before you apply.</i></font>
+                         <?php }?>
+                      </tbody>
+                    </table>
+
+                  </div>
+				  
+				  <h2 class="StepTitle">11.Community Services  <small>(If Updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:50%" class="column-title">Community Service Name</th>
+                            <th style="width:30%" class="column-title">Date</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->communityServices as $detail): ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($detail['service_name']); ?></td>
+                              <td><?php echo $this->escapeHtml($detail['service_date']); ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+					
+					<h2 class="StepTitle">12.Awards <small>(If Updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Award Name</th>
+                            <th style="width:30%" class="column-title">Date</th>
+                            <th style="width:15%" class="column-title">Award Presented By</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->awardDetails as $award): ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($award['award_name']); ?></td>
+                              <td><?php echo $this->escapeHtml($award['award_date']); ?></td>
+							  <td><?php echo $this->escapeHtml($award['award_given_by']); ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+					
+					<h2 class="StepTitle">13.Board/Committee Members <small>(If Updated)</small></h2>
+                    <div class="table-responsive">
+                      <table class="table table-bordered jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th style="width:30%" class="column-title">Agency</th>
+                            <th style="width:30%" class="column-title">Position</th>
+                            <th style="width:15%" class="column-title">Start Date</th>
+                            <th style="width:55%" class="column-title">End Date</th>
+                           </tr>
+                        </thead>  
+                        <tbody>
+                          <?php foreach($this->membershipDetails as $member): ?>
+                          
+                             <tr class="even pointer">
+                              <td><?php echo $this->escapeHtml($member['agency']); ?></td>
+                              <td><?php echo $this->escapeHtml($member['position']); ?></td>
+							  <td><?php echo $this->escapeHtml($member['start_period']); ?></td>
+							  <td><?php echo $this->escapeHtml($member['end_period']); ?></td>
+                            </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                    </table>
+                    </div>
+                  <br />
+                  <h2 class="StepTitle">Documents to Upload:</h2>
+                  <br />
+                  <div class="row">
+                    <div class="form-group">  
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Upload CID/Work Permit</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php 
+                          if($applicant_details['cid_copy']){ ?>
+                            <a href="<?php echo $this->url('downloadjobapplicantcid', array('filename' => 'cid_copy'.$applicant_details['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download the uploaded file</a>
+                         <?php }else{
+                            echo $this->formRow($employee->get('identity_proof')); 
+                          }
+                          ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Security Clearance No.<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('security_clearance_no')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Upload Security Clearance</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('security_clearance_file')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Medical Clearance No.<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('medical_clearance_no')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Upload Medical Clearance</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('medical_clearance_file')); ?>
+                        </div>
+                    </div>
+                  </div>
+				  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Audit Clearance No.<small>(Optional)</small></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('audit_clearance_no')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Upload Audit Clearance</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('audit_clearance_file')); ?>
+                        </div>
+                    </div>
+                  </div>
+				  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Tax Clearance No.<small>(Optional)</small></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('tax_clearance_no')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Upload Tax Clearance</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('tax_clearance_file')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Other Certificate Description<br/><small>(No Objection Certificate from the employer, if employed)</small></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('other_certificate_description')); ?>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Upload Other Certificate</label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($employee->get('other_certificate_file')); ?>
+                        </div>
+                    </div>
+                  </div><br/><br/>
+                  <div class="clearfix"></div>
+                        <h2 class="StepTitle">DECLARATION: Please Check to Confirm</h2>
+                        <br />
+                  <div class="form-group">
+                        <div class="col-md-1 col-sm-1 col-xs-12">
+                            <input type="checkbox" class="flat" required="required"></div>
+                            <div class="col-md-11 col-sm-11 col-xs-12"><p> 
+                            I hereby declare that the information given herewith is true and complete to the best of my knowledge. In the event of detection of false or misleading information, I understand that the Royal University of Bhutan (RUB) shall withdraw/terminate my service without any recourse; confiscate all my transcription/testimonials; debar from seeking employment in the RUB; and prosecute in the Court of Law for legal actions. I also undertake to abide by all Rules and Regulations.</p>
+                           </div>
+                        </div>   
+                                    
+          		  <div class="ln_solid"></div>
+                <?php if($reference_count != 0){?>   
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+              							echo $this->formRow($employee->get('submit'));
+              							echo $this->form()->closeTag($form);
+              						 ?>
+                        </div>
+                      </div>
+                    <?php } else {?>
+                      <h2><font color="red"><i>Note: You have not updated your informations. Please update the above mentioned information</i></font></h2>
+                    <?php } ?>
+       			 </div> <!-- End of x_content-->
+             <?php } else{?>
+            <div class="x_content">
+                <?php 
+                            
+                     echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                    echo '<strong>Sorry! You are not eligible to apply for this particular vacancy since you have not fulfilled minimum required qualification. If you have, please update before you apply for this particular vacancy.</strong>';
+                    echo '</div>';
+                   ?>
+                </div>
+          <?php } ?>
+        	  </div> <!-- End of x_panel-->
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

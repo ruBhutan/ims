@@ -1,0 +1,362 @@
+<?php
+/**
+ * View -- of Report/AccountsreportController/plsAction
+ */
+
+$title = "Profit Loss Statement";
+$org_name = $this->service->getDatabyParam($this->orgObj, array('id' => $data['organisation']), 'organisation_name');
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>
+                <div class="x_content">
+                    <form data-toggle="validator" method="post"
+                          action="<?php echo $this->url('report', array('action' => 'cashflow')); ?>"
+                          enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="form-group col-lg-3">
+                                <label class="control-label" for="organisation">Organisation</label>
+                                <select class="form-control" name="organisation" id="organisation"
+                                        data-placeholder="select">
+                                    <?php
+
+                                    $rowsets = ($this->role == "ADMIN") ? $this->service->getTableData($this->orgObj) : $this->service->getDatabyParam($this->orgObj, array('id' => $data['organisation']), '');
+                                    foreach ( $rowsets as $row ):
+                                        $selected_org = ($row['id'] == $data['organisation']) ? "selected" : ""; ?>
+                                        <option value="<?php echo $row['id']; ?>" <?php echo $selected_org; ?>>
+                                            <?php echo $row['organisation_name']; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <label class="control-label" for="start_date">Start Date</label>
+
+                                <input type="text"
+                                       name="start_date"
+                                       class="form-control fa fa-calender-o"
+                                       id="start_date"
+                                       value="<?php echo $data['start_date']; ?>"
+                                       placeholder="Start Date"
+                                       readonly
+                                       required
+                                >
+                                <!--<div class="date input-group" id="start_date" data-date="<?php /*echo date('Y-m-d'); */ ?>" data-date-format="yyyy-mm-dd" >
+                                    <input class="form-control span2" name="start_date" id="start_date" type="text" placeholder="Start Date" value="<?php /*echo $data['start_date']; */ ?>" readonly required>
+                                    <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+                                </div>-->
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <label class="control-label" for="end_date">End Date</label>
+
+                                <input type="text"
+                                       name="end_date"
+                                       class="form-control fa fa-calender-o"
+                                       id="end_date"
+                                       value="<?php echo $data['end_date']; ?>"
+                                       placeholder="End Date"
+                                       readonly
+                                       required
+                                >
+
+                                <!--<div class="date input-group" id="end_date" data-date="<?php /*echo date('Y-m-d'); */ ?>" data-date-format="yyyy-mm-dd" >
+                                    <input class="form-control span2" name="end_date" id="end_date" type="text" placeholder="End Date" value="<?php /*echo $data['end_date']; */ ?>" readonly required>
+                                    <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+                                </div>-->
+                            </div>
+                            <div class="col-lg-2">
+                                <label class="control-label">&nbsp;</label>
+                                <div>
+                                    <button type="submit" class="btn btn-sm btn-success pull-center"><i
+                                                class="fa fa-gear"></i> Generate
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clearfix">
+                        <label><i class="orange fa fa-map-marker"></i> Organisation: </label>
+                        <span><?php echo $org = ($data["organisation"] == -1) ? "All Organisation" : $org_name[0]['organisation_name']; ?></span>
+                    </div>
+                    <div>
+                        <table class="table table-bordered table-striped table-condensed" id="example">
+                            <thead>
+                            <tr>
+                                <th colspan="6">Payment Dr</th>
+                                <th colspan="6">Receipt Cr</th>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <th>Particulars</th>
+                                <th>Cheque No.</th>
+                                <th>Amount</th>
+                                <th>Cash</th>
+                                <th>Bank</th>
+                                <th>Date</th>
+                                <th>Particulars</th>
+                                <th>Cheque No.</th>
+                                <th>Amount</th>
+                                <th>Cash</th>
+                                <th>Bank</th>
+                            </tr>
+                            </thead>
+                            <tbody id="trial_balance">
+                            <?php $accounts_subhead = array();
+                            $cash_opening_balance = '0';
+                            foreach ( $this->service->getTransactionSubheadforCashFlow($this->subheadObj, $data['organisation'], $data['start_date'], $data['end_date'], array('head' => array('73', '74'))) as $subheadrow ):// subhead
+                                if ( $subheadrow['head'] == 74 ):
+                                    $bank_opening_balance = $this->service->getOpeningBalanceforCABA('BA', $this->transactiondetailObj, $data['organisation'], $data['start_date'], $subheadrow['id']);
+                                elseif ( $subheadrow['head'] == 73 ):
+                                    $cash_opening_balance = $this->service->getOpeningBalanceforCABA('CA', $this->transactiondetailObj, $data['organisation'], $data['start_date'], $subheadrow['id']);
+                                endif;
+                                array_push($accounts_subhead, $subheadrow['id']);
+                                $total_balance = ($bank_opening_balance + $cash_opening_balance);
+                            endforeach; ?>
+                            <tr>
+                                <td colspan='3' style="text-align:center">Opening Balance</td>
+                                <td style="text-align:right"><?php echo number_format($total_balance, 2, '.', ','); ?></td>
+                                <td style="text-align:right"><?php echo number_format($cash_opening_balance, 2, '.', ','); ?></td>
+                                <td style="text-align:right"><?php echo number_format($bank_opening_balance, 2, '.', ','); ?></td>
+                                <td colspan='6'></td>
+                            </tr>
+                            <?php
+
+                            $grand_tot_receipt_bank = $bank_opening_balance;
+                            $grand_tot_receipt_cash = $cash_opening_balance;
+                            $grand_tot_payment_cash = 0.00;
+                            $grand_tot_payment_bank = 0.00;
+                            $tot_receipt_bank = 0.00;
+                            $tot_receipt_cash = 0.00;
+                            $tot_payment_bank = 0.00;
+                            $tot_payment_cash = 0.00;
+                            $transdtl = NULL;
+                            foreach ( $this->service->getDisinctTransactionBCAID($this->transactionObj, $accounts_subhead, $data['start_date'], $data['end_date']) as $rowsets ):
+                                if ( $rowsets['head'] == 74 ):
+                                    foreach ( $this->service->getCashFlow($this->transactiondetailObj, array('transaction' => $rowsets['transaction_id'], 'sub_head' => $rowsets['sub_head'])) as $transdtl ):
+                                        if ( $transdtl['debit'] > 0 ): ?>
+                                            <tr>
+                                                <td><?php echo $transdtl['voucher_date']; ?></td>
+                                                <td><?php echo $transdtl['remark']; ?></td>
+                                                <td><?php $inst_num = $this->service->getDatabyParam($this->chequeDtlObj, $transdtl['cheque_id'], 'instrument_no');
+                                                    echo ($inst_num) ? $inst_num : '-'; ?></td>
+                                                <td class="" style="text-align:right">
+                                                    <?php $tot_receipt_bank += $transdtl['debit'];
+                                                    echo ($tot_receipt_bank) ? number_format((float) $transdtl['debit'], 2, '.', ',') : '0.00'; ?>
+                                                </td>
+                                                <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                                <td class="" style="text-align:right">
+                                                    <?php $tot_receipt_bank += $transdtl['debit'];
+                                                    echo ($tot_receipt_bank) ? number_format((float) $transdtl['debit'], 2, '.', ',') : '0.00'; ?>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                                <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                                <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                            </tr>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                                <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                                <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                                <td><?php echo $transdtl['voucher_date']; ?></td>
+                                                <td><?php echo $transdtl['remark']; ?></td>
+                                                <td><?php $inst_num = $this->service->getDatabyParam($this->chequeDtlObj, $transdtl['cheque_id'], 'instrument_no');
+                                                    echo ($inst_num) ? $inst_num : '-'; ?></td>
+                                                <td class="" style="text-align:right">
+                                                    <?php $tot_payment_bank += $transdtl['credit'];
+                                                    echo number_format((float) $transdtl['credit'], 2, '.', ','); ?>
+                                                </td>
+                                                <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                                <td class="" style="text-align:right">
+                                                    <?php $tot_payment_bank += $transdtl['credit'];
+                                                    echo number_format((float) $transdtl['credit'], 2, '.', ','); ?>
+                                                </td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php elseif ( $rowsets['head'] == '73' ):
+                                    if ( $transdtl['debit'] > 0 ): ?>
+                                        <tr>
+                                            <td><?php echo $transdtl['voucher_date']; ?></td>
+                                            <td><?php echo $transdtl['remark']; ?></td>
+                                            <td><?php $inst_num = $this->service->getDatabyParam($this->chequeDtlObj, $transdtl['cheque_id'], 'instrument_no');
+                                                echo ($inst_num) ? $inst_num : '-'; ?></td>
+                                            <td class="" style="text-align:right">
+                                                <?php $tot_receipt_cash += $transdtl['debit'];
+                                                echo ($tot_receipt_cash) ? number_format((float) $transdtl['debit'], 2, '.', ',') : '0.00'; ?>
+                                            </td>
+                                            <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                            <td class="" style="text-align:right">
+                                                <?php $tot_receipt_cash += $transdtl['debit'];
+                                                echo ($tot_receipt_cash) ? number_format((float) $transdtl['debit'], 2, '.', ',') : '0.00'; ?>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                            <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                            <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                            <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                            <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                            <td><?php echo $transdtl['voucher_date']; ?></td>
+                                            <td><?php echo $transdtl['remark']; ?></td>
+                                            <td><?php echo $transdtl['cheque_id']; ?></td>
+                                            <td class="" style="text-align:right">
+                                                <?php $tot_payment_cash += $transdtl['credit'];
+                                                echo number_format((float) $transdtl['credit'], 2, '.', ','); ?>
+                                            </td>
+                                            <td class="" style="text-align:right"><?php echo "0.00"; ?></td>
+                                            <td class="" style="text-align:right">
+                                                <?php $tot_payment_cash += $transdtl['credit'];
+                                                echo number_format((float) $transdtl['credit'], 2, '.', ','); ?>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                            <tr>
+                                <td colspan="3"><strong><?php echo "Total amount"; ?></strong></td>
+                                <td class="green" style="text-align:right">
+                                    <strong>
+                                        <?php
+
+                                        $grand_tot_receipt_cash += $tot_receipt_cash;
+                                        $grand_tot_receipt_bank += $tot_receipt_bank;
+                                        echo number_format((float) ($grand_tot_receipt_cash + $grand_tot_receipt_bank), 2, '.', ','); ?>
+                                    </strong>
+                                </td>
+                                <td class="green" style="text-align:right">
+                                    <strong><?php echo number_format((float) $grand_tot_receipt_cash, 2, '.', ','); ?></strong>
+                                </td>
+                                <td class="green" style="text-align:right">
+                                    <strong><?php echo number_format((float) $grand_tot_receipt_bank, 2, '.', ','); ?></strong>
+                                </td>
+                                <td colspan="3"><strong><?php echo "Total amount"; ?></strong></td>
+                                <td class="green" style="text-align:right">
+                                    <strong>
+                                        <?php
+
+                                        $grand_tot_payment_cash += $tot_payment_cash;
+                                        $grand_tot_payment_bank += $tot_payment_bank;
+                                        echo number_format((float) ($grand_tot_payment_cash + $grand_tot_payment_bank), 2, '.', ','); ?>
+                                    </strong>
+                                </td>
+                                <td class="green" style="text-align:right">
+                                    <strong><?php echo number_format((float) $grand_tot_payment_cash, 2, '.', ','); ?></strong>
+                                </td>
+                                <td class="green" style="text-align:right">
+                                    <strong><?php echo number_format((float) $grand_tot_payment_bank, 2, '.', ','); ?></strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="9">Closing Balance</td>
+                                <td class="purple" style="text-align:right">
+                                    <strong>
+                                        <?php $colsing_amount = ($grand_tot_receipt_cash + $grand_tot_receipt_bank) - ($grand_tot_payment_cash + $grand_tot_payment_bank);
+                                        echo number_format((float) $colsing_amount, 2, '.', ','); ?>
+                                    </strong>
+                                </td>
+                                <td class="purple" style="text-align:right">
+                                    <strong>
+                                        <?php $colsing_cash = $grand_tot_receipt_cash - $grand_tot_payment_cash;
+                                        echo number_format((float) $colsing_cash, 2, '.', ','); ?>
+                                    </strong>
+                                </td>
+                                <td class="purple" style="text-align:right">
+                                    <strong>
+                                        <?php $colsing_bank = $grand_tot_receipt_bank - $grand_tot_payment_bank;
+                                        echo number_format((float) $colsing_bank, 2, '.', ','); ?>
+                                    </strong>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        /* $('#start_date').datepicker();
+         $('#end_date').datepicker();*/
+
+        $('#start_date').daterangepicker({
+            singleDatePicker: true,
+            singleClasses: "picker_2",
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
+        });
+
+        $('#end_date').daterangepicker({
+            singleDatePicker: true,
+            singleClasses: "picker_2",
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
+        });
+    });
+
+    $('#start_date').on('changeDate', function () {
+        $('form').formValidation('revalidateField', $(this).attr('id'));
+    });
+    $('#end_date').on('changeDate', function () {
+        $('form').formValidation('revalidateField', $(this).attr('id'));
+    });
+    /*** Form Validation ***/
+    $('form').formValidation({
+        framework: 'bootstrap',
+        excluded: ':disabled',
+        message: 'This value is not valid',
+        fields: {
+            'start_date': {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select start date'
+                    }
+                }
+            },
+            'end_date': {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select end date'
+                    }
+                }
+            },
+            'tier': {
+                validators: {
+                    notEmpty: {
+                        message: 'Please select tier'
+                    }
+                }
+            },
+        }
+    }).on('success.field.fv', function (e, data) {
+        if (data.fv.getInvalidFields().length > 0) {    // There is invalid field
+            data.fv.disableSubmitButtons(true);
+        }
+    });
+</script>

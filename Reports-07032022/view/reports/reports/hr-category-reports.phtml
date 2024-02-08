@@ -1,0 +1,162 @@
+<?php
+		
+	// Add a JavaScript file
+	$this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+        
+ $title = 'Human Resource Report';
+ $this->headTitle($title);
+ $position_category = array();
+ $position_level = array();
+ $i=1;
+ foreach($this->positionCategory as $category){
+	 $position_category[$i++] = $category;
+ }
+ $i=1;
+ foreach($this->positionLevel as $level){
+	 $position_level[$i++] = $level;
+ }
+ 
+ $organisation_list = array();
+foreach($this->organisationList as $key=>$organisation){
+	if($key != 1){
+		$organisation_list[$key] = $organisation;
+	}
+}
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                	
+                        <!-- Search Employees-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Report")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                </ul>
+                             <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                                    <label>Report Type</label>
+                                    <?php echo $this->formRow($form->get('report_type')); ?>
+                                  </div>
+                               </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                       </div>     
+                          
+                        <?php 
+							if($this->report_type == 'position_category_position_level'){
+								echo $this->partial('position_category_position_level.phtml', 
+														array( 
+															'hr_report' => $this->hr_report, 
+															'five_year_plan' => $this->five_year_plan,
+															'position_category' => $position_category, 
+															'position_level' => $position_level)); 
+							} else if($this->report_type == 'agency_employment_type'){
+								
+							} else if($this->report_type == 'agency_category_level'){
+								echo $this->partial('agency_category_level.phtml', 
+														array( 
+															'hr_report' => $this->hr_report, 
+															'five_year_plan' => $this->five_year_plan,
+															'organisationList' =>  $this->organisationList,
+															'position_category' => $position_category)); 
+							} else if($this->report_type == 'occupational_group_gender'){
+								echo $this->partial('occupational_group_gender.phtml', 
+														array( 
+															'hr_report' => $this->hr_report, 
+															'five_year_plan' => $this->five_year_plan,
+															'organisationList' =>  $this->organisationList,
+															'position_category' => $position_category));
+							} else if($this->report_type == 'position_level_gender'){
+								echo $this->partial('position_level_gender.phtml', 
+														array( 
+															'hr_report' => $this->hr_report, 
+															'five_year_plan' => $this->five_year_plan,
+															'position_category' => $position_category, 
+															'position_level' => $position_level)); 
+							}
+							
+						?>
+                  </div>
+                </div>
+              </div>
+            </div>
+           </div>
+     </div>
+
+<script type="text/javascript">
+
+<?php
+foreach($organisation_list as $key => $value){
+	$phd[$key]= 0;
+	$masters[$key] = 0;
+	$bachelor[$key] = 0;
+	$others[$key] = 0;
+}
+
+$this->inlineScript()->captureStart();
+echo <<<JS2
+new Chart(document.getElementById("bar-chart-grouped"), {
+    type: 'bar',
+    data: {
+      labels: ["CLCS", "CNR", "CST", "GCBS", "GCIT", "JNEC", "PCE", "SCE", "Sherubtse", "YC", "OVC" ],
+      datasets: [
+        {
+          label: "PhD",
+          backgroundColor: "#e74c3c",
+          data: [$phd[5], $phd[2], $phd[3], $phd[4], 0, $phd[6], $phd[7], $phd[8], $phd[9], 0, $phd[1]]
+        }, {
+          label: "Masters",
+          backgroundColor: "#26b99a",
+          data: [$masters[5], $masters[2], $masters[3], $masters[4], 0, $masters[6], $masters[7], $masters[8], $masters[9], 0, $masters[1]]
+        }, {
+          label: "Bachelor",
+          backgroundColor: "#9b59b6",
+          data: [$bachelor[5], $bachelor[2], $bachelor[3], $bachelor[4], 0, $bachelor[6], $bachelor[7], $bachelor[8], $bachelor[9], 0, $bachelor[1]]
+        }, {
+          label: "Diploma/Certificate",
+          backgroundColor: "#3498db",
+          data: [$others[5], $others[2], $others[3], $others[4], 0, $others[6], $others[7], $others[8], $others[9], 0, $others[1]]
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Total Number (Regular + Contract)'
+      }
+    }
+});
+JS2;
+$this->inlineScript()->captureEnd();

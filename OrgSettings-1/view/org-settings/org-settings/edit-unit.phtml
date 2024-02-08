@@ -1,0 +1,118 @@
+<?php
+ $title = 'Organisation Configuration & Settings';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+               <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                <div id="myTabContent" class="tab-content">
+                  <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="profile-tab">
+                   <br/> 
+                   <p> 
+                   <div class="x_panel"> 
+                     <h2>Organisation/Colleges</h2>   
+                    <div class="x_content">
+                  <br />
+                   
+                <?php
+                   // Opening of the form tag
+					$form->prepare();
+                    echo $this->form()->openTag($form);
+				    $unit = $form->get('unit');
+					$unit->get('id')->setValue($this->unitDetail->getId());
+					$unit->get('unit_name')->setValue($this->unitDetail->getUnit_Name());
+					$unit->get('organisation_id')->setValueOptions($this->organisationList);
+					$unit->get('organisation_id')->setValue($this->unitDetail->getOrganisation_Id());
+					$unit->get('departments_id')->setValueOptions($this->departmentList);
+					$unit->get('departments_id')->setValue($this->unitDetail->getDepartments_Id());
+                    echo $this->formHidden($unit->get('id'));   
+                ?>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Organisation/College Name:<span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($unit->get('organisation_id')); ?>
+                    </div>
+                </div>
+                </div> 
+                  
+                 <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm- col-xs-12">Department Name:<span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($unit->get('departments_id')); ?>
+                    </div>
+                </div>
+                </div>   
+                  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Unit Name:<span class="required">*</span>
+                    </label>
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                      <?php  echo $this->formRow($unit->get('unit_name')); ?>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php 
+						   echo $this->formHidden($form->get('csrf'));
+						   echo $this->formSubmit($unit->get('submit')); 
+						?>
+                        </div>
+                    </div>
+                </div>
+                    
+				<?php echo $this->form()->closeTag(); ?>
+                    
+                </div>
+                </div> 
+                
+				<div class="x_panel">
+                <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="example-datatable" class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Organisation/College Name</th>
+                            <th class="column-title">Department Name</th>
+                            <th class="column-title">Unit Name</th>
+                            <th class="column-title">Action</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                      	<?php foreach ($this->units as $unit): ?>
+                          <tr>
+                            <td><?php echo $this->escapeHtml($organisationList[$unit->getOrganisation_Id()]);?></td>
+                            <td><?php echo $this->escapeHtml($departmentList[$unit->getDepartments_Id()]);?></td>
+                            <td><?php echo $this->escapeHtml($unit->getUnit_Name());?></td>
+                            <td><a href="<?php echo $this->url('editunit', array('id' => $unit->getId()));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                          </tr>
+                         <?php endforeach; ?>
+						</tbody>
+                      </table>
+                     </div>
+					</div>
+				</div>
+			</div> 
+                
+   		 </div>
+ 		</div>
+	</div>
+  </div>
+</div>
+            

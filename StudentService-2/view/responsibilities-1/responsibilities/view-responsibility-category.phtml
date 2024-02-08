@@ -1,0 +1,64 @@
+<?php
+
+ $title = 'Responsibility Category Details';
+ $this->headTitle($title);
+ 
+ $responsibilityCategory = array();
+ foreach($this->responsibility as $responsiblity)
+ {
+	 $responsibilityCategory['responsibility_name'] = $responsiblity['responsibility_name'];
+	 $responsibilityCategory['responsibility_description'] = $responsiblity['responsibility_description'];
+ }
+ ?>
+
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $responsibility = $form->get('responsibilitycategory');
+                    echo $this->form()->openTag($form);
+				  ?>  
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Category: <span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <input type="text" class="form-control" disabled="disabled" placeholder="<?php  echo $responsibilityCategory['responsibility_name']; ?>">
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"> Short Description of Responsibility: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <textarea class="form-control" rows="3" disabled="disabled" placeholder='<?php  echo $responsibilityCategory['responsibility_description']; ?>'></textarea>
+                    </div>
+                </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        </div>
+
+              </div>
+            </div>
+          </div>
+        </div> 
+     </div>

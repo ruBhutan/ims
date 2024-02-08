@@ -1,0 +1,105 @@
+<?php 
+ $title = 'Enter Fixed Asset Depreciation Value';
+ $this->headTitle($title);
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                  
+                    <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $depreciationValue = $form->get('fixed_asset');
+                    echo $this->form()->openTag($form);
+                    
+                    $depreciationValue->get('item_name_id')->setValue($this->fixedAssetDetails->getId());
+                    echo $this->formHidden($depreciationValue->get('item_name_id'));
+                    $depreciationValue->get('item_name')->setValue($this->fixedAssetDetails->getItem_Name());
+                    $depreciationValue->get('item_quantity_type')->setValue($this->fixedAssetDetails->getItem_Quantity_Type());
+
+
+                    $enter_date = date('Y-m-d');
+                    $depreciationValue->get('entered_date')->setValue($enter_date);
+                    echo $this->formHidden($depreciationValue->get('entered_date'));
+
+
+                    $depreciationValue->get('submit')->setValue('Update');
+                    echo $this->formRow($depreciationValue->get('id'));
+
+                    ?>   
+                        <br>
+                        <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_name">Item Name </label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->formRow($depreciationValue->get('item_name')); ?>
+                          </div>
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="item_quantity_type">Item Quantity Type </label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->formRow($depreciationValue->get('item_quantity_type')); ?>
+                          </div>                            
+                          </div>
+                          <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="goods_depreciation_quantity">Depreciation Method </label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->formRow($depreciationValue->get('depreciation_method')); ?>
+                          </div>
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="depreciation_rate">Depreciation Rate</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->formRow($depreciationValue->get('depreciation_rate'));?>
+                          </div>                            
+                          </div> 
+                           <div class="form-group">
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="goods_life">Goods Useful Life</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->formRow($depreciationValue->get('goods_life'));?><p>Year</p>
+                          </div>
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="scrap_value">Estimated Scrap Value</label>
+                          <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?php echo $this->formRow($depreciationValue->get('scrap_value'));?><p>%</p>
+                          </div>                              
+                          </div>      
+                          <div class="form-group">                        
+                          </div>
+                          <div class="form-group">                 
+                          <label class="control-label col-md-2 col-sm-2 col-xs-12" for="remarks">Remarks</label>
+                          <div class="col-md-10 col-sm-12 col-xs-12">
+                            <?php echo $this->formRow($depreciationValue->get('remarks'));?>
+                          </div>
+                          </div>
+                                                   
+                                               
+                       <div class="row">
+                        <div class="ln_solid"></div>
+                          <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                              <?php
+                              echo $this->formRow($form->get('csrf'));  
+                              echo $this->formRow($depreciationValue->get('submit')); 
+                              ?>
+                                  
+                            </div>
+                          </div>
+                     </div>
+                    
+                       <?php   //closing the form tag  
+                        echo $this->form()->closeTag();
+                      ?>
+                    
+                  </div>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+
+ 

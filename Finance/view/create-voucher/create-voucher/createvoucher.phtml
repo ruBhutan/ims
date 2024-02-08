@@ -1,0 +1,122 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Add Voucher';
+ $this->headTitle($title);
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <br />
+                   <?php
+                   $form->prepare();
+                   echo $this->form()->openTag($form);
+
+                   echo $this->formHidden($form->get('id'));   
+                ?>
+               <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Voucher Number: 
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <?php  echo $this->formRow($form->get('voucher_number')); ?>
+                    </div>
+                </div>
+                </div> 
+                
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Transaction Date:
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <?php  echo $this->formRow($form->get('transaction_date')); ?>
+                    </div>
+                </div> 
+                </div>
+                  
+                   <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Voucher Master:
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <?php  echo $this->formRow($form->get('voucher_master')); ?>
+                    </div>
+                </div> 
+                </div>
+                  
+                  <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Voucher Head:
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <?php  echo $this->formRow($form->get('voucher_head')); ?>
+                    </div>
+                </div> 
+                </div>
+                  
+                <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">From Ledger Account:
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <?php  echo $this->formRow($form->get('from_ledger_account')); ?>
+                    </div>
+                </div> 
+                </div> 
+                  
+                  <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">To Ledger Account:
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <?php  echo $this->formRow($form->get('to_ledger_account')); ?>
+                    </div>
+                </div> 
+                </div>  
+                  
+                   <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Amount:
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <?php  echo $this->formRow($form->get('amount')); ?>
+                    </div>
+                </div> 
+                </div>  
+                  
+                     <div class="row" >
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Description:
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <?php  echo $this->formRow($form->get('description')); ?>
+                    </div>
+                </div> 
+                </div>  
+                  
+                <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                              <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formSubmit($form->get('submit')); 
+                      ?>
+                    </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        </div>
+     </div></div>
+            
+   

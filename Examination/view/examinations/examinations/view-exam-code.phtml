@@ -1,0 +1,92 @@
+<?php
+ $title = 'Generate Secret Code for Examinations';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+      <div class="">
+        <!-- Search for students-->
+        <div class="col-md-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><?php echo $this->escapeHtml($title)?></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+            
+                </ul>
+             <div class="clearfix"></div>
+          
+            </div>
+               
+            <div class="x_content">
+            <h5><i>*Generate the Examination Code of Students by Programme and Year</i></h5>
+              <br />
+               <?php
+                // Opening of the form tag
+                $form->prepare();
+                echo $this->form()->openTag($form);
+				$form->get('programmes_id')->setValueOptions($this->programmeList);
+				$form->get('academic_modules_id')->setValueOptions($this->yearList);
+              ?>
+            
+              <div class="row">                  
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Programme</label>
+                    <?php echo $this->formRow($form->get('programmes_id')); ?>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                    <label>Module Name</label>
+                    <?php echo $this->formRow($form->get('academic_modules_id')); ?>
+                  </div>
+               </div>
+             
+             <div class="row">
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                      <?php
+                       echo $this->formHidden($form->get('csrf'));
+                       echo $this->formSubmit($form->get('submit')); 
+                       echo $this->form()->closeTag(); 
+                    ?>
+                </div>
+            </div>
+              
+          </div>
+        </div>
+       </div>   
+       
+       <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2><?php echo $this->escapeHtml($title); ?></h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+              <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                <thead>
+                    <th class="column-title">Student ID </th>
+                    <th class="column-title">Examination Code </th>
+                </thead>
+
+                <tbody>
+                  <?php foreach ($this->studentList as $student) : ?>
+                  <tr class="even pointer">
+                    <td class=" "><?php echo $this->escapeHtml($student['student_id']);?></td>
+                    <td class=" "><?php echo $this->escapeHtml($student['examination_code']);?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+              

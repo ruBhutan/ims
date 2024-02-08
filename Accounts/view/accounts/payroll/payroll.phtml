@@ -1,0 +1,180 @@
+<?php
+/**
+ * 
+ * Index -- of Payroll
+ * 
+ */
+ $title = "Payroll";
+ ?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>  
+                    </ul>
+					<div class="clearfix"></div>
+                </div><!--end of x-title-->
+				<div class="pull-right tableTools-container"></div>			
+				<a class="pull-right btn btn-primary" href="<?php echo $this->url('payroll', array('action'=>'definepayroll'));?>">
+				<span class="white"><i class="fa fa-plus"></i> <span class="hidden-sm hidden-xs">&nbsp;Add New Payroll </span></span>
+				</a>
+                <div class="pull-right"></div>			
+				<div class="x_content">
+					<form>
+						<div class="row">
+							<div class="col-lg-2">
+								<label for="month" class="control-label">Month </label>
+								<select class="form-control" name="month" id="month" data-placeholder="Select" required >
+									<option value=""></option>
+									<?php 
+										for($m=1;$m<=12;$m++):
+											$selected = ($this->month == $m)?'selected':'';
+									?>
+										<option value="<?php echo $m;?>" <?php echo $selected;?>>
+											<?php echo date("F", strtotime(date("d-$m-y"))); ?>
+										</option>
+									<?php endfor; ?>
+								</select>
+							</div>
+							<div class="col-lg-2">
+								<label for="year" class="control-label">Year </label>
+								<select class="form-control" name="year" id="year" data-placeholder="Select" required >
+									<option value=""></option>
+									<?php for($y=date('Y');$y >2017;$y--):
+										$selected = ($this->year == $y)?'selected':'';?>
+										<option value="<?php echo $y;?>" <?php echo $selected;?>>
+											<?php echo $y; ?>
+										</option>
+									<?php endfor; ?>
+								</select>
+							</div>
+							<div class="form-group col-lg-2">
+								<label class="control-label" for="organisation">Organisation</label>
+								<select class="form-control" id="organisation" name="organisation" data-placeholder="Select" onchange='this.form.submit()'>
+									<option value=""></option>
+									<?php foreach($this->orgObj->get(array('id'=>$user_org)) as $organisation):
+										$sel_org = ($organisation['id'] == $user_org)?'selected':'';
+									?>
+									<option value="<?php echo $organisation['id'];?>" <?php echo $sel_org;?>>
+										<?php echo $organisation['organisation_name'];?>
+									</option>
+									<?php endforeach;?>
+								</select>
+							</div>
+							<div class="form-group col-lg-1">
+								<label class="control-label"> </label>
+								<button type="button" class="btn btn-sm btn-info" onclick="refresh()" ><i class="fa fa-refresh"></i> refresh</button>
+							</div>
+						</div>
+					</form>
+					<h4 class="widget-title"> 	
+						Payroll for the month of <strong><?php echo date('F, Y', strtotime('1-'.$this->month.'-'.$this->year));?></strong>
+					</h4>
+					<div class="table-responsive">
+						<table id="datatable" class="table table-striped jambo_table bulk_action">
+							<thead>
+								<tr class="headings">
+									<th>SL. No. </th>
+									<th>Employee</th>
+									<th>Department</th>
+									<th>Department Unit</th>
+									<th>Gross</th>
+									<th>Total Ded.</th>
+									<th>Net Pay</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								$i = 1; 
+								$total_net =0;
+								$total_gross =0;
+								$total_ded =0;
+								$total_earning_lwp = 0;
+								$total_deduction_lwp = 0;
+								//print_r($this->payroll); exit;
+								foreach ($this->payroll as $row):
+									$row_id = $row['employee_details'].'-'.$row['year'].'-'.$row['month'];
+								?>
+									<tr data-href="<?php $this->url('payroll',array('action'=>'booksalary','id'=>$row_id));?>" >
+										<td><?php echo $i; ?> </td>
+										<td>
+											<strong><?php echo $row['first_name']." ".$row['middle_name']." ".$row['last_name']; ?></strong> <i><?php echo $row['emp_id']; ?>, 
+											<?php echo $this->orgObj->getColumn($row['organisation_id'],'organisation_name');?>
+										</td>
+										<td><strong><?php echo $this->dObj->getColumn($row['departments_id'],'department_name'); ?> </strong></td>
+										<td><strong><?php echo $this->duObj->getColumn($row['departments_units_id'],'unit_name'); ?> </strong></td>
+										<td><strong><?php echo $this->currency($gross = $row['gross']); ?> </strong></td>
+										<td><strong><?php echo $this->currency($deduc = $row['total_deduction']); ?> </strong></td>
+										<td><strong><?php echo $this->currency($net_pay = (($gross+$row['bonus']+$row['leave_encashment'])-$deduc)); ?></strong></td>
+										<?php $total_net += $net_pay; $total_ded +=$deduc; $total_gross += $gross; 
+																	  $total_earning_lwp += $row['earning_dlwp'];
+												  $total_deduction_lwp += $row['deduction_dlwp'];?>
+										<?php //echo $this->button(1, $row_id);?>    
+									</tr>
+								<?php 
+								$i++;
+								endforeach;  
+								?>
+						    </tbody>
+					    </table>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<h3 class="widget-title"> Sumarray: </h3>
+							<div class="hr dotted"></div>
+							<div class="row">
+								<div class="col-md-2">
+									<label> Total Employee: </label> <strong><?php echo $i-1;?></strong>
+								</div>
+								<div class="col-md-3">
+									<label> Total Gross Pay: </label> <strong><?php echo $this->currency($total_gross);?></strong>
+								</div>
+								<div class="col-md-2">
+									<label> Total Deduction: </label> <strong><?php echo $this->currency($total_ded);?></strong>
+								</div>
+								<div class="col-md-2">
+									<label> Total LWPD: </label> <strong><?php echo $this->currency($total_earning_lwp + $total_deduction_lwp);?></strong>
+								</div>
+								<div class="col-md-3">
+									<label> Total Net Pay: </label><strong><?php echo $this->currency($total_net - $total_earning_lwp + $total_deduction_lwp);?></strong>
+								</div>
+							</div>
+						</div>
+                    </div>
+					<div class="hr dotted"></div>
+					<div class="space-12"></div>
+					<center>
+						<form method="post" action="<?php echo $this->url('payroll', array('action'=>'booksalary'));?>">
+							<input type="hidden" name="year" id="year" value="<?php echo $this->year;?>"/>
+							<input type="hidden" name="month" id="month" value="<?php echo $this->month;?>"/>
+							<input type="hidden" name="organisation" id="organisation" value="<?php echo $user_org;?>"/>
+							<?php $disabled = ($this->bookingbutton)? 'disabled':'';
+								$advance_disabled = ($this->advancebutton)? 'disabled':'';
+								$ymo = $this->year.'-'.$this->month.'-'.$user_org;?>
+							<a class="btn btn-primary" href="<?php echo $this->url('payroll',array('action'=>'bookadvancesalary','id'=>$ymo));?>" <?php echo $advance_disabled;?> > Book Advance Salary (<?php echo DateTime::createFromFormat('!m', $this->month)->format('F').",".$this->year;?>)</a>
+							<button class="btn btn-success" type="submit" <?php echo $disabled;?> > Book Salary (<?php echo DateTime::createFromFormat('!m', $this->month)->format('F').",".$this->year;?>)</button>
+						</form>
+                    </center>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	 //fuction to refresh 
+	 function refresh(){
+		var id = $('#year').val()+'-'+$('#month').val()+'-'+$('#organisation').val();
+		location.href="<?php echo $this->url('payroll', array('action'=>'payroll'));?>/"+id;
+	 }
+	$("tr[data-href]").each(function(){ 
+		if($(this).attr('data-href')!='#'){
+			$(this).css('cursor','pointer');
+			$(this).bind('click',function() {
+				window.document.location = $(this).attr("data-href");
+			});
+		}
+	});
+</script>

@@ -1,0 +1,112 @@
+<?php
+$title = 'Staff Leave Detail Lists';
+$this->headTitle($title);
+
+$key = $this->keyphrase;
+function my_encrypt($data, $key)
+{
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?> (<?php echo date('Y-m-d'); ?>)</h2><br><br>
+                    <p>NOTE: Leave will be calculated automatically: Please edit only if there is any difference in
+                        leave balance.</p>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <?php
+                    if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach ($messages as $message) {
+                            echo '<strong>Success!</strong>' . $message;
+                        }
+                        echo '</div>';
+                    } else if ($this->message == 'Failure' && $this->flashMessenger()->hasMessages()) {
+                        echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                        $messages = $this->flashMessenger()->getMessages();
+                        foreach ($messages as $message) {
+                            echo '<strong>Failure!</strong>' . $message;
+                        }
+                        echo '</div>';
+                    }
+
+                    ?>
+                    <div class="table-responsive">
+                        <table id="datatable-buttons" class="table table-striped jambo_table bulk_action">
+                            <div class="form-group">
+                            </div>
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Sl. No</th>
+                                    <th class="column-title">Staff ID </th>
+                                    <th class="column-title">Staff Name </th>
+                                    <th class="column-title">Designation </th>
+                                    <?php if ($this->organisation_id == 1) { ?>
+                                        <th class="column-title">Organisation</th>
+                                    <?php } ?>
+                                    <th class="column-title">Casual Leave Balance</th>
+                                    <th class="column-title">Earned Leave Balance</th>
+                                    <th class="column-title">Annual Leave Balance</th>
+                                    <th class="column-title">Previous FY CL Balance</th>
+                                    <th class="column-title">Previous FY Annual Balance</th>
+                                    <th class="column-title">Last Updated By</th>
+                                    <th class="column-title">Last Updated Date</th>
+                                    <th class="column-title no-link last"><span class="nobr">Action</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1;
+                                foreach ($this->empLeaveDetails as $leave) : ?>
+                                    <tr class="even pointer">
+                                        <td class=" "><?php echo $i++; ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($leave['emp_id']); ?></td>
+                                        <td class=" ">
+                                            <?php echo $this->escapeHtml($leave['first_name'] . ' ' . $leave['middle_name'] . ' ' . $leave['last_name']); ?>
+                                        </td>
+                                        <td class=" "><?php echo $this->escapeHtml($leave['position_title']); ?></td>
+                                        <?php if ($this->organisation_id == 1) { ?>
+                                            <td class=" "><?php echo $this->escapeHtml($leave['organisation_name']); ?></td>
+                                        <?php } ?>
+                                        <td class=" "><?php echo $this->escapeHtml($leave['casual_leave']); ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($leave['earned_leave']); ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($leave['annual_leave']); ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($leave['previous_cl_balance']); ?></td>
+                                        <td class=" "><?php echo $this->escapeHtml($leave['previous_al_balance']); ?>
+                                        </td>
+
+
+                                        <td class=" ">
+                                            <?php echo $this->escapeHtml($leave['sub_first_name'] . ' ' . $leave['sub_middle_name'] . ' ' . $leave['sub_last_name']); ?>
+                                        </td>
+                                        <td class=" "><?php echo $this->escapeHtml($leave['updated_date']); ?></td>
+                                        </td>
+                                        <td class=" "><a href="<?php echo $this->url('editempleavedetails', array('id' => my_encrypt($leave['id'], $key))); ?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> Edit</a></td>
+
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

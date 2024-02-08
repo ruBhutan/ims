@@ -1,0 +1,65 @@
+<?php
+ $title = 'HRD Approved Lists (RUB / OVC HRO)';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                     <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                     <br/>
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                             <th class="column-title">Sl.No </th>
+                             <th class="column-title">Five Year Plan </th>
+                             <th class="column-title">Course Title </th>
+                             <th class="column-title">No.Of Slots</th>
+                             <th class="column-title">Duration</th>
+                             <th class="column-title">Training Type</th>
+                             <th class="column-title">Funding Source</th>
+                             <th class="column-title">Target Group</th>
+                             <th class="column-title">Tuition Fees</th>
+                             <th class="column-title">DSA</th>
+                             <th class="column-title">Air Fare</th>
+                             <th class="column-title">Total</th>
+                             <th class="column-title">Priority</th>
+                        	 <th class="column-title">Activate </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                           <?php $i=1; foreach ($this->approvedList as $list) : ?>
+                          <tr class="even pointer">
+                            <td><?php echo $i++;?></td>
+                            <td><?php echo $this->escapeHtml($list->getFive_Year_Plan());?></td>
+                            <td><?php echo $this->escapeHtml($list->getCourse_Title());?></td>
+                            <td><?php echo $this->escapeHtml($list->getTotal_No_Slots());?></td>
+                            <td><?php echo $this->escapeHtml($list->getDuration());?></td>
+                            <td><?php echo $this->escapeHtml($list->getTraining_Type());?></td>
+                            <td><?php echo $this->escapeHtml($list->getSource_Of_Funding());?></td>
+                            <td><?php echo $this->escapeHtml($list->getTarget_Group());?></td>
+                            <td><?php echo $this->escapeHtml($list->getTuition_Fees());?></td>
+                            <td><?php echo $this->escapeHtml($list->getDsa_Tada());?></td>
+                            <td><?php echo $this->escapeHtml($list->getAir_Fare());?></td>
+                            <td><?php echo $this->escapeHtml($list->getTotal_Amount());?></td>
+                            <td><?php echo $this->escapeHtml($list->getPriority());?></td>
+                            <td class="fa fa-pencil"><a href="<?php echo $this->url('plannedtrainings', array('id' => $list->getId()));?>"><u>Click here</u></a></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                        <h7>Notes: Total Approved No. = existing no.+ Approved proposed no. and GAP=Total Approved no.-existing no.</h7>
+                    </div>
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

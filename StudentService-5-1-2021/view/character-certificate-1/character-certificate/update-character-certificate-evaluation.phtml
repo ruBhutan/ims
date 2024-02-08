@@ -1,0 +1,169 @@
+<?php
+ $title = 'Edit Student Character Evaluation';
+ $this->headTitle($title);
+ 
+ $details = array();
+ foreach($this->studentDetails as $det){
+    $details = $det;
+ }
+
+ $criteriaName = array();
+ $i = 1;
+ $j = 1;
+ $evaluation = array();
+ foreach($this->evaluatedRating as $rating){
+  $evaluation[$i] = $rating['evaluation'];
+  $i++;
+ }
+
+ foreach($this->criteria as $criteria){
+	 $criteriaName[$j++] =$criteria['evaluation_criteria'];
+ }
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                              </ul>
+                     <div class="clearfix"></div>
+                    </div>
+
+
+                            <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Student Details")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                  </li>
+                            
+                                </ul>
+                             <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                              <h4>
+                              <div class="row">
+                                <div class="form-group">  
+                                    <i><label class="control-label col-md-2 col-sm-2 col-xs-12">Student Name:</label></i>
+                                   <div class="col-md-3 col-sm-2 col-xs-12">
+                                      <i class="blue"><?php echo $details['first_name'].' '.$details['middle_name'].' '.$details['last_name']; ?></i>
+                                    </div>
+                                   <i><label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label></i>
+                                   <div class="col-md-3 col-sm-2 col-xs-12">
+                                      <i class="blue"><?php echo $details['student_id']; ?></i>
+                                    </div>
+                                </div>
+                              </div><br>
+                              <div class="row">
+                                <div class="form-group">  
+                                    <i><label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label></i>
+                                   <div class="col-md-3 col-sm-2 col-xs-12">
+                                      <i class="blue"><?php echo $details['programme_name']; ?></i>
+                                    </div>
+                                   <i><label class="control-label col-md-2 col-sm-2 col-xs-12">Student Section:</label></i>
+                                   <div class="col-md-3 col-sm-2 col-xs-12">
+                                      <i class="blue"><?php echo $details['section']; ?></i>
+                                    </div>
+                                  </div>
+                                </div>
+                              </h4>
+                              <hr>
+                              <br><br>
+                           
+                              <div class="x_title">
+                                <h2>List of Student Character Evaluation Rating</h2>
+                                <div class="clearfix"></div>
+                                <h5><b>( Rating should be >= 0.00 to <= 4.00. Rating criteria as follows:[ 3.50-4.00 = Excellent, 2.50-3.49 = Good, 1.50-2.49 = Satisfactory and 0.00-1.49 = Poor ] )</b></h5>
+                              </div>                              
+                              
+                              <div class="clearfix"></div>
+                             <?php
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                               // $form = $form->get('characterevaluation')
+                								$form->get('id')->setValue($this->id);
+                                $form->get('academic_module_tutors_id')->setValue($this->academic_module_tutors_id);
+                								$form->get('criteriaCount')->setValue($this->criteriaCount);
+                								echo $this->formHidden($form->get('id'));
+                                echo $this->formHidden($form->get('academic_module_tutors_id'));
+                								echo $this->formHidden($form->get('criteriaCount'));
+                                $form->get('submit')->setValue('Update Evaluation');
+                              ?>
+                            <div class="x_content">
+                              <div class="table-responsive">
+                                <table class="table table-fixed table-striped responsive-utilities jambo_table bulk_action table-bordered" >
+                                  <thead>
+                                    <tr>
+                                      <th class="column-title" style="width:55%">Criteria</th>
+                                      <th class="column-title" style="width:45%">Evaluated Rating</th>
+                                    </tr>                                    
+                                  </thead>
+                                  <tbody>
+                                    <?php for($i=1; $i<= $this->criteriaCount; $i++) {?>
+                                    <tr class="even pointer">
+                                      <td class=" "><?php echo $criteriaName[$i]?></td>
+                                      <td class=" ">
+                                        <?php 
+                                      
+                                      $form->get('evaluation_'.$i)->setValue($evaluation[$i]);
+                                      
+                                      echo $this->formRow($form->get('evaluation_'.$i)); 
+
+                                    ?>
+                                      </td>
+                                    </tr>
+                                    <?php } ?>                                   
+                                  </tbody>
+                                </table>
+                              </div> 
+                            </div>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                            
+                           		<!-- End of Achievements-->
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              

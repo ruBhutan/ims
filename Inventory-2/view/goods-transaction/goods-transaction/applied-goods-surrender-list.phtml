@@ -1,0 +1,65 @@
+
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Surrender Goods Lists Status';
+ $this->headTitle($title);
+?>     
+<div class="right_col" role="main">
+    <div class="">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <h5><i>Following are the applied surredered goods list and its status</i></h5>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                                <tr class="headings">
+                                    <th class="column-title">Sl. No</th>
+                                    <th class="column-title">Staff ID</th>
+                                    <th class="column-title">Staff Name </th>
+                                    <th class="column-title">Item Category</th>
+                                    <th class="column-title">Sub Category </th>
+                                     <th class="column-title">Item Name </th>
+                                     <th class="column-title">Quantity Type </th>
+                                      <th class="column-title">Quantity </th>
+                                       <th class="column-title">Surrender Date </th>
+                                       <th class="column-title">Surrender Status </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <?php $i=1; ?>
+                            <?php foreach ($this->surrenderList as $surrender) : ?>
+                                <tr class="even pointer">
+                                    <td class=" "><?php echo $i; ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($surrender->getEmp_Id()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($surrender->getFirst_Name()). ' ';
+                                                        echo $this->escapeHtml($surrender->getMiddle_Name()). ' ';
+                                                        echo $this->escapeHtml($surrender->getLast_Name()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($surrender->getCategory_Type()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($surrender->getSub_Category_Type()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($surrender->getItem_Name()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($surrender->getItem_Quantity_Type()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($surrender->getSurrender_Quantity()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($surrender->getGoods_Surrender_Date()); ?></td>
+                                    <td class=" "><?php echo $this->escapeHtml($surrender->getGoods_Surrender_Status()); ?></td>
+                                </tr>
+                            <?php $i++; ?>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>S

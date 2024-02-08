@@ -1,0 +1,145 @@
+<?php 
+$title = 'Chart of Accounts';
+?>
+<div class="right_col" role="main">
+	<div class=" ">
+		<div class="col-md-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2><?php echo $this->escapeHtml($title);?></h2>
+					<ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="pull-right tableTools-container"></div>			
+				<div class="pull-right"></div>			
+				<?php echo $this->partial('accounts/chartaccount/partial.phtml', array('active' => 'index')); ?>
+				<div class="x_content">
+					<div class="col-sm-8">
+						<ol class="dd-list" id="class">
+							<?php 
+								$cs = 1;
+								foreach($classes as $class):
+									$i = 0;
+									$in = ($i==0)?'':'';
+									$icon = ($i==0)?'fa-plus':'fa-plus';
+							?>
+							<a style="text-decoration:none;color:#FFF;" data-toggle="collapse" data-parent="#class" href="#group<?php echo $class['id'];?>">
+								<li class="dd-item">
+									<div style ="background-color:#2A3F54;text-align: left"class="dd-handle ">
+										<font style="color:#FFF"><i class="ace-icon fa <?php echo $icon;?>" data-icon-show="fa-plus" data-icon-hide="fa-minus"></i>
+										<?php echo $cs++."&nbsp;".$class['name'];?></font>
+									</div>
+								</li>
+							</a>
+							<ol class="collapse <?php echo $in;?>" id="group<?php echo $class['id'];?>">
+								<?php
+									$gp = 1;
+									$groups = $this->groupObj->get(array('class'=>$class['id']));
+									foreach($groups as $group):
+								?>
+								<a style="text-decoration:none;" data-toggle="collapse" data-parent="#group<?php echo $class['id'];?>" href="#head<?php echo $group['id'];?>">
+									<li class="dd-item">
+										<div style ="background-color:#29513D;text-align:left;"class="dd-handle ">
+											<font style="color:#FFF"><i class="ace-icon fa <?php echo $icon;?>" data-icon-show="fa-plus" data-icon-hide="fa-minus"></i>
+											<?php echo $gp++."&nbsp;".$group['name'];?></font>
+										</div>
+									</li>
+								</a>
+								<ol class="collapse <?php echo $in;?>" id="head<?php echo $group['id'];?>">
+									<?php
+										$hd = 1;
+										$heads = $this->headObj->get(array('group'=>$group['id']));
+										foreach($heads as $head):
+									?>
+									<a style="text-decoration:none;" data-toggle="collapse" data-parent="#head<?php echo $group['id'];?>" href="#subhead<?php echo $head['id'];?>">
+										<li class="dd-item">
+											<div style ="background-color:#514E29;text-align: left"class="dd-handle ">
+												<font style="color:#FFF"><i class="ace-icon fa <?php echo $icon;?>" data-icon-show="fa-plus" data-icon-hide="fa-minus"></i>
+												<?php echo $hd++."&nbsp;".$head['name'];?></font>
+											</div>
+										</li>
+									</a>
+									<ol class="collapse <?php echo $in;?>" id="subhead<?php echo $head['id'];?>">
+										<?php
+											$subheads = $this->subheadObj->get(array('head'=>$head['id']));
+											$sl = 1;
+											foreach($subheads as $subhead):
+										?>
+										<li class="dd-item">
+											<div style ="background-color:#51293D;text-align: left"class="dd-handle ">
+												<font style="color:#FFF"><?php echo $sl++;?>. &nbsp;
+												<?php echo $subhead['name'];?> &nbsp; | &nbsp;
+												<i><?php echo $subhead['code'];?></i></font>
+											</div>
+										</li>
+										<?php endforeach;?>
+									</ol>
+									<?php endforeach;?>
+								</ol>
+								<?php endforeach;?>
+							</ol>
+							<?php endforeach;?>
+						</ol>
+					</div>
+					<div class="col-sm-1"></div>
+					<div class="col-sm-3">
+						<div class="row">
+							<div class="pull-right tableTools-container"></div>			
+							<a class="pull-right btn btn-primary" href="<?php echo $this->url('chartaccount', array('action'=>'addsubhead'));?>">
+							<span class="white"><i class="fa fa-plus"></i> <span class="hidden-sm hidden-xs">&nbsp;Add sub Ledger </span></span>
+							</a>
+						</div>
+						<div class="space-6"></div>
+						<div class="row">
+							<div class="alert alert-white">
+								<i class='fa fa-check red'></i> Add New Sub Ledger from here <br>
+								<i class='fa fa-check red'></i> For updating, Go the Sub Ledger to be updated
+							</div>
+						</div>
+						<div class="space-6"></div>
+						<div class="row">
+							<ul class="tree tree-unselectable">
+								<li class="tree-branch tree-open">
+									<span class="tree-item-name">				  			
+										<span class="tree-label">
+											<i class="ace-icon fa fa-square fa-2x background-color:#2A3F54" style="color:#2A3F54"></i> <strong>Class</strong>
+										</span>				
+									</span>		
+									<ul class="tree-branch-children">
+										<li class="tree-branch tree-open" aria-expanded="true">		
+											<span class="tree-item-name">				  			
+												<span class="tree-label">
+													<i class="ace-icon fa fa-square fa-2x background-color:#29513D" style="color:#29513D"></i> <strong>Group</strong>
+												</span>				
+											</span>						
+											<ul class="tree-branch-children">
+												<li class="tree-branch tree-open" aria-expanded="true">				
+													<span class="tree-item-name">				  			
+														<span class="tree-label">
+															<i class="ace-icon fa fa-square fa-2x background-color:#514E29"></i> <strong>Head</strong>
+														</span>				
+													</span>			
+												</li>
+												<ul class="tree-branch-children">
+													<li class="tree-branch tree-open" aria-expanded="true">				
+														<span class="tree-item-name">				  			
+															<span class="tree-label">
+																<i class="ace-icon fa fa-square fa-2x background-color:#51293D" style="color:#51293D"></i> <strong>Subhead</strong>
+															</span>				
+														</span>			
+													</li>
+												</ul>
+											</ul>
+										</li>
+									</ul>				
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div><!-- x_content ENDS -->
+			</div><!-- /.col -->
+		</div><!-- /.col -->
+	</div><!-- /.col -->
+</div><!-- /.right_col -->

@@ -1,0 +1,175 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = ' Employee Details';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <form>   
+                 <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Appraisal Period</label>
+                    <input type="text" placeholder="11th Five Year Plan" class="form-control" readonly>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee Name</label>
+                    <input type="text" placeholder="Dorjee  Wangmo Wangda" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Employee ID No.</label>
+                    <input type="text" placeholder="RUB2345" class="form-control" readonly>
+                  </div>
+
+                  <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Title</label>
+                    <input type="text" placeholder="Finance Officer" class="form-control" readonly>
+                  </div>
+                </div>
+                    <div class="row">
+                      <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Position Level</label>
+                    <input type="text" placeholder="Grade 8" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Working Agency</label>
+                    <input type="text" placeholder="OVC" class="form-control" readonly>
+                  </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Department/Division</label>
+                    <input type="text" placeholder="IT Division" class="form-control" readonly>
+                  </div>
+                 <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                      <label>Objectives</label>
+                    <input type="text" placeholder="Excellence Service " class="form-control" readonly>
+                  </div>
+                      </div>
+                     
+                      </form>
+                  
+          </div>
+              </div>
+        </div>  
+       <?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = ' Performance Review (Executive/Administrative & Technical)';
+ $this->headTitle($title);
+?>       
+              <div class="col-md-12 col-sm-12 col-xs-12">
+
+                  <div class="x_panel">
+                     <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <br/>
+                    <div class="table-responsive">
+                      <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">Sl.No. </th>
+                             <th class="column-title">Activities</th>
+                            <th class="column-title">Outstanding </th>
+                        <th class="column-title">Very Good </th>
+                         <th class="column-title">Good </th>
+                        <th class="column-title">Needs Improvement</th>
+                        <th class="column-title">Self Rating</th>
+                             <th class="column-title">Supervisor Rating</th>
+                             <th class="column-title">Feedbacks</th>
+                            <th class="column-title">Comments</th>
+                             <th class="column-title">Justification</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                 <td class=" ">Network</td>
+                       <td>12months network up</td>
+                       <td>1month network disruption</td>
+                       <td>3months network disruptions</td>
+                       <td>more than six months network disruptions</td>
+                                   <td>40%</td>                              
+                                    <td><input type="text" class="form-control"></td>
+                                <td> <textarea class="form-control"></textarea></td>
+                                 <td> <textarea class="form-control"></textarea></td>
+                                  <td> <textarea class="form-control"></textarea></td>
+                                    
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                 <td class=" ">Database</td>
+                       <td>12months network up</td>
+                       <td>1month network disruption</td>
+                       <td>3months network disruptions</td>
+                       <td>more than six months network disruptions</td>
+                                   <td>40%</td>                              
+                                    <td><input type="text" class="form-control"></td>
+                                <td> <textarea class="form-control"></textarea></td>
+                                 <td> <textarea class="form-control"></textarea></td>
+                                  <td> <textarea class="form-control"></textarea></td>
+                            </tr>
+                    
+                        </tbody>
+                      </table></div><br/>
+                     <div class="row">
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Performance Score(80%)</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="">
+                        </div>
+                      </div></div><br/>
+                     <div class="row">
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Feedbacks Score(20%)</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="">
+                        </div>
+                      </div></div>
+                      <br/>
+                     <div class="row">
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Final Total Score</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="">
+                        </div>
+                      </div></div><br/>
+                        <div class="row">
+                      <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Rating Scale Category</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <select class="form-control">
+                                <option>--Select--</option>
+                                <option></option>
+                                <option>Outstanding</option>
+                                <option>Very Good</option>
+                                 <option>Good</option>
+                                 <option>Needs Improvements</option>
+                            </select>
+                        </div>
+                          </div> </div> 
+                         <div class="row">
+                        <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-6 col-sm-6 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                    <button class="btn btn-default">Save & Close</button>
+                    <button class="btn btn-success">Submit</button>
+                 </div>
+                </div>
+               </div>
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     

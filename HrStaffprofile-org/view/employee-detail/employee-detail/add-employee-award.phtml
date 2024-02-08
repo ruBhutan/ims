@@ -1,0 +1,172 @@
+<?php
+ $title = 'Add Employee Award';
+ $this->headTitle($title);
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <div class="clearfix"></div>
+                  </div>
+                    
+                  <div class="x_content">
+                    <br/>
+					<?php
+					// Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+				    $award = $form->get('employeeaward');
+                    $award->get('employee_details_id')->setValue($this->id);
+                    $award->get('award_category_id')->setValueOptions($this->award_category);
+                    echo $this->formHidden($award->get('id')); 
+					echo $this->formHidden($award->get('employee_details_id'));
+                    ?>
+                    <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+							echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+							echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+							$messages = $this->flashMessenger()->getMessages();
+							foreach($messages as $message) {
+								echo '<strong>Success!</strong>'. $message;
+							}
+							echo '</div>';
+                    	} else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }  ?>
+                    <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-md-1 col-sm-2 col-xs-12">Staff Name <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                       		<input type="text" placeholder="<?php echo $this->employees->getFirst_Name(). ' '.$this->employees->getMiddle_Name(). ' '.$this->employees->getLast_Name(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      <label class="control-label col-md-3 col-sm-2 col-xs-12">Staff ID <span class="required">*</span></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        	<input type="text" placeholder="<?php echo $this->employees->getEmp_Id(); ?>" class="form-control col-md-7 col-xs-12" disabled="disabled">
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="ln_solid"></div>
+                    <br />
+                     <!-- start responsibility detail -->
+                            <table class="data table table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Award Category</th>
+                                  <th>Award Name</th>
+                                  <th>Award Date</th>
+                                  <th>Given By</th>
+                                  <th>Reasons</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php $i= 1; foreach($this->employeeDetails as $detail): ?>
+                                <tr>
+                                  <td><?php echo $i++; ?></td>
+                                  <td><?php echo $detail['award_category']; ?></td>
+                                  <td><?php echo $detail['award_name']; ?></td>
+                                  <td><?php echo $detail['award_date']; ?></td>
+                                  <td><?php echo $detail['award_given_by']; ?></td>
+                                  <td><?php echo $detail['award_reasons']; ?></td>
+                                  <td>
+                                    <?php if(!empty($detail['evidence_file'])){?>
+                                        <a href="<?php echo $this->url('downloadempawardevidencefile', array('id' => my_encrypt($detail['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download</a>
+                                    <?php } else{?> 
+                                        <p><i>File Not Uploaded!</i></p>
+                                    <?php }?>
+                                  </td>
+                                </tr>
+                               <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                            <!-- end responsibility detail -->   
+                    <div class="ln_solid"></div>
+                    <br /><br /><br />
+                    <div class="x_title">
+                        <h2><?php echo $this->escapeHtml($title); ?></h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Award Category: </label>
+              <?php echo $this->formRow($award->get('award_category_id')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Award Name: </label>
+						  <?php echo $this->formRow($award->get('award_name')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Award Date:(mm/dd/yyyy)</label>
+						  <?php echo $this->formRow($award->get('award_date')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Given/Presented By: </label>
+						  <?php echo $this->formRow($award->get('award_given_by')); ?>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                     <div class="col-md-12 center-margin">
+                      <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Evidence File:</label>
+                    <?php echo $this->formRow($award->get('evidence_file')); ?>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                          <label>Reasons</label>
+						        <?php echo $this->formRow($award->get('award_reasons')); ?>
+                        </div>
+                     </div>
+                    </div>
+                    <div class="row">
+                       <div class="ln_solid"></div>
+                    	  <div class="form-group">
+                           <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-0">
+                            <?php
+                               echo $this->formHidden($form->get('csrf')); 
+							   echo $this->formSubmit($award->get('submit'));
+                               echo $this->form()->closeTag();
+                            ?>
+                            <a href="<?php echo $this->url('empaward');?>"><span class="btn btn-primary"><i class="fa fa-angle-double-left"></i> Back</span></a>
+                            <a href="<?php echo $this->url('addempcommunityservice', array('id' => my_encrypt($this->id, $key)));?>"><span class="btn btn-info">Next <i class="fa fa-angle-double-right"></i></span></a>
+                            </div>
+                      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $(window).on('beforeunload', function () {
+                                $("input[type=submit], input[type=button]").prop("disabled", "disabled");
+                            });
+                        </script>
+			  </div>
+                     </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+            

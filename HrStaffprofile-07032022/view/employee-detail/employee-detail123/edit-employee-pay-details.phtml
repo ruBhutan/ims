@@ -1,0 +1,173 @@
+<?php
+ $title = 'Edit Staff Pay Details';
+ $this->headTitle($title);
+
+  $pay_details = array();
+ foreach($this->employee_pay_details as $detail){
+   $pay_details = $detail;
+ }
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form); 
+                    $pay = $form->get('employeepaydetails');
+          					$pay->get('id')->setValue($pay_details['id']);
+          					$pay->get('pay_scale_id')->setValue($pay_details['pay_scale_id']);
+                    $pay->get('basic_pay')->setValue($pay_details['basic_pay']);
+                    $pay->get('increment')->setValue($pay_details['increment']);
+                    $pay->get('university_allowance')->setValue($pay_details['university_allowance']);
+                    $pay->get('professional_allowance')->setValue($pay_details['professional_allowance']);
+                    $pay->get('house_rent_allowance')->setValue($pay_details['house_rent_allowance']);
+                    $pay->get('communication_allowance')->setValue($pay_details['communication_allowance']);
+                    $pay->get('kabney_allowance')->setValue($pay_details['kabney_allowance']);
+                    $pay->get('teaching_allowance')->setValue($pay_details['teaching_allowance']);
+                    $pay->get('fixed_term_allowance')->setValue($pay_details['fixed_term_allowance']);
+                    $pay->get('vice_chancellor_allowance')->setValue($pay_details['vice_chancellor_allowance']);
+                    $pay->get('dean_allowance')->setValue($pay_details['dean_allowance']);
+                    $pay->get('patang_allowance')->setValue($pay_details['patang_allowance']);
+                    $pay->get('employee_details_id')->setValue($pay_details['employee_details_id']);
+
+                    echo $this->formHidden($pay->get('employee_details_id'));
+                    echo $this->formHidden($pay->get('pay_scale_id'));
+                    $pay->get('submit')->setValue('Update');
+                    echo $this->formHidden($pay->get('id'));
+				          ?>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff Name:</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $pay_details['first_name'].' '.$pay_details['middle_name'].' '.$pay_details['last_name']; ?>" readonly="readonly">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Staff ID: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $pay_details['emp_id']; ?>" readonly="readonly">
+                    </div>
+                </div>
+                </div>
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Occupational Group:</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $pay_details['major_occupational_group']; ?>" readonly="readonly">
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Position Level: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $pay_details['position_level']; ?>" readonly="readonly">
+                    </div>
+                </div>
+                </div>
+
+                <div class="row">    
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Employee Type:</label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <input type="text" class="form-control" placeholder="<?php echo $pay_details['employee_type']; ?>" readonly="readonly">
+                    </div>
+                </div>
+                </div>
+
+                <div class="ln_solid"></div>
+   
+                <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Basic Pay: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('basic_pay')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Pay Increment: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                     <?php  echo $this->formRow($pay->get('increment')); ?>
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                  <label class="control-label col-md-2 col-sm-2 col-xs-12">University Allowance: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                     <?php  echo $this->formRow($pay->get('university_allowance')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Professional Allowance: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('professional_allowance')); ?>
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                  <label class="control-label col-md-2 col-sm-2 col-xs-12">Housing Allowance: <span class="required">*</span>
+                    </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                     <?php  echo $this->formRow($pay->get('house_rent_allowance')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Communication Allowance: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('communication_allowance')); ?>
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                  <label class="control-label col-md-2 col-sm-2 col-xs-12">Kabney Allowance: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                     <?php  echo $this->formRow($pay->get('kabney_allowance')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Teaching Allowance: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('teaching_allowance')); ?>
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                  <label class="control-label col-md-2 col-sm-2 col-xs-12">Fixed Term Allowance: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                     <?php  echo $this->formRow($pay->get('fixed_term_allowance')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Vice Chancellor Allowance: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('vice_chancellor_allowance')); ?>
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                  <label class="control-label col-md-2 col-sm-2 col-xs-12">Dean Allowance: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                     <?php  echo $this->formRow($pay->get('dean_allowance')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Patang Allowance: </label>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                      <?php  echo $this->formRow($pay->get('patang_allowance')); ?>
+                    </div>
+                </div>
+
+                 
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                    <?php
+                        echo $this->formRow($form->get('csrf'));
+						            echo $this->formSubmit($pay->get('submit')); 
+                      ?>
+                        </div>
+                    </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                       
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      

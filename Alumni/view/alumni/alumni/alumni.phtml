@@ -1,0 +1,126 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Alumni Membership Approval Form';
+ $this->headTitle($title);
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">              
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+              </div> <!--end of x-title-->    
+                <div class="x_content">  
+                        <div class="table-responsive">
+                         
+                              <?php
+                              // Opening of the form tag
+                               $form->prepare();
+                                echo $this->form()->openTag($form);
+                                $details = $form->get('alumnilist');
+                               // echo $this->form()->openTag($form);
+                               echo $this->formHidden($details->get('id'));   
+                                //$details->get('fk_student_id')->setValue('1'); 
+                              ?><br>
+                          <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">First Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($details->get('first_name')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Middle Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($details->get('middle_name')); ?>
+                                    </div>
+                            </div>
+                        </div> 
+                        <br/>    
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Last Name</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($details->get('last_name')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">CID No# </label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($details->get('cid_no')); ?>
+                                    </div>
+                            </div>
+                        </div> 
+                        <br/>    
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme</label>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($details->get('programme_name')); ?>
+                                        </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Graduation Year </label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($details->get('graduation_year')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Contact No# </label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                           <?php  echo $this->formRow($details->get('contact_no')); ?>
+                                    </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Email Address</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($details->get('email_address')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Present Address</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($details->get('present_address')); ?>
+                                    </div>
+                            </div>
+                        </div>
+                         <br/>
+                        <div class="row">
+                            <div class="form-group"> 
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Current Job</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <?php  echo $this->formRow($details->get('current_job')); ?>
+                                    </div>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Qualification</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                                     <?php  echo $this->formRow($details->get('qualification')); ?>
+                                    </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12">Approval Status</label>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <?php  echo $this->formRow($details->get('alumni_status')); ?>
+                                    </div>
+                            </div>
+                        </div><br><!-- end of row-->
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                        <div class="col-md-5 col-sm-12 col-xs-12">
+                                            <?php 
+                                                echo $this->formRow($details->get('submit')); 
+                                            ?>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div> 
+                            <?php echo $this->form()->closeTag(); ?> <!--//closing the form tag -->
+                        </div><!--end of X-content-->
+                    </div><!--end of table-responsive-->
+                </div><!--end of x-panel -->
+        </div><!--end of col-md-12 col-sm-12 col-xs-12 -->
+    </div><!--end of nav_menu-->
+</div><!--end of top_nav-->

@@ -1,0 +1,224 @@
+<?= $this->doctype() ?>
+<html lang="en">
+<head>
+<?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+               ->appendStylesheet($this->basePath('vendors/bootstrap/dist/css/bootstrap.min.css'))
+			   ->appendStylesheet($this->basePath('vendors/font-awesome/css/font-awesome.min.css'))
+			   ->appendStylesheet($this->basePath('vendors/nprogress/nprogress.css'))
+			   ->appendStylesheet($this->basePath('vendors/iCheck/skins/flat/green.css'))
+			   ->appendStylesheet($this->basePath('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css'))
+			   ->appendStylesheet($this->basePath('vendors/jqvmap/dist/jqvmap.min.css'))
+			   ->appendStylesheet($this->basePath('vendors/bootstrap-daterangepicker/daterangepicker.css'))
+			   ->appendStylesheet($this->basePath('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css'))
+			   ->appendStylesheet($this->basePath('vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css'))
+			   ->appendStylesheet($this->basePath('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.css'))
+			   ->appendStylesheet($this->basePath('vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css'))
+			   ->appendStylesheet($this->basePath('vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css'))
+			   ->appendStylesheet($this->basePath('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css'))
+			   ->appendStylesheet($this->basePath('build/css/custom.min.css'))
+			   ->appendStylesheet($this->basePath('vendors/fixed-header/css/jquery.stickytable.css'))
+
+         ->prependStylesheet($this->basePath('fcss/datepicker.min.css'))        
+         ->prependStylesheet($this->basePath('fcss/chosen-sprite.css'))        
+         ->prependStylesheet($this->basePath('fcss/formValidator.css'))        
+         ->prependStylesheet($this->basePath('fcss/rub_bootstrap.min.css'))      
+         ->prependStylesheet($this->basePath('fcss/rub_style.min.css'))      
+         ->prependStylesheet($this->basePath('fcss/messages.css'))       
+?>
+<?php echo $this->headScript()->prependFile($this->basePath('build/fjs/respond.min.js', 'text/javascript', array('conditional' => 'IE')))
+                  ->prependFile($this->basePath('build/fjs/html5shiv.min.js', 'text/javascript', array('conditional' => 'IE')))
+                  ->prependFile($this->basePath('build/fjs/jquery.browser.js'))
+                  ->prependFile($this->basePath('build/fjs/ch_addrow.js'))
+                  ->prependFile($this->basePath('build/fjs/jquery.mousewheel.js'))
+                  ->prependFile($this->basePath('build/fjs/jquery.jscrollpane.custom.min.js'))
+                  ->prependFile($this->basePath('build/fjs/daterangepicker.min.js'))
+                  ->prependFile($this->basePath('build/fjs/bootstrap-datepicker.min.js'))
+                  ->prependFile($this->basePath('build/fjs/jquery-ui.custom.min.js'))
+                  ->prependFile($this->basePath('build/fjs/jquery.ui.touch-punch.min.js'))
+                  ->prependFile($this->basePath('build/fjs/formValidator.bootstrap.js'))
+                  ->prependFile($this->basePath('build/fjs/formValidator.min.js'))
+                  ->prependFile($this->basePath('build/fjs/dataTables.colVis.min.js'))
+                  ->prependFile($this->basePath('build/fjs/dataTables.tableTools.js'))
+                  ->prependFile($this->basePath('build/fjs/jquery.dataTables.bootstrap.min.js'))
+                  ->prependFile($this->basePath('build/fjs/jquery.dataTables.min.js'))
+                  ->prependFile($this->basePath('build/fjs/rub-elements.min.js'))
+                  ->prependFile($this->basePath('build/fjs/rub-inline.min.js'))
+                  ->prependFile($this->basePath('build/fjs/jquery.slimscroll.min.js'))
+                  ->prependFile($this->basePath('build/fjs/rub.min.js'))                  
+                  ->prependFile($this->basePath('build/fjs/rub-extra.min.js'))
+                                    ->prependFile($this->basePath('build/fjs/bootstrap.min.js'))
+                  ->prependFile($this->basePath('build/fjs/chosen.jquery.js'))
+                                    ->prependFile($this->basePath('build/fjs/jquery.2.1.1.min.js','text/javascript', array('conditional' => '!IE')))
+                                    ->prependFile($this->basePath('build/fjs/jquery.1.11.1.min.js','text/javascript', array('conditional' => 'IE'))); ?>  
+</head>                    
+
+ <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+
+            <div class="profile">
+              <div class="profile_pic">
+                <?php $userImage = $this->layout()->userImage; ?>
+                <?php if(!empty($userImage)){?>
+                 <a href="<?= $this->url('index'); ?>"><img src="<?php echo '../'.$userImage; ?>" alt="..." class="img-circle profile_img"></a>
+
+              <?php }else{?>
+                <a href="<?= $this->url('index'); ?>"><img src="<?php echo $this->url('index'); ?>/img/logo.png" alt="..." class="img-circle profile_img"></a>
+              <?php }?>
+              </div>
+              <div class="profile_info">
+                <span>Welcome <br/><?php $userName=$this->layout()->userDetails; echo $userName; ?></span>
+              </div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <?php
+
+    				$layout = $this->layout()->userRole;
+    				$layout1 = $this->layout()->userRegion;
+    				echo $this->partial('layout/navigation/'.$layout1.'/'.$layout.'_side_navigation');  
+			
+       	   ?>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a href="<?= $this->url('auth', array('action' => 'logout')); ?>" data-toggle="tooltip" data-placement="top" title="Logout">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <?= $this->partial('layout/top_navigation'); ?>
+        <!-- page content -->
+        <?php $flashMessenger = $this->flashMessenger('error'); ?>
+        <?php if ($flashMessenger->hasMessages()): ?>
+            <div class="container-fluid">
+                <div class="alert alert-danger alert-dismissable" style="position: fixed;width: 80%; z-index: 3;">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    <?php foreach ($flashMessenger->getMessages() as $message): ?>
+                        <?php echo $message ?>
+                    <?php endforeach ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php $flashMessenger->setNamespace('success'); ?>
+        <?php if ($flashMessenger->hasMessages()): ?>
+            <div class="container-fluid">
+                <div class="alert alert-success alert-dismissable" style="position: fixed;width: 80%; z-index: 3;">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    <?php foreach ($flashMessenger->getMessages() as $message): ?>
+                        <?php echo $message ?>	
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php $flashMessenger->setNamespace('warning'); ?>
+        <?php if ($flashMessenger->hasMessages()): ?>
+            <div class="container-fluid">
+                <div class="alert alert-warning alert-dismissable" style="position: fixed;width: 80%; z-index: 3;">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    <?php foreach ($flashMessenger->getMessages() as $message): ?>
+                        <?php echo $message; ?>	
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- page content -->
+			<?= $this->content; ?>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+ <!-- Scripts -->
+<?php echo $this->headScript()
+				->appendFile($this->basePath('vendors/jquery/dist/jquery.min.js'))
+				->appendFile($this->basePath('vendors/bootstrap/dist/js/bootstrap.min.js'))
+				->appendFile($this->basePath('vendors/fastclick/lib/fastclick.js'))
+				->appendFile($this->basePath('vendors/nprogress/nprogress.js'))
+				->appendFile($this->basePath('vendors/Chart.js/dist/Chart.min.js'))
+				->appendFile($this->basePath('vendors/gauge.js/dist/gauge.min.js'))
+				->appendFile($this->basePath('vendors/bootstrap-progressbar/bootstrap-progressbar.min.js'))
+				->appendFile($this->basePath('vendors/iCheck/icheck.min.js'))
+				->appendFile($this->basePath('vendors/skycons/skycons.js'))
+				->appendFile($this->basePath('vendors/Flot/jquery.flot.js'))
+				->appendFile($this->basePath('vendors/Flot/jquery.flot.pie.js'))
+				->appendFile($this->basePath('vendors/Flot/jquery.flot.time.js'))
+				->appendFile($this->basePath('vendors/Flot/jquery.flot.stack.js'))
+				->appendFile($this->basePath('vendors/Flot/jquery.flot.resize.js'))
+				->appendFile($this->basePath('vendors/flot.orderbars/js/jquery.flot.orderBars.js'))
+				->appendFile($this->basePath('vendors/flot-spline/js/jquery.flot.spline.min.js'))
+				->appendFile($this->basePath('vendors/flot.curvedlines/curvedLines.js'))
+				->appendFile($this->basePath('vendors/DateJS/build/date.js'))
+				->appendFile($this->basePath('vendors/jqvmap/dist/jquery.vmap.js'))
+				->appendFile($this->basePath('vendors/jqvmap/dist/maps/jquery.vmap.world.js'))
+				->appendFile($this->basePath('vendors/jqvmap/examples/js/jquery.vmap.sampledata.js'))
+				->appendFile($this->basePath('vendors/moment/min/moment.min.js'))
+				->appendFile($this->basePath('vendors/bootstrap-daterangepicker/daterangepicker.js'))
+				->appendFile($this->basePath('vendors/moment/min/moment.min.js'))
+				->appendFile($this->basePath('vendors/fullcalendar/dist/fullcalendar.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net/js/jquery.dataTables.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net-bs/js/dataTables.bootstrap.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net-buttons/js/dataTables.buttons.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net-buttons/js/buttons.flash.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net-buttons/js/buttons.html5.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net-buttons/js/buttons.print.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.js'))
+				->appendFile($this->basePath('vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net-keytable/js/dataTables.keyTable.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net-responsive/js/dataTables.responsive.min.js'))
+				->appendFile($this->basePath('vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js'))
+				->appendFile($this->basePath('vendors/datatables.net-scroller/js/dataTables.scroller.min.js'))
+				->appendFile($this->basePath('vendors/jszip/dist/jszip.min.js'))
+				->appendFile($this->basePath('vendors/pdfmake/build/pdfmake.min.js'))
+				->appendFile($this->basePath('vendors/pdfmake/build/vfs_fonts.js'))
+				->appendFile($this->basePath('build/js/custom.min.js'))
+				->appendFile($this->basePath('vendors/fixed-header/js/jquery.stickytable.js'))
+        
+; 
+
+echo $this->inlineScript()->prependFile($this->basePath('js/rub-ajax/ajax.js'));
+echo $this->inlineScript()->prependFile($this->basePath('js/rub-ajax/inventory_ajax.js'));
+echo $this->inlineScript()->prependFile($this->basePath('js/rub-ajax/student_ajax.js'));
+echo $this->inlineScript()->prependFile($this->basePath('js/rub-ajax/administration_ajax.js'));
+
+echo $this->inlineScript()->prependFile($this->basePath('js/jQuery-Smart-Wizard/js/jquery.smartWizard.js'));
+
+//echo $this->inlineScript()->prependFile($this->basePath('js/jquery-1.9.1.js'));
+
+?>
+  
+    
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<?php
+ $title = 'Edit Student Feedback Questions';
+ $this->headTitle($title);
+ 
+ $questionDetail = array();
+ foreach($this->question as $data){
+	 $questionDetail[1] = $data['id'];
+	 $questionDetail[2] = $data['questions'];
+ }
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                    <!-- Adding Feedback Questions-->
+                    <div class="col-md-12 col-xs-12">
+                      <div class="x_panel">
+                        <div class="x_title">
+                            <ul class="nav navbar-right panel_toolbox">
+                              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                              </li>
+                            </ul>
+                         <div class="clearfix"></div>
+                      
+                        </div>
+                           
+                        <div class="x_content">
+                          <br />
+                           <?php
+                            // Opening of the form tag
+                            $form->setAttribute('action', $this->url('addstudentquestions', array('action' => 'addStudentQuestions')));
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $peer = $form->get('feedbackquestions');
+							$peer->get('id')->setValue($questionDetail[1]);
+							$peer->get('questions')->setValue($questionDetail[2]);
+                            echo $this->formHidden($peer->get('id'));
+                          ?>
+                        
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Student Feedback Question<span class="required">*</span></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?php  echo $this->formRow($peer->get('questions')); ?>
+                            </div>
+                          </div>
+                         
+                         <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                  <?php
+                                   echo $this->formHidden($form->get('csrf'));
+                                   echo $this->formSubmit($peer->get('submit')); 
+                                   echo $this->form()->closeTag(); 
+                                ?>
+                            </div>
+                        </div>
+                          
+                      </div>
+                    </div>
+                   </div>     
+                          
+                      
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <div class="x_panel">
+                        <div class="x_title">
+                          <h2><?php echo $this->escapeHtml("Student Feedback Questions"); ?></h2>
+                          <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                          </ul>
+                          <div class="clearfix"></div>
+                        </div>
+        
+                        <div class="x_content">
+                          <table class="table   table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                            <thead>
+                              <tr class="headings">
+                                </th>
+                                 <th class="column-title">Sl.No.</th>
+                                 <th class="column-title">Feedback Question</th>
+                                 <th class="column-title">Action</th>
+                              </tr>
+                            </thead>
+        
+                            <tbody>
+                              <?php
+                              $i=1;  foreach($this->studentQuestions as $stdQ): ?>
+                              <tr class="even pointer">
+                                <td class=" "><?php echo $i++;?></td>
+                                <td class=" "><?php echo $stdQ['questions'];?></td>
+                                <td class=" "><a href="<?php echo $this->url('editstudentquestions', array('id' => $stdQ['id']));?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></td>
+                              </tr>
+                              <?php endforeach; ?>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                
+                    <!-- End of Feedback Questions-->
+                     
+                  </div>
+                </div>
+              </div>
+     </div>

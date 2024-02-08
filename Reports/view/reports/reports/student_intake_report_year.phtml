@@ -1,0 +1,153 @@
+                         
+                        <!-- page content -->
+                                  <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="x_panel">
+                                      <div class="x_content">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                          <div class="profile_title">
+                                            <div class="col-md-6">
+                                              <h2>Student Report</h2>
+                                            </div>
+                                            <div class="col-md-6">
+                                            </div>
+                                          </div>
+                                          <!-- start of report-graph -->
+                                          <div class="x_content">
+                                            <canvas id="bar-chart-grouped" style="width:100%; height:280px;"></canvas>
+                                          </div>
+                                          <!-- end of report-graph -->
+                                          
+                                          <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                                <!-- start reports -->
+                                                <br /><br />
+                                                <h2><?php echo "Table";?></h2>
+												<?php if($this->student_report != NULL) {?>
+                                                <table class="table table-striped jambo_table table-bordered">
+                                            <thead>                        
+                                                 <tr>
+                                                    <td rowspan="3">College</td>
+                                                    <td colspan="10">Student Number</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td colspan="2">2013</td>
+                                                    <td colspan="2">2014</td>
+                                                    <td colspan="2">2015</td>
+                                                    <td colspan="2">2016</td>
+                                                    <td colspan="2">2017</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>M</td>
+                                                    <td>F</td>
+                                                    <td>M</td>
+                                                    <td>F</td>
+                                                    <td>M</td>
+                                                    <td>F</td>
+                                                    <td>M</td>
+                                                    <td>F</td>
+                                                    <td>M</td>
+                                                    <td>F</td>
+                                                  </tr>
+                                            </thead>
+                                            <tbody>
+                                              <?php $i =2; foreach($this->student_report as $report) : ?>
+                                              <tr class="even pointer">
+                                                <td class=" "><?php echo $organisation_list[$i];?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report) && array_key_exists('2013', $this->student_report[$i])){
+														echo count($this->student_report[$i][2013]['Male']);
+													}
+													 else
+														echo $this->escapeHtml(0);										
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report) && array_key_exists('2013', $this->student_report[$i])){
+														echo count($this->student_report[$i][2013]['Female']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report) && array_key_exists('2014', $this->student_report[$i])){
+														echo count($this->student_report[$i][2014]['Male']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report) && array_key_exists('2014', $this->student_report[$i])){
+														echo count($this->student_report[$i][2014]['Female']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report) && array_key_exists('2015', $this->student_report[$i])){
+														echo count($this->student_report[$i][2015]['Male']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report) && array_key_exists('2015', $this->student_report[$i]) ){
+														echo count($this->student_report[$i][2015]['Female']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                 <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report) && array_key_exists('2016', $this->student_report[$i])){
+														echo count($this->student_report[$i][2016]['Male']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report) && array_key_exists('2016', $this->student_report[$i]) ){
+														echo count($this->student_report[$i][2016]['Female']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report) && array_key_exists('2017', $this->student_report[$i])){
+														echo count($this->student_report[$i][2017]['Male']);
+													}
+													 else
+														echo $this->escapeHtml('0');
+													?></td>
+                                                <td class=" "><?php 
+													if(array_key_exists($i, $this->student_report) && array_key_exists('2017', $this->student_report[$i])){	
+														echo count($this->student_report[$i][2017]['Female']); 
+													} else
+														echo $this->escapeHtml('0');
+													$i++;
+													?></td>
+                                              </tr>
+                                              <?php endforeach; ?>
+                                            </tbody>
+                                          </table>
+                                                 <?php } ?>
+                                                <!-- end of reports -->
+                                          </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                                          <div class="profile_title">
+                                            <div class="col-md-6">
+                                              <h2>Report</h2>
+                                            </div>
+                                          </div>
+                                          <br />
+                    
+                                          <!-- report generation -->
+                                          <h5><i>*Generate Report. Please note that the graphs will be not be displayed in the generated pdf report. To use the graphs, 
+                                                save the graphs from the webpage and paste it to relevant document</i></h5><br />
+                                         <a href="<?php echo $this->url('generatehrreports', array('reporttype' => $this->report_type));?>" class="btn btn-success">Generate Report</a>
+                                         
+                                          <!-- end of report generation -->
+                    
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            <!-- /page content -->
+                  

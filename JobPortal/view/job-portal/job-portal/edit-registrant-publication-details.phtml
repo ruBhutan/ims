@@ -1,0 +1,128 @@
+<?php
+ $title = 'Research Publication Details';
+ $this->headTitle($title);
+
+$publication_details = array();
+foreach($this->publicationDetails as $details){
+  $publication_details = $details;
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $registrant = $form->get('publications');
+                    $registrant->get('id')->setValue($this->id);
+                    $registrant->get('job_applicant_id')->setValue($publication_details['job_applicant_id']);
+                    $registrant->get('publication_year')->setValue($publication_details['publication_year']);
+                    $registrant->get('publication_name')->setValue($publication_details['publication_name']);
+                    $registrant->get('research_type')->setValue($publication_details['research_type']);
+                    $registrant->get('publisher')->setValue($publication_details['publisher']);
+                    $registrant->get('publication_url')->setValue($publication_details['publication_url']);
+                    $registrant->get('publication_no')->setValue($publication_details['publication_no']);
+                    $registrant->get('author_level')->setValue($publication_details['author_level']);
+                     $registrant->get('research_type')->setValueOptions($this->researchTypes);
+                     date_default_timezone_set("Asia/Thimphu");
+                    $registrant->get('last_updated')->setValue(date("Y-m-d h:i:s"));
+                     $registrant->get('submit')->setValue('Update');
+                    echo $this->formHidden($registrant->get('id'));
+                    echo $this->formHidden($registrant->get('last_updated'));
+                    echo $this->formHidden($registrant->get('job_applicant_id'));
+                    ?>  
+                    <h4><i><font color="red">***Please fill up the form to update your publication details. All star marks are mandatory field (s).</font></i></h4>  <br/>
+                <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                $messages = $this->flashMessenger()->getMessages();
+                foreach($messages as $message) {
+                echo '<strong>Success!</strong>'. $message;
+                }
+               echo '</div>';
+                      } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                            echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                            $messages = $this->flashMessenger()->getMessages();
+                            foreach($messages as $message) {
+                                echo '<strong>Warning!</strong>'. $message;
+                            }
+                            echo '</div>';
+                     }?>
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Publication Year<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('publication_year')); ?>
+                    </div>
+
+                     <label class="control-label col-md-1 col-sm-1 col-xs-12">Publication Name<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('publication_name')); ?>
+                    </div>
+                  </div>
+
+                   <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Research Type<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('research_type')); ?>
+                    </div>
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">Publisher<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('publisher')); ?>
+                    </div>
+                   </div>
+                   
+
+                   <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Publication URL<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('publication_url')); ?>
+                    </div>
+                    <label class="control-label col-md-1 col-sm-1 col-xs-12">ISSN/ISBN No<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('publication_no')); ?>
+                    </div>
+                   </div>
+
+                   <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-2 col-xs-12">Author Level<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('author_level')); ?>
+                    </div>
+                   </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+            <?php
+               echo $this->formHidden($form->get('csrf'));
+               echo $this->formSubmit($registrant->get('submit')); 
+                        ?>
+                      </div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+        <!-- Start of table listing budget ledgers -->
+             </div>
+        
+        
+    
+          </div>
+        </div> 
+     </div>

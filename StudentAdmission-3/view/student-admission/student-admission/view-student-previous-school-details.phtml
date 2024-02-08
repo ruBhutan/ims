@@ -1,0 +1,201 @@
+<?php
+
+ $title = 'Student Previous School Details';
+ $this->headTitle($title);
+
+  $key = $this->keyphrase;
+    function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+?>
+
+<div class="right_col" role="main">
+    <div class=" ">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                 <div class="x_title">
+                                <h2><?php echo $this->escapeHtml($title); ?></h2>
+                                <div class="clearfix"></div>
+                            </div><!--end of x-title-->
+                 <div class="x_content">
+                    <?php
+                        $form->prepare();
+                        echo $this->form()->openTag($form);
+                        $school = $form->get('studentpreviousschool');
+                        $school->get('student_id')->setValue($this->id);
+                        $school->get('previous_institution')->setValueOptions($this->school_list);
+                        echo $this->formHidden($school->get('id')); 
+                        echo $this->formHidden($school->get('student_id'));
+                     ?>
+
+                      <?php 
+                            if ($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                                echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Success!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+
+                            else if($this->message == 'Failure' && $this->flashMessenger()->hasMessages()){
+                                echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                                $messages = $this->flashMessenger()->getMessages();
+                                foreach($messages as $message) {
+                                    echo '<strong>Failure!</strong>'. $message;
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+
+                 <h2>Personal Details</h2>
+                 <hr>  
+                 <?php 
+                    $personalDetails = array();
+                    foreach ($this->stdDetails as $details): {
+                        $personalDetails['id'] = $details['id'];
+                        $personalDetails['name'] = $details['first_name'].' '.$details['middle_name'].' '.$details['last_name'];
+                        $personalDetails['student_id'] = $details['student_id'];
+                        $personalDetails['stdgender'] = $details['stdgender'];
+                        $personalDetails['programme_name'] = $details['programme_name'];
+                        $personalDetails['student_type'] = $details['student_type'];
+                        $personalDetails['enrollment_year'] = $details['enrollment_year'];
+                    }
+
+                 ?> 
+                    <div class="form-group"> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12"><b>Name:</b></label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['name']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student ID:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['student_id']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Gender:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['stdgender']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Student Type:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['student_type']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Programme:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['programme_name']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                        <label class="control-label col-md-2 col-sm-2 col-xs-12">Enrollment Year:</label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" placeholder="<?php echo $personalDetails['enrollment_year']; ?>" class="form-control" disabled="disabled">
+                            </div>
+                    </div><br/>
+                <?php endforeach; ?>
+
+                <div class="ln_solid"></div>
+
+                <h2>Previous School Details</h2>
+                <hr>
+                        <div  class="table-responsive">
+                            <table id=" " class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                                <thead>
+                                <tr>
+                                  <th>Sl No</th>
+                                  <th>School/ Institution Name</th>
+                                  <th>Marks Obtained</th>
+                                  <th>From Date</th>
+                                  <th>To Date</th>
+                                  <th>Education</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php $i=1; ?>
+                                <?php foreach ($this->stdPreviousSchool as $schoolList) : ?>
+                                <tr>
+                                  <th><?php echo $i++; ?></th>
+                                  <td><?php echo $schoolList['school_name']; ?></td>
+                                  <td><?php echo $schoolList['aggregate_marks_obtained']; ?></td>
+                                  <td><?php echo $schoolList['from_date']; ?></td>
+                                  <td><?php echo $schoolList['to_date']; ?></td>
+                                  <td><?php echo $schoolList['previous_education']; ?></td>
+                                  <td><a href="<?php echo $this->url('editstudentpreviousschooldetails', array('id' => my_encrypt($schoolList['id'], $key))); ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a></td>
+                                  
+                                </tr>
+                                <?php endforeach; ?>
+                              </tbody>
+                            </table>
+                        </div>
+                        <div class="ln_solid"></div>
+
+                           <h2>Add Student Previous School Details</h2>
+                           <label> Previous School Details: <i>(For Date Fields to pick, first date field is From Date and second date field is To Date). ***Either you click UP or DOWN arrow to display the date or calendar***</i></label>
+                           <hr>
+
+                            <div class="row">
+                             <div class="col-md-12 center-margin">
+                                <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                  <label>Previous School/ Institution<span>*</span></label>
+                                  <?php echo $this->formRow($school->get('previous_institution')); ?>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                  <label>Marks Obtained<span>*</span></label>
+                                  <?php echo $this->formRow($school->get('aggregate_marks_obtained')); ?>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                  <label>From Date<span>*</span></label>
+                                  <?php echo $this->formRow($school->get('from_date')); ?>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                  <label>To Date<span>*</span></label>
+                                  <?php echo $this->formRow($school->get('to_date')); ?>
+                                </div>
+                             </div>
+                            </div>
+
+                            <div class="row">
+                             <div class="col-md-12 center-margin">
+                                <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                  <label>Education<span>*</span></label>
+                                  <?php echo $this->formRow($school->get('previous_education')); ?>
+                                </div>
+                             </div>
+                            </div>                           
+
+                            <div class="form-group">
+                            <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <?php
+                                            echo $this->formHidden($form->get('csrf')); 
+                                            echo $this->formSubmit($school->get('submit'));
+                                            echo $this->form()->closeTag();
+                                            ?>
+
+                                            <a href="<?php echo $this->url('studentpreviousschooldetails');?>"><span class="btn btn-primary"><i class="fa fa-angle-double-left"></i> Back</span></a>
+                                            <a href="<?php echo $this->url('addstudentprofilepicture', array('id' => my_encrypt($personalDetails['id'], $key)));?>"><span class="btn btn-info">Next <i class="fa fa-angle-double-right"></i></span></a>
+
+                                        </div>
+                                </div>
+                            </div>
+                    </div>
+            </div><!--end of x-content-->
+        </div><!--end of x-Panel-->
+    </div><!--end of col-md-12 col-xs-12-- >
+</div><!--end of ""-->
+
+
+ 

@@ -1,0 +1,124 @@
+<?php
+ $title = 'Edit Employment History Details';
+ $this->headTitle($title);
+
+$employment_details = array();
+foreach($this->employmentDetails as $details){
+  $employment_details = $details;
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+            <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title); ?></h2>
+                 <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                   <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $registrant = $form->get('workexperience');
+                    $registrant->get('id')->setValue($this->id);
+                    $registrant->get('job_applicant_id')->setValue($employment_details['job_applicant_id']);
+                    $registrant->get('working_agency')->setValue($employment_details['working_agency']);
+                    $registrant->get('job_applicant_id')->setValue($employment_details['job_applicant_id']);
+                    $registrant->get('occupational_group')->setValue($employment_details['occupational_group']);
+                    $registrant->get('position_category')->setValue($employment_details['position_category']);
+                    $registrant->get('position_title')->setValue($employment_details['position_title']);
+                    $registrant->get('position_level')->setValue($employment_details['position_level']);
+                    $registrant->get('remarks')->setValue($employment_details['remarks']);
+                    $start_period = explode("-", $employment_details['start_period']);
+                    $end_period = explode("-", $employment_details['end_period']);
+                    $registrant->get('start_period')->setValue($start_period[01].'/'.$start_period[02].'/'.$start_period[00]);
+                    $registrant->get('end_period')->setValue($end_period[01].'/'.$end_period[02].'/'.$end_period[00]);
+                    date_default_timezone_set("Asia/Thimphu");
+                    $registrant->get('last_updated')->setValue(date("Y-m-d h:i:s"));
+                    $registrant->get('submit')->setValue('Update');
+                    echo $this->formHidden($registrant->get('id'));
+                     echo $this->formHidden($registrant->get('last_updated'));
+                    echo $this->formHidden($registrant->get('job_applicant_id'));
+                    ?> 
+
+                <div class="row">    
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Employing Agency:<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('working_agency')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Occupational Group:<br/>(Eg: Administrative or Academic)<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('occupational_group')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Position Category:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('position_category')); ?>
+                    </div>
+                   </div>
+                    <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Position Title:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('position_title')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">Position Level:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('position_level')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Start Period:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('start_period')); ?>
+                    </div>
+                    <label class="control-label col-md-2 col-sm-3 col-xs-12">End Period:<span class="required">*</span></label>
+                    <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('end_period')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Remarks:</label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php  echo $this->formRow($registrant->get('remarks')); ?>
+                    </div>
+                   </div>
+                   <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Employment Record Document (Optional):</label>
+                    <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+                    <?php 
+                    if($employment_details['employment_record_file']){?>
+                      <a href="<?php echo $this->url('downloadapplicantemploymentfile', array('filename'=> 'employment_record_file'.$employment_details['id'])); ?>" class="btn btn-primary btn-xs"><i class="fa fa-download"></i> Download and View</a>
+                    <?php } else{
+                      echo $this->formRow($registrant->get('employment_record_file')); 
+                    }
+                    ?>
+                    </div>
+                   </div>
+                </div> 
+                  
+                <div class="row">
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+            <?php
+               echo $this->formHidden($form->get('csrf'));
+               echo $this->formSubmit($registrant->get('submit')); 
+                        ?>
+                      </div>
+                    </div>
+               </div>
+                    <?php
+                    echo $this->form()->closeTag();
+                    ?>
+                </div>
+              </div>
+        
+        <!-- Start of table listing budget ledgers -->
+             </div>    
+          </div>
+        </div> 
+     </div>

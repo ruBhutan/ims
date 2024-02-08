@@ -1,0 +1,521 @@
+<?php
+
+
+  // Add a JavaScript file
+  $this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+
+
+ $title = 'Academic Results Reports';
+ $this->headTitle($title);
+
+$organisation_list = array();
+foreach($this->organisationList as $key=>$organisation){
+  if($key != 1){
+    $organisation_list[$key] = $organisation;
+  }
+}
+?>
+<div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2><?php echo $this->escapeHtml($title)?></h2>
+                   <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul> 
+                 <div class="clearfix"></div>
+                </div>
+                  <div class="x_content">
+                	<br/>
+                 	<?php
+                            // Opening of the form tag
+                            $form->prepare();
+                            echo $this->form()->openTag($form);
+                            $form->get('organisation_id')->setValueOptions($this->organisationList);
+                            $form->get('section')->setValueOptions($this->section);
+                            //$form->get('organisation')->setValueOptions($this->organisationList);
+                          ?>
+                        
+                          <div class="row">
+                              <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>Report Type</label>
+                                <?php echo $this->formRow($form->get('report_type')); ?>
+                              </div>
+                              <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>Organisation Name</label>
+                                <?php echo $this->formRow($form->get('organisation_id')); ?>
+                              </div>
+                              <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>Programme Name</label>
+                                <?php echo $this->formRow($form->get('programmes_id')); ?>
+                              </div>
+                              <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+                                <label>Section</label>
+                                <?php echo $this->formRow($form->get('section')); ?>
+
+                              </div>
+                           </div>
+                         <div class="row">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                  <?php
+                                   echo $this->formHidden($form->get('csrf'));
+                                   echo $this->formSubmit($form->get('submit')); 
+                                   echo $this->form()->closeTag(); 
+                                ?>
+                                </div>
+                            </div>
+                       </div>
+                     </div>
+                   </div>
+                </div>
+               <?php
+				 $title = 'Academic Results Related Report';
+				 $this->headTitle($title);
+			  ?>
+              <div class="col-md-12 col-xs-12">
+                  <div class="x_panel">
+                      <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <?php if($this->report_type['report_type']== 'academic_marks_report'):?>
+                    <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" style="width:8%">Sl. No</th>
+                            <th class="column-title">Programme Name</th>
+                            <th class="column-title">Module Code</th>
+                            <th class="column-title">Academic Year</th>
+                            <th class="column-title">Student Name</th>
+                            <th class="column-title">Year of Passing</th>
+                            <th class="column-title">Assessment Type</th>
+                            <th class="column-title">credit</th>
+                            <th class="column-title">Weightage</th>
+                            <th class="column-title">Marks</th>
+                            <th class="column-title">Result Status</th>
+                            <th class="column-title">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach ($this->report_details as $programme) : ?>
+                          <tr class="even pointer">
+                            <td class=" " style="width:8%"><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['programme_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['module_code']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['academic_year']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['first_name'].' '.$programme['middle_name'].' '.$programme['last_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['pass_year']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['assessment_type']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['credit']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['weightage']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['marks']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['result_status']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['status']);?></td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                    </div>
+                    <?php endif; ?>
+
+                    <!-- ---- Start of academic_assessment_status ----- -->
+                    <?php if($this->report_type['report_type']== 'academic_assessment_status'):?>
+                    <div class="x_content">
+                     <div class="table-responsive">
+                      <table id="datatable-buttons" class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" style="width:8%">Sl. No</th>
+                            <th class="column-title">Programme Name</th>
+                            <th class="column-title">Module Code</th>
+                            <th class="column-title">Assessment</th>
+                            <th class="column-title">Section</th>
+                            
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach ($this->report_details as $programme) : ?>
+                          <tr class="even pointer">
+                            <td class=" " style="width:8%"><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['programme_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['module_title']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['assessment']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['section']);?></td>
+                            
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                    </div>
+                    <?php endif; ?>
+                    <!-- //------ END ---- -->
+                    <!-- ---- Start of academic_assessment_status ----- -->
+                    <?php if($this->report_type['report_type']== 'student_list_for_academics'):?>
+                    <div class="x_content">
+                     <div class="table-responsive">
+                      <table class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title" style="width:8%">Sl. No</th>
+                            <th class="column-title">Student ID</th>
+                            <th class="column-title">Name</th>
+                            <th class="column-title">Programme</th>
+                            <th class="column-title">Year</th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title">Section</th>
+                            
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i=1; foreach ($this->report_details as $programme) : ?>
+                          <tr class="even pointer">
+                            <td class=" " style="width:8%"><?php echo $i++;?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['student_id']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['first_name'].' '.$programme['middle_name'].' '.$programme['last_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['programme_name']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['year']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['semester']);?></td>
+                            <td class=" "><?php echo $this->escapeHtml($programme['section']);?></td>
+                            
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                    </div>
+                    <?php endif; ?>
+                    <!-- //------ END ---- -->
+
+
+
+
+                    <?php if($this->report_type['report_type'] == 'academic_result_summary'):?>
+                    <?php 
+                    $module_code = array();
+                    $consolidated_marks = array();
+                    $student = array();
+                    foreach($this->report_details as $report){
+                      $student[$report['module_code']][$report['student_id']][$report['assessment_type']] = $report['marks'];
+                      //$module_code[$report['module_code']] = $report['module_code'];
+                     // $student_id[$report['module_code']] = $report['student_id'];
+                      //$consolidated_marks[$report['semester']][$report['module_code']][$report['assessment_type']]['pass_year'] = $report['pass_year'];
+                      //$consolidated_marks[$consolidate['semester']][$consolidate['module_code']][$consolidate['assessment_type']]['weightage'] = $consolidate['weightage'];
+                      $consolidated_marks[$report['semester']][$report['module_code']][$report['student_id']][$report['assessment_type']]['marks'] = $report['marks'];
+                      //$consolidated_marks[$report['semester']][$report['module_code']][$report['student_id']][$report['assessment_type']]['student_section_id'] = $report['student_section_id'];
+                      //$consolidated_marks[$report['semester']][$report['module_code']][$report['assessment_type']]['student_id'] = $report['student_id'];
+                     }
+                     $student_id = array();
+                     $total_marks = array();
+                     foreach($student as $key => $value){
+                       foreach($value as $key2 => $value2){ 
+                         foreach($value2 as $key3 => $value3){ 
+                          if(!in_array($value, $student_id)){
+                            $student_id[$key][$key3][] = $value3;
+                              if(array_key_exists($key, $total_marks)){
+                                $total_marks[$key][$key2] += $value3;
+                              } else {
+                                $total_marks[$key][$key2] = $value3;
+                              }
+                            }
+                         }
+                       }	 
+                     }
+                     
+                     //$marks = array(); 
+                     foreach($consolidated_marks as $key => $value){ 
+                      $index = 0 ;  
+                      foreach($value as $key2 => $value2){
+                        foreach($value2 as $key3 => $value3){
+                         
+                          $marks[$key2][] = $total_marks[$key2][$key3];
+                        }
+                      } 
+                     }
+                    ?>
+                    <div class="x_content">
+                     <div class="table-responsive">
+                     <?php foreach ($consolidated_marks as $key=>$value) : ?>
+                      <?php 
+                           if($key == '1' || $key == '2'){
+                             $year = "1 Year";
+                           }else if($key == '3' || $key == '4'){
+                             $year = "2 Year";
+                           }else if($key == '5' || $key == '6'){
+                             $year = "3 Year";
+                           }else if($key == '7' || $key == '8'){
+                             $year = "4 Year";
+                           }else if($key == '9' || $key == '10'){
+                             $year = "5 Year";
+                           }else if($key == '11' || $key == '12'){
+                             $year = "6 Year";
+                           } 
+                           ?>
+                      <div class="row">
+                        <div class="form-group">  
+                           <div class="col-md-12 col-sm-12 col-xs-12">
+                              <h5 class="black"><?php echo 'Year : '?><i><?php echo $year; ?></i>, 
+                              <?php echo '  Semester : '; ?><i><?php echo $key.' Semester'; ?></i>, 
+                              <?php echo 'Section : ';?><i><?php 
+                              if($report_type['section'] == 'All'){
+                                echo "All";
+                              }else{
+                                echo $section[$report_type['section']];
+                              }
+                              ?></i>
+                              </h5>
+                            </div>
+                        </div>
+                     </div>
+                      <table class="table table-striped jambo_table table-bordered">
+                        <thead>
+                          <tr class="headings">
+                            <th>Sl/No</th>
+			  <th class="column-title"><?php echo 'Programme: '.$programmeList[$report_type['programmes_id']]; ?></th>
+                            <?php 
+                              foreach($value as $key2 => $value2): 
+                            ?>
+                            <th class="column-title"><?php echo $key2; ?></th>
+                            <?php endforeach; ?>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="even pointer">
+                              <td>1</td>
+                              <td class=" ">Min</td>
+                              <?php 
+                            //initialise some values
+                            $index = 0 ;  
+                            foreach($value as $key2 => $value2): 
+                            ?>
+                              <td class=" "><?php 
+                                foreach ($marks as $key3 => $value3): 
+                                  if($key2 == $key3){
+                                    echo min($value3);
+                                  }
+                                ?>
+                                <?php endforeach; ?>
+                              </td>
+                              <?php endforeach; ?>
+                            </tr>
+                            <tr class="even pointer">
+                              <td>2</td>
+                              <td class=" ">Max</td>
+                              <?php 
+                            //initialise some values
+                            $index = 0 ;  
+                            foreach($value as $key2 => $value2): 
+                            ?>
+                              <td class=" "><?php 
+                                foreach ($marks as $key3 => $value3): 
+                                  if($key2 == $key3){
+                                    echo max($value3);
+                                  }
+                                ?>
+                                <?php endforeach; ?>
+                              </td>
+                              <?php endforeach; ?>
+                            </tr>
+                            
+                            
+                            <tr class="even pointer">
+                              <td>3</td>
+                              <td class=" ">Average</td>
+                              <?php 
+                            //initialise some values
+                            $index = 0 ;  
+                            foreach($value as $key2 => $value2): 
+                            ?>
+                              <td class=" "><?php   
+                                foreach ($marks as $key3 => $value3):
+                                  $avg = 0;
+                                  if($key2 == $key3){  
+                                    $n = count($value3);
+                                    for($i = 0; $i < $n; $i++){ 
+                                      $avg += $value3[$i];    
+                                    }
+                                    $avg = $avg / $n; 
+                                    echo round($avg,2);
+                                  }
+                                ?>
+                                <?php endforeach; ?>
+                              </td>
+                              <?php endforeach; ?>
+                            </tr>
+                           <!-- <tr class="even pointer">
+                              <td class=" ">Stdev</td>
+                              <td class=" "></td>
+                            </tr> --> 
+                            <tr class="even pointer">
+                              <td>4</td>
+                              <td class=" ">>=80</td>
+                              <?php 
+                            //initialise some values
+                            foreach($value as $key2 => $value2): 
+                            ?>
+                              <td class=" "><?php   
+                                foreach ($marks as $key3 => $value3):
+                                  $less_than_fifty = array();
+                                  if($key2 == $key3){ 
+                                     
+                                    $n = count($value3); 
+                                    for($i = 0; $i < $n; $i++){ 
+                                      if ($value3[$i] >= 80 ){
+                                        $less_than_fifty[] = $value3[$i];
+                                      }    
+                                    } 
+                                    echo count($less_than_fifty);
+                                  } 
+                                ?>
+                                <?php endforeach; ?>
+                              </td>
+                              <?php endforeach; ?>
+                            </tr>
+                            <tr class="even pointer">
+                              <td>5</td>
+                              <td class=" ">70 - 79.9</td>
+                              <?php 
+                            //initialise some values
+                            foreach($value as $key2 => $value2): 
+                            ?>
+                              <td class=" "><?php   
+                                foreach ($marks as $key3 => $value3):
+                                  $less_than_fifty = array();
+                                  if($key2 == $key3){ 
+                                     
+                                    $n = count($value3); 
+                                    for($i = 0; $i < $n; $i++){ 
+                                      if ($value3[$i] >= 70 && $value3[$i] <= 79.9){
+                                        $less_than_fifty[] = $value3[$i];
+                                      }    
+                                    } 
+                                    echo count($less_than_fifty);
+                                  } 
+                                ?>
+                                <?php endforeach; ?>
+                              </td>
+                              <?php endforeach; ?>
+                            </tr>
+                             <tr class="even pointer">
+                              <td>6</td>
+                              <td class=" ">60 - 69.9</td>
+                              <?php 
+                            //initialise some values
+                            foreach($value as $key2 => $value2): 
+                            ?>
+                              <td class=" "><?php   
+                                foreach ($marks as $key3 => $value3):
+                                  $less_than_fifty = array();
+                                  if($key2 == $key3){ 
+                                     
+                                    $n = count($value3); 
+                                    for($i = 0; $i < $n; $i++){ 
+                                      if ($value3[$i] >= 60 && $value3[$i] <= 69.9){
+                                        $less_than_fifty[] = $value3[$i];
+                                      }    
+                                    } 
+                                    echo count($less_than_fifty);
+                                  } 
+                                ?>
+                                <?php endforeach; ?>
+                              </td>
+                              <?php endforeach; ?>
+                            </tr>
+                            <tr class="even pointer">
+                              <td>7</td>
+                            <td class=" ">50 - 59.9</td>
+                              <?php 
+                            //initialise some values
+                            foreach($value as $key2 => $value2): 
+                            ?>
+                              <td class=" "><?php   
+                                foreach ($marks as $key3 => $value3):
+                                  $less_than_fifty = array();
+                                  if($key2 == $key3){ 
+                                     
+                                    $n = count($value3); 
+                                    for($i = 0; $i < $n; $i++){ 
+                                      if ($value3[$i] >= 50 && $value3[$i] <= 59.9){
+                                        $less_than_fifty[] = $value3[$i];
+                                      }    
+                                    } 
+                                    echo count($less_than_fifty);
+                                  } 
+                                ?>
+                                <?php endforeach; ?>
+                              </td>
+                              <?php endforeach; ?>
+                            </tr>
+                            <tr class="even pointer">
+                              <td>8</td>
+                              <td class=" ">=< 49.9</td>
+                              <?php 
+                            //initialise some values
+                            foreach($value as $key2 => $value2): 
+                            ?>
+                              <td class=" "><?php   
+                                foreach ($marks as $key3 => $value3):
+                                  $less_than_fifty = array();
+                                  if($key2 == $key3){ 
+                                     
+                                    $n = count($value3); 
+                                    for($i = 0; $i < $n; $i++){ 
+                                      if ($value3[$i] < 50){
+                                        $less_than_fifty[] = $value3[$i];
+                                      }    
+                                    } 
+                                    echo count($less_than_fifty);
+                                  } 
+                                ?>
+                                <?php endforeach; ?>
+                              </td>
+                              <?php endforeach; ?>
+                            </tr>
+                            <tr class="even pointer">
+                          <td>9</td>
+                              <td class=" ">No. of Student</td>
+                              <?php 
+                            //initialise some values
+                            $index = 0 ;  
+                            foreach($value as $key2 => $value2): 
+                            ?>
+                              <td class=" "><?php   
+                                foreach ($marks as $key3 => $value3):
+                                  $avg = 0;
+                                  if($key2 == $key3){  
+                                    $n = count($value3);
+                                    echo $n; 
+                                  }
+                                ?>
+                                <?php endforeach; ?>
+                              </td>
+                              <?php endforeach; ?>
+                            </tr>
+                        </tbody>
+                      </table>
+
+                      <?php endforeach; ?>
+                    </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                </div>
+              </div>
+             </div>
+           </div>
+          </div>
+        </div> 
+     </div>
+     
+     

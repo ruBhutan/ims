@@ -1,0 +1,222 @@
+<?php
+ $title = 'Application for Recheck of Marks';
+ $this->headTitle($title);
+ 
+ $student_details = array();
+ foreach($this->studentDetails as $detail){
+	 $student_details = $detail;
+ }
+
+ $key = $this->keyphrase;
+ function my_encrypt($data, $key) {
+    // Remove the base64 encoding from our key
+    $encryption_key = base64_decode($key);
+    // Generate an initialization vector
+    //IDEA-CBC
+    //Original
+    //$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('BF-CFB'));
+
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
+    $encrypted = openssl_encrypt($data, 'BF-CFB', $encryption_key, 0, $iv);
+    // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
+    return bin2hex(base64_encode($encrypted . '::' . $iv));
+}
+ ?>
+  <div class="right_col" role="main">
+          <div class="">
+              <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+				        <?php
+                    // Opening of the form tag
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    $marks = $form->get('recheckmarks');
+                    $marks->get('student_id')->setValue($this->student_id);
+                    $marks->get('payment_status')->setValue('Payment Awaiting');
+                    $marks->get('recheck_status')->setValue('Pending');
+                    $marks->get('application_date')->setValue(date('Y-m-d'));
+                    $marks->get('academic_modules_allocation_id')->setValueOptions($this->moduleList);
+                    echo $this->formHidden($marks->get('id'));
+                    echo $this->formHidden($marks->get('student_id'));
+                    echo $this->formHidden($marks->get('payment_status'));
+                    echo $this->formHidden($marks->get('recheck_status'));
+                 ?> 
+                  <?php if($this->message == NULL && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-success alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                      echo '<strong>Success!</strong>'. $message;
+                    }
+                    echo '</div>';
+                  } else if($this->message =='Failure' && $this->flashMessenger()->hasMessages()) {
+                    echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
+                    $messages = $this->flashMessenger()->getMessages();
+                    foreach($messages as $message) {
+                      echo '<strong>Warning!</strong>'. $message;
+                    }
+                    echo '</div>';
+                } ?>
+                  <h2 class="StepTitle">Instructions:</h2>
+                  <div class="row">
+                    <div class="form-group">  
+                       <div class="col-md-12 col-sm-12 col-xs-12">
+                          <h5>Appeals</h5>
+                          <ol>
+                            <li>Students can request for recheck of their semester end examination answer scripts. The recheck will ensure that all sections of a student’s responses are marked and that all marks are accounted for in the total. An administrative fee of Nu 200 per module will be levied.  The fee will be reimbursed in the event of an error resulting in change in the marks of a student.</li>
+                            <li>Students can request for re-evaluation of their semester end examination answer scripts. The re-evaluation will be done by a second marker.  The average of the two markers marks will be taken as the final score. An administrative fee of Nu. 500 per module (non-refundable) will be levied. </li>
+                          </ol>
+                          Note: For detail please visit :<a href="https://www.rub.edu.bt/regulation/">D1 Assessment Regulations -> The Wheel of Academic Law</a>
+                       </div>
+                    </div>
+                  </div>
+                   <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Name:</label>
+                       <div class="col-md-4 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $student_details['first_name'].' '.$student_details['middle_name'].' '.$student_details['last_name']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Student ID:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $student_details['student_id']; ?></i></h4>
+                        </div>
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12">Programme:</label>
+                       <div class="col-md-2 col-sm-2 col-xs-12">
+                          <h4 class="blue"><i><?php echo $student_details['programme_name']; ?></i></h4>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="ln_solid"></div>
+                  <div class="clearfix"></div>
+                  <?php 
+                  if($this->duration['from_date'] <= date('Y-m-d') && date('Y-m-d') <= $this->duration['to_date']){
+                  ?>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Module Name (and Code):<span class="required">*</span></label>
+                       <div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($marks->get('academic_modules_allocation_id')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Type:<span class="required">*</span></label>
+                       <div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($marks->get('type')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-2 col-xs-12">Application Date:<span class="required">*</span></label>
+                       <div class="col-md-3 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($marks->get('application_date')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <br /><br />
+                  <div class="row">
+                    <div class="form-group">  
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"><?php echo 'I, hereby declare that the information provided above are true to the best of my knowledge and I bear full responsibility for any anamoly'; ?></label>
+                        <br />
+                    	<div class="col-md-6 col-sm-2 col-xs-12">
+                          <?php echo $this->formRow($marks->get('agreement')); ?>
+                        </div>
+                    </div>
+                  </div>
+                  <br />                    
+          		  <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <?php  
+                            echo $this->formHidden($form->get('csrf')); 
+                            echo $this->formRow($marks->get('submit'));
+                            echo $this->form()->closeTag($form);
+                          ?>
+                      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $(window).on('beforeunload', function () {
+                                $("input[type=submit], input[type=button]").prop("disabled", "disabled");
+                            });
+                        </script>
+			                  </div>
+                        <?php } else { ?>
+                          <div class="x_content">
+                            <?php 
+                                                  
+                                          echo '<div class="alert alert-danger alert-dismissible fade in" role="alert">';
+                                                      echo '<button type="button" class="close" data-dismiss="alert"></button>';
+                                          echo '<strong>Alert! You are not allow to apply for recheck/ re-evaluation since period has been expired or not yet announced.</strong>';
+                                          echo '</div>';
+                                  ?>
+                          </div>
+                        <?php } ?>
+                      </div>
+       			 </div> <!-- End of x_content-->
+        	  </div> <!-- End of x_panel-->
+            <?php
+            $title1 = "List of Recheck application";
+            ?>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2><?php echo $this->escapeHtml($title1); ?></h2>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <table id="datatable-buttons" class="table table-striped responsive-utilities jambo_table bulk_action table-bordered">
+                        <thead>
+                            <th style="width: 5%" class="column-title">Sl No</th>
+                            <th class="column-title">Module </th>
+                            <th class="column-title">Type </th>
+                            <th class="column-title">Module Type </th>
+                            <th class="column-title">Academic Year</th>
+                            <th class="column-title">Year</th>
+                            <th class="column-title">Semester</th>
+                            <th class="column-title">Payment Status</th>
+                            <th class="column-title">Recheck Status</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span> </th>
+                        </thead>
+    
+                        <tbody>
+                          <?php $i = 1;
+                          foreach($recheckList as $list) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++; ?></td>
+                            <td class=" "><?php echo $list['module_title'].' ('.$list['module_code'].')';?></td>
+                            <td class=" "><?php echo $list['type'];?></td>
+                            <td class=" "><?php echo $list['module_type'];?></td>
+                            <td class=" "><?php echo $list['academic_year'];?></td>
+                            <td class=" "><?php echo $list['year'];?></td>
+                            <td class=" "><?php echo $list['semester'];?></td>
+                            <td class=" "><?php echo $list['payment_status'];?></td>
+                            <td class=" "><?php echo $list['recheck_status'];?></td>
+                            <td class=" "><a href="<?php echo $this->url('recheckapplicationdetails', array('id' => my_encrypt($list['id'], $key)));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View</td>
+                          </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+              </div>
+   			</div> 
+        </div>
+  	 </div>
+   </div>
+ </div>
+ 

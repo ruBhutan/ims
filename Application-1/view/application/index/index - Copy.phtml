@@ -1,0 +1,365 @@
+<?php 
+    $this->headLink()->appendStylesheet($this->basePath('bower_components/bootstrap/dist/css/bootstrap.min.css'));
+		$this->headLink()->appendStylesheet($this->basePath('bower_components/font-awesome/css/font-awesome.min.css'));
+		$this->headLink()->appendStylesheet($this->basePath('bower_components/Ionicons/css/ionicons.min.css'));
+		$this->headLink()->appendStylesheet($this->basePath('dist/css/AdminLTE.min.css'));
+		$this->headLink()->appendStylesheet($this->basePath('dist/css/skins/_all-skins.min.css'));
+		
+		// Add a JavaScript file
+		$this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+        
+?>
+<?php if($this->usertype == 2) { ?>
+  <!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              <!-- Small boxes (Stat box) -->
+              <div class="row">
+
+                <!-- ./col -->
+              </div>
+              <!-- /.row -->
+              
+              <!-- Main row -->
+              <div class="row">
+               <div class="clearfix"></div>
+                                
+              </div>
+              <!-- /.row (main row) -->
+        
+            </section>
+            <!-- /.content -->
+          </div>
+<?php } else if($this->usertype == 3){?> 
+  <!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              <!-- Small boxes (Stat box) -->
+              <div class="row">
+
+                <!-- ./col -->
+              </div>
+              <!-- /.row -->
+              
+              <!-- Main row -->
+              <div class="row">
+               <div class="clearfix"></div>
+                                
+              </div>
+              <!-- /.row (main row) -->
+        
+            </section>
+            <!-- /.content -->
+          </div>
+<?php } else if($this->usertype == 4){?>
+  <!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              <!-- Small boxes (Stat box) -->
+              <div class="row">
+
+                <!-- ./col -->
+              </div>
+              <!-- /.row -->
+              
+              <!-- Main row -->
+              <div class="row">
+               <div class="clearfix"></div>
+                                
+              </div>
+              <!-- /.row (main row) -->
+        
+            </section>
+            <!-- /.content -->
+          </div>
+        <?php } else if($this->usertype == 5){?> 
+  <!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              <!-- Small boxes (Stat box) -->
+              <div class="row">
+
+                <!-- ./col -->
+              </div>
+              <!-- /.row -->
+              
+              <!-- Main row -->
+              <div class="row">
+               <div class="clearfix"></div>
+                                
+              </div>
+              <!-- /.row (main row) -->
+        
+            </section>
+            <!-- /.content -->
+          </div>
+<?php } else { 
+  $organisation_list = array();
+  foreach($this->organisationList as $key=>$organisation){
+    $organisation_list[$key] = $organisation;
+  }
+
+  ?>
+<!-- page content -->
+        <div class="right_col" role="main">
+          <!-- Main content -->
+            <section class="content">
+              <!-- Small boxes (Stat box) -->
+              <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-aqua">
+                    <div class="inner">
+                      <h4>Leave/Tour Notifications</h4>
+                      <p><i><?php echo count($this->leave_notifications); ?> New</i></p>
+                    </div>
+                    <div class="icon">
+                      <i class="fa fa-pencil-square-o"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-green">
+                    <div class="inner">
+                      <h4>Goods and Requisitions</h4>
+                      <p><i><?php echo count($this->goods_notifications); ?> New</i></p>
+                    </div>
+                    <div class="icon">
+                      <i class="fa fa-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-yellow">
+                    <div class="inner">
+                      <h4>HR Lifecycle Alerts</h4>
+                      <p><i><?php echo count($this->pms_notifications); ?> New</i></p>
+                    </div>
+                    <div class="icon">
+                      <i class="fa fa-flag-o"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                  <!-- small box -->
+                  <div class="small-box bg-red">
+                    <div class="inner">
+                      <h4>Other Notifications</h4>
+                      <p><i><?php echo count($this->other_notifications); ?> New</i></p>
+                    </div>
+                    <div class="icon">
+                      <i class="fa fa-bell-o"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                  </div>
+                </div>
+                <!-- ./col -->
+              </div>
+              <!-- /.row -->
+              
+              <!-- Main row -->
+               <div class="clearfix"></div>
+              	<div class="row">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
+                    <div class="well profile_view">
+                      <?php
+                      $details = array();
+                      foreach ($this->staffDetails as $sdetail): { 
+                       $details['name'] = $sdetail['first_name'].' '.$sdetail['middle_name'].' '.$sdetail['last_name'];
+                       $details['emp_id'] = $sdetail['emp_id'];
+                       $details['unit_name'] = $sdetail['unit_name'];
+                       $details['department_name'] = $sdetail['department_name'];
+                       $img_location = $sdetail['profile_picture'];
+                     }
+                      ?>
+                          <div class="col-sm-12">
+                            <h4 class="brief"><i>Personal Information in Brief</i></h4>
+                            <div class="left col-xs-7">
+                              <h2><?php echo $details['name'].' ('.$details['emp_id'].')'; ?></h2>
+                              <p><strong>Department: </strong> <?php echo $details['department_name']; ?> </p>
+                              <p><strong>Unit: </strong> <?php echo $details['unit_name']; ?> </p>
+                              <p><strong>Position Title: </strong> <?php echo $this->presentPositionTitle; ?> </p>
+                              <p><strong>Position Level: </strong> <?php echo $this->presentPositionLevel; ?> </p>
+                              <p><strong>Role: </strong> <?php echo $this->userrole; ?> </p>
+                            </div>
+                            <div class="right col-xs-5 text-center">
+                              <?php if(!empty($img_location)){?>
+                                <img src="<?php echo '../'.$img_location; ?>" alt="..." class="img-circle profile_img">
+                              <?php } else{?>
+                                <p><i>Notice: No profile image uploaded!</i></p>
+                              <?php }?>
+                            </div>
+                          </div>
+                          <div class="col-xs-12 bottom text-center">
+                            <div class="col-xs-12 col-sm-6 emphasis">
+                              <p><i>For details click view profile button</i></p>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 emphasis">
+                              <a href="<?php echo $this->url('staffprofile', array('action' => 'staffProfile')); ?>" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> View Profile</a>
+                            </div>
+                          </div>
+                        <?php endforeach; ?>
+                        </div>
+                      </div>
+   
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Important Upcoming Dates</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <?php foreach($this->upcoming_dates as $dates): ?>
+                        <article class="media event">
+                          <a class="pull-left date">
+                            <p class="month"><?php echo date("F", substr($dates['date'],5,2)); ?></p>
+                            <p class="day"><?php echo substr($dates['date'],8,2); ?></p>
+                          </a>
+                          <div class="media-body">
+                            <a class="title" href="#">HR Proposal</a>
+                            <p><?php echo $dates['remarks']; ?></p>
+                          </div>
+                        </article>
+                        <?php endforeach; ?>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Student Graph <small>By Colleges</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <canvas id="popChart"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <table class="table table-striped jambo_table table-bordered">
+                          <h2>Staff Graph <small>By Colleges</small></h2>
+                           <thead>                        
+                         <tr>
+                            <td rowspan="3">College</td>
+                            <td rowspan="3">Total No of Student</td>
+                          </tr>
+                    </thead>
+                    <tbody>
+                      <?php $i = 2; foreach($this->no_of_student as $student):?>
+                      <tr class="even pointer">
+                        <td class=" "><?php echo $organisation_list[$i]; ?></td>
+                        <td class=" "><?php 
+                          if(array_key_exists($i, $this->no_of_student)){
+                            echo count($this->no_of_student[$i]);
+                          }
+                           else
+                            echo $this->escapeHtml('0');
+                          $i++;
+                          ?></td>
+                      </tr>
+
+                    </tbody>
+                    <?php  endforeach; ?>
+                        </table>                       
+                             
+                        <?php 
+        foreach($organisation_list as $key=>$value){
+          $total[$key] = 0;
+        }
+
+        echo $total[2];
+        ?>
+                         
+                        <ul class="nav navbar-right panel_toolbox">
+                          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <canvas id="popChart"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                  </div>                                
+              </div>
+              <!-- /.row (main row) -->
+        
+            </section>
+            <!-- /.content -->
+          </div>
+          <?php } ?>
+          <!-- /.content-wrapper -->
+        </div>
+        <!-- /page content -->
+
+
+        
+        
+<script type="text/javascript">
+
+<?php
+$sherbutse = '692';
+$cnr = '659';
+$GCBS = '752';
+$PCE ='689';
+$SCE ='713';
+$CST ='795';
+$GIT ='350';
+$CLCS='530';
+$YC ='250';
+$JNCE = '802';
+$this->inlineScript()->captureStart();
+echo <<<JS
+var popCanvas = document.getElementById("popChart");
+var barChart = new Chart(popCanvas, {
+  type: 'bar',
+  data: {
+    labels: ["Sherubtse", "GCBS", "CST", "SCE", "PCE", "CNR", "CLCS", "GIT", "YC","JNCE"],
+    datasets: [{
+      label: 'Students',
+      data: [ $sherbutse, $GCBS, $CST, $SCE, $PCE, $cnr, $CLCS, $GIT, $YC, $JNCE],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)',
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)'
+      ]
+    }]
+  }
+});
+JS;
+$this->inlineScript()->captureEnd();

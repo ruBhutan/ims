@@ -1,0 +1,196 @@
+<?php
+		
+	// Add a JavaScript file
+	$this->headScript()->appendFile('js/rub-ajax/ajax.js', 'text/javascript');
+        
+ $title = 'Human Resource Report';
+ $this->headTitle($title);
+ $position_category = array();
+ $position_level = array();
+ $i=1;
+ foreach($this->positionCategory as $category){
+	 $position_category[$i++] = $category;
+ }
+ $i=1;
+ foreach($this->positionLevel as $level){
+	 $position_level[$i++] = $level;
+ }
+
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+                	
+                        <!-- Search Employees-->
+                        <div class="col-md-12 col-xs-12">
+                          <div class="x_panel">
+                            <div class="x_title">
+                              <h2><?php echo $this->escapeHtml("Report")?></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                </ul>
+                             <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                               <?php
+                                // Opening of the form tag
+                                $form->prepare();
+                                echo $this->form()->openTag($form);
+                              ?>
+                            
+                              <div class="row">
+                                  <div class="col-md-5 col-sm-12 col-xs-12 form-group">
+                                    <label>Report Type</label>
+                                    <?php echo $this->formRow($form->get('report_type')); ?>
+                                  </div>
+                               </div>
+                             
+                             <div class="row">
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
+                                      <?php
+                                       echo $this->formHidden($form->get('csrf'));
+                                       echo $this->formSubmit($form->get('submit')); 
+                                       echo $this->form()->closeTag(); 
+                                    ?>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                       </div>     
+                          
+                        <!-- page content -->
+                                  <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="x_panel">
+                                      <div class="x_content">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                          <div class="profile_title">
+                                            <div class="col-md-6">
+                                              <h2>HR Report</h2>
+                                            </div>
+                                            <div class="col-md-6">
+                                            </div>
+                                          </div>
+                                          <!-- start of report-graph -->
+                                          <div class="x_content">
+                                            <canvas id="bar-chart-grouped" style="width:100%; height:280px;"></canvas>
+                                          </div>
+                                          <!-- end of report-graph -->
+                                          
+                                          <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                                <!-- start reports -->
+                                                <br /><br />
+                                                <h2><?php echo "Table";?></h2>
+												<?php if($this->hr_report != NULL) {?>
+                                                <table class="table table-striped jambo_table table-bordered">
+                                                    <thead>                        
+                                                         <th class="column-title" style="width:20%">Position Category & Position Level</th>
+                                                         <?php foreach($this->five_year_plan as $year): ?>
+                                                         <th class="column-title" style="width:15%"><?php echo $year; ?></th>
+                                                         <?php endforeach; ?>
+                                                    </thead>
+                                                    <tbody>
+                                                      <?php $i =1; foreach($this->hr_report as $report) : ?>
+                                                      <tr>
+                                                      	<td colspan="6" style="text-align:center"><b><i><?php echo $position_category[$i];?></i></b></td>
+                                                      </tr>
+                                                      <tr class="even pointer">
+                                                        <td class=" "><?php echo $position_level[$i];?></td>
+                                                        <?php foreach($this->five_year_plan as $year): ?>
+                                                        <td class=" "><?php 
+                                                            if(array_key_exists($position_category[$i], $this->hr_report) && array_key_exists($position_level[$i], $this->hr_report[$position_category[$i]]) && array_key_exists($year, $this->hr_report[$position_category[$i]][$position_level[$i]])){
+																echo count($this->hr_report[$position_category[$i]][$position_level[$i]][$year]);
+                                                            }
+                                                             else
+                                                                echo $this->escapeHtml(0);										
+                                                            ?></td>
+                                                        <?php endforeach; $i++?>
+                                                      </tr>
+                                                      <?php endforeach; ?>
+                                                    </tbody>
+                                                  </table>
+                                                 <?php } ?>
+                                                <!-- end of reports -->
+                                          </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                                          <div class="profile_title">
+                                            <div class="col-md-6">
+                                              <h2>Report</h2>
+                                            </div>
+                                          </div>
+                                          <br />
+                    
+                                          <!-- report generation -->
+                                          <h5><i>*Generate Report. Please note that the graphs will be not be displayed in the generated pdf report. To use the graphs, 
+                                                save the graphs from the webpage and paste it to relevant document</i></h5><br />
+                                         <a href="<?php echo $this->url('generatehrreports', array('reporttype' => $this->report_type));?>" class="btn btn-success">Generate Report</a>
+                                         
+                                          <!-- end of report generation -->
+                    
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            <!-- /page content -->
+                  </div>
+                </div>
+              </div>
+            </div>
+           </div>
+     </div>
+
+<script type="text/javascript">
+
+<?php
+foreach($organisation_list as $key => $value){
+	$phd[$key]= count($this->hr_report[$key]['Contract'][11]) + count($this->hr_report[$key]['Regular'][11]);
+	$masters[$key] = count($this->hr_report[$key]['Contract'][10]) + count($this->hr_report[$key]['Regular'][10]);
+	$bachelor[$key] = count($this->hr_report[$key]['Contract'][7]) + count($this->hr_report[$key]['Regular'][7]);
+	$others[$key] = 0;
+}
+
+$this->inlineScript()->captureStart();
+echo <<<JS2
+new Chart(document.getElementById("bar-chart-grouped"), {
+    type: 'bar',
+    data: {
+      labels: ["CLCS", "CNR", "CST", "GCBS", "GCIT", "JNEC", "PCE", "SCE", "Sherubtse", "YC", "OVC" ],
+      datasets: [
+        {
+          label: "PhD",
+          backgroundColor: "#e74c3c",
+          data: [$phd[5], $phd[2], $phd[3], $phd[4], 0, $phd[6], $phd[7], $phd[8], $phd[9], 0, $phd[1]]
+        }, {
+          label: "Masters",
+          backgroundColor: "#26b99a",
+          data: [$masters[5], $masters[2], $masters[3], $masters[4], 0, $masters[6], $masters[7], $masters[8], $masters[9], 0, $masters[1]]
+        }, {
+          label: "Bachelor",
+          backgroundColor: "#9b59b6",
+          data: [$bachelor[5], $bachelor[2], $bachelor[3], $bachelor[4], 0, $bachelor[6], $bachelor[7], $bachelor[8], $bachelor[9], 0, $bachelor[1]]
+        }, {
+          label: "Diploma/Certificate",
+          backgroundColor: "#3498db",
+          data: [$others[5], $others[2], $others[3], $others[4], 0, $others[6], $others[7], $others[8], $others[9], 0, $others[1]]
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Total Number (Regular + Contract)'
+      }
+    }
+});
+JS2;
+$this->inlineScript()->captureEnd();
+</script>

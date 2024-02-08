@@ -1,0 +1,68 @@
+<?php
+/**
+ * 
+ *  Hr/MasterController/addpayheadAction
+ * 
+ */
+$title = 'Add Pay Group';
+$this->headTitle($title);
+?>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div><!--end of x-title-->
+                <div class="pull-right"></div>			
+                <?php echo $this->partial('accounts/master/partial.phtml', array('active' => 'paygroup')); ?>
+                <div class="x_content">
+                    <form role="form" data-toggle="validator" action="<?php echo $this->url('master', array('action' => 'addpaygroup')); ?>" enctype="multipart/form-data" method="post" >
+                        <div class ="row">
+                            <div class="col-lg-2"></div>	
+                            <div class ="col-xs-8">							
+                                <div class="form-group col-lg-6">
+                                    <label for="pay_head" class="control-label">Payhead</label>
+                                    <select class="form-control" id="pay_head" name="pay_head" data-placeholder="Select" required>
+                                        <option value="">Select Payhead</option>
+                                        <?php
+                                        foreach ($this->payheads as $payhead):
+                                            ?>
+                                            <option value="<?php echo $payhead['id']; ?>" >
+                                                <?php echo $payhead['pay_head']; ?>
+                                            </option>
+                                            <?php
+                                        endforeach;
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="group" class="control-label">Pay Group</label>
+                                    <input type="text" name="group" id="group" class="form-control" placeholder="group" required/>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="value" class="control-label">Value</label>
+                                    <input class="form-control" name="value" id="value" placeholder="value" required >
+                                </div>
+                            </div>
+                            <div class="col-lg-2"></div>
+                        </div>
+                        <div class ="x_title"></div>
+                        <div class ="row">
+                            <div class ="col-lg-2"></div>
+                            <div class ="col-lg-8">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save </button>
+                                <button type="reset" class="btn btn-warning" onclick="window.history.go(-1); return false;" ><i class="fa fa-times"></i> Cancel </button>    
+                            </div>
+                            <div class ="col-lg-2"></div>
+                        </div>
+                    </form>
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+</div>

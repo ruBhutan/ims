@@ -1,0 +1,52 @@
+<?php
+
+ $title = 'Medical Record (s)';
+ $this->headTitle($title);
+?>
+
+ <div class="right_col" role="main">
+          <div class="">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+            
+                <div class="x_panel">
+                <div class="x_title">
+                    <h2><?php echo $this->escapeHtml($title); ?></h2>
+                     <div class="clearfix"></div>
+                    </div>
+
+                        <div class="table-responsive">
+                          <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                              <tr class="headings">
+                                 <th class="column-title">Sl.No </th>
+                                 <th class="column-title">Medical Problem</th>
+                                 <th class="column-title">From Date</th>
+                                 <th class="column-title">To Date</th>
+                                 <th class="column-title">Action</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                           <?php $i=1; foreach ($this->medicalRecords as $records) : ?>
+                          <tr class="even pointer">
+                            <td class=" "><?php echo $i++;?></td>
+                                <td class=" "><?php echo $this->escapeHtml($records['medical_problem']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($records['from_date']);?></td>
+                                <td class=" "><?php echo $this->escapeHtml($records['to_date']);?></td>
+                                <td class=" last" width="14%"> <a href="<?php echo $this->url('stdmedicalrecorddetails', array('id' => $records['id']));?>" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i> View Details</a></td>
+                              </tr>
+                              <?php endforeach; ?>
+                            </tbody>
+                          </table>
+                        </div>
+                        </div>                        
+                      </div>
+                    </div>
+                    <!-- End of Tabs-->
+                     
+                     
+                  </div>
+                </div>
+              </div>
+     </div>
+          
+                     
